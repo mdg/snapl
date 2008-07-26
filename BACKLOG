@@ -1,0 +1,11 @@
+client protocol v1
+connections acceptance
+reads store command
+stores session data
+reads read command
+finds/reads session data
+
+- mirrors aren't different than regular connections
+mirror protocol v1
+mirror connections accepted
+
