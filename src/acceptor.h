@@ -8,7 +8,7 @@
  */
 class acceptor_c
 {
-	static const int DEFAULT_BACKLOG = 32;
+	static const int DEFAULT_BACKLOG = 128;
 
 public:
 	/**
@@ -25,7 +25,7 @@ public:
 	 * Open the acceptor on the given port.
 	 * @port The port on which connections should be accepted.
 	 */
-	void open( int port, int backlog = DEFAULT_BACKLOG );
+	bool open( int port, int backlog = DEFAULT_BACKLOG );
 
 	/**
 	 * Closes the acceptor.
