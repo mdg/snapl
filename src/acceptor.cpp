@@ -98,7 +98,7 @@ int acceptor_c::connection()
 		perror( "No connection." );
 		return -1;
 	}
-	// std::cerr << "Connected at " << sock << std::endl;
+	std::cerr << "Connected at " << sock << std::endl;
 	return sock;
 }
 

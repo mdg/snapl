@@ -26,6 +26,8 @@ bool shession_control_c::execute( short port )
 		accept_connections();
 		process_requests();
 	}
+
+	return true;
 }
 
 void shession_control_c::accept_connections()

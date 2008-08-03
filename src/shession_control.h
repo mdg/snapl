@@ -26,6 +26,7 @@ public:
 
 	/**
 	 * Start the shession
+	 * This isn't a threaded solution.
 	 */
 	bool execute( short port );
 
