@@ -32,15 +32,14 @@ bool shession_control_c::execute( short port )
 
 void shession_control_c::accept_connections()
 {
-	int new_connection( 0 );
-	do {
+	int new_connection( m_acceptor->connection() );
+	while ( new_connection ) {
+		request_reader_c *reader;
+		reader = new request_reader_c( new_connection );
+		m_reader.push_back( reader );
+
 		new_connection = m_acceptor->connection();
-		if ( new_connection ) {
-			request_reader_c *reader;
-			reader = new request_reader_c( new_connection );
-			m_reader.push_back( reader );
-		}
-	} while ( new_connection != 0 );
+	}
 }
 
 void shession_control_c::process_requests()

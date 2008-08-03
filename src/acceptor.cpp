@@ -4,6 +4,9 @@
 #include <netinet/in.h>
 #include <poll.h>
 #include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
 #include <iostream>
 #include "acceptor.h"
 
@@ -33,9 +36,6 @@ bool acceptor_c::open( int port, int backlog )
 	}
 	// printf( "Socket connected at: %u\n", m_listener );
 
-	// std::string input;
-	// std::cin >> input;
-
 	// bind the socket
 	struct sockaddr_in addr;
 	memset( &addr, 0, sizeof(addr) );
@@ -50,8 +50,6 @@ bool acceptor_c::open( int port, int backlog )
 		return false;
 	}
 	// std::cout << "Socket is bound.\n";
-
-	// std::cin >> input;
 
 	// make the socket listen
 	int listen_error = listen( m_listener, backlog );
@@ -70,6 +68,7 @@ bool acceptor_c::open( int port, int backlog )
 		return false;
 	}
 
+	fcntl( m_listener, F_SETFL, O_NONBLOCK );
 	return true;
 }
 
@@ -85,20 +84,32 @@ void acceptor_c::close()
 
 int acceptor_c::connection()
 {
-	// std::cerr << "Waiting for connection...\n";
-	// std::string input;
-	// std::cin >> input;
-
 	// sockaddr addr;
 	// socklen_t addr_len( sizeof(addr) );
 	// int sock = accept( m_listener, &addr, &addr_len );
 	int sock = accept( m_listener, NULL, 0 );
-	// std::cerr << "accept() completed\n";
 	if ( sock < 0 ) {
-		perror( "No connection." );
-		return -1;
+		if ( errno == EWOULDBLOCK ) {
+			// non-block, when no resource is available
+			// std::cerr << "EWOULDBLOCK\n";
+			return 0;
+		} else if ( errno == EAGAIN ) {
+			// non-block, when no resource is available
+			std::cerr << "EAGAIN\n";
+			return 0;
+		} else if ( errno == EPERM ) {
+			std::cerr << "EPERM\n";
+			return 0;
+		} else if ( sock < 0 ) {
+			std::cerr << "sock error = " << sock << std::endl;
+			perror( "No connection." );
+			return 0;
+		} else {
+			std::cerr << "accept() failed\n";
+		}
+	} else {
+		std::cerr << "Connected at " << sock << std::endl;
 	}
-	std::cerr << "Connected at " << sock << std::endl;
 	return sock;
 }
 
