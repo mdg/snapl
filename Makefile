@@ -30,3 +30,6 @@ $(OBJ) : obj $(SRC) $(SRC_H)
 shessiond : $(OBJ)
 	$(CC) -g -o shessiond $(OBJ)
 
+clean :
+	rm *.o
+
