@@ -1,6 +1,7 @@
 1. connect
 2. send request
 3. read response
+4. close
 
 input requests:
 store <id>
@@ -10,4 +11,6 @@ store_token <id> <token> <data>
 output requests:
 state <id>
 token <id> <token>
+
+close
 

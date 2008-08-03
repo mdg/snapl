@@ -1,0 +1,17 @@
+#ifndef REQUEST_TYPE_H
+#define REQUEST_TYPE_H
+
+
+enum request_type_e
+{	RT_NULL
+,	RT_STORE_SESSION
+,	RT_STORE_TOKEN
+,	RT_KILL_SESSION
+,	RT_SESSION_STATUS
+,	RT_REQUEST_TOKEN
+,	RT_CLOSE
+};
+
+
+#endif
+

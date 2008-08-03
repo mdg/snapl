@@ -77,6 +77,7 @@ void acceptor_c::close()
 {
 	m_port = 0;
 	if ( m_listener ) {
+		std::cerr << "acceptor_c::close()\n";
 		shutdown( m_listener, SHUT_RDWR );
 		m_listener = 0;
 	}
