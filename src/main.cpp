@@ -22,7 +22,7 @@ int main( int argc, char **argv )
 	request_c *req;
 	do {
 		req = rr.create_request();
-	} while ( rr.open() );
+	} while ( rr.connected() );
 
 	return 0;
 }

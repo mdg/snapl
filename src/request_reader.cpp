@@ -26,19 +26,16 @@ void request_reader_c::close()
 
 request_c * request_reader_c::create_request()
 {
-	char buffer[256];
-	read( m_connection, buffer, sizeof( buffer ) );
-	char * nl = strchr( buffer, '\n' );
-	if ( nl ) {
-		*nl = '\0';
-	}
-	nl = strchr( buffer, '\r' );
-	if ( nl ) {
-		*nl = '\0';
-	}
+	std::istringstream stream( readline() );
+	std::string request;
+	std::string session_id;
+	stream >> request;
+	stream >> session_id;
 
-	request_type_e req_type = get_request_type( buffer );
+	request_type_e req_type = get_request_type( request );
 	std::cerr << "req_type = " << (int) req_type << std::endl;
+	request_c *req = new request_c( req_type, session_id );
+	std::string token_name;
 
 	// check if this is a close request
 	if ( req_type == RT_CLOSE ) {
@@ -47,11 +44,35 @@ request_c * request_reader_c::create_request()
 		return NULL;
 	} else if ( req_type == RT_NULL ) {
 		return NULL;
+	} else if ( req_type == RT_STORE_TOKEN ) {
+		stream >> token_name;
+		req->set_token_name( token_name );
+		req->set_token_value( readline() );
+	} else if ( req_type == RT_REQUEST_TOKEN ) {
+		stream >> token_name;
+		req->set_token_name( token_name );
 	}
 
-	return new request_c( req_type );
+	return req;
 }
 
+std::string request_reader_c::readline() const
+{
+	char buffer[256];
+	read( m_connection, buffer, sizeof( buffer ) );
+
+	// remove the new lines
+	char *nl = strchr( buffer, '\n' );
+	if ( nl ) {
+		*nl = '\0';
+	}
+	nl = strchr( buffer, '\r' );
+	if ( nl ) {
+		*nl = '\0';
+	}
+
+	return buffer;
+}
 
 request_type_e request_reader_c::get_request_type( const std::string& req_type )
 {
