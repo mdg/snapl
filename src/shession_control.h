@@ -3,7 +3,8 @@
 
 #include <list>
 
-class session_reader_c;
+class acceptor_c;
+class request_reader_c;
 
 
 /**
@@ -29,8 +30,11 @@ public:
 	bool execute( short port );
 
 private:
-	acceptor_c m_acceptor;
-	std::list< session_reader_c * > m_reader;
+	void accept_connections();
+	void process_requests();
+
+	acceptor_c *m_acceptor;
+	std::list< request_reader_c * > m_reader;
 };
 
 
