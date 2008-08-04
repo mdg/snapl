@@ -65,11 +65,16 @@ void shession_control_c::process_requests()
 
 		if ( reader ) {
 			request_c *req = reader->create_request();
+			process_request( *req );
 			delete req;
 			req = 0;
 		}
 	}
 
 	// std::cerr << "end process_requests()\n";
+}
+
+void shession_control_c::process_request( const request_c &req )
+{
 }
 

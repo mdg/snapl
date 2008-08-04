@@ -32,6 +32,11 @@ public:
 		{ m_token_value = token_value; }
 
 	/**
+	 * Get the type of this request
+	 */
+	request_type_e request_type() const { return m_req_type; }
+
+	/**
 	 * Get the session_id for this request
 	 */
 	const std::string & session_id() const { return m_session_id; }
