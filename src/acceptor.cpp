@@ -104,12 +104,14 @@ int acceptor_c::connection()
 			std::cerr << "sock error = " << sock << std::endl;
 			perror( "No connection." );
 			return 0;
-		} else {
-			std::cerr << "accept() failed\n";
 		}
-	} else {
-		std::cerr << "Connected at " << sock << std::endl;
+		std::cerr << "accept() failed\n";
+		return 0;
 	}
+	std::cerr << "Connected at " << sock << std::endl;
+
+	// set the socket as non-blocking before returning it
+	fcntl( sock, F_SETFL, O_NONBLOCK );
 	return sock;
 }
 

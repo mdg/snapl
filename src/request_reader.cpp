@@ -1,6 +1,7 @@
 #include "request_reader.h"
 #include <iostream>
 #include <sys/socket.h>
+#include <errno.h>
 #include "request.h"
 
 
@@ -26,7 +27,13 @@ void request_reader_c::close()
 
 request_c * request_reader_c::create_request()
 {
-	std::istringstream stream( readline() );
+	std::string request_line( readline() );
+	if ( request_line.empty() ) {
+		// no input here
+		return NULL;
+	}
+
+	std::istringstream stream( request_line );
 	std::string request;
 	std::string session_id;
 	stream >> request;
@@ -59,7 +66,14 @@ request_c * request_reader_c::create_request()
 std::string request_reader_c::readline() const
 {
 	char buffer[256];
-	read( m_connection, buffer, sizeof( buffer ) );
+	ssize_t bytes = read( m_connection, buffer, sizeof( buffer ) );
+	if ( bytes == -1 ) {
+		if ( errno == EWOULDBLOCK ) {
+			return std::string();
+		} else {
+			perror( "request read failure" );
+		}
+	}
 
 	// remove the new lines
 	char *nl = strchr( buffer, '\n' );

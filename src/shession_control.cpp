@@ -1,4 +1,5 @@
 #include "shession_control.h"
+#include <iostream>
 #include "acceptor.h"
 #include "request.h"
 #include "request_reader.h"
@@ -32,6 +33,8 @@ bool shession_control_c::execute( short port )
 
 void shession_control_c::accept_connections()
 {
+	// std::cerr << "begin accept_connections()\n";
+
 	int new_connection( m_acceptor->connection() );
 	while ( new_connection ) {
 		request_reader_c *reader;
@@ -44,12 +47,29 @@ void shession_control_c::accept_connections()
 
 void shession_control_c::process_requests()
 {
+	// std::cerr << "begin process_requests()\n";
+
 	std::list< request_reader_c * >::iterator it( m_reader.begin() );
+	request_reader_c *reader = 0;
 	for ( ; it!=m_reader.end(); ++it ) {
-		request_reader_c &reader( **it );
-		request_c *req = reader.create_request();
-		delete req;
-		req = 0;
+		reader = *it;
+		// delete any readers that are no longer connected
+		while ( reader && ! reader->connected() ) {
+			it = m_reader.erase( it );
+			if ( it == m_reader.end() ) {
+				reader = 0;
+			} else {
+				reader = *it;
+			}
+		}
+
+		if ( reader ) {
+			request_c *req = reader->create_request();
+			delete req;
+			req = 0;
+		}
 	}
+
+	// std::cerr << "end process_requests()\n";
 }
 
