@@ -1,5 +1,7 @@
 stores session data
 finds/reads session data
+document shessiond/memcached difference
+document shessiond
 
 - mirrors aren't different than regular connections
 mirror protocol v1
