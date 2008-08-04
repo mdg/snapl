@@ -1,1 +1,4 @@
 The shared session daemon.
+
+Explain why shessiond solves a different problem than memcached.
+
