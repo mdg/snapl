@@ -4,6 +4,7 @@
 #include <list>
 
 class acceptor_c;
+class request_c;
 class request_reader_c;
 
 

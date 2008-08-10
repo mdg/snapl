@@ -52,7 +52,7 @@ public:
 	const std::string & token_value() const { return m_token_value; }
 
 private:
-	request_type_e m_request_type;
+	request_type_e m_req_type;
 	std::string m_session_id;
 	std::string m_token_name;
 	std::string m_token_value;
