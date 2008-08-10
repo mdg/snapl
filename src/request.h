@@ -16,7 +16,7 @@ public:
 	 * Construct a request object with a given request type
 	 * and a string parameter.
 	 */
-	request_c( request_type_e, const std::string& param )
+	request_c( request_type_e, const std::string& session_id )
 	{}
 
 	/**
