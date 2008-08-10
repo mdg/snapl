@@ -40,6 +40,11 @@ public:
 	 */
 	request_c * create_request();
 
+	/**
+	 * Release the connection for this request reader.
+	 */
+	int release_connection();
+
 private:
 	std::string readline() const;
 

@@ -24,6 +24,13 @@ void request_reader_c::close()
 	}
 }
 
+int request_reader_c::release_connection()
+{
+	int connection( m_connection );
+	m_connection = 0;
+	return connection;
+}
+
 
 request_c * request_reader_c::create_request()
 {
