@@ -68,7 +68,7 @@ expectation< T > create_expectation( const T& expected_val, const char *file, in
 	return expectation< T >( expected_val, file, line );
 }
 
-#define expect( typ, val ) create_expectation< typ >( val, __FILE__, __LINE__ )
+#define expect( val ) create_expectation( val, __FILE__, __LINE__ )
 
 // sample usage
 #if 0

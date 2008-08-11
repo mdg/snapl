@@ -9,8 +9,8 @@ bool test_simple()
 TESTPP( test_simple )
 {
 	int value( 5 );
-	expect( int, 5 ) == value;
-	expect( int, 4 ) == value;
+	expect( 5 ) == value;
+	expect( 4 ) == value;
 }
 
 
