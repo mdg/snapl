@@ -3,11 +3,14 @@
 
 #include <string>
 
+#define DEFINE_TEST( t ) bool t()
 
 class request_test_c
 {
 public:
 	void test_constructor_1();
+	void test_constructor_2();
+	DEFINE_TEST( test_constructor_3 );
 
 	void assert_equal( int expected, int actual );
 
