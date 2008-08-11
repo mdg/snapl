@@ -1,28 +1,14 @@
 #ifndef TESTPP_H
 #define TESTPP_H
 
+#include <iostream>
+
+
 #define TESTPP( test_func ) \
-void test_func(); \
-test_func(); \
-void test_func( assertpp& assert )
+bool test_func(); \
+bool test_func##_result = test_func(); \
+bool test_func()
 
-
-class suitepp
-{
-protected:
-	void assert( bool assertion );
-
-	template < typename T >
-	void assert_equal( const T&, const T& );
-};
-
-// sample usage
-
-DEFINE_SUITEPP( request_test )
-	DEFINE_TESTPP( test_constructor_1 )
-		ASSERT( 1 == 4 );
-	END_TESTPP
-END_SUITEPP;
 
 template < typename T >
 class expectation
@@ -40,24 +26,49 @@ public:
 	, m_line( line )
 	{}
 
-	bool operator == ( const T& actual );
+	void operator == ( const T& actual )
+	{
+		if ( m_expected != actual ) {
+			// throw this;
+			std::cerr << m_file << ":" << m_line << " -- ";
+			std::cerr << "expected " << m_expected << " != <" << actual << ">\n";
+		}
+	}
+
 	bool operator != ( const T& actual );
 	bool operator < ( const T& actual );
 	bool operator > ( const T& actual );
 	bool operator <= ( const T& actual );
 	bool operator >= ( const T& actual );
+	void between( const T& lesser, const T& greater );
+	void within( const T& value, const T& delta );
 
 private:
 	const T& m_expected;
+	const char *m_file;
+	int m_line;
+	std::string m_message;
 };
 
+template < typename T >
+expectation< T > create_expectation( const T& expected_val, const char *file, int line )
+{
+	return expectation< T >( expected_val, file, line );
+}
+
+#define expect( typ, val ) create_expectation< typ >( val, __FILE__, __LINE__ )
+
+// sample usage
+#if 0
 TESTPP( constructor_1 )
 {
 	int value( 10 );
 	std::string text( "dog" );
 	expect( 5 ) == value;
 	expect( "cat" ) != text;
+	expect( 5 ).within( 5, 1 );
 }
+#endif
 
 
 #endif
