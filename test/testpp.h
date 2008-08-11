@@ -5,10 +5,16 @@
 
 
 #define TESTPP( test_func ) \
-bool test_func(); \
-bool test_func##_result = test_func(); \
-bool test_func()
+void test_func(); \
+int test_func##_result = testpp_wrapper( test_func, #test_func ); \
+void test_func()
 
+int testpp_wrapper( void (*func)(), const char *test_name )
+{
+	std::cout << "testpp: " << test_name << std::endl;
+	func();
+	return 0;
+}
 
 template < typename T >
 class expectation
@@ -30,8 +36,8 @@ public:
 	{
 		if ( m_expected != actual ) {
 			// throw this;
-			std::cerr << m_file << ":" << m_line << " -- ";
-			std::cerr << "expected " << m_expected << " != <" << actual << ">\n";
+			print_file_line();
+			std::cout << "expected " << m_expected << " != <" << actual << ">\n";
 		}
 	}
 
@@ -44,6 +50,11 @@ public:
 	void within( const T& value, const T& delta );
 
 private:
+	void print_file_line()
+	{
+		std::cout << "\tfailure @ " << m_file << ":" << m_line << " -- ";
+	}
+
 	const T& m_expected;
 	const char *m_file;
 	int m_line;
