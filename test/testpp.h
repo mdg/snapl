@@ -11,7 +11,7 @@ void test_func()
 
 int testpp_wrapper( void (*func)(), const char *test_name )
 {
-	std::cout << "testpp: " << test_name << std::endl;
+	std::cout << "testpp( " << test_name << " )\n";
 	func();
 	return 0;
 }
@@ -34,11 +34,12 @@ public:
 
 	void operator == ( const T& actual )
 	{
-		if ( m_expected != actual ) {
-			// throw this;
-			print_file_line();
-			std::cout << "expected " << m_expected << " != <" << actual << ">\n";
-		}
+		if ( m_expected == actual )
+			return;
+
+		print_file_line();
+		std::cout << "expected<" << m_expected;
+		std::cout << "> == actual<" << actual << ">\n";
 	}
 
 	bool operator != ( const T& actual );
@@ -52,7 +53,7 @@ public:
 private:
 	void print_file_line()
 	{
-		std::cout << "\tfailure @ " << m_file << ":" << m_line << " -- ";
+		std::cout << "\tfailure@ " << m_file << ":" << m_line << " -- ";
 	}
 
 	const T& m_expected;
