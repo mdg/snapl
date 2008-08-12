@@ -13,7 +13,7 @@ TESTPP( test_constructor_1 )
 TESTPP( test_constructor_2 )
 {
 	request_c req( RT_STORE_SESSION, "cat" );
-	expect( RT_STORE_SESSION ) == req.request_type();
-	expect( std::string( "cat" ) ) == req.session_id();
+	RT_STORE_SESSION == actual( req.request_type() );
+	std::string( "cat" ) == actual( req.session_id() );
 }
 
