@@ -9,12 +9,14 @@ INC += shession_control.h
 TEST_INC += request_test.h
 
 SRC += acceptor.cpp
+SRC += request.cpp
 SRC += request_reader.cpp
 SRC += shession_control.cpp
 
 TEST_SRC += request_test.cpp
 
 OBJ += acceptor.o
+OBJ += request.o
 OBJ += request_reader.o
 OBJ += shession_control.o
 
