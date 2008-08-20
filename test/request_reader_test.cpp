@@ -44,19 +44,3 @@ TESTPP( test_readline )
 	close( connection );
 }
 
-TESTPP( test_old_readline )
-{
-	const char *test_data = "session_status dog";
-	const char *connection_name = tmpnam( NULL );
-	std::ofstream fout( connection_name );
-	fout << test_data;
-	fout.close();
-	FILE *connection_file = fopen( connection_name, "r" );
-	int connection = fileno( connection_file );
-
-	char buffer[40] = { 0 };
-	int length = read( connection, buffer, sizeof(buffer) );
-	std::cout << buffer << std::endl;
-	fclose( connection_file );
-}
-
