@@ -30,12 +30,7 @@ void test_func()
 /**
  * Simple wrapper function to call the test function statically.
  */
-int testpp_wrapper( void (*func)(), const char *test_name )
-{
-	std::cout << "testpp( " << test_name << " )\n";
-	func();
-	return 0;
-}
+int testpp_wrapper( void (*func)(), const char *test_name );
 
 
 /**

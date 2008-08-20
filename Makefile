@@ -6,21 +6,25 @@ INC += request.h
 INC += request_reader.h
 INC += shession_control.h
 
-TEST_INC += request_test.h
+INC += testpp.h
 
 SRC += acceptor.cpp
 SRC += request.cpp
 SRC += request_reader.cpp
 SRC += shession_control.cpp
 
+TEST_SRC += request_reader_test.cpp
 TEST_SRC += request_test.cpp
+TEST_SRC += testpp.cpp
 
 OBJ += acceptor.o
 OBJ += request.o
 OBJ += request_reader.o
 OBJ += shession_control.o
 
+TEST_OBJ += request_reader_test.o
 TEST_OBJ += request_test.o
+TEST_OBJ += testpp.o
 
 all : shessiond
 
