@@ -15,10 +15,48 @@
 
 
 #include "testpp.h"
+#include <string.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <fstream>
 #include "request_reader.h"
+
+
+static int open_test_connection( const char *contents )
+{
+	const char *connection_name = tmpnam( NULL );
+	std::ofstream fout( connection_name );
+	fout << contents;
+	fout.close();
+	FILE *connection_file = fopen( connection_name, "r" );
+	return fileno( connection_file );
+}
 
 
 TESTPP( test_readline )
 {
+	const char *test_data = "session_status dog";
+	int connection( open_test_connection( test_data ) );
+
+	char buffer[40] = { 0 };
+	int length = read( connection, buffer, sizeof(buffer) );
+	std::cout << buffer << std::endl;
+	close( connection );
+}
+
+TESTPP( test_old_readline )
+{
+	const char *test_data = "session_status dog";
+	const char *connection_name = tmpnam( NULL );
+	std::ofstream fout( connection_name );
+	fout << test_data;
+	fout.close();
+	FILE *connection_file = fopen( connection_name, "r" );
+	int connection = fileno( connection_file );
+
+	char buffer[40] = { 0 };
+	int length = read( connection, buffer, sizeof(buffer) );
+	std::cout << buffer << std::endl;
+	fclose( connection_file );
 }
 
