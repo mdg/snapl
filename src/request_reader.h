@@ -1,3 +1,5 @@
+#ifndef REQUEST_READER_H
+#define REQUEST_READER_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,9 +15,6 @@
  * limitations under the License.
  */
 
-
-#ifndef REQUEST_READER_H
-#define REQUEST_READER_H
 
 #include <sstream>
 #include "request_type.h"
