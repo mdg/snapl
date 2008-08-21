@@ -16,6 +16,8 @@
 
 #include "request_parser.h"
 #include <sstream>
+#include <iostream>
+#include <list>
 
 
 void request_parser_c::add_input( const std::string &input )
@@ -29,9 +31,16 @@ std::string request_parser_c::readline()
 		return std::string();
 	}
 	std::istringstream str( m_input );
+	std::list< std::string > lines;
 	std::string line;
-	std::getline( str, line );
-	m_input = str.str();
+	do {
+		std::getline( str, line );
+		lines.push_back( line );
+		std::cerr << "line: " << line;
+	} while ( ! str.eof() );
+
+	// m_input = remainder;
+	m_input = std::string();
 
 	return line;
 }
