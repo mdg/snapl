@@ -19,11 +19,13 @@
 #include <sys/socket.h>
 #include <errno.h>
 #include "request.h"
+#include "request_parser.h"
 
 
 request_reader_c::request_reader_c( int connection )
 {
 	m_connection = connection;
+	m_parser.reset( new request_parser_c() );
 }
 
 request_reader_c::~request_reader_c()
@@ -52,7 +54,19 @@ int request_reader_c::release_connection()
 
 request_c * request_reader_c::create_request()
 {
-	std::string request_line( readline() );
+	char buffer[256];
+	ssize_t bytes( read( m_connection, buffer, sizeof(buffer) ) );
+	if ( bytes == -1 ) {
+		if ( errno == EWOULDBLOCK ) {
+			// do nothing
+		} else {
+			perror( "request read failure" );
+		}
+	} else {
+		m_parser->add_input( buffer );
+	}
+
+	std::string request_line( m_parser->readline() );
 	if ( request_line.empty() ) {
 		// no input here
 		return NULL;
@@ -80,38 +94,13 @@ request_c * request_reader_c::create_request()
 	} else if ( req_type == RT_STORE_TOKEN ) {
 		stream >> token_name;
 		req->set_token_name( token_name );
-		req->set_token_value( readline() );
+		req->set_token_value( m_parser->readline() );
 	} else if ( req_type == RT_REQUEST_TOKEN ) {
 		stream >> token_name;
 		req->set_token_name( token_name );
 	}
 
 	return req;
-}
-
-std::string request_reader_c::readline() const
-{
-	char buffer[256];
-	ssize_t bytes = read( m_connection, buffer, sizeof( buffer ) );
-	if ( bytes == -1 ) {
-		if ( errno == EWOULDBLOCK ) {
-			return std::string();
-		} else {
-			perror( "request read failure" );
-		}
-	}
-
-	// remove the new lines
-	char *nl = strchr( buffer, '\n' );
-	if ( nl ) {
-		*nl = '\0';
-	}
-	nl = strchr( buffer, '\r' );
-	if ( nl ) {
-		*nl = '\0';
-	}
-
-	return buffer;
 }
 
 request_type_e request_reader_c::get_request_type( const std::string& req_type )

@@ -127,6 +127,7 @@ void operator != ( const T& expected, const actual_value< T > &act )
 	std::cout << "> != actual<" << act.m_actual << ">\n";
 }
 
+
 /**
  * Helper function to let the actual macro create an actual_value
  * without having to specify the typename in the constructor.

@@ -37,10 +37,12 @@ static request_reader_c * create_reader( const char *contents )
 
 TESTPP( test_readline )
 {
-	const char *test_data = "status dog";
+	const char *test_data = "status dog\n";
 	std::auto_ptr< request_reader_c > reader( create_reader( test_data ) );
 
 	std::auto_ptr< request_c > req( reader->create_request() );
+	static_cast< request_c * >( NULL ) != actual( req.get() );
+
 	RT_SESSION_STATUS == actual( req->request_type() );
 	std::string( "dog" ) == actual( req->session_id() );
 
@@ -66,7 +68,7 @@ TESTPP( test_multiline )
 }
 
 
-TESTPP( test_bad_request )
+TESTPP( test_incomplete )
 {
 	// this is a bad request type
 	const char *test_data = "session_status dog";
@@ -74,6 +76,22 @@ TESTPP( test_bad_request )
 
 	// should be created, but w/ null request type
 	std::auto_ptr< request_c > req( reader->create_request() );
+	static_cast< request_c * >( NULL ) == actual( req.get() );
+
+	close( reader->release_connection() );
+}
+
+
+
+TESTPP( test_bad_request )
+{
+	// this is a bad request type
+	const char *test_data = "session_status dog\n";
+	std::auto_ptr< request_reader_c > reader( create_reader( test_data ) );
+
+	// should be created, but w/ null request type
+	std::auto_ptr< request_c > req( reader->create_request() );
+	static_cast< request_c * >( NULL ) != actual( req.get() );
 	RT_NULL == actual( req->request_type() );
 	std::string( "dog" ) == actual( req->session_id() );
 

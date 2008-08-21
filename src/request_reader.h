@@ -20,6 +20,7 @@
 #include "request_type.h"
 
 class request_c;
+class request_parser_c;
 
 
 /**
@@ -61,11 +62,10 @@ public:
 	int release_connection();
 
 private:
-	std::string readline() const;
-
 	static request_type_e get_request_type( const std::string& req_type );
 
 	int m_connection;
+	std::auto_ptr< request_parser_c > m_parser;
 };
 
 
