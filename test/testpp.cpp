@@ -19,7 +19,7 @@
 int testpp_wrapper( void (*func)(), const char *test_name,
 	       const char *filename, int linenumber )
 {
-	std::cout << "testpp( " << test_name << ", " << filename;
+	std::cout << "testpp( " << filename << ':' << test_name;
 	std::cout << ':' << linenumber << " )\n";
 	func();
 	return 0;
