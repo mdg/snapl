@@ -16,9 +16,11 @@
 #include "testpp.h"
 
 
-int testpp_wrapper( void (*func)(), const char *test_name )
+int testpp_wrapper( void (*func)(), const char *test_name,
+	       const char *filename, int linenumber )
 {
-	std::cout << "testpp( " << test_name << " )\n";
+	std::cout << "testpp( " << test_name << ", " << filename;
+	std::cout << ':' << linenumber << " )\n";
 	func();
 	return 0;
 }

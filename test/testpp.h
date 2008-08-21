@@ -24,13 +24,15 @@
  */
 #define TESTPP( test_func ) \
 static void test_func(); \
-static int test_func##_result = testpp_wrapper( test_func, #test_func ); \
+static int test_func##_result = testpp_wrapper( test_func, #test_func \
+		, __FILE__, __LINE__ ); \
 void test_func()
 
 /**
  * Simple wrapper function to call the test function statically.
  */
-int testpp_wrapper( void (*func)(), const char *test_name );
+int testpp_wrapper( void (*func)(), const char *test_name
+		, const char *filename, int linenumber );
 
 
 /**
