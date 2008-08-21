@@ -23,8 +23,8 @@
  * Create a testpp test function.
  */
 #define TESTPP( test_func ) \
-void test_func(); \
-int test_func##_result = testpp_wrapper( test_func, #test_func ); \
+static void test_func(); \
+static int test_func##_result = testpp_wrapper( test_func, #test_func ); \
 void test_func()
 
 /**
