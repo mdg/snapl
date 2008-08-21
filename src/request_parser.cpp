@@ -27,21 +27,13 @@ void request_parser_c::add_input( const std::string &input )
 
 std::string request_parser_c::readline()
 {
-	if ( m_input.find( "\n" ) == std::string::npos ) {
+	size_t newline = m_input.find( "\n" );
+	if ( newline == std::string::npos ) {
 		return std::string();
 	}
-	std::istringstream str( m_input );
-	std::list< std::string > lines;
-	std::string line;
-	do {
-		std::getline( str, line );
-		lines.push_back( line );
-		std::cerr << "line: " << line;
-	} while ( ! str.eof() );
 
-	// m_input = remainder;
-	m_input = std::string();
-
+	std::string line( m_input.substr( 0, newline ) );
+	m_input = m_input.substr( newline + 1 );
 	return line;
 }
 

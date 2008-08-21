@@ -33,13 +33,19 @@ TESTPP( test_single_line )
 TESTPP( test_multiline )
 {
 	request_parser_c parser;
-	parser.add_input( "status dog\nstore cat" );
+	parser.add_input( "status dog\nstore cat\n" );
 	std::string( "status dog" ) == actual( parser.readline() );
 	std::string( "store cat" ) == actual( parser.readline() );
 }
 
 
-TESTPP( test_bad_input )
+TESTPP( test_incomplete )
 {
+	request_parser_c parser;
+	parser.add_input( "status dog\nstore cat" );
+	std::string( "status dog" ) == actual( parser.readline() );
+	std::string( "" ) == actual( parser.readline() );
+	parser.add_input( "\n" );
+	std::string( "store cat" ) == actual( parser.readline() );
 }
 
