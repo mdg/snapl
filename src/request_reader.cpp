@@ -63,7 +63,7 @@ request_c * request_reader_c::create_request()
 	stream >> session_id;
 
 	request_type_e req_type = get_request_type( request );
-	std::cerr << "req_type = " << (int) req_type << std::endl;
+	// std::cerr << "req_type = " << (int) req_type << std::endl;
 	request_c *req = new request_c( req_type, session_id );
 	std::string token_name;
 
@@ -73,7 +73,8 @@ request_c * request_reader_c::create_request()
 		close();
 		return NULL;
 	} else if ( req_type == RT_NULL ) {
-		return NULL;
+		// do nothing here.  return it with an RT_NULL for now.
+		// return NULL;
 	} else if ( req_type == RT_STORE_TOKEN ) {
 		stream >> token_name;
 		req->set_token_name( token_name );
@@ -113,7 +114,7 @@ std::string request_reader_c::readline() const
 
 request_type_e request_reader_c::get_request_type( const std::string& req_type )
 {
-	std::cerr << "request = '" << req_type << "'\n";
+	// std::cerr << "request = '" << req_type << "'\n";
 
 	request_type_e rt( RT_NULL );
 	if ( req_type == "store" ) {

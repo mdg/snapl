@@ -19,15 +19,17 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <fstream>
+#include "request.h"
 #include "request_reader.h"
 
 
 static int open_test_connection( const char *contents )
 {
-	const char *connection_name = tmpnam( NULL );
-	std::ofstream fout( connection_name );
-	fout << contents;
-	fout.close();
+	char connection_name[] = "/tmp/request_reader_test_XXXXXX";
+	int connection = mkstemp( connection_name );
+	write( connection, contents, strlen( contents ) + 1 );
+	close( connection );
+	// std::cerr << connection_name << std::endl;
 	FILE *connection_file = fopen( connection_name, "r" );
 	return fileno( connection_file );
 }
@@ -35,12 +37,32 @@ static int open_test_connection( const char *contents )
 
 TESTPP( test_readline )
 {
+	const char *test_data = "status dog";
+	int connection( open_test_connection( test_data ) );
+	request_reader_c reader( connection );
+
+	request_c *req = reader.create_request();
+	RT_SESSION_STATUS == actual( req->request_type() );
+	std::string( "dog" ) == actual( req->session_id() );
+
+	delete req;
+	close( connection );
+}
+
+
+TESTPP( test_bad_request )
+{
+	// this is a bad request type
 	const char *test_data = "session_status dog";
 	int connection( open_test_connection( test_data ) );
+	request_reader_c reader( connection );
 
-	char buffer[40] = { 0 };
-	int length = read( connection, buffer, sizeof(buffer) );
-	std::cout << buffer << std::endl;
+	// should be created, but null
+	request_c *req = reader.create_request();
+	RT_NULL == actual( req->request_type() );
+	std::string( "dog" ) == actual( req->session_id() );
+
+	delete req;
 	close( connection );
 }
 
