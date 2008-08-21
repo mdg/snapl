@@ -35,6 +35,8 @@ request_reader_c::~request_reader_c()
 void request_reader_c::close()
 {
 	if ( m_connection ) {
+		// this should have been released already
+		// but shut it down if it hasn't
 		shutdown( m_connection, SHUT_RDWR );
 		m_connection = 0;
 	}
