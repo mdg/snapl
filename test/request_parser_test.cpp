@@ -22,7 +22,7 @@
 #include "request_parser.h"
 
 
-TESTPP( test_readline )
+TESTPP( test_single_line )
 {
 	request_parser_c parser;
 	parser.add_input( "status dog\n" );
@@ -32,6 +32,10 @@ TESTPP( test_readline )
 
 TESTPP( test_multiline )
 {
+	request_parser_c parser;
+	parser.add_input( "status dog\nstore cat" );
+	std::string( "status dog" ) == actual( parser.readline() );
+	std::string( "store cat" ) == actual( parser.readline() );
 }
 
 
