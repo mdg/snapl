@@ -48,6 +48,24 @@ TESTPP( test_readline )
 }
 
 
+TESTPP( test_multiline )
+{
+	const char *test_data = "status dog\n" \
+				 "store cat\n";
+	std::auto_ptr< request_reader_c > reader( create_reader( test_data ) );
+
+	std::auto_ptr< request_c > req( reader->create_request() );
+	RT_SESSION_STATUS == actual( req->request_type() );
+	std::string( "dog" ) == actual( req->session_id() );
+
+	req.reset( reader->create_request() );
+	RT_STORE_SESSION == actual( req->request_type() );
+	std::string( "cat" ) == actual( req->session_id() );
+
+	close( reader->release_connection() );
+}
+
+
 TESTPP( test_bad_request )
 {
 	// this is a bad request type
