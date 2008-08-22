@@ -59,3 +59,16 @@ TESTPP( test_crlf )
 	std::string( "store cat" ) == actual( parser.readline() );
 }
 
+
+/**
+ * The parser needs to not freak out if "\n" is passed.  This
+ * test verifies that.
+ */
+TESTPP( test_blanklf )
+{
+	request_parser_c parser;
+	parser.add_input( "\nstore cat\r\n" );
+	std::string( "" ) == actual( parser.readline() );
+	std::string( "store cat" ) == actual( parser.readline() );
+}
+
