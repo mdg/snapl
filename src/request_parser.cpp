@@ -42,7 +42,7 @@ std::string request_parser_c::readline()
 	}
 
 	m_input = m_input.substr( newline + 1 );
-	std::cerr << "readline = '" << line << "'\n";
+	// std::cerr << "readline = '" << line << "'\n";
 	return line;
 }
 

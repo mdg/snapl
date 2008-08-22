@@ -49,7 +49,7 @@ public:
 private:
 	void accept_connections();
 	void process_requests();
-	void process_request( const request_c & );
+	void process_request( request_reader_c &, const request_c & );
 
 	acceptor_c *m_acceptor;
 	std::list< request_reader_c * > m_reader;

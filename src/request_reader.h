@@ -57,6 +57,11 @@ public:
 	request_c * create_request();
 
 	/**
+	 * Write the response back to the socket.
+	 */
+	void write_response( const std::string &response );
+
+	/**
 	 * Release the connection for this request reader.
 	 */
 	int release_connection();
