@@ -54,7 +54,7 @@ int request_reader_c::release_connection()
 
 request_c * request_reader_c::create_request()
 {
-	char buffer[256];
+	char buffer[256] = { 0 };
 	ssize_t bytes( read( m_connection, buffer, sizeof(buffer) ) );
 	if ( bytes == -1 ) {
 		if ( errno == EWOULDBLOCK ) {
@@ -108,8 +108,8 @@ request_type_e request_reader_c::get_request_type( const std::string& req_type )
 	std::cerr << "request = '" << req_type << "'\n";
 
 	request_type_e rt( RT_NULL );
-	if ( req_type == "store" ) {
-		return RT_STORE_SESSION;
+	if ( req_type == "create" ) {
+		return RT_CREATE_SESSION;
 	} else if ( req_type == "store_token" ) {
 		return RT_STORE_TOKEN;
 	} else if ( req_type == "kill" ) {

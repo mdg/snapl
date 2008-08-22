@@ -28,8 +28,8 @@ TESTPP( test_constructor_1 )
 
 TESTPP( test_constructor_2 )
 {
-	request_c req( RT_STORE_SESSION, "cat" );
-	RT_STORE_SESSION == actual( req.request_type() );
+	request_c req( RT_CREATE_SESSION, "cat" );
+	RT_CREATE_SESSION == actual( req.request_type() );
 	std::string( "cat" ) == actual( req.session_id() );
 }
 
