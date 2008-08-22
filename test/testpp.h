@@ -66,21 +66,21 @@ public:
 
 	// const T& value() const { return m_actual; }
 	template < typename T2 >
-	friend void operator == ( const T2&, const actual_value< T2 >& );
+	friend void operator == ( const T2 &, const actual_value< T2 > & );
 	template < typename T2 >
-	friend void operator != ( const T2&, const actual_value< T2 >& );
+	friend void operator != ( const T2 &, const actual_value< T2 > & );
 	/*
 	template < typename T2 >
-	friend void operator < ( const expectation< T2 >&, const actual< T2 >& );
+	friend void operator < ( const T2 &, const actual< T2 > & );
 	template < typename T2 >
-	friend void operator > ( const expectation< T2 >&, const actual< T2 >& );
+	friend void operator > ( const T2 &, const actual< T2 > & );
 	template < typename T2 >
-	friend void operator <= ( const expectation< T2 >&, const actual< T2 >& );
+	friend void operator <= ( const T2 &, const actual< T2 > & );
 	template < typename T2 >
-	friend void operator >= ( const expectation< T2 >&, const actual< T2 >& );
+	friend void operator >= ( const T2 &, const actual< T2 > & );
 	*/
-	void between( const T& val1, const T& val2 );
-	void within( const T& value, const T& delta );
+	void between( const T &val1, const T &val2 );
+	void within( const T &value, const T &delta );
 
 private:
 	/**
@@ -91,7 +91,7 @@ private:
 		std::cout << "\tfailure@ " << m_file << ":" << m_line << " -- ";
 	}
 
-	const T& m_actual;
+	const T &m_actual;
 	const char *m_file;
 	int m_line;
 	std::string m_message;
