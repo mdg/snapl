@@ -4,6 +4,7 @@ INC_DIR = -Isrc
 INC += acceptor.h
 INC += request.h
 INC += request_parser.h
+INC += request_processor.h
 INC += request_reader.h
 INC += shession_control.h
 
@@ -12,6 +13,7 @@ TEST_INC += testpp.h
 SRC += acceptor.cpp
 SRC += request.cpp
 SRC += request_parser.cpp
+SRC += request_processor.cpp
 SRC += request_reader.cpp
 SRC += shession_control.cpp
 
@@ -23,6 +25,7 @@ TEST_SRC += testpp.cpp
 OBJ += acceptor.o
 OBJ += request.o
 OBJ += request_parser.o
+OBJ += request_processor.o
 OBJ += request_reader.o
 OBJ += shession_control.o
 

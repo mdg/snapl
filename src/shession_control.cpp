@@ -18,18 +18,18 @@
 #include <iostream>
 #include "acceptor.h"
 #include "request.h"
+#include "request_processor.h"
 #include "request_reader.h"
 
 
 shession_control_c::shession_control_c()
 {
-	m_acceptor = new acceptor_c();
+	m_acceptor.reset( new acceptor_c() );
+	m_processor.reset( new request_processor_c() );
 }
 
 shession_control_c::~shession_control_c()
 {
-	delete m_acceptor;
-	m_acceptor = 0;
 }
 
 bool shession_control_c::execute( short port )
@@ -82,7 +82,7 @@ void shession_control_c::process_requests()
 		if ( reader ) {
 			request_c *req = reader->create_request();
 			if ( req ) {
-				process_request( *reader, *req );
+				m_processor->process( *reader, *req );
 				delete req;
 			}
 			req = 0;
@@ -90,19 +90,5 @@ void shession_control_c::process_requests()
 	}
 
 	// std::cerr << "end process_requests()\n";
-}
-
-void shession_control_c::process_request( request_reader_c &reader,
-		const request_c &req )
-{
-	switch ( req.request_type() ) {
-		case RT_CREATE_SESSION:
-			break;
-		case RT_SESSION_STATUS:
-			reader.write_response( "live" );
-			break;
-		case RT_KILL_SESSION:
-			break;
-	}
 }
 
