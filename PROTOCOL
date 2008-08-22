@@ -4,13 +4,21 @@
 4. close
 
 session requests:
-create <id>
-status <id>
-kill <id>
+request:  create <id>
+response: none
+
+request:  status <id>
+response: live or dead
+
+request:  kill <id>
+response: none
 
 token requests:
-store_token <id> <token> <data>
-token <id> <token>
+request:  store_token <id> <token> <data>
+response: none
+
+request:  token <id> <token>
+response: <data>
 
 close
 
