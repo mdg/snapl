@@ -46,3 +46,16 @@ TESTPP( test_incomplete )
 	std::string( "store cat" ) == actual( parser.readline() );
 }
 
+
+/**
+ * The parser needs to tolerate clients sending \r\n line endings.
+ * This test proves that works.
+ */
+TESTPP( test_crlf )
+{
+	request_parser_c parser;
+	parser.add_input( "status dog\r\nstore cat\r\n" );
+	std::string( "status dog" ) == actual( parser.readline() );
+	std::string( "store cat" ) == actual( parser.readline() );
+}
+

@@ -33,7 +33,16 @@ std::string request_parser_c::readline()
 	}
 
 	std::string line( m_input.substr( 0, newline ) );
+	// need to add a check here for null strings
+
+	// kind of awkward check for \r line ending
+	size_t last_char = line.length() - 1;
+	if ( line[ last_char ] == '\r' ) {
+		line.erase( last_char );
+	}
+
 	m_input = m_input.substr( newline + 1 );
+	std::cerr << "readline = '" << line << "'\n";
 	return line;
 }
 
