@@ -3,13 +3,13 @@
 3. read response
 4. close
 
-input requests:
-store <id>
+session requests:
+create <id>
+status <id>
 kill <id>
-store_token <id> <token> <data>
 
-output requests:
-state <id>
+token requests:
+store_token <id> <token> <data>
 token <id> <token>
 
 close
