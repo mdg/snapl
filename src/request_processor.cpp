@@ -34,6 +34,11 @@ void request_processor_c::process( request_reader_c &reader
 	}
 }
 
+bool request_processor_c::session_status( const std::string &session_id ) const
+{
+	return m_session.find( session_id ) != m_session.end();
+}
+
 
 void request_processor_c::process_create( const request_c &req )
 {
@@ -44,7 +49,7 @@ void request_processor_c::process_create( const request_c &req )
 void request_processor_c::process_status( request_reader_c &reader
 		, const request_c &req )
 {
-	bool live = m_session.find( req.session_id() ) != m_session.end();
+	bool live( session_status( req.session_id() ) );
 	reader.write_response( live ? "live" : "dead" );
 }
 

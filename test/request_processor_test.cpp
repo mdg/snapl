@@ -1,6 +1,3 @@
-#ifndef REQUEST_PROCESSOR_H
-#define REQUEST_PROCESSOR_H
-
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,31 +13,26 @@
  * limitations under the License.
  */
 
-#include <set>
-#include <string>
+#include "testpp.h"
+#include "request.h"
+#include "request_processor.h"
+#include "request_reader.h"
+#include <stdio.h>
 
 
-class request_c;
-class request_reader_c;
-
-class request_processor_c
+TESTPP( test_create_kill )
 {
-public:
-	/**
-	 * Process a request
-	 */
-	void process( request_reader_c &, const request_c & );
+	request_processor_c proc;
+	request_reader_c reader( fileno( stdout ) );
 
-	bool session_status( const std::string &session_id ) const;
+	false == actual( proc.session_status( "dog" ) );
 
-private:
-	void process_create( const request_c & );
-	void process_status( request_reader_c &, const request_c & );
-	void process_kill( const request_c & );
+	request_c create_req( RT_CREATE_SESSION, "dog" );
+	proc.process( reader, create_req );
+	true == actual( proc.session_status( "dog" ) );
 
-	std::set< std::string > m_session;
-};
-
-
-#endif
+	request_c kill_req( RT_KILL_SESSION, "dog" );
+	proc.process( reader, kill_req );
+	false == actual( proc.session_status( "dog" ) );
+}
 
