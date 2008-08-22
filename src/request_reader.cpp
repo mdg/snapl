@@ -105,7 +105,8 @@ request_c * request_reader_c::create_request()
 
 void request_reader_c::write_response( const std::string &response )
 {
-	write( m_connection, response.c_str(), response.length() );
+	std::string formatted( response + "\n" );
+	write( m_connection, formatted.c_str(), formatted.length() );
 }
 
 request_type_e request_reader_c::get_request_type( const std::string& req_type )

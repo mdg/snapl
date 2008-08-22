@@ -81,8 +81,10 @@ void shession_control_c::process_requests()
 
 		if ( reader ) {
 			request_c *req = reader->create_request();
-			process_request( *reader, *req );
-			delete req;
+			if ( req ) {
+				process_request( *reader, *req );
+				delete req;
+			}
 			req = 0;
 		}
 	}
@@ -93,5 +95,14 @@ void shession_control_c::process_requests()
 void shession_control_c::process_request( request_reader_c &reader,
 		const request_c &req )
 {
+	switch ( req.request_type() ) {
+		case RT_CREATE_SESSION:
+			break;
+		case RT_SESSION_STATUS:
+			reader.write_response( "live" );
+			break;
+		case RT_KILL_SESSION:
+			break;
+	}
 }
 
