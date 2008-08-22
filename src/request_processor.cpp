@@ -29,7 +29,7 @@ void request_processor_c::process( request_reader_c &reader
 			process_status( reader, req );
 			break;
 		case RT_KILL_SESSION:
-			process_create( req );
+			process_kill( req );
 			break;
 	}
 }
@@ -37,17 +37,20 @@ void request_processor_c::process( request_reader_c &reader
 
 void request_processor_c::process_create( const request_c &req )
 {
+	m_session.insert( req.session_id() );
 }
 
 
 void request_processor_c::process_status( request_reader_c &reader
 		, const request_c &req )
 {
-	reader.write_response( "live" );
+	bool live = m_session.find( req.session_id() ) != m_session.end();
+	reader.write_response( live ? "live" : "dead" );
 }
 
 
 void request_processor_c::process_kill( const request_c &req )
 {
+	m_session.erase( req.session_id() );
 }
 
