@@ -19,7 +19,7 @@
 #include <list>
 #include <memory>
 
-class connection_acceptor_c;
+class connection_factory_i;
 class request_c;
 class request_processor_c;
 class request_reader_c;
@@ -36,7 +36,7 @@ public:
 	 * Construct the shession control
 	 * object.
 	 */
-	shession_control_c( connection_acceptor_c &, request_processor_c & );
+	shession_control_c( connection_factory_i &, request_processor_c & );
 	/**
 	 * Destroy the shession_control_c
 	 */
@@ -46,13 +46,13 @@ public:
 	 * Start the shession
 	 * This isn't a threaded solution.
 	 */
-	bool execute( short port );
+	bool execute();
 
 private:
 	void accept_connections();
 	void process_requests();
 
-	connection_acceptor_c &m_acceptor;
+	connection_factory_i &m_connection_factory;
 	request_processor_c &m_processor;
 	std::list< request_reader_c * > m_reader;
 };

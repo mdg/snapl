@@ -16,15 +16,25 @@
 
 #include <stdio.h>
 #include <iostream>
+#include "connection_acceptor.h"
+#include "request_processor.h"
 #include "shession_control.h"
 
 
 int main( int argc, char **argv )
 {
-	acceptor_c acceptor;
+	connection_acceptor_c acceptor;
 	request_processor_c processor;
+	int port( 9000 ); // make this configurable obviously
+
+	bool accept_err( acceptor.open( port ) );
+	if ( ! accept_err ) {
+		std::cerr << "Error opening acceptor.\n";
+		return 1;
+	}
+
 	shession_control_c control( acceptor, processor );
-	control.execute( 9000 );
+	control.execute();
 	return 0;
 }
 

@@ -16,15 +16,15 @@
 
 #include "shession_control.h"
 #include <iostream>
-#include "connection_acceptor.h"
+#include "connection_factory.h"
 #include "request.h"
 #include "request_processor.h"
 #include "request_reader.h"
 
 
-shession_control_c::shession_control_c( connection_acceptor_c &acceptor
+shession_control_c::shession_control_c( connection_factory_i &conn_fact
 	       , request_processor_c &processor )
-: m_acceptor( acceptor )
+: m_connection_factory( conn_fact )
 , m_processor( processor )
 {
 }
@@ -33,13 +33,8 @@ shession_control_c::~shession_control_c()
 {
 }
 
-bool shession_control_c::execute( short port )
+bool shession_control_c::execute()
 {
-	bool accept_err( m_acceptor.open( port ) );
-	if ( ! accept_err ) {
-		return false;
-	}
-
 	for (;;) {
 		accept_connections();
 		process_requests();
@@ -52,13 +47,13 @@ void shession_control_c::accept_connections()
 {
 	// std::cerr << "begin accept_connections()\n";
 
-	int new_connection( m_acceptor.connection() );
+	int new_connection( m_connection_factory.connection() );
 	while ( new_connection ) {
 		request_reader_c *reader;
 		reader = new request_reader_c( new_connection );
 		m_reader.push_back( reader );
 
-		new_connection = m_acceptor.connection();
+		new_connection = m_connection_factory.connection();
 	}
 }
 
