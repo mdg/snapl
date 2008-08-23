@@ -1,9 +1,13 @@
-document shessiond/memcached difference
-document shessiond
+client class
+
+load testing
 
 - mirrors aren't different than regular connections
 mirror protocol v1
 mirror connections accepted
+
+document shessiond/memcached difference
+document shessiond
 
 - scaling/optimizing
 threading
