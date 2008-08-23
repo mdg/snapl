@@ -26,8 +26,6 @@ TEST_SRC += request_reader_test.cpp
 TEST_SRC += request_test.cpp
 TEST_SRC += testpp.cpp
 
-LOAD_SRC += main.cpp
-
 OBJ += connection_acceptor.o
 OBJ += request.o
 OBJ += request_parser.o
@@ -71,7 +69,7 @@ test : $(OBJ) $(TEST_OBJ)
 # load
 #
 load : $(OBJ)
-	$(CC) $(INC_DIR) -g -o load_shessiond $(OBJ) $(TEST_OBJ) load/load.cpp
+	$(CC) $(INC_DIR) -g -o load_shessiond $(OBJ) load/load.cpp
 
 clean :
 	rm *.o

@@ -22,7 +22,10 @@
 void run_load( int n )
 {
 	shession_client_c client;
-	client.open( "localhost", 9000 );
+	if ( ! client.open( "localhost", 9000 ) ) {
+		std::cerr << "Error connecting socket.\n";
+		return;
+	}
 
 	// create session ids in memory
 	std::list< std::string > sessions;
