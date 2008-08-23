@@ -71,7 +71,7 @@ test : $(OBJ) $(TEST_OBJ)
 # load
 #
 load : $(OBJ)
-	$(CC) $(INC_DIR) -g -o load_shession $(OBJ) $(TEST_OBJ) load/load.cpp
+	$(CC) $(INC_DIR) -g -o load_shessiond $(OBJ) $(TEST_OBJ) load/load.cpp
 
 clean :
 	rm *.o
