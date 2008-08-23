@@ -1,5 +1,5 @@
-#ifndef ACCEPTOR_H
-#define ACCEPTOR_H
+#ifndef CONNECTION_ACCEPTOR_H
+#define CONNECTION_ACCEPTOR_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,12 +15,14 @@
  * limitations under the License.
  */
 
+#include "connection_factory.h"
 
 /**
  * A class that accepts socket connections
  * and returns open sockets.
  */
-class acceptor_c
+class connection_acceptor_c
+: public connection_factory_i
 {
 	static const int DEFAULT_BACKLOG = 128;
 
@@ -28,12 +30,12 @@ public:
 	/**
 	 * Constructor for the acceptor class.
 	 */
-	acceptor_c();
+	connection_acceptor_c();
 
 	/**
 	 * Destructor.  Calls close.
 	 */
-	~acceptor_c();
+	virtual ~connection_acceptor_c();
 
 	/**
 	 * Open the acceptor on the given port.
@@ -50,7 +52,7 @@ public:
 	 * Get an open connection from the listener.
 	 * @return 
 	 */
-	int connection();
+	virtual int connection();
 
 private:
 	int m_port;

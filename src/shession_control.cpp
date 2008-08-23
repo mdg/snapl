@@ -16,13 +16,13 @@
 
 #include "shession_control.h"
 #include <iostream>
-#include "acceptor.h"
+#include "connection_acceptor.h"
 #include "request.h"
 #include "request_processor.h"
 #include "request_reader.h"
 
 
-shession_control_c::shession_control_c( acceptor_c &acceptor
+shession_control_c::shession_control_c( connection_acceptor_c &acceptor
 	       , request_processor_c &processor )
 : m_acceptor( acceptor )
 , m_processor( processor )

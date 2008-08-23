@@ -24,21 +24,21 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <iostream>
-#include "acceptor.h"
+#include "connection_acceptor.h"
 
 
-acceptor_c::acceptor_c()
+connection_acceptor_c::connection_acceptor_c()
 : m_port( 0 )
 , m_listener( 0 )
 {
 }
 
-acceptor_c::~acceptor_c()
+connection_acceptor_c::~connection_acceptor_c()
 {
 	close();
 }
 
-bool acceptor_c::open( int port, int backlog )
+bool connection_acceptor_c::open( int port, int backlog )
 {
 	// create the socket
 	m_listener = socket( PF_INET, SOCK_STREAM, 0 );
@@ -78,7 +78,8 @@ bool acceptor_c::open( int port, int backlog )
 
 	struct sockaddr_in name;
 	socklen_t name_len = sizeof( name );
-	int sockname_err = getsockname( m_listener, (struct sockaddr *) &name, &name_len );
+	int sockname_err = getsockname( m_listener, (struct sockaddr *) &name
+			, &name_len );
 	if ( sockname_err ) {
 		perror( "getsockname error" );
 		return false;
@@ -88,7 +89,7 @@ bool acceptor_c::open( int port, int backlog )
 	return true;
 }
 
-void acceptor_c::close()
+void connection_acceptor_c::close()
 {
 	m_port = 0;
 	if ( m_listener ) {
@@ -98,7 +99,7 @@ void acceptor_c::close()
 	}
 }
 
-int acceptor_c::connection()
+int connection_acceptor_c::connection()
 {
 	// sockaddr addr;
 	// socklen_t addr_len( sizeof(addr) );
