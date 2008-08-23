@@ -18,14 +18,54 @@
 #include <string>
 
 
+/**
+ * Client for a shessiond.
+ */
+class shession_client_i
+{
+public:
+	virtual ~shession_client_i() {}
+
+	/**
+	 * Create the a session for the given session_id.
+	 */
+	virtual void create_session( const std::string &session_id ) = 0;
+
+	/**
+	 * Check if a session is alive.
+	 */
+	virtual bool live_session( const std::string &session_id ) = 0;
+
+	/**
+	 * Kill a session that is no longer valid.
+	 */
+	virtual void kill_session( const std::string &session_id ) = 0;
+};
+
+
+/**
+ * Concrete implementation of this.  Probably need to rename
+ * and move to another place later.
+ */
 class shession_client_c
+: public shession_client_i
 {
 public:
 	shession_client_c();
-	~shession_client_c();
+	virtual ~shession_client_c();
 
+	/**
+	 * Open the client to a shessiond at the given URL and port.
+	 */
 	bool open( const std::string &url, short port );
+	/**
+	 * Close the shession_client_c
+	 */
 	void close();
+
+	virtual void create_session( const std::string &session_id );
+	virtual bool live_session( const std::string &session_id );
+	virtual void kill_session( const std::string &session_id );
 
 private:
 	int m_socket;

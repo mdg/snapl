@@ -42,3 +42,16 @@ void shession_client_c::close()
 	}
 }
 
+
+void shession_client_c::create_session( const std::string &session_id )
+{
+}
+
+bool shession_client_c::live_session( const std::string &session_id )
+{
+}
+
+void shession_client_c::kill_session( const std::string &session_id )
+{
+}
+
