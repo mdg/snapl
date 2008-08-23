@@ -22,10 +22,11 @@
 #include "request_reader.h"
 
 
-shession_control_c::shession_control_c()
+shession_control_c::shession_control_c( acceptor_c &acceptor
+	       , request_processor_c &processor )
+: m_acceptor( acceptor )
+, m_processor( processor )
 {
-	m_acceptor.reset( new acceptor_c() );
-	m_processor.reset( new request_processor_c() );
 }
 
 shession_control_c::~shession_control_c()
@@ -34,7 +35,7 @@ shession_control_c::~shession_control_c()
 
 bool shession_control_c::execute( short port )
 {
-	bool accept_err( m_acceptor->open( port ) );
+	bool accept_err( m_acceptor.open( port ) );
 	if ( ! accept_err ) {
 		return false;
 	}
@@ -51,13 +52,13 @@ void shession_control_c::accept_connections()
 {
 	// std::cerr << "begin accept_connections()\n";
 
-	int new_connection( m_acceptor->connection() );
+	int new_connection( m_acceptor.connection() );
 	while ( new_connection ) {
 		request_reader_c *reader;
 		reader = new request_reader_c( new_connection );
 		m_reader.push_back( reader );
 
-		new_connection = m_acceptor->connection();
+		new_connection = m_acceptor.connection();
 	}
 }
 
@@ -82,7 +83,7 @@ void shession_control_c::process_requests()
 		if ( reader ) {
 			request_c *req = reader->create_request();
 			if ( req ) {
-				m_processor->process( *reader, *req );
+				m_processor.process( *reader, *req );
 				delete req;
 			}
 			req = 0;

@@ -36,7 +36,7 @@ public:
 	 * Construct the shession control
 	 * object.
 	 */
-	shession_control_c();
+	shession_control_c( acceptor_c &, request_processor_c & );
 	/**
 	 * Destroy the shession_control_c
 	 */
@@ -52,9 +52,9 @@ private:
 	void accept_connections();
 	void process_requests();
 
-	std::auto_ptr< acceptor_c > m_acceptor;
+	acceptor_c &m_acceptor;
+	request_processor_c &m_processor;
 	std::list< request_reader_c * > m_reader;
-	std::auto_ptr< request_processor_c > m_processor;
 };
 
 

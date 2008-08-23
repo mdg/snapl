@@ -21,7 +21,9 @@
 
 int main( int argc, char **argv )
 {
-	shession_control_c control;
+	acceptor_c acceptor;
+	request_processor_c processor;
+	shession_control_c control( acceptor, processor );
 	control.execute( 9000 );
 	return 0;
 }
