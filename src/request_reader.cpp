@@ -16,6 +16,7 @@
 
 #include "request_reader.h"
 #include <iostream>
+#include <sstream>
 #include <sys/socket.h>
 #include <errno.h>
 #include "request.h"

@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-
-#include <sstream>
+#include <string>
 #include "request_type.h"
 
 class request_c;
