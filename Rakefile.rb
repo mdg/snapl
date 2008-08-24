@@ -1,15 +1,4 @@
 
-# rule '.cpp' => ['.o'] do |t|
-#     sh "gcc", t.source, "-o", t.name
-# end
-
-# task :test do
-#     ruby "test_all.rb"
-# end
-
-# src = 'src/main.cpp'
-# target = build(
-
 task :clean => [] do
     sh "rm -f *.o"
 end
@@ -37,38 +26,39 @@ rule '.o' => [
     sh %{g++ -c -g -Isrc -o #{t.name} #{t.source}}
 end
 
+
 desc "Compile all source files into objects"
-task :compile => OBJ do |t|
+task :compile => [ "obj" ] + OBJ do |t|
     # sh "cc -o #{t.name} #{t.prequisites.join( ' ' )}"
 end
 
-desc "Build the main executable"
-task :build => [ :compile ] do |t|
-    # t.invoke_prerequisites
-    print "\n"
-    print t.class
-    print "\n"
-    print t.prerequisites.class
-    print "\n"
-    print t.prerequisites.join( ' ' )
-    print "\n\n"
+file "shessiond" => [ :compile ] do |t|
     sh "g++ -o shessiond #{OBJ}"
 end
 
-desc "Compile all source files into objects"
+
+desc "Compile all test files into objects"
 task :compile_test => TEST_OBJ do |t|
     # sh "cc -o #{t.name} #{t.prequisites.join( ' ' )}"
 end
 
-desc "Build the test executable"
-task :build_test => [ :compile, :compile_test ] do |t|
-    sh "gcc -o test_shessiond #{t.prerequisites.join( ' ' )}"
+file "test_shessiond" => [ :compile, :compile_test ] do |t|
+    sh "gcc -o test_shessiond #{OBJ} #{TEST_OBJ}"
 end
+
+
+
+task :default => [ :compile ]
+
+
+desc "Build the main executable"
+task :build => [ "shessiond" ]
+
+desc "Build the test executable"
+task :build_test => [ "test_shession" ]
+
 
 desc "Make and run tests"
 task :test => [ :build_test ] do |t|
     sh "./test_shession"
 end
-
-task :default => [ :compile ]
-
