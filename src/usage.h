@@ -115,7 +115,7 @@ public:
 	 * Parse a given set of args
 	 * @return true if the usage was parsed successfully
 	 */
-	bool parse_args( int argc, char **argv );
+	bool parse_args( int argc, const char **argv );
 
 	/**
 	 * Build a usage document for all options.

@@ -33,6 +33,7 @@ TEST_SRC += request_processor_test.cpp
 TEST_SRC += request_reader_test.cpp
 TEST_SRC += request_test.cpp
 TEST_SRC += testpp.cpp
+TEST_SRC += usage_test.cpp
 
 OBJ += config_parser.o
 OBJ += connected_socket.o
@@ -51,6 +52,7 @@ TEST_OBJ += request_processor_test.o
 TEST_OBJ += request_reader_test.o
 TEST_OBJ += request_test.o
 TEST_OBJ += testpp.o
+TEST_OBJ += usage_test.o
 
 all : shessiond
 
