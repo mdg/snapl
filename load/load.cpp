@@ -20,7 +20,7 @@
 #include <time.h>
 
 
-void run_load( int n )
+void run_load_1( int n )
 {
 	shession_client_c client;
 	if ( ! client.open( "127.0.0.1", 9000 ) ) {
@@ -72,10 +72,53 @@ void run_load( int n )
 	std::cerr << n << " sessions in " << run_time << " seconds\n";
 }
 
+void run_load_2( int n )
+{
+	shession_client_c client;
+	if ( ! client.open( "127.0.0.1", 9000 ) ) {
+		std::cerr << "Error connecting socket.\n";
+		return;
+	}
+
+	// create session ids in memory
+	std::list< std::string > sessions;
+	for ( int i( 0 ); i<n; ++i ) {
+		std::ostringstream s;
+		s << "load2_session_" << i;
+		sessions.push_back( s.str() );
+	}
+
+	std::cerr << "setup load test\n";
+	std::list< std::string >::const_iterator it;
+	// create all them
+	for ( it=sessions.begin(); it!=sessions.end(); ++it ) {
+		client.create_session( *it );
+	}
+
+	std::cerr << "begin load test\n";
+	time_t start_time( time( NULL ) );
+
+	// check sessions now that they're there
+	time_t stop_time( time( NULL ) + 12 );
+	it = sessions.begin();
+	int count( 0 );
+	while ( time( NULL ) < stop_time ) {
+		client.live_session( *it );
+		++count;
+		if ( ++it == sessions.end() ) {
+			it = sessions.begin();
+		}
+	}
+
+	std::cerr << count << " requests in 12 seconds\n";
+	std::cerr << 5 * count << " requests per minute\n";
+	std::cerr << count / 12 << " requests per second\n";
+}
+
 
 int main( int argc, char **argv )
 {
-	run_load( 80 );
+	run_load_2( 80 );
 
 	return 0;
 }
