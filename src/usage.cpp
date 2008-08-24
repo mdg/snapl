@@ -49,9 +49,8 @@ void usage_option_c::set( const std::string &param )
 	m_param = param;
 }
 
-std::string usage_option_c::usage_doc() const
+void usage_option_c::write_usage_doc( std::ostream &doc ) const
 {
-	std::ostringstream doc;
 	if ( m_short_opt ) {
 		doc << "\t-" << m_short_opt;
 	}
@@ -65,7 +64,6 @@ std::string usage_option_c::usage_doc() const
 	}
 
 	doc << std::endl;
-	return doc.str();
 }
 
 
@@ -81,19 +79,33 @@ bool usage_c::parse_args( int argc, const char **argv )
 	// skip the first arg which is the command
 	for ( int i(1); i<argc; ++i ) {
 		// usage_error = usage_error || 
-		std::cerr << "argv[" << i << "] = " << argv[i] << std::endl;
+		// std::cerr << "argv[" << i << "] = " << argv[i] << std::endl;
 
 		if ( strlen( argv[i] ) < 2 ) {
 			// no options should be less than 2 in length
 			return false;
 		}
 
+		usage_option_c *option;
 		if ( argv[i][0] == '-' && argv[i][1] == '-' ) {
 			// long option
+			option = find_long_option( argv[i] + 2 );
+			if ( ! option ) {
+				// this option is not found
+				return false;
+			}
+			option->set();
 		} else if ( argv[i][0] == '-' ) {
 			// short option
+			option = find_short_option( argv[i][1] );
+			if ( ! option ) {
+				// this option is not found
+				return false;
+			}
+			option->set();
 		} else {
 			// parameter
+			// not yet supported.  ignore for now.
 		}
 		std::list< usage_option_c * >::iterator it;
 		for ( it=m_option.begin(); it!=m_option.end(); ++it ) { 
@@ -103,7 +115,36 @@ bool usage_c::parse_args( int argc, const char **argv )
 	return true;
 }
 
-std::string usage_c::usage_doc() const
+void usage_c::write_usage_doc( std::ostream &doc ) const
 {
+	usage_option_c::list::const_iterator it;
+	for ( it=m_option.begin(); it!=m_option.end(); ++it ) {
+		// doc << **it;
+		(*it)->write_usage_doc( doc );
+	}
+}
+
+usage_option_c * usage_c::find_short_option( char short_opt )
+{
+	usage_option_c::list::iterator it;
+	for ( it=m_option.begin(); it!=m_option.end(); ++it ) {
+		usage_option_c &opt( **it );
+		if ( opt.short_opt() == short_opt ) {
+			return &opt;
+		}
+	}
+	return NULL;
+}
+
+usage_option_c * usage_c::find_long_option( const std::string &long_opt )
+{
+	usage_option_c::list::iterator it;
+	for ( it=m_option.begin(); it!=m_option.end(); ++it ) {
+		usage_option_c &opt( **it );
+		if ( opt.long_opt() == long_opt ) {
+			return &opt;
+		}
+	}
+	return NULL;
 }
 

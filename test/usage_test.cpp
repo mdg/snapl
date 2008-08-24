@@ -15,8 +15,7 @@
 
 #include "testpp.h"
 #include "usage.h"
-
-
+#include <sstream>
 
 
 TESTPP( test_short_usage )
@@ -50,9 +49,10 @@ TESTPP( test_long_usage )
 TESTPP( test_option_doc )
 {
 	usage_option_c debug( false, 'g', "debug", "Write debugging logging." );
-	std::string doc( debug.usage_doc() );
+	std::ostringstream doc;
+	debug.write_usage_doc( doc );
 
 	std::string( "\t-g\t--debug\tWrite debugging logging.\n" )
-			== actual( doc );
+			== actual( doc.str() );
 }
 

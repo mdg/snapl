@@ -25,6 +25,9 @@
 class usage_option_c
 {
 public:
+	typedef std::list< usage_option_c * > list;
+
+public:
 	/**
 	 * Construct an option with the given modes of selection.
 	 */
@@ -77,7 +80,7 @@ public:
 	/**
 	 * Build a line of text documenting this option.
 	 */
-	std::string usage_doc() const;
+	void write_usage_doc( std::ostream & ) const;
 	/**
 	 * Check if there was a usage error for this option.
 	 */
@@ -120,10 +123,13 @@ public:
 	/**
 	 * Build a usage document for all options.
 	 */
-	std::string usage_doc() const;
+	void write_usage_doc( std::ostream & ) const;
 
 private:
-	std::list< usage_option_c * > m_option;
+	usage_option_c * find_short_option( char short_opt );
+	usage_option_c * find_long_option( const std::string &long_opt );
+
+	usage_option_c::list m_option;
 };
 
 
