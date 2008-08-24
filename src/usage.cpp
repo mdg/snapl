@@ -117,11 +117,13 @@ bool usage_c::parse_args( int argc, const char **argv )
 
 void usage_c::write_usage_doc( std::ostream &doc ) const
 {
+	doc << "Usage: shessiond [OPTIONS]\n\n";
+	doc << "Options:\n";
 	usage_option_c::list::const_iterator it;
 	for ( it=m_option.begin(); it!=m_option.end(); ++it ) {
-		// doc << **it;
 		(*it)->write_usage_doc( doc );
 	}
+	doc << "\n";
 }
 
 usage_option_c * usage_c::find_short_option( char short_opt )

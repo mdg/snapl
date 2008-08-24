@@ -19,10 +19,21 @@
 #include "connection_acceptor.h"
 #include "request_processor.h"
 #include "shession_control.h"
+#include "usage.h"
 
 
-int main( int argc, char **argv )
+int main( int argc, const char **argv )
 {
+	usage_option_c debug_option( false, 'g', "debug"
+			, "turn on debugging messages" );
+	usage_c usage;
+	usage.add( debug_option );
+
+	if ( ! usage.parse_args( argc, argv ) ) {
+		usage.write_usage_doc( std::cout );
+		return -1;
+	}
+
 	connection_acceptor_c acceptor;
 	request_processor_c processor;
 	int port( 9000 ); // make this configurable obviously
