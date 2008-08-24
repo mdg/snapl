@@ -20,13 +20,13 @@
 #include <sys/socket.h>
 #include <errno.h>
 #include "request.h"
-#include "request_parser.h"
+#include "line_parser.h"
 
 
 request_reader_c::request_reader_c( int connection )
 {
 	m_connection = connection;
-	m_parser.reset( new request_parser_c() );
+	m_parser.reset( new line_parser_c() );
 }
 
 request_reader_c::~request_reader_c()

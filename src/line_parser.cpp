@@ -14,18 +14,18 @@
  */
 
 
-#include "request_parser.h"
+#include "line_parser.h"
 #include <sstream>
 #include <iostream>
 #include <list>
 
 
-void request_parser_c::add_input( const std::string &input )
+void line_parser_c::add_input( const std::string &input )
 {
 	m_input.append( input );
 }
 
-std::string request_parser_c::readline()
+std::string line_parser_c::readline()
 {
 	size_t newline = m_input.find( "\n" );
 	if ( newline == std::string::npos ) {

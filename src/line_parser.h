@@ -1,5 +1,5 @@
-#ifndef REQUEST_PARSER_H
-#define REQUEST_PARSER_H
+#ifndef LINE_PARSER_H
+#define LINE_PARSER_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,18 +21,9 @@
 /**
  * A class to parse strings for requests.
  */
-class request_parser_c
+class line_parser_c
 {
 public:
-	/**
-	 * Construct a request parser object.
-	 */
-	// request_parser_c() {}
-	/**
-	 * Destroy the request parser object.
-	 */
-	// ~request_reader_c() {}
-
 	/**
 	 * Add input to this parser.
 	 */

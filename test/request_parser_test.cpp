@@ -16,12 +16,12 @@
 
 #include "testpp.h"
 #include <string.h>
-#include "request_parser.h"
+#include "line_parser.h"
 
 
 TESTPP( test_single_line )
 {
-	request_parser_c parser;
+	line_parser_c parser;
 	parser.add_input( "status dog\n" );
 	std::string( "status dog" ) == actual( parser.readline() );
 }
@@ -29,7 +29,7 @@ TESTPP( test_single_line )
 
 TESTPP( test_multiline )
 {
-	request_parser_c parser;
+	line_parser_c parser;
 	parser.add_input( "status dog\nstore cat\n" );
 	std::string( "status dog" ) == actual( parser.readline() );
 	std::string( "store cat" ) == actual( parser.readline() );
@@ -38,7 +38,7 @@ TESTPP( test_multiline )
 
 TESTPP( test_incomplete )
 {
-	request_parser_c parser;
+	line_parser_c parser;
 	parser.add_input( "status dog\nstore cat" );
 	std::string( "status dog" ) == actual( parser.readline() );
 	std::string( "" ) == actual( parser.readline() );
@@ -53,7 +53,7 @@ TESTPP( test_incomplete )
  */
 TESTPP( test_crlf )
 {
-	request_parser_c parser;
+	line_parser_c parser;
 	parser.add_input( "status dog\r\nstore cat\r\n" );
 	std::string( "status dog" ) == actual( parser.readline() );
 	std::string( "store cat" ) == actual( parser.readline() );
@@ -66,7 +66,7 @@ TESTPP( test_crlf )
  */
 TESTPP( test_blanklf )
 {
-	request_parser_c parser;
+	line_parser_c parser;
 	parser.add_input( "\nstore cat\r\n" );
 	std::string( "" ) == actual( parser.readline() );
 	std::string( "store cat" ) == actual( parser.readline() );

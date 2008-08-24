@@ -18,8 +18,8 @@
 #include <string>
 #include "request_type.h"
 
+class line_parser_c;
 class request_c;
-class request_parser_c;
 
 
 /**
@@ -69,7 +69,7 @@ private:
 	static request_type_e get_request_type( const std::string& req_type );
 
 	int m_connection;
-	std::auto_ptr< request_parser_c > m_parser;
+	std::auto_ptr< line_parser_c > m_parser;
 };
 
 
