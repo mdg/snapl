@@ -35,7 +35,12 @@ void config_parser_c::parse_input()
 		getline( line_parser, key, '=' );
 		getline( line_parser, value );
 
-		m_config[ key ] = value;
+		if ( ! ( key.empty() || value.empty() ) ) {
+			if ( value[ value.length() - 1 ] == '\r' ) {
+				value.erase( value.length() - 1 );
+			}
+			m_config[ key ] = value;
+		}
 	}
 }
 

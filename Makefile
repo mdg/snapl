@@ -25,6 +25,7 @@ SRC += request_reader.cpp
 SRC += shession_client.cpp
 SRC += shession_control.cpp
 
+TEST_SRC += config_parser_test.cpp
 TEST_SRC += line_parser_test.cpp
 TEST_SRC += request_processor_test.cpp
 TEST_SRC += request_reader_test.cpp
@@ -41,6 +42,7 @@ OBJ += request_reader.o
 OBJ += shession_client.o
 OBJ += shession_control.o
 
+TEST_OBJ += config_parser_test.o
 TEST_OBJ += line_parser_test.o
 TEST_OBJ += request_processor_test.o
 TEST_OBJ += request_reader_test.o
