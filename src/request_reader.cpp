@@ -20,13 +20,13 @@
 #include <sys/socket.h>
 #include <errno.h>
 #include "request.h"
-#include "line_parser.h"
+#include "connected_socket.h"
 
 
 request_reader_c::request_reader_c( int connection )
 {
-	m_connection = connection;
-	m_parser.reset( new line_parser_c() );
+	connection_i *conn = new connected_socket_c( connection );
+	m_connection.reset( conn );
 }
 
 request_reader_c::~request_reader_c()
@@ -37,38 +37,20 @@ request_reader_c::~request_reader_c()
 
 void request_reader_c::close()
 {
-	if ( m_connection ) {
-		// this should have been released already
-		// but shut it down if it hasn't
-		shutdown( m_connection, SHUT_RDWR );
-		m_connection = 0;
-	}
+	m_connection.reset();
 }
 
 int request_reader_c::release_connection()
 {
-	int connection( m_connection );
-	m_connection = 0;
-	return connection;
+	m_connection.reset();
+	return 0;
 }
 
 
 request_c * request_reader_c::create_request()
 {
-	char buffer[256] = { 0 };
-	ssize_t bytes( read( m_connection, buffer, sizeof(buffer) ) );
-	if ( bytes == -1 ) {
-		if ( errno == EWOULDBLOCK ) {
-			// do nothing
-		} else {
-			perror( "request read failure" );
-		}
-	} else {
-		m_parser->add_input( buffer );
-	}
-
 	std::string request_line;
-	m_parser->readline( request_line );
+	m_connection->read( request_line );
 	if ( request_line.empty() ) {
 		// no input here
 		return NULL;
@@ -97,7 +79,7 @@ request_c * request_reader_c::create_request()
 		stream >> token_name;
 		req->set_token_name( token_name );
 		std::string token_value;
-		m_parser->readline( token_value );
+		m_connection->read( token_value );
 		req->set_token_value( token_value );
 	} else if ( req_type == RT_REQUEST_TOKEN ) {
 		stream >> token_name;
@@ -109,9 +91,7 @@ request_c * request_reader_c::create_request()
 
 void request_reader_c::write_response( const std::string &response )
 {
-	std::string formatted( response + "\n" );
-	std::cerr << "writing back to client: " << formatted;
-	write( m_connection, formatted.c_str(), formatted.length() );
+	m_connection->write( response );
 }
 
 request_type_e request_reader_c::get_request_type( const std::string& req_type )
