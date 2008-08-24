@@ -15,6 +15,7 @@
 
 #include "connected_socket.h"
 #include <sys/socket.h>
+#include <errno.h>
 
 
 connected_socket_c::connected_socket_c( int socket )
@@ -31,9 +32,21 @@ connected_socket_c::~connected_socket_c()
 
 void connected_socket_c::read( std::string &line )
 {
-	char buffer[80];
-	::read( m_socket, buffer, sizeof(buffer) );
-	m_line_parser.add_input( buffer );
+	line.erase();
+
+	char buffer[256] = { 0 };
+	ssize_t bytes( ::read( m_socket, buffer, sizeof(buffer) ) );
+	if ( bytes == -1 ) {
+		if ( errno == EWOULDBLOCK ) {
+			// do nothing
+		} else {
+			perror( "request read failure" );
+			return;
+		}
+	} else {
+		m_line_parser.add_input( buffer );
+	}
+
 	m_line_parser.readline( line );
 }
 
