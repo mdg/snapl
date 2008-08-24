@@ -17,6 +17,8 @@
 
 #include <string>
 
+class connection_i;
+
 
 /**
  * Client for a shessiond.
@@ -68,7 +70,9 @@ public:
 	virtual void kill_session( const std::string &session_id );
 
 private:
-	int m_socket;
+	void write_request( const std::string &request_type
+			, const std::string &session_id );
+	std::auto_ptr< connection_i > m_connection;
 };
 
 
