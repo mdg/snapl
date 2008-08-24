@@ -17,7 +17,7 @@
 #include <iostream>
 #include <list>
 #include <sstream>
-#include <ctime>
+#include <time.h>
 
 
 void run_load( int n )
@@ -37,7 +37,8 @@ void run_load( int n )
 	}
 
 	std::cerr << "begin load test\n";
-	clock_t start_time( clock() );
+	// clock_t start_ticks( clock() );
+	time_t start_time( time( NULL ) );
 	std::list< std::string >::const_iterator it;
 
 	// check sessions and then create them
@@ -45,9 +46,9 @@ void run_load( int n )
 		if ( client.live_session( *it ) ) {
 			std::cerr << "session is already live\n";
 		}
-		// client.create_session( *it );
+		client.create_session( *it );
 
-		std::cerr << "created session: " << *it << std::endl;
+		// std::cerr << "created session: " << *it << std::endl;
 	}
 
 	// check sessions now that they're there
@@ -55,24 +56,26 @@ void run_load( int n )
 		if ( ! client.live_session( *it ) ) {
 			std::cerr << "session isn't alive\n";
 		}
-		// client.kill_session( *it );
+		client.kill_session( *it );
 
 		if ( client.live_session( *it ) ) {
 			std::cerr << "session is still alive\n";
 		}
 
-		std::cerr << "killed session: " << *it << std::endl;
+		// std::cerr << "killed session: " << *it << std::endl;
 	}
 
-	clock_t run_time( ( ( clock() - start_time ) * 1000 )
-			/ CLOCKS_PER_SEC );
-	std::cerr << n << " sessions in " << run_time << " milliseconds\n";
+	// clock_t stop_time( clock() );
+	// clock_t run_time( stop_time - start_time );
+	// clock_t run_ms( ( run_time * 1000 ) / CLOCKS_PER_SEC );
+	time_t run_time( time( NULL ) - start_time );
+	std::cerr << n << " sessions in " << run_time << " seconds\n";
 }
 
 
 int main( int argc, char **argv )
 {
-	run_load( 1000 );
+	run_load( 80 );
 
 	return 0;
 }
