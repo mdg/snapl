@@ -1,6 +1,6 @@
-client class
+configuration of shessiond
 
-load testing
+session expiration
 
 - mirrors aren't different than regular connections
 mirror protocol v1
