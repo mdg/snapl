@@ -1,5 +1,3 @@
-#ifndef LINE_PARSER_H
-#define LINE_PARSER_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,29 +13,33 @@
  * limitations under the License.
  */
 
-#include <string>
+#include "connected_socket.h"
+#include <sys/socket.h>
 
 
-/**
- * A class to parse strings for requests.
- */
-class line_parser_c
+connected_socket_c::connected_socket_c( int socket )
+: m_socket( socket )
 {
-public:
-	/**
-	 * Add input to this parser.
-	 */
-	void add_input( const std::string & );
+}
 
-	/**
-	 * Parse the input into a line of text.
-	 */
-	void readline( std::string & );
-
-private:
-	std::string m_input;
-};
+connected_socket_c::~connected_socket_c()
+{
+	shutdown( m_socket, SHUT_RDWR );
+	m_socket = 0;
+}
 
 
-#endif
+void connected_socket_c::read( std::string &line )
+{
+	char buffer[80];
+	::read( m_socket, buffer, sizeof(buffer) );
+	m_line_parser.add_input( buffer );
+	m_line_parser.readline( line );
+}
+
+void connected_socket_c::write( const std::string &line )
+{
+	std::string formatted( line + "\n" );
+	::write( m_socket, formatted.c_str(), formatted.length() );
+}
 

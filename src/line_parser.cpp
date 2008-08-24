@@ -25,14 +25,16 @@ void line_parser_c::add_input( const std::string &input )
 	m_input.append( input );
 }
 
-std::string line_parser_c::readline()
+void line_parser_c::readline( std::string &line )
 {
+	line.erase();
+
 	size_t newline = m_input.find( "\n" );
 	if ( newline == std::string::npos ) {
-		return std::string();
+		return;
 	}
 
-	std::string line( m_input.substr( 0, newline ) );
+	line = m_input.substr( 0, newline );
 	// need to add a check here for null strings
 
 	// kind of awkward check for \r line ending
@@ -43,6 +45,5 @@ std::string line_parser_c::readline()
 
 	m_input = m_input.substr( newline + 1 );
 	// std::cerr << "readline = '" << line << "'\n";
-	return line;
 }
 

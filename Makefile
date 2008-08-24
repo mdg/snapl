@@ -1,6 +1,7 @@
 CC = g++
 INC_DIR = -Isrc
 
+INC += connected_socket.h
 INC += connection.h
 INC += connection_acceptor.h
 INC += connection_factory.h
@@ -13,6 +14,7 @@ INC += shession_control.h
 
 TEST_INC += testpp.h
 
+SRC += connected_socket.cpp
 SRC += connection_acceptor.cpp
 SRC += line_parser.cpp
 SRC += request.cpp
@@ -21,12 +23,13 @@ SRC += request_reader.cpp
 SRC += shession_client.cpp
 SRC += shession_control.cpp
 
-TEST_SRC += request_parser_test.cpp
+TEST_SRC += line_parser_test.cpp
 TEST_SRC += request_processor_test.cpp
 TEST_SRC += request_reader_test.cpp
 TEST_SRC += request_test.cpp
 TEST_SRC += testpp.cpp
 
+OBJ += connected_socket.o
 OBJ += connection_acceptor.o
 OBJ += line_parser.o
 OBJ += request.o
@@ -35,7 +38,7 @@ OBJ += request_reader.o
 OBJ += shession_client.o
 OBJ += shession_control.o
 
-TEST_OBJ += request_parser_test.o
+TEST_OBJ += line_parser_test.o
 TEST_OBJ += request_processor_test.o
 TEST_OBJ += request_reader_test.o
 TEST_OBJ += request_test.o

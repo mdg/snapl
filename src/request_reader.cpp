@@ -67,7 +67,8 @@ request_c * request_reader_c::create_request()
 		m_parser->add_input( buffer );
 	}
 
-	std::string request_line( m_parser->readline() );
+	std::string request_line;
+	m_parser->readline( request_line );
 	if ( request_line.empty() ) {
 		// no input here
 		return NULL;
@@ -95,7 +96,9 @@ request_c * request_reader_c::create_request()
 	} else if ( req_type == RT_STORE_TOKEN ) {
 		stream >> token_name;
 		req->set_token_name( token_name );
-		req->set_token_value( m_parser->readline() );
+		std::string token_value;
+		m_parser->readline( token_value );
+		req->set_token_value( token_value );
 	} else if ( req_type == RT_REQUEST_TOKEN ) {
 		stream >> token_name;
 		req->set_token_name( token_name );

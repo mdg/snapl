@@ -23,7 +23,9 @@ TESTPP( test_single_line )
 {
 	line_parser_c parser;
 	parser.add_input( "status dog\n" );
-	std::string( "status dog" ) == actual( parser.readline() );
+	std::string parsed_line;
+	parser.readline( parsed_line );
+	std::string( "status dog" ) == actual( parsed_line );
 }
 
 
@@ -31,19 +33,26 @@ TESTPP( test_multiline )
 {
 	line_parser_c parser;
 	parser.add_input( "status dog\nstore cat\n" );
-	std::string( "status dog" ) == actual( parser.readline() );
-	std::string( "store cat" ) == actual( parser.readline() );
+	std::string parsed_line;
+	parser.readline( parsed_line );
+	std::string( "status dog" ) == actual( parsed_line );
+	parser.readline( parsed_line );
+	std::string( "store cat" ) == actual( parsed_line );
 }
 
 
 TESTPP( test_incomplete )
 {
+	std::string parsed_line;
 	line_parser_c parser;
 	parser.add_input( "status dog\nstore cat" );
-	std::string( "status dog" ) == actual( parser.readline() );
-	std::string( "" ) == actual( parser.readline() );
+	parser.readline( parsed_line );
+	std::string( "status dog" ) == actual( parsed_line );
+	parser.readline( parsed_line );
+	std::string( "" ) == actual( parsed_line );
 	parser.add_input( "\n" );
-	std::string( "store cat" ) == actual( parser.readline() );
+	parser.readline( parsed_line );
+	std::string( "store cat" ) == actual( parsed_line );
 }
 
 
@@ -53,10 +62,13 @@ TESTPP( test_incomplete )
  */
 TESTPP( test_crlf )
 {
+	std::string parsed_line;
 	line_parser_c parser;
 	parser.add_input( "status dog\r\nstore cat\r\n" );
-	std::string( "status dog" ) == actual( parser.readline() );
-	std::string( "store cat" ) == actual( parser.readline() );
+	parser.readline( parsed_line );
+	std::string( "status dog" ) == actual( parsed_line );
+	parser.readline( parsed_line );
+	std::string( "store cat" ) == actual( parsed_line );
 }
 
 
@@ -66,9 +78,12 @@ TESTPP( test_crlf )
  */
 TESTPP( test_blanklf )
 {
+	std::string parsed_line;
 	line_parser_c parser;
 	parser.add_input( "\nstore cat\r\n" );
-	std::string( "" ) == actual( parser.readline() );
-	std::string( "store cat" ) == actual( parser.readline() );
+	parser.readline( parsed_line );
+	std::string( "" ) == actual( parsed_line );
+	parser.readline( parsed_line );
+	std::string( "store cat" ) == actual( parsed_line );
 }
 
