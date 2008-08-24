@@ -17,7 +17,7 @@
 #include <iostream>
 #include <list>
 #include <sstream>
-#include <time.h>
+#include <ctime>
 
 
 void run_load_1( int n )

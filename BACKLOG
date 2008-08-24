@@ -1,5 +1,8 @@
 configuration of shessiond
 
+make shession block on reading from sockets
+  so it doesn't chew up 99% cpu
+
 session expiration
 
 - mirrors aren't different than regular connections
