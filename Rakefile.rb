@@ -16,16 +16,19 @@ end
 
 directory "obj"
 
-inc = FileList[ 'src/*.h' ]
-src = FileList[ 'src/*.cpp' ]
-obj = src.sub( /\.cpp$/, '.o' )
+INC = FileList[ 'src/*.h' ]
+SRC = FileList[ 'src/*.cpp' ]
+OBJ = SRC.sub( /\.cpp$/, '.o' )
+INC.freeze
+SRC.freeze
+OBJ.freeze
 
 rule '.o' => ['.cpp'] do |t|
     sh %{gcc -c -o #{t.name} #{t.source}}
 end
 
 desc "Compile all source files into objects"
-task :compile => [ obj.to_a.join( " " ) ] do |t|
+task :compile => OBJ do |t|
     # sh "cc -o #{t.name} #{t.prequisites.join( ' ' )}"
 end
 
@@ -42,4 +45,6 @@ desc "Make and run tests"
 task :test => [ :build_test ] do |t|
     sh "./test_shession"
 end
+
+task :default => [ :compile ]
 
