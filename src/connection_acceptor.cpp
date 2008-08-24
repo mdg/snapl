@@ -14,6 +14,7 @@
  */
 
 
+#include "connection_acceptor.h"
 #include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -24,7 +25,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <iostream>
-#include "connection_acceptor.h"
+#include "connected_socket.h"
 
 
 connection_acceptor_c::connection_acceptor_c()
@@ -99,7 +100,7 @@ void connection_acceptor_c::close()
 	}
 }
 
-int connection_acceptor_c::connection()
+connection_i * connection_acceptor_c::connection()
 {
 	// sockaddr addr;
 	// socklen_t addr_len( sizeof(addr) );
@@ -129,6 +130,6 @@ int connection_acceptor_c::connection()
 
 	// set the socket as non-blocking before returning it
 	fcntl( sock, F_SETFL, O_NONBLOCK );
-	return sock;
+	return new connected_socket_c( sock );
 }
 
