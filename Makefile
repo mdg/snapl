@@ -1,6 +1,7 @@
 CC = g++
 INC_DIR = -Isrc
 
+INC += config_parser.h
 INC += connected_socket.h
 INC += connection.h
 INC += connection_acceptor.h
@@ -14,6 +15,7 @@ INC += shession_control.h
 
 TEST_INC += testpp.h
 
+SRC += config_parser.cpp
 SRC += connected_socket.cpp
 SRC += connection_acceptor.cpp
 SRC += line_parser.cpp
@@ -29,6 +31,7 @@ TEST_SRC += request_reader_test.cpp
 TEST_SRC += request_test.cpp
 TEST_SRC += testpp.cpp
 
+OBJ += config_parser.o
 OBJ += connected_socket.o
 OBJ += connection_acceptor.o
 OBJ += line_parser.o
