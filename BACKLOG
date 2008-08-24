@@ -1,7 +1,7 @@
-configuration of shessiond
-
 make shession block on reading from sockets
   so it doesn't chew up 99% cpu
+
+fix the Makefile to do minimal builds
 
 session expiration
 
