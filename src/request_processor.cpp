@@ -14,6 +14,7 @@
  */
 
 #include "request_processor.h"
+#include <iostream>
 #include "request.h"
 #include "request_reader.h"
 
@@ -49,8 +50,10 @@ void request_processor_c::process_create( const request_c &req )
 void request_processor_c::process_status( request_reader_c &reader
 		, const request_c &req )
 {
+	std::cerr << "begin process_status\n";
 	bool live( session_status( req.session_id() ) );
 	reader.write_response( live ? "live" : "dead" );
+	std::cerr << "end process_status\n";
 }
 
 

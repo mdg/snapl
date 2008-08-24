@@ -17,12 +17,13 @@
 #include <iostream>
 #include <list>
 #include <sstream>
+#include <ctime>
 
 
 void run_load( int n )
 {
 	shession_client_c client;
-	if ( ! client.open( "localhost", 9000 ) ) {
+	if ( ! client.open( "127.0.0.1", 9000 ) ) {
 		std::cerr << "Error connecting socket.\n";
 		return;
 	}
@@ -35,13 +36,18 @@ void run_load( int n )
 		sessions.push_back( s.str() );
 	}
 
-	// check sessions and then create them
+	std::cerr << "begin load test\n";
+	clock_t start_time( clock() );
 	std::list< std::string >::const_iterator it;
+
+	// check sessions and then create them
 	for ( it=sessions.begin(); it!=sessions.end(); ++it ) {
 		if ( client.live_session( *it ) ) {
 			std::cerr << "session is already live\n";
 		}
-		client.create_session( *it );
+		// client.create_session( *it );
+
+		std::cerr << "created session: " << *it << std::endl;
 	}
 
 	// check sessions now that they're there
@@ -49,18 +55,24 @@ void run_load( int n )
 		if ( ! client.live_session( *it ) ) {
 			std::cerr << "session isn't alive\n";
 		}
-		client.kill_session( *it );
+		// client.kill_session( *it );
 
 		if ( client.live_session( *it ) ) {
 			std::cerr << "session is still alive\n";
 		}
+
+		std::cerr << "killed session: " << *it << std::endl;
 	}
+
+	clock_t run_time( ( ( clock() - start_time ) * 1000 )
+			/ CLOCKS_PER_SEC );
+	std::cerr << n << " sessions in " << run_time << " milliseconds\n";
 }
 
 
 int main( int argc, char **argv )
 {
-	run_load( 100 );
+	run_load( 1000 );
 
 	return 0;
 }

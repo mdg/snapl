@@ -107,6 +107,7 @@ request_c * request_reader_c::create_request()
 void request_reader_c::write_response( const std::string &response )
 {
 	std::string formatted( response + "\n" );
+	std::cerr << "writing back to client: " << formatted;
 	write( m_connection, formatted.c_str(), formatted.length() );
 }
 
