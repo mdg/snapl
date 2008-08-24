@@ -14,6 +14,7 @@
  */
 
 #include "testpp.h"
+#include "connected_socket.h"
 #include "request.h"
 #include "request_processor.h"
 #include "request_reader.h"
@@ -23,7 +24,10 @@
 TESTPP( test_create_kill )
 {
 	request_processor_c proc;
-	request_reader_c reader( fileno( stdout ) );
+	connection_i *conn = NULL;
+	int fd( fileno( stdout ) );
+	conn = new connected_socket_c( fd );
+	request_reader_c reader( conn );
 
 	false == actual( proc.session_status( "dog" ) );
 

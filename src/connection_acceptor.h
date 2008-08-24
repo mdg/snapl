@@ -52,7 +52,7 @@ public:
 	 * Get an open connection from the listener.
 	 * @return 
 	 */
-	virtual int connection();
+	virtual connection_i * connection();
 
 private:
 	int m_port;

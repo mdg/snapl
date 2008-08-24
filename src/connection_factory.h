@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+class connection_i;
+
 
 /**
  * An abstract class that creates connections.
@@ -29,9 +31,9 @@ public:
 
 	/**
 	 * Get an open connection from the listener.
-	 * @return 
+	 * @return an instance of a connection_i.
 	 */
-	virtual int connection() = 0;
+	virtual connection_i * connection() = 0;
 };
 
 

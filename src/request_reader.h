@@ -32,7 +32,7 @@ public:
 	 * Construct a request reader object with a given
 	 * connection.
 	 */
-	request_reader_c( int connection );
+	request_reader_c( connection_i * );
 	/**
 	 * Destroy the request reader object.
 	 */

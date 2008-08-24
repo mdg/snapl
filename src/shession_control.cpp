@@ -47,7 +47,7 @@ void shession_control_c::accept_connections()
 {
 	// std::cerr << "begin accept_connections()\n";
 
-	int new_connection( m_connection_factory.connection() );
+	connection_i *new_connection( m_connection_factory.connection() );
 	while ( new_connection ) {
 		request_reader_c *reader;
 		reader = new request_reader_c( new_connection );

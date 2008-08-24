@@ -18,6 +18,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+#include "connected_socket.h"
 #include "request.h"
 #include "request_reader.h"
 
@@ -30,7 +31,9 @@ static request_reader_c * create_reader( const char *contents )
 	close( connection );
 	// std::cerr << connection_name << std::endl;
 	FILE *connection_file = fopen( connection_name, "r" );
-	return new request_reader_c( fileno( connection_file ) );
+	int fd( fileno( connection_file ) );
+	connection_i *conn = new connected_socket_c( fd );
+	return new request_reader_c( conn );
 }
 
 

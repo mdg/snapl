@@ -23,10 +23,9 @@
 #include "connected_socket.h"
 
 
-request_reader_c::request_reader_c( int connection )
+request_reader_c::request_reader_c( connection_i *connection )
+: m_connection( connection )
 {
-	connection_i *conn = new connected_socket_c( connection );
-	m_connection.reset( conn );
 }
 
 request_reader_c::~request_reader_c()
