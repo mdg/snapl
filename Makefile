@@ -12,6 +12,7 @@ INC += request_processor.h
 INC += request_reader.h
 INC += shession_client.h
 INC += shession_control.h
+INC += usage.h
 
 TEST_INC += testpp.h
 
@@ -24,6 +25,7 @@ SRC += request_processor.cpp
 SRC += request_reader.cpp
 SRC += shession_client.cpp
 SRC += shession_control.cpp
+SRC += usage.cpp
 
 TEST_SRC += config_parser_test.cpp
 TEST_SRC += line_parser_test.cpp
@@ -41,6 +43,7 @@ OBJ += request_processor.o
 OBJ += request_reader.o
 OBJ += shession_client.o
 OBJ += shession_control.o
+OBJ += usage.o
 
 TEST_OBJ += config_parser_test.o
 TEST_OBJ += line_parser_test.o

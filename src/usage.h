@@ -1,5 +1,5 @@
-#ifndef ARG_PARSER_H
-#define ARG_PARSER_H
+#ifndef USAGE_H
+#define USAGE_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-#include <map>
+#include <list>
 #include <string>
 
 
@@ -28,9 +28,9 @@ public:
 	/**
 	 * Construct an option with the given modes of selection.
 	 */
-	option_c( char short_opt, const char *long_opt
-			, bool param_expected
-			, const char *description );
+	usage_option_c( bool param_expected, char short_opt
+			, const std::string &long_option
+			, const std::string &description );
 
 	/**
 	 * Check if a param is expected for this option.
@@ -49,6 +49,7 @@ public:
 	 */
 	const std::string & description() const { return m_description; }
 
+
 	/**
 	 * Set this option without a parameter.
 	 */
@@ -57,6 +58,7 @@ public:
 	 * Set this option w/ the given parameter.
 	 */
 	void set( const std::string &param );
+
 
 	/**
 	 * Check if this option was set at the command line.
@@ -71,13 +73,18 @@ public:
 	 */
 	const std::string & param() const { return m_param; }
 
+
+	/**
+	 * Build a line of text documenting this option.
+	 */
+	std::string usage_doc() const;
 	/**
 	 * Check if there was a usage error for this option.
 	 */
 	bool usage_error() const { return m_usage_error; }
 
 private:
-	bool m_has_param;
+	bool m_param_expected;
 	char m_short_opt;
 	std::string m_long_opt;
 	std::string m_description;
@@ -91,30 +98,32 @@ private:
 /**
  * An argument parser class
  */
-class arg_parser_c
+class usage_c
 {
 public:
 	/**
 	 * Construct an empty arg parser
 	 */
-	arg_parser_c();
+	usage_c() {}
 
-	void add_option_flag( char short_opt, const char *long_opt
-			, const char *explanation );
-
-	void add_option_parameter( char short_opt, const char *long_opt
-			, const char *explanation );
+	/**
+	 * Add a usage option.
+	 */
+	void add( usage_option_c & );
 
 	/**
 	 * Parse a given set of args
+	 * @return true if the usage was parsed successfully
 	 */
-	void parse_args( int argc, char **argv );
+	bool parse_args( int argc, char **argv );
 
-protected:
-	virtual void set_flag( char flag ) = 0;
-	virtual void set_short_option( 
+	/**
+	 * Build a usage document for all options.
+	 */
+	std::string usage_doc() const;
 
 private:
+	std::list< usage_option_c * > m_option;
 };
 
 
