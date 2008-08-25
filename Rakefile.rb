@@ -27,20 +27,10 @@ rule '.o' => [
 end
 
 
-desc "Compile all source files into objects"
-task :compile => [ "obj" ] + OBJ do |t|
-    # sh "cc -o #{t.name} #{t.prequisites.join( ' ' )}"
-end
-
 file "shessiond" => [ :compile ] do |t|
     sh "g++ -o shessiond #{OBJ}"
 end
 
-
-desc "Compile all test files into objects"
-task :compile_test => TEST_OBJ do |t|
-    # sh "cc -o #{t.name} #{t.prequisites.join( ' ' )}"
-end
 
 file "test_shessiond" => [ :compile, :compile_test ] do |t|
     sh "gcc -o test_shessiond #{OBJ} #{TEST_OBJ}"
@@ -51,14 +41,22 @@ end
 task :default => [ :compile ]
 
 
+desc "Compile all source files into objects"
+task :compile => [ "obj" ] + OBJ
+
+desc "Compile all test files into objects"
+task :compile_test => TEST_OBJ
+
+
 desc "Build the main executable"
 task :build => [ "shessiond" ]
 
 desc "Build the test executable"
-task :build_test => [ "test_shession" ]
+task :build_test => [ "test_shessiond" ]
 
 
 desc "Make and run tests"
 task :test => [ :build_test ] do |t|
     sh "./test_shession"
 end
+
