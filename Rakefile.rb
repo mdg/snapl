@@ -13,6 +13,7 @@ SRC.freeze
 OBJ.freeze
 TEST_INC = FileList[ 'test/*.h' ]
 TEST_SRC = FileList[ 'test/*.cpp' ]
+TEST_SRC.exclude( 'testpp_test.cpp' )
 TEST_OBJ = TEST_SRC.sub( /\.cpp$/, '.o' )
 TEST_INC.freeze
 TEST_SRC.freeze
@@ -20,6 +21,9 @@ TEST_OBJ.freeze
 
 
 # rule '.o' => ['.cpp'] do |t|
+    # sh %{g++ -c -g -Isrc -o #{t.name} #{t.source}}
+# end
+
 rule '.o' => [
     proc { |tn| tn.sub(/\.o$/,'.cpp').sub(/^obj\//, 'src/') }
 ] do |t|
@@ -33,7 +37,9 @@ end
 
 
 file "test_shessiond" => [ :compile, :compile_test ] do |t|
-    sh "gcc -o test_shessiond #{OBJ} #{TEST_OBJ}"
+    no_main_obj = OBJ.clone
+    no_main_obj.exclude( 'main.o' )
+    sh "g++ -o test_shessiond #{no_main_obj} #{TEST_OBJ}"
 end
 
 
