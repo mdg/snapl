@@ -1,9 +1,15 @@
 make shession block on reading from sockets
-  so it doesn't chew up 99% cpu
+	so it doesn't chew up 99% cpu
+	monitor socket for checking stats and controlling operation
+	monitor socket runs on a different port
 
-load configuration files
+rename connection.read/write to read_line/write_line
+	overlap with ::read ::write is annoying
 
-session expiration
+session store object
+	includes session expiration
+
+password protection
 
 - mirrors aren't different than regular connections
 mirror protocol v1
@@ -12,6 +18,8 @@ mirror connections accepted
 document shessiond/memcached difference
 document shessiond
 
+encryption/SSL?
+
 - scaling/optimizing
-threading
+threading?  load testing suggests this may not be necessary initially
 
