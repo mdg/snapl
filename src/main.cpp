@@ -16,10 +16,14 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <fstream>
+#include "config_parser.h"
 #include "connection_acceptor.h"
 #include "request_processor.h"
 #include "shession_control.h"
 #include "usage.h"
+
+static const int DEFAULT_TIMEOUT( 20 );
 
 
 int main( int argc, const char **argv )
@@ -32,6 +36,15 @@ int main( int argc, const char **argv )
 	if ( ! usage.parse_args( argc, argv ) ) {
 		usage.write_usage_doc( std::cout );
 		return -1;
+	}
+
+	std::ifstream config_file( ".shessiond" );
+	config_parser_c config( config_file );
+	config.parse_input();
+
+	int session_timeout( DEFAULT_TIMEOUT );
+	if ( config.configured( "session_timeout" ) ) {
+		config.value( "session_timeout" );
 	}
 
 	connection_acceptor_c acceptor;
