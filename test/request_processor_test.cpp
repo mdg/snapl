@@ -21,6 +21,9 @@
 #include <stdio.h>
 
 
+/**
+ * Test that creating and killing a session works as expected.
+ */
 TESTPP( test_create_kill )
 {
 	request_processor_c proc;
