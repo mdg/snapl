@@ -49,7 +49,13 @@ public:
 	bool execute();
 
 private:
+	/**
+	 * accept any incoming connections.
+	 */
 	void accept_connections();
+	/**
+	 * process requests.
+	 */
 	void process_requests();
 
 	connection_factory_i &m_connection_factory;

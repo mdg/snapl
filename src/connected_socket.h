@@ -20,7 +20,8 @@
 
 
 /**
- * An interface to handle connections and parsing their input.
+ * A network socket connection object to handle
+ * connections and their input and output.
  */
 class connected_socket_c
 : public connection_i

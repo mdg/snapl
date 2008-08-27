@@ -16,6 +16,9 @@
  */
 
 
+/**
+ * An enumeration of the possible types of requests.
+ */
 enum request_type_e
 {	RT_NULL
 ,	RT_CREATE_SESSION

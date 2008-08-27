@@ -26,6 +26,9 @@ class connection_i;
 class shession_client_i
 {
 public:
+	/**
+	 * Destroy the implemented session client object.
+	 */
 	virtual ~shession_client_i() {}
 
 	/**
@@ -53,7 +56,14 @@ class shession_client_c
 : public shession_client_i
 {
 public:
+	/**
+	 * Construct the shession_client object.
+	 * Need to modify this so it takes a connection_i parameter.
+	 */
 	shession_client_c();
+	/**
+	 * Destory the implemented session_client object.
+	 */
 	virtual ~shession_client_c();
 
 	/**
@@ -65,13 +75,27 @@ public:
 	 */
 	void close();
 
+	/**
+	 * Send a create_session request for the given session_id.
+	 */
 	virtual void create_session( const std::string &session_id );
+	/**
+	 * Send a live_session request for the given session_id
+	 */
 	virtual bool live_session( const std::string &session_id );
+	/**
+	 * Send a kill_session request for the given session_id
+	 */
 	virtual void kill_session( const std::string &session_id );
 
 private:
+	/**
+	 * Write a request to the connection.
+	 */
 	void write_request( const std::string &request_type
 			, const std::string &session_id );
+	// need to modify this so it can be passed in,
+	// not created internally
 	std::auto_ptr< connection_i > m_connection;
 };
 

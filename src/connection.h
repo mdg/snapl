@@ -24,6 +24,9 @@
 class connection_i
 {
 public:
+	/**
+	 * Virtual destroyer of the connection
+	 */
 	virtual ~connection_i() {}
 
 	/**

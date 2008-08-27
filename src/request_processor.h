@@ -23,6 +23,11 @@
 class request_c;
 class request_reader_c;
 
+
+/**
+ * An object that processes requests.  Probably needs to
+ * be rewritten and reshaped at some point.
+ */
 class request_processor_c
 {
 public:
@@ -31,11 +36,23 @@ public:
 	 */
 	void process( request_reader_c &, const request_c & );
 
+	/**
+	 * Check if this session is live
+	 */
 	bool session_status( const std::string &session_id ) const;
 
 private:
+	/**
+	 * Process a create request.
+	 */
 	void process_create( const request_c & );
+	/**
+	 * Process a status request.
+	 */
 	void process_status( request_reader_c &, const request_c & );
+	/**
+	 * Process a kill request.
+	 */
 	void process_kill( const request_c & );
 
 	std::set< std::string > m_session;

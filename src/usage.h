@@ -25,6 +25,9 @@
 class usage_option_c
 {
 public:
+	/**
+	 * List of usage option objects.
+	 */
 	typedef std::list< usage_option_c * > list;
 
 public:
@@ -126,7 +129,13 @@ public:
 	void write_usage_doc( std::ostream & ) const;
 
 private:
+	/**
+	 * search for an option given a short style character
+	 */
 	usage_option_c * find_short_option( char short_opt );
+	/**
+	 * search for an option given a long style string
+	 */
 	usage_option_c * find_long_option( const std::string &long_opt );
 
 	usage_option_c::list m_option;
