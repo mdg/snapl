@@ -19,6 +19,9 @@
 #include "config_parser.h"
 
 
+/**
+ * Test the most basic, default case of a config file.
+ */
 TESTPP( test_easy_format )
 {
 	const char str_input[] =
@@ -36,6 +39,9 @@ TESTPP( test_easy_format )
 	std::string( "dog" ) == actual( parser.value( "split" ) );
 }
 
+/**
+ * Test that it still works with windows line endings.
+ */
 TESTPP( test_crlf )
 {
 	const char str_input[] =
