@@ -19,6 +19,9 @@
 #include "line_parser.h"
 
 
+/**
+ * Test that the line parser correctly parses a single line.
+ */
 TESTPP( test_single_line )
 {
 	line_parser_c parser;
@@ -29,6 +32,9 @@ TESTPP( test_single_line )
 }
 
 
+/**
+ * Test that it works for multiple lines.
+ */
 TESTPP( test_multiline )
 {
 	line_parser_c parser;
@@ -41,6 +47,11 @@ TESTPP( test_multiline )
 }
 
 
+/**
+ * Test that the line parser correctly handles an incomplete
+ * second line.  It should return nothing until it gets a full
+ * line.
+ */
 TESTPP( test_incomplete )
 {
 	std::string parsed_line;
