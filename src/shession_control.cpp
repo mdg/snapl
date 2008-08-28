@@ -33,11 +33,17 @@ shession_control_c::~shession_control_c()
 {
 }
 
-bool shession_control_c::execute()
+bool shession_control_c::main_loop()
 {
+	std::string line;
+	request_c *req = 0;
 	for (;;) {
-		accept_connections();
-		process_requests();
+		connection_i &conn( get_ready_connection() );
+		conn.read( line );
+		req = m_reader.create_request( line );
+		if ( req ) {
+			process_request( *req, conn );
+		}
 	}
 
 	return true;

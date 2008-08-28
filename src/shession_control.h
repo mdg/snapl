@@ -46,7 +46,7 @@ public:
 	 * Start the shession
 	 * This isn't a threaded solution.
 	 */
-	bool execute();
+	bool main_loop();
 
 private:
 	void accept_connections();

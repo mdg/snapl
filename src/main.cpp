@@ -58,7 +58,7 @@ int main( int argc, const char **argv )
 	}
 
 	shession_control_c control( acceptor, processor );
-	control.execute();
+	control.main_loop();
 	return 0;
 }
 
