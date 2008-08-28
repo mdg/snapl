@@ -23,8 +23,9 @@
 
 
 shession_control_c::shession_control_c( connection_factory_i &conn_fact
-	       , request_processor_c &processor )
+	       , request_reader_c &reader, request_processor_c &processor )
 : m_connection_factory( conn_fact )
+, m_reader( reader )
 , m_processor( processor )
 {
 }
@@ -35,62 +36,28 @@ shession_control_c::~shession_control_c()
 
 bool shession_control_c::main_loop()
 {
-	std::string line;
-	request_c *req = 0;
+	bool success( false );
 	for (;;) {
-		connection_i &conn( get_ready_connection() );
-		conn.read( line );
-		req = m_reader.create_request( line );
+		success = iterate();
+	}
+
+	return success;
+}
+
+bool shession_control_c::iterate()
+{
+	bool success( false );
+	for (;;) {
+		request_c *req = 0;
+
+		connection_i *conn = m_connection_factory.connection();
+		if ( conn ) {
+			req = m_reader.create_request( *conn );
+		}
 		if ( req ) {
-			process_request( *req, conn );
+			m_processor.process( *req, *conn );
 		}
 	}
-
-	return true;
-}
-
-void shession_control_c::accept_connections()
-{
-	// std::cerr << "begin accept_connections()\n";
-
-	connection_i *new_connection( m_connection_factory.connection() );
-	while ( new_connection ) {
-		request_reader_c *reader;
-		reader = new request_reader_c( new_connection );
-		m_reader.push_back( reader );
-
-		new_connection = m_connection_factory.connection();
-	}
-}
-
-void shession_control_c::process_requests()
-{
-	// std::cerr << "begin process_requests()\n";
-
-	std::list< request_reader_c * >::iterator it( m_reader.begin() );
-	request_reader_c *reader = 0;
-	for ( ; it!=m_reader.end(); ++it ) {
-		reader = *it;
-		// delete any readers that are no longer connected
-		while ( reader && ! reader->connected() ) {
-			it = m_reader.erase( it );
-			if ( it == m_reader.end() ) {
-				reader = 0;
-			} else {
-				reader = *it;
-			}
-		}
-
-		if ( reader ) {
-			request_c *req = reader->create_request();
-			if ( req ) {
-				m_processor.process( *reader, *req );
-				delete req;
-			}
-			req = 0;
-		}
-	}
-
-	// std::cerr << "end process_requests()\n";
+	return success;
 }
 

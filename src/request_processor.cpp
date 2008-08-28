@@ -47,12 +47,12 @@ void request_processor_c::process_create( const request_c &req )
 }
 
 
-void request_processor_c::process_status( request_reader_c &reader
-		, const request_c &req )
+void request_processor_c::process_status( const request_c &req,
+		, connection_i &conn )
 {
 	// std::cerr << "begin process_status\n";
 	bool live( session_status( req.session_id() ) );
-	reader.write_response( live ? "live" : "dead" );
+	conn.write( live ? "live" : "dead" );
 	// std::cerr << "end process_status\n";
 }
 

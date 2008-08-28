@@ -19,6 +19,7 @@
 #include <fstream>
 #include "config_parser.h"
 #include "connection_acceptor.h"
+#include "request_reader.h"
 #include "request_processor.h"
 #include "shession_control.h"
 #include "usage.h"
@@ -48,6 +49,7 @@ int main( int argc, const char **argv )
 	}
 
 	connection_acceptor_c acceptor;
+	request_reader_c reader;
 	request_processor_c processor;
 	int port( 9000 ); // make this configurable obviously
 
@@ -57,7 +59,7 @@ int main( int argc, const char **argv )
 		return 1;
 	}
 
-	shession_control_c control( acceptor, processor );
+	shession_control_c control( acceptor, reader, processor );
 	control.main_loop();
 	return 0;
 }
