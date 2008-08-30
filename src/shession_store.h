@@ -47,8 +47,16 @@ public:
 
 	/**
 	 * Check if any sessions are expired and kill them.
+	 * @return the number of sessions killed
 	 */
-	virtual void kill_expired() = 0;
+	virtual int kill_expired() = 0;
+
+	/**
+	 * Check the total number of sessions in the store.
+	 * This count may include session that have already
+	 * expired but are still in the store.
+	 */
+	virtual int size() const = 0;
 };
 
 
@@ -60,7 +68,30 @@ public:
 class shession_store_c
 {
 public:
-	shession_store_c( int timeout );
+	/**
+	 * Timer class built to allow mocking for testing purposes.
+	 */
+	class timer_c
+	{
+	public:
+		virtual ~timer_c() {}
+		virtual time_t operator () () const { return time( NULL ); }
+	};
+
+public:
+	/**
+	 * Construct a session_store object.
+	 */
+	shession_store_c( int timeout_seconds );
+	/**
+	 * Destructor for the session_store object.
+	 */
+	~shession_store_c();
+	/**
+	 * Set the timer this store should use.
+	 * This shouldn't need to be called outside of testing.
+	 */
+	void set_timer( timer_c & );
 
 	/**
 	 * Create a session for the given session_id.
@@ -79,10 +110,18 @@ public:
 
 	/**
 	 * Check if any sessions are expired and kill them.
+	 * @return the number of sessions killed
 	 */
-	virtual void kill_expired();
+	virtual int kill_expired();
+
+	/**
+	 * Check the total number of sessions in the store.
+	 */
+	virtual int size() const;
 
 private:
+	timer_c m_default_timer;
+	timer_c *m_timer;
 	int m_timeout; // in seconds
 	std::map< std::string, time_t > m_store;
 };
