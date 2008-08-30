@@ -37,7 +37,7 @@ public:
 
 private:
 	void process_create( const request_c & );
-	void process_status( request_reader_c &, const request_c & );
+	void process_status( const request_c &, connection_i & );
 	void process_kill( const request_c & );
 
 	std::set< std::string > m_session;
