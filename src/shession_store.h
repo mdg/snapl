@@ -83,7 +83,7 @@ public:
 	virtual void kill_expired();
 
 private:
-	int m_timeout;
+	int m_timeout; // in seconds
 	std::map< std::string, time_t > m_store;
 };
 
