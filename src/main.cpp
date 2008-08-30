@@ -25,6 +25,7 @@
 #include "usage.h"
 
 static const int DEFAULT_TIMEOUT( 20 );
+static const int DEFAULT_PORT( 9000 );
 
 
 int main( int argc, const char **argv )
@@ -39,19 +40,27 @@ int main( int argc, const char **argv )
 		return -1;
 	}
 
-	std::ifstream config_file( ".shessiond" );
-	config_parser_c config( config_file );
-	config.parse_input();
-
+	// default options
 	int session_timeout( DEFAULT_TIMEOUT );
-	if ( config.configured( "session_timeout" ) ) {
-		config.value( "session_timeout" );
+	int port( DEFAULT_PORT );
+	// parse the config file
+	std::ifstream config_file( "shessiond.conf" );
+	if ( config_file.is_open() ) {
+		config_parser_c config( config_file );
+		config.parse_input();
+
+		if ( config.configured( "session-timeout" ) ) {
+			session_timeout = config.int_value( "session-timeout" );
+		}
+
+		if ( config.configured( "port" ) ) {
+			port = config.int_value( "port" );
+		}
 	}
 
 	connection_acceptor_c acceptor;
 	request_reader_c reader;
 	request_processor_c processor;
-	int port( 9000 ); // make this configurable obviously
 
 	bool accept_err( acceptor.open( port ) );
 	if ( ! accept_err ) {

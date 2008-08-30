@@ -41,9 +41,14 @@ public:
 	bool configured( const std::string &key ) const;
 
 	/**
-	 * Get a configured value for a given key.
+	 * Get a configured string value for a given key.
 	 */
-	const std::string & value( const std::string &key ) const;
+	const std::string & str_value( const std::string &key ) const;
+
+	/**
+	 * Get a configured int value for a given key.
+	 */
+	int int_value( const std::string &key ) const;
 
 private:
 	std::istream &m_input;
