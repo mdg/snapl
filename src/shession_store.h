@@ -15,6 +15,9 @@
  * limitations under the License.
  */
 
+#include <string>
+#include <map>
+
 
 /**
  * Abstract shession_store interface.
@@ -33,12 +36,55 @@ public:
 	virtual void create_session( const std::string &session_id ) = 0;
 	/**
 	 * Check if the given session_id is live.
+	 * Renew the session if it exists.
+	 * @return true if it is still alive.
 	 */
-	virtual bool live_session( const std::string &session_id ) const = 0;
+	virtual bool renew_session( const std::string &session_id ) = 0;
 	/**
 	 * Kill the given session if it exists.
 	 */
 	virtual void kill_session( const std::string &ession_id ) = 0;
+
+	/**
+	 * Check if any sessions are expired and kill them.
+	 */
+	virtual void kill_expired() = 0;
+};
+
+
+/**
+ * Implementing class for the shession_store interface.
+ * This might need to be renamed and put in a different file
+ * at some point.  For now it will live here.
+ */
+class shession_store_c
+{
+public:
+	shession_store_c( int timeout );
+
+	/**
+	 * Create a session for the given session_id.
+	 */
+	virtual void create_session( const std::string &session_id );
+	/**
+	 * Check if the given session_id is live.
+	 * Renew the session if it exists.
+	 * @return true if it is still alive.
+	 */
+	virtual bool renew_session( const std::string &session_id );
+	/**
+	 * Kill the given session if it exists.
+	 */
+	virtual void kill_session( const std::string &ession_id );
+
+	/**
+	 * Check if any sessions are expired and kill them.
+	 */
+	virtual void kill_expired();
+
+private:
+	int m_timeout;
+	std::map< std::string, time_t > m_store;
 };
 
 
