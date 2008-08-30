@@ -51,7 +51,7 @@ private:
 	/**
 	 * Process a status request.
 	 */
-	void process_status( request_reader_c &, const request_c & );
+	void process_status( const request_c &, connection_i & );
 	/**
 	 * Process a kill request.
 	 */
