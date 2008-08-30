@@ -52,7 +52,7 @@ void request_processor_c::process_status( const request_c &req
 {
 	// std::cerr << "begin process_status\n";
 	bool live( session_status( req.session_id() ) );
-	conn.write( live ? "live" : "dead" );
+	conn.write_line( live ? "live" : "dead" );
 	// std::cerr << "end process_status\n";
 }
 

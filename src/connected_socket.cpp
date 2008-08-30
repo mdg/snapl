@@ -30,7 +30,7 @@ connected_socket_c::~connected_socket_c()
 }
 
 
-void connected_socket_c::read( std::string &line )
+void connected_socket_c::read_line( std::string &line )
 {
 	line.erase();
 
@@ -50,7 +50,7 @@ void connected_socket_c::read( std::string &line )
 	m_line_parser.readline( line );
 }
 
-void connected_socket_c::write( const std::string &line )
+void connected_socket_c::write_line( const std::string &line )
 {
 	std::string formatted( line + "\n" );
 	::write( m_socket, formatted.c_str(), formatted.length() );

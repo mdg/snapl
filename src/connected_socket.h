@@ -37,12 +37,12 @@ public:
 	/**
 	 * Read a line of input from this connection.
 	 */
-	virtual void read( std::string& );
+	virtual void read_line( std::string& );
 
 	/**
 	 * Write a string back to the connection.
 	 */
-	virtual void write( const std::string & );
+	virtual void write_line( const std::string & );
 
 private:
 	int m_socket;

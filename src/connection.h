@@ -32,12 +32,12 @@ public:
 	/**
 	 * Read a line of input from this connection.
 	 */
-	virtual void read( std::string& ) = 0;
+	virtual void read_line( std::string& ) = 0;
 
 	/**
 	 * Write a string back to the connection.
 	 */
-	virtual void write( const std::string & ) = 0;
+	virtual void write_line( const std::string & ) = 0;
 };
 
 

@@ -35,7 +35,7 @@ request_reader_c::~request_reader_c()
 request_c * request_reader_c::create_request( connection_i &conn )
 {
 	std::string request_line;
-	conn.read( request_line );
+	conn.read_line( request_line );
 	if ( request_line.empty() ) {
 		// no input here
 		return NULL;
@@ -64,7 +64,7 @@ request_c * request_reader_c::create_request( connection_i &conn )
 		stream >> token_name;
 		req->set_token_name( token_name );
 		std::string token_value;
-		conn.read( token_value );
+		conn.read_line( token_value );
 		req->set_token_value( token_value );
 	} else if ( req_type == RT_REQUEST_TOKEN ) {
 		stream >> token_name;
