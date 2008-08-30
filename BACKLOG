@@ -3,11 +3,8 @@ make shession block on reading from sockets
 	monitor socket for checking stats and controlling operation
 	monitor socket runs on a different port
 
-rename connection.read/write to read_line/write_line
-	overlap with ::read ::write is annoying
-
-fix config parsing to initialize with possible values
-	before parsing
+fix config parsing to initialize with possible values before parsing
+	it currently fails wrong when a non-int is requested as an int
 
 session store object
 	includes session expiration
