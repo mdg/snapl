@@ -20,8 +20,8 @@
 #include <string>
 
 
+class connection_i;
 class request_c;
-class request_reader_c;
 
 
 /**
@@ -33,8 +33,10 @@ class request_processor_c
 public:
 	/**
 	 * Process a request
+	 * This should take a response_c object instead of
+	 * a connection.
 	 */
-	void process( request_reader_c &, const request_c & );
+	void process( const request_c &, connection_i & );
 
 	/**
 	 * Check if this session is live

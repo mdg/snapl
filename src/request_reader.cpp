@@ -23,33 +23,19 @@
 #include "connected_socket.h"
 
 
-request_reader_c::request_reader_c( connection_i *connection )
-: m_connection( connection )
+request_reader_c::request_reader_c()
 {
 }
 
 request_reader_c::~request_reader_c()
 {
-	close();
 }
 
 
-void request_reader_c::close()
-{
-	m_connection.reset();
-}
-
-int request_reader_c::release_connection()
-{
-	m_connection.reset();
-	return 0;
-}
-
-
-request_c * request_reader_c::create_request()
+request_c * request_reader_c::create_request( connection_i &conn )
 {
 	std::string request_line;
-	m_connection->read( request_line );
+	conn.read( request_line );
 	if ( request_line.empty() ) {
 		// no input here
 		return NULL;
@@ -69,7 +55,7 @@ request_c * request_reader_c::create_request()
 	// check if this is a close request
 	if ( req_type == RT_CLOSE ) {
 		std::cerr << "close!\n";
-		close();
+		// close();
 		return NULL;
 	} else if ( req_type == RT_NULL ) {
 		// do nothing here.  return it with an RT_NULL for now.
@@ -78,7 +64,7 @@ request_c * request_reader_c::create_request()
 		stream >> token_name;
 		req->set_token_name( token_name );
 		std::string token_value;
-		m_connection->read( token_value );
+		conn.read( token_value );
 		req->set_token_value( token_value );
 	} else if ( req_type == RT_REQUEST_TOKEN ) {
 		stream >> token_name;
@@ -86,11 +72,6 @@ request_c * request_reader_c::create_request()
 	}
 
 	return req;
-}
-
-void request_reader_c::write_response( const std::string &response )
-{
-	m_connection->write( response );
 }
 
 request_type_e request_reader_c::get_request_type( const std::string& req_type )

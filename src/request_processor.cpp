@@ -15,19 +15,19 @@
 
 #include "request_processor.h"
 #include <iostream>
+#include "connection.h"
 #include "request.h"
-#include "request_reader.h"
 
 
-void request_processor_c::process( request_reader_c &reader
-		, const request_c &req )
+void request_processor_c::process( const request_c &req
+		, connection_i &conn )
 {
 	switch ( req.request_type() ) {
 		case RT_CREATE_SESSION:
 			process_create( req );
 			break;
 		case RT_SESSION_STATUS:
-			process_status( reader, req );
+			process_status( req, conn );
 			break;
 		case RT_KILL_SESSION:
 			process_kill( req );
@@ -47,12 +47,12 @@ void request_processor_c::process_create( const request_c &req )
 }
 
 
-void request_processor_c::process_status( request_reader_c &reader
-		, const request_c &req )
+void request_processor_c::process_status( const request_c &req
+		, connection_i &conn )
 {
 	// std::cerr << "begin process_status\n";
 	bool live( session_status( req.session_id() ) );
-	reader.write_response( live ? "live" : "dead" );
+	conn.write( live ? "live" : "dead" );
 	// std::cerr << "end process_status\n";
 }
 

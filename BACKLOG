@@ -6,6 +6,9 @@ make shession block on reading from sockets
 rename connection.read/write to read_line/write_line
 	overlap with ::read ::write is annoying
 
+fix config parsing to initialize with possible values
+	before parsing
+
 session store object
 	includes session expiration
 

@@ -25,15 +25,25 @@ config_parser_c::config_parser_c( std::istream &input )
 void config_parser_c::parse_input()
 {
 	std::string line;
+	std::string key_chunk;
+	std::string value_chunk;
 	std::string key;
 	std::string value;
 
 	while ( ! m_input.eof() ) {
+		// separate the line into chunks broken by the first '='
 		getline( m_input, line );
 		std::istringstream line_parser( line );
 
-		getline( line_parser, key, '=' );
-		getline( line_parser, value );
+		getline( line_parser, key_chunk, '=' );
+		getline( line_parser, value_chunk );
+
+		// parse the key and values out of the chunks
+		std::istringstream key_parser( key_chunk );
+		std::istringstream value_parser( value_chunk );
+
+		key_parser >> key;
+		value_parser >> value;
 
 		if ( ! ( key.empty() || value.empty() ) ) {
 			if ( value[ value.length() - 1 ] == '\r' ) {
@@ -50,7 +60,7 @@ bool config_parser_c::configured( const std::string &key ) const
 	return m_config.find( key ) != m_config.end();
 }
 
-const std::string & config_parser_c::value( const std::string &key ) const
+const std::string & config_parser_c::str_value( const std::string &key ) const
 {
 	std::map< std::string, std::string >::const_iterator it;
 	it = m_config.find( key );
@@ -58,5 +68,14 @@ const std::string & config_parser_c::value( const std::string &key ) const
 		return m_empty_value;
 	}
 	return it->second;
+}
+
+int config_parser_c::int_value( const std::string &key ) const
+{
+	std::string str_val( str_value( key ) );
+	std::istringstream parser( str_val );
+	int value( 0 );
+	parser >> value;
+	return value;
 }
 

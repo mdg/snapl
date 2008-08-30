@@ -36,7 +36,8 @@ public:
 	 * Construct the shession control
 	 * object.
 	 */
-	shession_control_c( connection_factory_i &, request_processor_c & );
+	shession_control_c( connection_factory_i &, request_reader_c &
+			, request_processor_c & );
 	/**
 	 * Destroy the shession_control_c
 	 */
@@ -46,21 +47,16 @@ public:
 	 * Start the shession
 	 * This isn't a threaded solution.
 	 */
-	bool execute();
+	bool main_loop();
+	/**
+	 * Run one iteration of the main loop.
+	 */
+	bool iterate();
 
 private:
-	/**
-	 * accept any incoming connections.
-	 */
-	void accept_connections();
-	/**
-	 * process requests.
-	 */
-	void process_requests();
-
 	connection_factory_i &m_connection_factory;
+	request_reader_c & m_reader;
 	request_processor_c &m_processor;
-	std::list< request_reader_c * > m_reader;
 };
 
 
