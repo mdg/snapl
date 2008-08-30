@@ -72,8 +72,9 @@ const std::string & config_parser_c::str_value( const std::string &key ) const
 
 int config_parser_c::int_value( const std::string &key ) const
 {
-	std::istringstream parser( str_value( key ) );
-	int value;
+	std::string str_val( str_value( key ) );
+	std::istringstream parser( str_val );
+	int value( 0 );
 	parser >> value;
 	return value;
 }

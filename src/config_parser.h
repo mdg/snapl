@@ -47,6 +47,8 @@ public:
 
 	/**
 	 * Get a configured int value for a given key.
+	 * Returns 0 if the value is not a valid number.
+	 * This is lame and needs to be fixed.
 	 */
 	int int_value( const std::string &key ) const;
 
