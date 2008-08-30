@@ -17,7 +17,6 @@
 #include "connected_socket.h"
 #include "request.h"
 #include "request_processor.h"
-#include "request_reader.h"
 #include <stdio.h>
 
 
@@ -27,16 +26,15 @@ TESTPP( test_create_kill )
 	connection_i *conn = NULL;
 	int fd( fileno( stdout ) );
 	conn = new connected_socket_c( fd );
-	request_reader_c reader( conn );
 
 	false == actual( proc.session_status( "dog" ) );
 
 	request_c create_req( RT_CREATE_SESSION, "dog" );
-	proc.process( reader, create_req );
+	proc.process( create_req, *conn );
 	true == actual( proc.session_status( "dog" ) );
 
 	request_c kill_req( RT_KILL_SESSION, "dog" );
-	proc.process( reader, kill_req );
+	proc.process( kill_req, *conn );
 	false == actual( proc.session_status( "dog" ) );
 }
 
