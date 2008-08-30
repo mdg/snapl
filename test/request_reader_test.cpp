@@ -23,6 +23,9 @@
 #include "request_reader.h"
 
 
+/**
+ * Create a mocked connection that contains the given contents.
+ */
 static connection_i * create_connection( const char *contents )
 {
 	char connection_name[] = "/tmp/request_reader_test_XXXXXX";
@@ -36,6 +39,9 @@ static connection_i * create_connection( const char *contents )
 }
 
 
+/**
+ * Test that reading by line works.
+ */
 TESTPP( test_readline )
 {
 	const char *test_data = "status dog\n";
@@ -50,6 +56,10 @@ TESTPP( test_readline )
 }
 
 
+/**
+ * Test that lines are correctly split between lines and there's
+ * no overlap.
+ */
 TESTPP( test_multiline )
 {
 	const char *test_data = "status dog\n" \
@@ -67,6 +77,10 @@ TESTPP( test_multiline )
 }
 
 
+/**
+ * Test that the request_reader doesn't create requests based on partial
+ * lines that aren't completed with the newline.
+ */
 TESTPP( test_incomplete )
 {
 	// this is a bad request type
@@ -80,7 +94,10 @@ TESTPP( test_incomplete )
 }
 
 
-
+/**
+ * Test that the invalid request_type doesn't make things freak out
+ * and gives useful info to determine that.
+ */ 
 TESTPP( test_bad_request )
 {
 	// this is a bad request type

@@ -19,6 +19,10 @@
 #include "request_type.h"
 
 
+/**
+ * Test that the constructor works and the parameters are
+ * set correctly and can be requested again.
+ */
 TESTPP( test_constructor_1 )
 {
 	request_c req( RT_SESSION_STATUS, "dog" );
@@ -26,6 +30,10 @@ TESTPP( test_constructor_1 )
 	std::string( "dog" ) == actual( req.session_id() );
 }
 
+/**
+ * Test the constructor and simple getters again, slightly
+ * differently.  This test is probably not necessary.
+ */
 TESTPP( test_constructor_2 )
 {
 	request_c req( RT_CREATE_SESSION, "cat" );
@@ -33,6 +41,9 @@ TESTPP( test_constructor_2 )
 	std::string( "cat" ) == actual( req.session_id() );
 }
 
+/**
+ * test that token values are set correctly in the request object.
+ */
 TESTPP( test_tokens )
 {
 	request_c req( RT_SESSION_STATUS, "dog" );

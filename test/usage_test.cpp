@@ -18,6 +18,9 @@
 #include <sstream>
 
 
+/**
+ * Test that the short style command line usage works.
+ */
 TESTPP( test_short_usage )
 {
 	usage_c usage;
@@ -32,6 +35,9 @@ TESTPP( test_short_usage )
 	true == actual( debug.is_set() );
 }
 
+/**
+ * Test that the long style command line usage works.
+ */
 TESTPP( test_long_usage )
 {
 	usage_c usage;
@@ -46,6 +52,9 @@ TESTPP( test_long_usage )
 	true == actual( debug.is_set() );
 }
 
+/**
+ * Test that option document creation works and formats properly.
+ */
 TESTPP( test_option_doc )
 {
 	usage_option_c debug( false, 'g', "debug", "Write debugging logging." );
