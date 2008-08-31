@@ -17,6 +17,12 @@
 #include <iostream>
 #include "connection.h"
 #include "request.h"
+#include "shession_store.h"
+
+
+request_processor_c::request_processor_c( shession_store_i &store )
+: m_store( store )
+{}
 
 
 void request_processor_c::process( const request_c &req
@@ -37,13 +43,12 @@ void request_processor_c::process( const request_c &req
 
 bool request_processor_c::session_status( const std::string &session_id ) const
 {
-	return m_session.find( session_id ) != m_session.end();
+	return m_store.live_session( session_id );
 }
-
 
 void request_processor_c::process_create( const request_c &req )
 {
-	m_session.insert( req.session_id() );
+	m_store.create_session( req.session_id() );
 }
 
 
@@ -51,7 +56,7 @@ void request_processor_c::process_status( const request_c &req
 		, connection_i &conn )
 {
 	// std::cerr << "begin process_status\n";
-	bool live( session_status( req.session_id() ) );
+	bool live( m_store.renew_session( req.session_id() ) );
 	conn.write_line( live ? "live" : "dead" );
 	// std::cerr << "end process_status\n";
 }
@@ -59,6 +64,6 @@ void request_processor_c::process_status( const request_c &req
 
 void request_processor_c::process_kill( const request_c &req )
 {
-	m_session.erase( req.session_id() );
+	m_store.kill_session( req.session_id() );
 }
 

@@ -17,6 +17,7 @@
 #include "connected_socket.h"
 #include "request.h"
 #include "request_processor.h"
+#include "shession_store.h"
 #include <stdio.h>
 
 
@@ -25,7 +26,8 @@
  */
 TESTPP( test_create_kill )
 {
-	request_processor_c proc;
+	shession_store_c store( 180 );
+	request_processor_c proc( store );
 	connection_i *conn = NULL;
 	int fd( fileno( stdout ) );
 	conn = new connected_socket_c( fd );

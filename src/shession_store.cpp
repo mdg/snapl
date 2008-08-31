@@ -37,6 +37,19 @@ void shession_store_c::create_session( const std::string &session_id )
 	m_store[ session_id ] = (*m_timer)() + m_timeout;
 }
 
+bool shession_store_c::live_session( const std::string &session_id ) const
+{
+	std::map< std::string, time_t >::const_iterator it;
+	// look for the session_id
+	it = m_store.find( session_id );
+	if ( it == m_store.end() ) {
+		return false;
+	}
+	time_t now( (*m_timer)() );
+	// check that it hasn't expired
+	return now <= it->second;
+}
+
 bool shession_store_c::renew_session( const std::string &session_id )
 {
 	std::map< std::string, time_t >::iterator it;

@@ -36,6 +36,10 @@ public:
 	virtual void create_session( const std::string &session_id ) = 0;
 	/**
 	 * Check if the given session_id is live.
+	 * @return true if it is still alive.
+	 */
+	virtual bool live_session( const std::string &session_id ) const = 0;
+	/**
 	 * Renew the session if it exists.
 	 * @return true if it is still alive.
 	 */
@@ -66,6 +70,7 @@ public:
  * at some point.  For now it will live here.
  */
 class shession_store_c
+: public shession_store_i
 {
 public:
 	/**
@@ -99,6 +104,10 @@ public:
 	virtual void create_session( const std::string &session_id );
 	/**
 	 * Check if the given session_id is live.
+	 * @return true if it is still alive.
+	 */
+	virtual bool live_session( const std::string &session_id ) const;
+	/**
 	 * Renew the session if it exists.
 	 * @return true if it is still alive.
 	 */

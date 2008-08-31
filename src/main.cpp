@@ -22,6 +22,7 @@
 #include "request_reader.h"
 #include "request_processor.h"
 #include "shession_control.h"
+#include "shession_store.h"
 #include "usage.h"
 
 static const int DEFAULT_TIMEOUT( 20 );
@@ -60,7 +61,8 @@ int main( int argc, const char **argv )
 
 	connection_acceptor_c acceptor;
 	request_reader_c reader;
-	request_processor_c processor;
+	shession_store_c store( session_timeout );
+	request_processor_c processor( store );
 
 	bool accept_err( acceptor.open( port ) );
 	if ( ! accept_err ) {

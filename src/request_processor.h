@@ -22,6 +22,7 @@
 
 class connection_i;
 class request_c;
+class shession_store_i;
 
 
 /**
@@ -31,6 +32,11 @@ class request_c;
 class request_processor_c
 {
 public:
+	/**
+	 * Construct a request processor.
+	 */
+	request_processor_c( shession_store_i & );
+
 	/**
 	 * Process a request
 	 * This should take a response_c object instead of
@@ -57,7 +63,8 @@ private:
 	 */
 	void process_kill( const request_c & );
 
-	std::set< std::string > m_session;
+private:
+	shession_store_i &m_store;
 };
 
 
