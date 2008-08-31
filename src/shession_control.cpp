@@ -16,13 +16,13 @@
 
 #include "shession_control.h"
 #include <iostream>
-#include "connection_factory.h"
+#include "connection_listener.h"
 #include "request.h"
 #include "request_processor.h"
 #include "request_reader.h"
 
 
-shession_control_c::shession_control_c( connection_factory_i &conn_fact
+shession_control_c::shession_control_c( connection_listener_i &conn_fact
 	       , request_reader_c &reader, request_processor_c &processor )
 : m_connection_factory( conn_fact )
 , m_reader( reader )

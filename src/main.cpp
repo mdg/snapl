@@ -26,7 +26,8 @@
 #include "usage.h"
 
 static const int DEFAULT_TIMEOUT( 20 );
-static const int DEFAULT_PORT( 9000 );
+static const int DEFAULT_SERVICE_PORT( 9000 );
+static const int DEFAULT_ADMIN_PORT( 9001 );
 
 
 int main( int argc, const char **argv )
@@ -43,7 +44,8 @@ int main( int argc, const char **argv )
 
 	// default options
 	int session_timeout( DEFAULT_TIMEOUT );
-	int port( DEFAULT_PORT );
+	int service_port( DEFAULT_SERVICE_PORT );
+	int admin_port( DEFAULT_ADMIN_PORT );
 	// parse the config file
 	std::ifstream config_file( "shessiond.conf" );
 	if ( config_file.is_open() ) {
@@ -55,8 +57,9 @@ int main( int argc, const char **argv )
 		}
 
 		if ( config.configured( "port" ) ) {
-			port = config.int_value( "port" );
+			service_port = config.int_value( "port" );
 		}
+		// service-port and admin-port
 	}
 
 	connection_acceptor_c acceptor;
@@ -64,8 +67,8 @@ int main( int argc, const char **argv )
 	shession_store_c store( session_timeout );
 	request_processor_c processor( store );
 
-	bool accept_err( acceptor.open( port ) );
-	if ( ! accept_err ) {
+	bool accept_open( acceptor.open( service_port, admin_port ) );
+	if ( ! accept_open ) {
 		std::cerr << "Error opening acceptor.\n";
 		return 1;
 	}

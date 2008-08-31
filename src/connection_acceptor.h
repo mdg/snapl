@@ -15,14 +15,17 @@
  * limitations under the License.
  */
 
-#include "connection_factory.h"
+#include "connection_listener.h"
+#include <map>
+#include <queue>
+
 
 /**
  * A class that accepts socket connections
  * and returns open sockets.
  */
 class connection_acceptor_c
-: public connection_factory_i
+: public connection_listener_i
 {
 	static const int DEFAULT_BACKLOG = 128;
 
@@ -38,25 +41,40 @@ public:
 	virtual ~connection_acceptor_c();
 
 	/**
-	 * Open the acceptor on the given port.
-	 * @port The port on which connections should be accepted.
+	 * Open the service and admin acceptors on the given ports.
+	 * @service_port The port on which service connections are be accepted.
+	 * @admin_port   The port on which admin connections should be accepted.
+	 * @return  true if the sockets were opened successfully.
 	 */
-	bool open( int port, int backlog = DEFAULT_BACKLOG );
+	bool open( int service_port, int admin_port
+			, int backlog = DEFAULT_BACKLOG );
 
 	/**
-	 * Closes the acceptor.
+	 * Closes both the normal and admin listeners.
 	 */
 	void close();
 
 	/**
-	 * Get an open connection from the listener.
+	 * Get a ready connection.
+	 * The connection may come from the normal or admin listener.
 	 * @return 
 	 */
 	virtual connection_i * connection();
 
 private:
-	int m_port;
-	int m_listener;
+	static int open_listener( int port, int backlog );
+	void accept( int listener );
+
+	connection_i * old_connection( int );
+
+private:
+	int m_service_port;
+	int m_service_listener;
+	int m_admin_port;
+	int m_admin_listener;
+
+	std::map< int, connection_i * > m_open;
+	std::queue< connection_i * > m_ready;
 };
 
 

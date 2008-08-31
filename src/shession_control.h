@@ -19,7 +19,7 @@
 #include <list>
 #include <memory>
 
-class connection_factory_i;
+class connection_listener_i;
 class request_c;
 class request_processor_c;
 class request_reader_c;
@@ -36,7 +36,7 @@ public:
 	 * Construct the shession control
 	 * object.
 	 */
-	shession_control_c( connection_factory_i &, request_reader_c &
+	shession_control_c( connection_listener_i &, request_reader_c &
 			, request_processor_c & );
 	/**
 	 * Destroy the shession_control_c
@@ -54,7 +54,7 @@ public:
 	bool iterate();
 
 private:
-	connection_factory_i &m_connection_factory;
+	connection_listener_i &m_connection_factory;
 	request_reader_c & m_reader;
 	request_processor_c &m_processor;
 };
