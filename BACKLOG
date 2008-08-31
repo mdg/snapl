@@ -6,6 +6,8 @@ make shession block on reading from sockets
 fix config parsing to initialize with possible values before parsing
 	it currently fails wrong when a non-int is requested as an int
 
+fix Rakefile to support dependencies on headers
+
 password protection
 
 - mirrors aren't different than regular connections
