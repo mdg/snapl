@@ -10,6 +10,9 @@ fix Rakefile to support dependencies on headers
 
 password protection
 
+consider creating a response object for the request_processor to write
+back to, rather than writing directly to the connection
+
 - mirrors aren't different than regular connections
 mirror protocol v1
 mirror connections accepted
