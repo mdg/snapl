@@ -72,7 +72,7 @@ void run_load_1( int n )
 	std::cerr << n << " sessions in " << run_time << " seconds\n";
 }
 
-void run_load_2( int n )
+void run_load_2( int n, int seconds )
 {
 	shession_client_c client;
 	if ( ! client.open( "127.0.0.1", 9000 ) ) {
@@ -96,29 +96,32 @@ void run_load_2( int n )
 	}
 
 	std::cerr << "begin load test\n";
-	time_t start_time( time( NULL ) );
 
 	// check sessions now that they're there
-	time_t stop_time( time( NULL ) + 12 );
 	it = sessions.begin();
 	int count( 0 );
+	// see how many queries can be made in a certain time
+	time_t stop_time( time( NULL ) + seconds );
 	while ( time( NULL ) < stop_time ) {
 		client.live_session( *it );
+		std::cerr << "executed live_session\n";
 		++count;
 		if ( ++it == sessions.end() ) {
+			std::cerr << "start over again\n";
+			// start over again
 			it = sessions.begin();
 		}
 	}
 
-	std::cerr << count << " requests in 12 seconds\n";
-	std::cerr << 5 * count << " requests per minute\n";
-	std::cerr << count / 12 << " requests per second\n";
+	std::cerr << count << " requests in " << seconds << " seconds\n";
+	std::cerr << ( 60 * count ) / seconds << " requests per minute\n";
+	std::cerr << count / seconds << " requests per second\n";
 }
 
 
 int main( int argc, char **argv )
 {
-	run_load_2( 80 );
+	run_load_2( 5, 12 );
 
 	return 0;
 }
