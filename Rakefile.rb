@@ -45,6 +45,13 @@ file "test_shessiond" => [ :compile, :compile_test ] do |t|
 end
 
 
+file "load_shessiond" => [ :compile ] do |t|
+    no_main_obj = OBJ.clone
+    no_main_obj.exclude( 'main.o' )
+    sh "g++ -Isrc -o load_shessiond #{no_main_obj} load/load.cpp"
+end
+
+
 
 task :default => [ :compile ]
 
@@ -61,6 +68,9 @@ task :build => [ "shessiond" ]
 
 desc "Build the test executable"
 task :build_test => [ "test_shessiond" ]
+
+desc "Build the test executable"
+task :build_load => [ "load_shessiond" ]
 
 
 desc "Make and run tests"
