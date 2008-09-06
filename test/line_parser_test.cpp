@@ -98,3 +98,15 @@ TESTPP( test_blanklf )
 	std::string( "store cat" ) == actual( parsed_line );
 }
 
+/**
+ * Test that the line_ready function works as expected.
+ */
+TESTPP( test_line_ready )
+{
+	std::string parsed_line;
+	line_parser_c parser;
+	parser.add_input( "store cat\nstatus cat\n" );
+	parser.readline( parsed_line );
+	true == actual( parser.line_ready() );
+}
+

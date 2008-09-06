@@ -34,6 +34,11 @@ public:
 	 */
 	void readline( std::string & );
 
+	/**
+	 * Has a complete line of input ready to read.
+	 */
+	bool line_ready() const;
+
 private:
 	std::string m_input;
 };

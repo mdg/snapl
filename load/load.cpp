@@ -121,7 +121,7 @@ void run_load_2( int n, int seconds )
 
 int main( int argc, char **argv )
 {
-	run_load_2( 5, 12 );
+	run_load_2( 1, 12 );
 
 	return 0;
 }

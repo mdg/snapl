@@ -16,6 +16,7 @@
 
 #include "shession_control.h"
 #include <iostream>
+#include "connection.h"
 #include "connection_listener.h"
 #include "request.h"
 #include "request_processor.h"
@@ -51,12 +52,17 @@ bool shession_control_c::iterate()
 		request_c *req = 0;
 
 		connection_i *conn = m_connection_factory.connection();
-		if ( conn ) {
+		if ( ! conn ) {
+			continue;
+		}
+		do {
 			req = m_reader.create_request( *conn );
-		}
-		if ( req ) {
-			m_processor.process( *req, *conn );
-		}
+			if ( req ) {
+				m_processor.process( *req, *conn );
+			}
+			// continue reading from this connection
+			// while it has input
+		} while ( conn->line_ready() );
 	}
 	return success;
 }

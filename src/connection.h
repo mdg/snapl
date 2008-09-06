@@ -38,6 +38,12 @@ public:
 	 * Write a string back to the connection.
 	 */
 	virtual void write_line( const std::string & ) = 0;
+
+	/**
+	 * Check if this connection has more lines of input
+	 * ready.
+	 */
+	virtual bool line_ready() const = 0;
 };
 
 

@@ -56,3 +56,8 @@ void connected_socket_c::write_line( const std::string &line )
 	::write( m_socket, formatted.c_str(), formatted.length() );
 }
 
+bool connected_socket_c::line_ready() const
+{
+	return m_line_parser.line_ready();
+}
+

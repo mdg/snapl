@@ -47,3 +47,8 @@ void line_parser_c::readline( std::string &line )
 	// std::cerr << "readline = '" << line << "'\n";
 }
 
+bool line_parser_c::line_ready() const
+{
+	return m_input.find( "\n" ) != std::string::npos;
+}
+

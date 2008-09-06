@@ -44,6 +44,12 @@ public:
 	 */
 	virtual void write_line( const std::string & );
 
+	/**
+	 * Check if this connection has more lines of input
+	 * ready.
+	 */
+	virtual bool line_ready() const;
+
 private:
 	int m_socket;
 	line_parser_c m_line_parser;
