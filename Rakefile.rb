@@ -45,7 +45,7 @@ file "test_shessiond" => [ :compile, :compile_test ] do |t|
 end
 
 
-file "load_shessiond" => [ :compile ] do |t|
+file "load_shessiond" => [ :compile, "load/load.cpp" ] do |t|
     no_main_obj = OBJ.clone
     no_main_obj.exclude( 'main.o' )
     sh "g++ -Isrc -o load_shessiond #{no_main_obj} load/load.cpp"
