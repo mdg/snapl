@@ -152,11 +152,13 @@ connection_i * connection_acceptor_c::connection()
 		polls[i++].revents = 0;
 	}
 
+	std::cerr << "poll( " << poll_count << " )...\n";
 	int ready_count( poll( polls, poll_count, 1000 ) );
 	if ( ready_count == 0 ) {
 		return NULL;
 	}
 
+	std::cerr << "ready_count == " << ready_count << std::endl;
 	if ( ready_count < 0 ) {
 		perror( "Poll error" );
 	}
@@ -170,8 +172,16 @@ connection_i * connection_acceptor_c::connection()
 	}
 	// check for input on open connections
 	for ( i=2; i<poll_count; ++i ) {
-		if ( polls[i].revents & POLLIN ) {
+		if ( polls[i].revents & POLLHUP ) {
+			// this connection is closed.
+			// delete it.
+			delete m_open[ polls[i].fd ];
+			m_open.erase( polls[i].fd );
+		} else if ( polls[i].revents & POLLIN ) {
 			m_ready.push( m_open[ polls[i].fd ] );
+		} else {
+			std::cerr << "polls[" << i << "].revents = "
+				<< polls[i].revents << std::endl;
 		}
 	}
 
