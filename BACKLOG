@@ -7,6 +7,14 @@ fix config parsing to initialize with possible values before parsing
 
 fix Rakefile to support dependencies on headers
 
+create "protocol" code to be shared between client and server.
+	provides request type ints and strings and other shared values
+
+change status "request" to "renew"
+
+modify protocol so create generates the sha1 session_id.
+	replace the current session_id with an optional username parameter
+
 consider creating a response object for the request_processor to write
 back to, rather than writing directly to the connection
 
