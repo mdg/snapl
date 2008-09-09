@@ -15,6 +15,9 @@ change status "request" to "renew"
 modify protocol so create generates the sha1 session_id.
 	replace the current session_id with an optional username parameter
 
+add a localhost-lockdown configuration to restrict all connections to those
+	that are tunneled in through SSH
+
 consider creating a response object for the request_processor to write
 back to, rather than writing directly to the connection
 
