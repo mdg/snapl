@@ -5,40 +5,35 @@ task :clean => [] do
     sh "rm -f test/*.o"
 end
 
-directory "obj"
-directory "test_obj"
+directory "obj/src"
+directory "obj/test"
 
 INC = FileList[ 'src/*.h' ]
 SRC = FileList[ 'src/*.cpp' ]
-OBJ = SRC.sub( /\.cpp$/, '.o' ).sub( /^src\//, 'obj/' )
+OBJ = SRC.sub( /\.cpp$/, '.o' ).sub( /^src\//, 'obj/src/' )
 INC.freeze
 SRC.freeze
 OBJ.freeze
 TEST_INC = FileList[ 'test/*.h' ]
 TEST_SRC = FileList[ 'test/*.cpp' ]
 TEST_SRC.exclude( 'testpp_test.cpp' )
-TEST_OBJ = TEST_SRC.sub( /\.cpp$/, '.o' ).sub( /^test\//, 'test_obj/' )
+TEST_OBJ = TEST_SRC.sub( /\.cpp$/, '.o' ).sub( /^test\//, 'obj/test/' )
 TEST_INC.freeze
 TEST_SRC.freeze
 TEST_OBJ.freeze
 
 
-# rule '.o' => ['.cpp'] do |t|
-    # sh %{g++ -c -g -Isrc -o #{t.name} #{t.source}}
-# end
-
+# Return dependencies for an object file.
 def obj_dep( o )
     deps = []
-    cpp = o.sub(/\.o$/,'.cpp').sub(/^obj\//, 'src/') \
-        .sub(/^test_obj\//, 'test/')
+    cpp = o.sub(/\.o$/,'.cpp').sub(/^obj\/src\//, 'src/') \
+        .sub(/^obj\/test\//, 'test/')
     deps << cpp
-    deps << cpp.sub( /\.cpp$/,'.h')
     return deps
 end
 
-rule '.o' => [
-    proc { |o| obj_dep( o ) }
-] do |t|
+
+rule '.o' => [ proc { |o| obj_dep( o ) } ] do |t|
     sh %{g++ -c -g -Isrc -o #{t.name} #{t.source}}
 end
 
@@ -67,10 +62,10 @@ task :default => [ :compile ]
 
 
 desc "Compile all source files into objects"
-task :compile => [ "obj" ] + OBJ
+task :compile => [ "obj/src" ] + OBJ
 
 desc "Compile all test files into objects"
-task :compile_test => [ "test_obj" ] + TEST_OBJ
+task :compile_test => [ "obj/test" ] + TEST_OBJ
 
 
 desc "Build the main executable"
