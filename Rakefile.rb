@@ -29,6 +29,7 @@ def obj_dep( o )
     cpp = o.sub(/\.o$/,'.cpp').sub(/^obj\/src\//, 'src/') \
         .sub(/^obj\/test\//, 'test/')
     deps << cpp
+    deps << cpp.sub( /\.cpp$/, '.h' )
     return deps
 end
 
