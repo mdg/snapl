@@ -1,4 +1,6 @@
 
+require "rakepp.rb"
+
 task :clean => [] do
     sh "rm -f *.o"
     sh "rm -rf obj"
@@ -29,7 +31,10 @@ def obj_dep( o )
     cpp = o.sub(/\.o$/,'.cpp').sub(/^obj\/src\//, 'src/') \
         .sub(/^obj\/test\//, 'test/')
     deps << cpp
-    deps << cpp.sub( /\.cpp$/, '.h' )
+    headers = cpp_headers( cpp )
+    print headers.join(" "), "\n"
+    deps << headers
+    # deps << cpp.sub( /\.cpp$/, '.h' )
     return deps
 end
 
