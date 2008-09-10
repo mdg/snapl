@@ -6,6 +6,7 @@ task :clean => [] do
 end
 
 directory "obj"
+directory "test_obj"
 
 INC = FileList[ 'src/*.h' ]
 SRC = FileList[ 'src/*.cpp' ]
@@ -16,7 +17,7 @@ OBJ.freeze
 TEST_INC = FileList[ 'test/*.h' ]
 TEST_SRC = FileList[ 'test/*.cpp' ]
 TEST_SRC.exclude( 'testpp_test.cpp' )
-TEST_OBJ = TEST_SRC.sub( /\.cpp$/, '.o' )
+TEST_OBJ = TEST_SRC.sub( /\.cpp$/, '.o' ).sub( /^test\//, 'test_obj/' )
 TEST_INC.freeze
 TEST_SRC.freeze
 TEST_OBJ.freeze
@@ -26,8 +27,17 @@ TEST_OBJ.freeze
     # sh %{g++ -c -g -Isrc -o #{t.name} #{t.source}}
 # end
 
+def obj_dep( o )
+    deps = []
+    cpp = o.sub(/\.o$/,'.cpp').sub(/^obj\//, 'src/') \
+        .sub(/^test_obj\//, 'test/')
+    deps << cpp
+    deps << cpp.sub( /\.cpp$/,'.h')
+    return deps
+end
+
 rule '.o' => [
-    proc { |tn| tn.sub(/\.o$/,'.cpp').sub(/^obj\//, 'src/') }
+    proc { |o| obj_dep( o ) }
 ] do |t|
     sh %{g++ -c -g -Isrc -o #{t.name} #{t.source}}
 end
@@ -60,7 +70,7 @@ desc "Compile all source files into objects"
 task :compile => [ "obj" ] + OBJ
 
 desc "Compile all test files into objects"
-task :compile_test => TEST_OBJ
+task :compile_test => [ "test_obj" ] + TEST_OBJ
 
 
 desc "Build the main executable"
