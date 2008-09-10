@@ -1,3 +1,4 @@
 The shared session daemon.
 
-A light-weight server for sharing web application sessions across multiple servers.  Also known as "Single Sign-On".
+A light-weight server for sharing web application sessions across multiple servers.
+Also known as "Single Sign-On".
