@@ -75,7 +75,9 @@ bool shession_client_c::live_session( const std::string &session_id )
 	write_request( "status", session_id );
 
 	std::string live;
+	std::cerr << "read status response... ";
 	m_connection->read_line( live );
+	std::cerr << "complete\n";
 	return live == "live";
 }
 

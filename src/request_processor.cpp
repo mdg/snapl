@@ -30,13 +30,19 @@ void request_processor_c::process( const request_c &req
 {
 	switch ( req.request_type() ) {
 		case RT_CREATE_SESSION:
+			std::cerr << "process create request\n";
 			process_create( req );
 			break;
 		case RT_SESSION_STATUS:
+			std::cerr << "process status request\n";
 			process_status( req, conn );
 			break;
 		case RT_KILL_SESSION:
+			std::cerr << "process kill request\n";
 			process_kill( req );
+			break;
+		case RT_CLOSE:
+			// process_close( req, conn );
 			break;
 	}
 }
@@ -55,10 +61,10 @@ void request_processor_c::process_create( const request_c &req )
 void request_processor_c::process_status( const request_c &req
 		, connection_i &conn )
 {
-	// std::cerr << "begin process_status\n";
+	std::cerr << "begin process_status\n";
 	bool live( m_store.renew_session( req.session_id() ) );
 	conn.write_line( live ? "live" : "dead" );
-	// std::cerr << "end process_status\n";
+	std::cerr << "end process_status\n";
 }
 
 

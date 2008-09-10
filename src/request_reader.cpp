@@ -55,11 +55,9 @@ request_c * request_reader_c::create_request( connection_i &conn )
 	// check if this is a close request
 	if ( req_type == RT_CLOSE ) {
 		std::cerr << "close!\n";
-		// close();
-		return NULL;
+		// return the close request
 	} else if ( req_type == RT_NULL ) {
 		// do nothing here.  return it with an RT_NULL for now.
-		// return NULL;
 	} else if ( req_type == RT_STORE_TOKEN ) {
 		stream >> token_name;
 		req->set_token_name( token_name );
@@ -76,7 +74,7 @@ request_c * request_reader_c::create_request( connection_i &conn )
 
 request_type_e request_reader_c::get_request_type( const std::string& req_type )
 {
-	// std::cerr << "request = '" << req_type << "'\n";
+	std::cerr << "request = '" << req_type << "'\n";
 
 	request_type_e rt( RT_NULL );
 	if ( req_type == "create" ) {
