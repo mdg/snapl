@@ -20,6 +20,7 @@
 #include <sys/socket.h>
 #include <errno.h>
 #include "request.h"
+#include "request_type.h"
 #include "connected_socket.h"
 
 
@@ -47,30 +48,31 @@ request_c * request_reader_c::create_request( connection_i &conn )
 	stream >> request;
 	stream >> session_id;
 
-	request_type_e req_type = get_request_type( request );
+	request_type_c req_type( get_request_type( request ) );
 	// std::cerr << "req_type = " << (int) req_type << std::endl;
-	request_c *req = new request_c( req_type, session_id );
+	request_c *req = new request_c( req_type.type(), session_id );
 	std::string token_name;
 
 	// check if this is a close request
-	if ( req_type == RT_CLOSE ) {
+	if ( req_type.type() == RT_CLOSE ) {
 		std::cerr << "close!\n";
 		// return the close request
-	} else if ( req_type == RT_NULL ) {
+	} else if ( req_type.type() == RT_NULL ) {
 		// do nothing here.  return it with an RT_NULL for now.
-	} else if ( req_type == RT_STORE_TOKEN ) {
+	} else if ( req_type.type() == RT_STORE_TOKEN ) {
 		stream >> token_name;
 		req->set_token_name( token_name );
 		std::string token_value;
 		conn.read_line( token_value );
 		req->set_token_value( token_value );
-	} else if ( req_type == RT_REQUEST_TOKEN ) {
+	} else if ( req_type.type() == RT_REQUEST_TOKEN ) {
 		stream >> token_name;
 		req->set_token_name( token_name );
 	}
 
 	return req;
 }
+
 
 request_type_e request_reader_c::get_request_type( const std::string& req_type )
 {
