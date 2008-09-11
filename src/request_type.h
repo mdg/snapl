@@ -39,9 +39,13 @@ class request_type_c
 {
 public:
 	/**
-	 * Construct a stringed request type
+	 * Construct a stringed request type given a request type enum
 	 */
 	request_type_c( request_type_e );
+	/**
+	 * Construct a stringed request type given a string
+	 */
+	request_type_c( const std::string & );
 
 	/**
 	 * Return the type of request.
@@ -51,20 +55,26 @@ public:
 	 * Return the string type of request.
 	 */
 	const std::string & str() const { return m_string; }
+
 	/**
 	 * Convert a request_type_e to a string.
 	 */
 	static const std::string & type_to_str( request_type_e );
+	/**
+	 * Convert a string to a request_type_e.
+	 */
+	static request_type_e str_to_type( const std::string & );
+
+	static const std::string CREATE;
+	static const std::string RENEW;
+	static const std::string KILL;
+	static const std::string CLOSE;
 
 private:
 	request_type_e m_type;
 	const std::string &m_string;
 
-	static std::string s_null;
-	static std::string s_create;
-	static std::string s_renew;
-	static std::string s_kill;
-	static std::string s_close;
+	static const std::string s_null;
 };
 
 

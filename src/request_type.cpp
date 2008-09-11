@@ -16,9 +16,21 @@
 #include "request_type.h"
 
 
+const std::string request_type_c::CREATE( "create" );
+const std::string request_type_c::RENEW( "status" );
+const std::string request_type_c::KILL( "kill" );
+const std::string request_type_c::CLOSE( "close" );
+const std::string request_type_c::s_null;
+
+
 request_type_c::request_type_c( request_type_e typ )
 : m_type( typ )
 , m_string( type_to_str( typ ) )
+{}
+
+request_type_c::request_type_c( const std::string &str )
+: m_type( str_to_type( str ) )
+, m_string( str )
 {}
 
 
@@ -26,14 +38,31 @@ const std::string & request_type_c::type_to_str( request_type_e typ )
 {
 	switch ( typ ) {
 		case RT_CREATE_SESSION:
-			return s_create;
+			return CREATE;
 		case RT_SESSION_STATUS:
-			return s_renew;
+			return RENEW;
 		case RT_KILL_SESSION:
-			return s_kill;
+			return KILL;
 		case RT_CLOSE:
-			return s_kill;
+			return CLOSE;
 	}
 	return s_null;
+}
+
+request_type_e request_type_c::str_to_type( const std::string & str )
+{
+	request_type_e typ( RT_NULL );
+
+	if ( str == CREATE ) {
+		typ = RT_CREATE_SESSION;
+	} else if ( str == RENEW ) {
+		typ = RT_SESSION_STATUS;
+	} else if ( str == KILL ) {
+		typ = RT_KILL_SESSION;
+	} else if ( str == CLOSE ) {
+		typ = RT_CLOSE;
+	}
+
+	return typ;
 }
 

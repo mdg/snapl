@@ -16,6 +16,8 @@ OBJ = SRC.sub( /\.cpp$/, '.o' ).sub( /^src\//, 'obj/src/' )
 INC.freeze
 SRC.freeze
 OBJ.freeze
+SRC_DIR = 'src'
+TEST_DIR = 'test'
 TEST_INC = FileList[ 'test/*.h' ]
 TEST_SRC = FileList[ 'test/*.cpp' ]
 TEST_SRC.exclude( 'testpp_test.cpp' )
@@ -28,11 +30,14 @@ TEST_OBJ.freeze
 # Return dependencies for an object file.
 def obj_dep( o )
     deps = []
-    cpp = o.sub(/\.o$/,'.cpp').sub(/^obj\/src\//, 'src/') \
+    inc_dirs = [ SRC_DIR, TEST_DIR ]
+    cpp = o.sub(/\.o$/,'.cpp') \
+        .sub(/^obj\/src\//, 'src/') \
         .sub(/^obj\/test\//, 'test/')
+    # print cpp, "\n"
+    headers = cpp_headers( cpp, inc_dirs )
+    # print headers.join(" "), "\n"
     deps << cpp
-    headers = cpp_headers( cpp )
-    print headers.join(" "), "\n"
     deps << headers
     # deps << cpp.sub( /\.cpp$/, '.h' )
     return deps

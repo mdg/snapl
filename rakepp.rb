@@ -26,7 +26,17 @@ class CppCompiler
     end
 end
 
-def cpp_headers( cpp )
+def header_path( inc, inc_dirs )
+    inc_dirs.each do |id|
+        path = id +"/"+ inc
+        if File.exists?( path )
+            return path
+        end
+    end
+    return nil
+end
+
+def cpp_headers( cpp, inc_dirs )
     headers = []
 
     p = Pathname.new( cpp )
@@ -37,7 +47,8 @@ def cpp_headers( cpp )
         # print line
         inc = line.match( /#include +"([\w]+\.h)"/ )
         if ( ! inc.nil? )
-            inc_path = path_prefix + inc[1]
+            # inc_path = path_prefix + inc[1]
+            inc_path = header_path( inc[1], inc_dirs )
             # print inc_path, "\n"
             headers << inc_path
         end
