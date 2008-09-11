@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+#include <string>
+
 
 /**
  * An enumeration of the possible types of requests.
@@ -27,6 +29,42 @@ enum request_type_e
 ,	RT_STORE_TOKEN
 ,	RT_REQUEST_TOKEN
 ,	RT_CLOSE
+};
+
+
+/**
+ * A string request_type
+ */
+class request_type_c
+{
+public:
+	/**
+	 * Construct a stringed request type
+	 */
+	request_type_c( request_type_e );
+
+	/**
+	 * Return the type of request.
+	 */
+	request_type_e type() const { return m_type; }
+	/**
+	 * Return the string type of request.
+	 */
+	const std::string & str() const { return m_string; }
+	/**
+	 * Convert a request_type_e to a string.
+	 */
+	static const std::string & type_to_str( request_type_e );
+
+private:
+	request_type_e m_type;
+	const std::string &m_string;
+
+	static std::string s_null;
+	static std::string s_create;
+	static std::string s_renew;
+	static std::string s_kill;
+	static std::string s_close;
 };
 
 
