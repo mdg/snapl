@@ -19,6 +19,7 @@
 #include <arpa/inet.h>
 #include <iostream>
 #include "connected_socket.h"
+#include "request_type.h"
 
 
 shession_client_c::shession_client_c()
@@ -67,12 +68,12 @@ void shession_client_c::close()
 
 void shession_client_c::create_session( const std::string &session_id )
 {
-	write_request( "create", session_id );
+	write_request( request_type_c::CREATE, session_id );
 }
 
 bool shession_client_c::live_session( const std::string &session_id )
 {
-	write_request( "status", session_id );
+	write_request( request_type_c::RENEW, session_id );
 
 	std::string live;
 	std::cerr << "read status response... ";
@@ -83,7 +84,7 @@ bool shession_client_c::live_session( const std::string &session_id )
 
 void shession_client_c::kill_session( const std::string &session_id )
 {
-	write_request( "kill", session_id );
+	write_request( request_type_c::KILL, session_id );
 }
 
 
