@@ -1,3 +1,4 @@
+Client Sequence
 1. connect
 2. send request
 3. read response (if appropriate)
