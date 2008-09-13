@@ -4,8 +4,6 @@ fix config parsing to initialize with possible values before parsing
 
 add a logger class to allow turning debug messages on and off
 
-change status "request" to "renew"
-
 modify protocol so create generates the sha1 session_id.
 	replace the current session_id with an optional username parameter
 
