@@ -44,14 +44,14 @@ static connection_i * create_connection( const char *contents )
  */
 TESTPP( test_readline )
 {
-	const char *test_data = "status dog\n";
+	const char *test_data = "renew dog\n";
 	std::auto_ptr< connection_i > conn( create_connection( test_data ) );
 	request_reader_c reader;
 
 	std::auto_ptr< request_c > req( reader.create_request( *conn ) );
 	static_cast< request_c * >( NULL ) != actual( req.get() );
 
-	RT_SESSION_STATUS == actual( req->request_type() );
+	RT_RENEW_SESSION == actual( req->request_type() );
 	std::string( "dog" ) == actual( req->session_id() );
 }
 
@@ -62,13 +62,13 @@ TESTPP( test_readline )
  */
 TESTPP( test_multiline )
 {
-	const char *test_data = "status dog\n" \
+	const char *test_data = "renew dog\n" \
 				 "create cat\n";
 	std::auto_ptr< connection_i > conn( create_connection( test_data ) );
 	request_reader_c reader;
 
 	std::auto_ptr< request_c > req( reader.create_request( *conn ) );
-	RT_SESSION_STATUS == actual( req->request_type() );
+	RT_RENEW_SESSION == actual( req->request_type() );
 	std::string( "dog" ) == actual( req->session_id() );
 
 	req.reset( reader.create_request( *conn ) );

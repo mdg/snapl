@@ -17,7 +17,7 @@
 
 
 const std::string request_type_c::CREATE( "create" );
-const std::string request_type_c::RENEW( "status" );
+const std::string request_type_c::RENEW( "renew" );
 const std::string request_type_c::KILL( "kill" );
 const std::string request_type_c::CLOSE( "close" );
 const std::string request_type_c::s_null;
@@ -39,7 +39,7 @@ const std::string & request_type_c::type_to_str( request_type_e typ )
 	switch ( typ ) {
 		case RT_CREATE_SESSION:
 			return CREATE;
-		case RT_SESSION_STATUS:
+		case RT_RENEW_SESSION:
 			return RENEW;
 		case RT_KILL_SESSION:
 			return KILL;
@@ -56,7 +56,7 @@ request_type_e request_type_c::str_to_type( const std::string & str )
 	if ( str == CREATE ) {
 		typ = RT_CREATE_SESSION;
 	} else if ( str == RENEW ) {
-		typ = RT_SESSION_STATUS;
+		typ = RT_RENEW_SESSION;
 	} else if ( str == KILL ) {
 		typ = RT_KILL_SESSION;
 	} else if ( str == CLOSE ) {
