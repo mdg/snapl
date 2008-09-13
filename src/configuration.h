@@ -21,15 +21,28 @@
 #include <set>
 
 
-/*
-this might be adding too much configurability
-not gonna do it for now
-class config_option_format_c
+class config_option_c
 {
 public:
-	config_option_format_c
+	config_option_c( const std::string &name );
+	virtual ~config_option_c();
+	virtual bool parse( const std::string & ) = 0;
+	virtual std::string doc() const = 0;
+
+private:
+	std::string m_name;
 };
-*/
+
+class str_config_option_c
+: public config_option_c
+{
+public:
+};
+
+class int_config_option_c
+: public config_option_c
+{
+};
 
 
 /**

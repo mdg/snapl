@@ -17,6 +17,14 @@
 #include <sstream>
 
 
+config_option_c::config_option_c( const std::string &name )
+: m_name( name )
+{}
+
+config_option_c::~config_option_c()
+{}
+
+
 configuration_c::configuration_c()
 {
 }
