@@ -14,15 +14,7 @@
  */
 
 #include "configuration.h"
-#include <sstream>
-
-
-config_option_c::config_option_c( const std::string &name )
-: m_name( name )
-{}
-
-config_option_c::~config_option_c()
-{}
+#include <iostream>
 
 
 configuration_c::configuration_c()

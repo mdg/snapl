@@ -20,6 +20,61 @@
 #include "configuration.h"
 
 
+TESTPP( test_string_config_option )
+{
+	config_option_c< std::string > opt( "dog" );
+	std::string input( "cat" );
+
+	// assert preconditions
+	std::string( "dog" ) == actual( opt.name() );
+	false == actual( opt.set() );
+	false == actual( opt.error() );
+
+	opt.parse( input );
+
+	// assert postconditions
+	std::string( "cat" ) == actual( opt.value() );
+	true == actual( opt.set() );
+	false == actual( opt.error() );
+}
+
+TESTPP( test_int_config_option )
+{
+	config_option_c< int > opt( "dog" );
+	std::string input( "89" );
+
+	// assert preconditions
+	std::string( "dog" ) == actual( opt.name() );
+	false == actual( opt.set() );
+	false == actual( opt.error() );
+
+	opt.parse( input );
+
+	// assert postconditions
+	89 == actual( opt.value() );
+	true == actual( opt.set() );
+	false == actual( opt.error() );
+}
+
+TESTPP( test_invalid_int_input )
+{
+	config_option_c< int > opt( "dog" );
+	std::string input( "cat" );
+
+	// assert preconditions
+	std::string( "dog" ) == actual( opt.name() );
+	false == actual( opt.set() );
+	false == actual( opt.error() );
+
+	opt.parse( input );
+
+	// assert postconditions
+	true == actual( opt.error() );
+	false == actual( opt.set() );
+	0 == actual( opt.value() );
+}
+
+
 TESTPP( test_basic_string_options )
 {
 	configuration_c config;
