@@ -41,16 +41,3 @@ TESTPP( test_constructor_2 )
 	std::string( "cat" ) == actual( req.session_id() );
 }
 
-/**
- * test that token values are set correctly in the request object.
- */
-TESTPP( test_tokens )
-{
-	request_c req( RT_SESSION_STATUS, "dog" );
-	req.set_token_name( "dog_token" );
-	req.set_token_value( "dog token value" );
-
-	std::string( "dog_token" ) == actual( req.token_name() );
-	std::string( "dog token value" ) == actual( req.token_value() );
-}
-
