@@ -59,15 +59,6 @@ request_c * request_reader_c::create_request( connection_i &conn )
 		// return the close request
 	} else if ( req_type.type() == RT_NULL ) {
 		// do nothing here.  return it with an RT_NULL for now.
-	} else if ( req_type.type() == RT_STORE_TOKEN ) {
-		stream >> token_name;
-		req->set_token_name( token_name );
-		std::string token_value;
-		conn.read_line( token_value );
-		req->set_token_value( token_value );
-	} else if ( req_type.type() == RT_REQUEST_TOKEN ) {
-		stream >> token_name;
-		req->set_token_name( token_name );
 	}
 
 	return req;
@@ -81,14 +72,10 @@ request_type_e request_reader_c::get_request_type( const std::string& req_type )
 	request_type_e rt( RT_NULL );
 	if ( req_type == "create" ) {
 		return RT_CREATE_SESSION;
-	} else if ( req_type == "store_token" ) {
-		return RT_STORE_TOKEN;
 	} else if ( req_type == "kill" ) {
 		return RT_KILL_SESSION;
 	} else if ( req_type == "status" ) {
 		return RT_SESSION_STATUS;
-	} else if ( req_type == "token" ) {
-		return RT_REQUEST_TOKEN;
 	} else if ( req_type == "close" ) {
 		return RT_CLOSE;
 	} else {

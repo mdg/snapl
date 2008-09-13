@@ -18,13 +18,6 @@ response: (live|dead)
 request:  kill <id>
 response: none
 
-token requests:
-request:  store_token <id> <token> <data>
-response: none
-
-request:  token <id> <token>
-response: <data>
-
 request: close
 response: none
 
