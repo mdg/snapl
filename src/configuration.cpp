@@ -21,9 +21,9 @@ configuration_c::configuration_c()
 {
 }
 
-void configuration_c::option( const std::string &name )
+void configuration_c::add( config_option_i &option )
 {
-	m_option.insert( name );
+	m_option[ option.name() ] = &option;
 }
 
 void configuration_c::parse_input( std::istream &input )

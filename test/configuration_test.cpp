@@ -81,7 +81,7 @@ TESTPP( test_bool_config_option )
 /**
  * Test that parsing an invalid string for integers fails properly.
  */
-TESTPP( test_invalid_int_input )
+TESTPP( test_invalid_int_option )
 {
 	config_option_c< int > opt( "dog" );
 	opt.parse( "cat" );
@@ -95,17 +95,17 @@ TESTPP( test_invalid_int_input )
 
 TESTPP( test_basic_string_options )
 {
+	config_option_c< std::string > option( "option" );
 	configuration_c config;
-	config.option( "option" );
+	config.add( option );
 
 	const char str_input[] = "option=dog";
-	std::stringstream input( str_input );
+	std::istringstream input( str_input );
 
 	config.parse_input( input );
 
-	true == actual( config.configured( "option" ) );
-	false == actual( config.configured( "cat" ) );
-	std::string( "dog" ) == actual( config.value( "option" ) );
+	true == actual( option.set() );
+	std::string( "dog" ) == actual( option.value() );
 }
 
 TESTPP( test_int_options )

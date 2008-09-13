@@ -65,6 +65,7 @@ public:
  */
 template < typename T >
 class config_option_c
+: public config_option_i
 {
 public:
 	/**
@@ -134,9 +135,7 @@ public:
 	/**
 	 * Add an option that can be set in the configuration file.
 	 */
-	void option( const std::string & );
-	void int_option( const std::string & );
-	void bool_option( const std::string & );
+	void add( config_option_i & );
 
 	/**
 	 * Parse the input from the given input stream.
@@ -161,7 +160,7 @@ public:
 	int int_value( const std::string &key ) const;
 
 private:
-	std::set< std::string > m_option;
+	std::map< std::string, config_option_i * > m_option;
 	std::map< std::string, std::string > m_config;
 	std::string m_empty_value;
 };
