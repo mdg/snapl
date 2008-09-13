@@ -15,6 +15,8 @@ add a localhost-lockdown configuration to restrict all connections to those
 
 see if it's possible to speed up the requests after polling
 
+separate src code into server code and client code
+
 consider creating a response object for the request_processor to write
 back to, rather than writing directly to the connection
 
