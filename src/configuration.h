@@ -21,25 +21,56 @@
 #include <set>
 
 
+/**
+ * Config option interface.  It hides the type of the various
+ * options so the configuration class can parse all options
+ * without having to know about their type.
+ */
 class config_option_i
 {
 public:
+	/**
+	 * Empty virtual destructor
+	 */
 	virtual ~config_option_i() {}
 
+	/**
+	 * Virtual parser
+	 */
 	virtual bool parse( const std::string & ) = 0;
 
+	/**
+	 * Get the name of this option.
+	 */
 	virtual const std::string & name() const = 0;
+	/**
+	 * Check if this option was set _correctly_ in the configuration file.
+	 * It returns false if there was an error.
+	 */
 	virtual bool set() const = 0;
+	/**
+	 * Check if this option was set incorrectly in the configuration file.
+	 */
 	virtual bool error() const = 0;
 
 	// support other features first.
 	// virtual std::string doc() const = 0;
 };
 
-template < class T >
+/**
+ * Templated implementation of the config_option_i interface.
+ * A config_option_c class should be declared for each option
+ * that can be set in the configuration file.
+ * The >> ( istream& ) operator must be implemented for typename T.
+ */
+template < typename T >
 class config_option_c
 {
 public:
+	/**
+	 * Construct the config option.  The name is the key in the
+	 * configuration file.
+	 */
 	config_option_c( const std::string &name )
 	: m_name( name )
 	, m_value()
@@ -48,6 +79,9 @@ public:
 	{}
 	virtual ~config_option_c() {}
 
+	/**
+	 * Parse the string value in the typed m_value.
+	 */
 	virtual bool parse( const std::string &str_value )
 	{
 		std::istringstream input( str_value );
@@ -56,9 +90,23 @@ public:
 		m_set = ! m_error;
 	}
 
+	/**
+	 * Get the name of this config option.
+	 */
 	virtual const std::string & name() const { return m_name; }
+	/**
+	 * Return the parsed value.
+	 */
 	const T & value() const { return m_value; }
+	/**
+	 * Check if the config option was set _correctly_ in the
+	 * configuration file.
+	 */
 	virtual bool set() const { return m_set; }
+	/**
+	 * Check if the config option was set _incorrectly_ in the
+	 * configuration file.
+	 */
 	virtual bool error() const { return m_error; }
 
 	// virtual std::string doc() const = 0;
