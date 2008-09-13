@@ -39,7 +39,7 @@ public:
 	/**
 	 * Check if a session is alive.
 	 */
-	virtual bool live_session( const std::string &session_id ) = 0;
+	virtual bool renew_session( const std::string &session_id ) = 0;
 
 	/**
 	 * Kill a session that is no longer valid.
@@ -82,7 +82,7 @@ public:
 	/**
 	 * Send a live_session request for the given session_id
 	 */
-	virtual bool live_session( const std::string &session_id );
+	virtual bool renew_session( const std::string &session_id );
 	/**
 	 * Send a kill_session request for the given session_id
 	 */

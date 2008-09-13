@@ -71,7 +71,7 @@ void shession_client_c::create_session( const std::string &session_id )
 	write_request( request_type_c::CREATE, session_id );
 }
 
-bool shession_client_c::live_session( const std::string &session_id )
+bool shession_client_c::renew_session( const std::string &session_id )
 {
 	write_request( request_type_c::RENEW, session_id );
 

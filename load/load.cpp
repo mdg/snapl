@@ -43,7 +43,7 @@ void run_load_1( int n )
 
 	// check sessions and then create them
 	for ( it=sessions.begin(); it!=sessions.end(); ++it ) {
-		if ( client.live_session( *it ) ) {
+		if ( client.renew_session( *it ) ) {
 			std::cerr << "session is already live\n";
 		}
 		client.create_session( *it );
@@ -53,12 +53,12 @@ void run_load_1( int n )
 
 	// check sessions now that they're there
 	for ( it=sessions.begin(); it!=sessions.end(); ++it ) {
-		if ( ! client.live_session( *it ) ) {
+		if ( ! client.renew_session( *it ) ) {
 			std::cerr << "session isn't alive\n";
 		}
 		client.kill_session( *it );
 
-		if ( client.live_session( *it ) ) {
+		if ( client.renew_session( *it ) ) {
 			std::cerr << "session is still alive\n";
 		}
 
@@ -103,7 +103,7 @@ void run_load_2( int n, int seconds )
 	// see how many queries can be made in a certain time
 	time_t stop_time( time( NULL ) + seconds );
 	while ( time( NULL ) < stop_time ) {
-		client.live_session( *it );
+		client.renew_session( *it );
 		std::cerr << "executed live_session\n";
 		++count;
 		if ( ++it == sessions.end() ) {
