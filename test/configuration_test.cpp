@@ -93,19 +93,26 @@ TESTPP( test_invalid_int_option )
 }
 
 
+/**
+ * Test the most basic functionality, 2 string options
+ */
 TESTPP( test_basic_string_options )
 {
-	config_option_c< std::string > option( "option" );
+	config_option_c< std::string > option1( "option1" );
+	config_option_c< std::string > option2( "option2" );
+
 	configuration_c config;
-	config.add( option );
+	config.add( option1 );
+	config.add( option2 );
 
-	const char str_input[] = "option=dog";
-	std::istringstream input( str_input );
+	std::istringstream input( "option1=dog\noption2=cat" );
 
-	config.parse_input( input );
+	config.parse( input );
 
-	true == actual( option.set() );
-	std::string( "dog" ) == actual( option.value() );
+	true == actual( option1.set() );
+	true == actual( option2.set() );
+	std::string( "dog" ) == actual( option1.value() );
+	std::string( "cat" ) == actual( option2.value() );
 }
 
 TESTPP( test_int_options )

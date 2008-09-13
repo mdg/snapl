@@ -18,8 +18,6 @@
 #include <sstream>
 #include <map>
 
-#include <set>
-
 
 /**
  * Config option interface.  It hides the type of the various
@@ -125,6 +123,9 @@ private:
  */
 class configuration_c
 {
+private:
+	typedef std::map< std::string, config_option_i * > option_map;
+
 public:
 	/**
 	 * Construct the config parser for a given input
@@ -140,29 +141,10 @@ public:
 	/**
 	 * Parse the input from the given input stream.
 	 */
-	void parse_input( std::istream &input );
-
-	/**
-	 * Check if the given key is configured.
-	 */
-	bool configured( const std::string &key ) const;
-
-	/**
-	 * Get a configured string value for a given key.
-	 */
-	const std::string & value( const std::string &key ) const;
-
-	/**
-	 * Get a configured int value for a given key.
-	 * Returns 0 if the value is not a valid number.
-	 * This is lame and needs to be fixed.
-	 */
-	int int_value( const std::string &key ) const;
+	void parse( std::istream &input );
 
 private:
-	std::map< std::string, config_option_i * > m_option;
-	std::map< std::string, std::string > m_config;
-	std::string m_empty_value;
+	option_map m_option;
 };
 
 

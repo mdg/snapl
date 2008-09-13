@@ -26,7 +26,7 @@ void configuration_c::add( config_option_i &option )
 	m_option[ option.name() ] = &option;
 }
 
-void configuration_c::parse_input( std::istream &input )
+void configuration_c::parse( std::istream &input )
 {
 	std::string line;
 	std::string key_chunk;
@@ -50,40 +50,18 @@ void configuration_c::parse_input( std::istream &input )
 		value_parser >> value;
 
 		if ( ! ( key.empty() || value.empty() ) ) {
-			if ( m_option.find( key ) == m_option.end() ) {
+			option_map::iterator it( m_option.find( key ) );
+
+			if ( it == m_option.end() ) {
 				std::cerr << "error";
 				return;
 			}
 			if ( value[ value.length() - 1 ] == '\r' ) {
 				value.erase( value.length() - 1 );
 			}
-			m_config[ key ] = value;
+
+			it->second->parse( value );
 		}
 	}
-}
-
-
-bool configuration_c::configured( const std::string &key ) const
-{
-	return m_config.find( key ) != m_config.end();
-}
-
-const std::string & configuration_c::value( const std::string &key ) const
-{
-	std::map< std::string, std::string >::const_iterator it;
-	it = m_config.find( key );
-	if ( it == m_config.end() ) {
-		return m_empty_value;
-	}
-	return it->second;
-}
-
-int configuration_c::int_value( const std::string &key ) const
-{
-	std::string str_val( value( key ) );
-	std::istringstream parser( str_val );
-	int value( 0 );
-	parser >> value;
-	return value;
 }
 
