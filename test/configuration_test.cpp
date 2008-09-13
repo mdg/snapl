@@ -20,17 +20,28 @@
 #include "configuration.h"
 
 
-TESTPP( test_string_config_option )
+/**
+ * Test that preconditions are set properly
+ * in the config_option class.
+ */
+TESTPP( test_config_option_initialization )
 {
 	config_option_c< std::string > opt( "dog" );
-	std::string input( "cat" );
 
 	// assert preconditions
 	std::string( "dog" ) == actual( opt.name() );
 	false == actual( opt.set() );
 	false == actual( opt.error() );
+}
 
-	opt.parse( input );
+/**
+ * Test that the config option class works for the
+ * string type.
+ */
+TESTPP( test_string_config_option )
+{
+	config_option_c< std::string > opt( "dog" );
+	opt.parse( "cat" );
 
 	// assert postconditions
 	std::string( "cat" ) == actual( opt.value() );
@@ -38,17 +49,13 @@ TESTPP( test_string_config_option )
 	false == actual( opt.error() );
 }
 
+/**
+ * Test that the config_option class works for integers.
+ */
 TESTPP( test_int_config_option )
 {
 	config_option_c< int > opt( "dog" );
-	std::string input( "89" );
-
-	// assert preconditions
-	std::string( "dog" ) == actual( opt.name() );
-	false == actual( opt.set() );
-	false == actual( opt.error() );
-
-	opt.parse( input );
+	opt.parse( "89" );
 
 	// assert postconditions
 	89 == actual( opt.value() );
@@ -56,17 +63,28 @@ TESTPP( test_int_config_option )
 	false == actual( opt.error() );
 }
 
+
+/**
+ * Test that the config_option class works for booleans.
+ */
+TESTPP( test_bool_config_option )
+{
+	config_option_c< bool > opt( "dog" );
+	opt.parse( "1" );
+
+	// assert postconditions
+	true == actual( opt.value() );
+	true == actual( opt.set() );
+	false == actual( opt.error() );
+}
+
+/**
+ * Test that parsing an invalid string for integers fails properly.
+ */
 TESTPP( test_invalid_int_input )
 {
 	config_option_c< int > opt( "dog" );
-	std::string input( "cat" );
-
-	// assert preconditions
-	std::string( "dog" ) == actual( opt.name() );
-	false == actual( opt.set() );
-	false == actual( opt.error() );
-
-	opt.parse( input );
+	opt.parse( "cat" );
 
 	// assert postconditions
 	true == actual( opt.error() );
