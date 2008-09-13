@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
-#include "config_parser.h"
+#include "configuration.h"
 #include "connection_acceptor.h"
 #include "request_reader.h"
 #include "request_processor.h"
@@ -25,15 +25,28 @@
 #include "shession_store.h"
 #include "usage.h"
 
-static const int DEFAULT_TIMEOUT( 20 );
+static const int DEFAULT_SESSION_TIMEOUT( 20 );
 static const int DEFAULT_SERVICE_PORT( 9000 );
 static const int DEFAULT_ADMIN_PORT( 9001 );
+static const int DEFAULT_MIRROR_PORT( 9002 );
 
 
 int main( int argc, const char **argv )
 {
+	// command line usage options
 	usage_option_c debug_option( false, 'g', "debug"
 			, "turn on debugging messages" );
+
+	// config options
+	config_option_c< int > session_timeout( "session-timeout"
+			, DEFAULT_SESSION_TIMEOUT );
+	config_option_c< int > service_port( "service-port"
+			, DEFAULT_SERVICE_PORT );
+	config_option_c< int > admin_port( "admin-port", DEFAULT_ADMIN_PORT );
+	config_option_c< int > mirror_port( "mirror-port"
+			, DEFAULT_MIRROR_PORT );
+
+	// parse usage
 	usage_c usage;
 	usage.add( debug_option );
 
@@ -42,32 +55,24 @@ int main( int argc, const char **argv )
 		return -1;
 	}
 
-	// default options
-	int session_timeout( DEFAULT_TIMEOUT );
-	int service_port( DEFAULT_SERVICE_PORT );
-	int admin_port( DEFAULT_ADMIN_PORT );
 	// parse the config file
 	std::ifstream config_file( "shessiond.conf" );
 	if ( config_file.is_open() ) {
-		config_parser_c config( config_file );
-		config.parse_input();
-
-		if ( config.configured( "session-timeout" ) ) {
-			session_timeout = config.int_value( "session-timeout" );
-		}
-
-		if ( config.configured( "port" ) ) {
-			service_port = config.int_value( "port" );
-		}
-		// service-port and admin-port
+		configuration_c config;
+		config.add( session_timeout );
+		config.add( service_port );
+		config.add( admin_port );
+		config.add( mirror_port );
+		config.parse( config_file );
 	}
 
 	connection_acceptor_c acceptor;
 	request_reader_c reader;
-	shession_store_c store( session_timeout );
+	shession_store_c store( session_timeout.value() );
 	request_processor_c processor( store );
 
-	bool accept_open( acceptor.open( service_port, admin_port ) );
+	bool accept_open( acceptor.open( service_port.value()
+				, admin_port.value() ) );
 	if ( ! accept_open ) {
 		std::cerr << "Error opening acceptor.\n";
 		return 1;

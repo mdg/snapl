@@ -35,6 +35,22 @@ TESTPP( test_config_option_initialization )
 }
 
 /**
+ * Test that preconditions are set properly
+ * in the config_option constructor with a
+ * default value.
+ */
+TESTPP( test_config_option_default_init )
+{
+	config_option_c< int > opt( "dog", 58 );
+
+	// assert preconditions
+	std::string( "dog" ) == actual( opt.name() );
+	58 == actual( opt.value() );
+	true == actual( opt.set() );
+	false == actual( opt.error() );
+}
+
+/**
  * Test that the config option class works for the
  * string type.
  */

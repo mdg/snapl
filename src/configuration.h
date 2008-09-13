@@ -76,6 +76,17 @@ public:
 	, m_set( false )
 	, m_error( false )
 	{}
+
+	/**
+	 * Construct the config option with a default value.  The name
+	 * is the key in the configuration file.
+	 */
+	config_option_c( const std::string &name, const T &default_value )
+	: m_name( name )
+	, m_value( default_value )
+	, m_set( true )
+	, m_error( false )
+	{}
 	virtual ~config_option_c() {}
 
 	/**
