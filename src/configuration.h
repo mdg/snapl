@@ -21,16 +21,42 @@
 #include <set>
 
 
+class config_option_i
+{
+public:
+	virtual ~config_option_i() {}
+	virtual bool parse( const std::string & ) = 0;
+
+	// support other features first.
+	// virtual std::string doc() const = 0;
+	virtual bool parse_error() const = 0;
+};
+
+template < class T >
 class config_option_c
 {
 public:
-	config_option_c( const std::string &name );
-	virtual ~config_option_c();
-	virtual bool parse( const std::string & ) = 0;
-	virtual std::string doc() const = 0;
+	config_option_c( const std::string &name )
+	: m_name( name )
+	, m_value()
+	, m_error( false )
+	{}
+	virtual ~config_option_c() {}
+
+	virtual bool parse( const std::string &str_value )
+	{
+		istringstream parser( str_value );
+		parser >> m_value;
+		m_error = istringstream.fail();
+	}
+
+	// virtual std::string doc() const = 0;
+	virtual bool error() const { return m_error; }
 
 private:
 	std::string m_name;
+	T m_value;
+	bool m_error;
 };
 
 class str_config_option_c
