@@ -24,17 +24,24 @@ TESTPP( test_basic_string_options )
 {
 	configuration_c config;
 	config.option( "option" );
-	/*
-	config.int_option( "port" );
-	config.int_option( "session-timeout" );
-	config.bool_option( "t_or_f" );
-	*/
+
 	const char str_input[] = "option=dog";
 	std::stringstream input( str_input );
 
 	config.parse_input( input );
 
+	true == actual( config.configured( "option" ) );
+	false == actual( config.configured( "cat" ) );
 	std::string( "dog" ) == actual( config.value( "option" ) );
+}
+
+TESTPP( test_int_options )
+{
+	/*
+	config.int_option( "port" );
+	config.int_option( "session-timeout" );
+	config.bool_option( "t_or_f" );
+	*/
 }
 
 
