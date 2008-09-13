@@ -17,6 +17,7 @@
 
 
 #include <iostream>
+#include <list>
 
 
 /**
@@ -24,15 +25,43 @@
  */
 #define TESTPP( test_func ) \
 static void test_func(); \
-static int test_func##_result = testpp_wrapper( test_func, #test_func \
+static testpp_runner test_func##_runner( test_func, #test_func \
 		, __FILE__, __LINE__ ); \
 void test_func()
 
+
+
 /**
- * Simple wrapper function to call the test function statically.
+ * The function to be run by the TESTPP macro
  */
-int testpp_wrapper( void (*func)(), const char *test_name
-		, const char *filename, int linenumber );
+typedef void (*testpp_func)();
+
+/**
+ * A class that takes a parameter as a testpp_func
+ * and stores it to run later.
+ */
+class testpp_runner
+{
+public:
+	testpp_runner( testpp_func, const char *test_name
+		, const char *file_name, int line_number );
+	~testpp_runner();
+
+	/**
+	 * Run the test.
+	 */
+	void run();
+
+	static void run_all();
+
+private:
+	std::string m_test_name;
+	const char *m_file_name;
+	int m_line_number;
+	testpp_func f_testpp;
+
+	static std::list< testpp_runner * > *s_runners;
+};
 
 
 /**
