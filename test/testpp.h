@@ -60,7 +60,7 @@ private:
 	int m_line_number;
 	testpp_func f_testpp;
 
-	static std::list< testpp_runner * > *s_runners;
+	static std::list< testpp_runner * > & runners();
 };
 
 

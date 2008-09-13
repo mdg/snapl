@@ -16,54 +16,62 @@
 #include "testpp.h"
 
 
-std::list< testpp_runner * > *testpp_runner::s_runners = 0;
-
-
 testpp_runner::testpp_runner( testpp_func f, const char *test_name
 	       , const char *file_name, int line_number )
 : f_testpp( f )
+, m_test_name( test_name )
+, m_file_name( file_name )
+, m_line_number( line_number )
 {
+	/*
 	static int i( 0 );
-	if ( ! s_runners ) {
-		std::cerr << "initialize s_runners\n";
-		s_runners = new std::list< testpp_runner * >;
-	}
-	std::cerr << "s_runners->push_back( " << i++ << " )"
-		<< " = " << s_runners->size() << std::endl;
-	s_runners->push_back( this );
+	std::cerr << "runners().push_back( " << i++ << " )"
+		<< " = " << runners().size() << std::endl;
+	*/
+	runners().push_back( this );
 }
 
 testpp_runner::~testpp_runner()
 {
 	std::list< testpp_runner * >::iterator it;
-	it = std::find( s_runners->begin(), s_runners->end(), this );
-	if ( it == s_runners->end() ) {
-		s_runners->erase( it );
+	it = std::find( runners().begin(), runners().end(), this );
+	if ( it == runners().end() ) {
+		runners().erase( it );
 	}
 }
 
 void testpp_runner::run()
 {
-	std::cerr << "testpp( " << m_file_name << ':' << m_test_name;
-	std::cerr << ':' << m_line_number << " )\n";
-	f_testpp();
+	std::cout << "testpp( " << m_file_name << ':' << m_test_name;
+	std::cout << ':' << m_line_number << " )" << std::endl;
+	try {
+		f_testpp();
+	} catch (...) {
+		std::cerr << "catch...";
+	}
 }
 
 void testpp_runner::run_all()
 {
-	std::cerr << "run_all( " << s_runners->size() << " )\n";
+	// std::cerr << "run_all( " << runners().size() << " )\n";
 	std::list< testpp_runner * >::iterator it;
 	int i( 0 );
-	for ( it=s_runners->begin(); it!=s_runners->end(); ++it ) {
-		std::cerr << "run( " << i++ << " )" << std::endl;
+	for ( it=runners().begin(); it!=runners().end(); ++it ) {
+		// std::cerr << "run( " << i++ << " )" << std::endl;
 		(*it)->run();
 	}
 }
 
 
+std::list< testpp_runner * > & testpp_runner::runners()
+{
+	static std::list< testpp_runner * > static_runners;
+	return static_runners;
+}
+
+
 int main( int argc, char **argv )
 {
-	std::cerr << "wtf is this?\n";
 	testpp_runner::run_all();
 	return 0;
 }
