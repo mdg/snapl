@@ -43,9 +43,6 @@ public:
 	 * the socket.
 	 */
 	request_c * create_request( connection_i & );
-
-private:
-	static request_type_e get_request_type( const std::string & );
 };
 
 

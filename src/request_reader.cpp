@@ -48,7 +48,7 @@ request_c * request_reader_c::create_request( connection_i &conn )
 	stream >> request;
 	stream >> session_id;
 
-	request_type_c req_type( get_request_type( request ) );
+	request_type_c req_type( request );
 	// std::cerr << "req_type = " << (int) req_type << std::endl;
 	request_c *req = new request_c( req_type.type(), session_id );
 	std::string token_name;
@@ -62,24 +62,5 @@ request_c * request_reader_c::create_request( connection_i &conn )
 	}
 
 	return req;
-}
-
-
-request_type_e request_reader_c::get_request_type( const std::string& req_type )
-{
-	// std::cerr << "request = '" << req_type << "'\n";
-
-	request_type_e rt( RT_NULL );
-	if ( req_type == "create" ) {
-		return RT_CREATE_SESSION;
-	} else if ( req_type == "kill" ) {
-		return RT_KILL_SESSION;
-	} else if ( req_type == "status" ) {
-		return RT_SESSION_STATUS;
-	} else if ( req_type == "close" ) {
-		return RT_CLOSE;
-	} else {
-		return RT_NULL;
-	}
 }
 
