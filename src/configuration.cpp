@@ -18,8 +18,10 @@
 
 
 configuration_c::configuration_c()
-{
-}
+: m_option()
+, m_error( false )
+{}
+
 
 void configuration_c::add( config_option_i &option )
 {
@@ -61,6 +63,10 @@ void configuration_c::parse( std::istream &input )
 			}
 
 			it->second->parse( value );
+			if ( it->second->error() ) {
+				m_error = true;
+				return;
+			}
 		}
 	}
 }

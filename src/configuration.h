@@ -154,8 +154,14 @@ public:
 	 */
 	void parse( std::istream &input );
 
+	/**
+	 * Check if there was an error parsing the configuration.
+	 */
+	bool error() const { return m_error; }
+
 private:
 	option_map m_option;
+	bool m_error;
 };
 
 

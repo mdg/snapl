@@ -208,17 +208,18 @@ TESTPP( test_whitespace )
 /**
  * Test that a non integer value doesn't freak out when an integer
  * is requested.
+ */
 TESTPP( test_non_integer )
 {
+	config_option_c< int > timeout( "session-timeout" );
 	const char str_input[] = "session-timeout=hh340\n";
 	std::stringstream input( str_input );
 
-	config_parser_c parser( input );
-	parser.parse_input();
+	configuration_c config;
+	config.add( timeout );
+	config.parse( input );
 
-	std::string str_value( parser.str_value( "session-timeout" ) );
-	// parser returns 0 right now if it's not an integer
-	0 == actual( parser.int_value( "session-timeout" ) );
+	true == actual( timeout.error() );
+	true == actual( config.error() );
 }
- */
 
