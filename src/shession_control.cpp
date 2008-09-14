@@ -24,46 +24,57 @@
 
 
 shession_control_c::shession_control_c( connection_listener_i &conn_fact
-	       , request_reader_c &reader, request_processor_c &processor )
+	       , request_processor_c &processor )
 : m_connection_factory( conn_fact )
-, m_reader( reader )
+, m_reader()
 , m_processor( processor )
+{}
+
+shession_control_c::~shession_control_c() {}
+
+
+void shession_control_c::add_reader( short port, request_reader_i &reader )
 {
+	m_reader[ port ] = &reader;
 }
 
-shession_control_c::~shession_control_c()
-{
-}
 
 bool shession_control_c::main_loop()
 {
 	bool success( false );
 	for (;;) {
-		success = iterate();
+		iterate();
 	}
 
 	return success;
 }
 
-bool shession_control_c::iterate()
+void shession_control_c::iterate()
 {
 	bool success( false );
-	for (;;) {
-		request_c *req = 0;
+	request_c *req = 0;
 
-		connection_i *conn = m_connection_factory.connection();
-		if ( ! conn ) {
-			continue;
-		}
-		do {
-			req = m_reader.create_request( *conn );
-			if ( req ) {
-				m_processor.process( *req, *conn );
-			}
-			// continue reading from this connection
-			// while it has input
-		} while ( conn->line_ready() );
+	connection_i *conn = m_connection_factory.connection();
+	if ( ! conn ) {
+		return;
 	}
-	return success;
+
+	// find the request_reader
+	int port( conn->port() );
+	reader_map::const_iterator it( m_reader.find( port ) );
+	if ( it == m_reader.end() ) {
+		std::cerr << "Unmapped port: " << conn << std::endl;
+		return;
+	}
+	request_reader_i &reader( *it->second );
+
+	do {
+		req = reader.create_request( *conn );
+		if ( req ) {
+			m_processor.process( *req, *conn );
+		}
+		// continue reading from this connection
+		// while it has input
+	} while ( conn->line_ready() );
 }
 

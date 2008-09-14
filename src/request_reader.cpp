@@ -25,15 +25,13 @@
 
 
 request_reader_c::request_reader_c()
-{
-}
+{}
 
 request_reader_c::~request_reader_c()
-{
-}
+{}
 
 
-request_c * request_reader_c::create_request( connection_i &conn )
+request_c * request_reader_c::create_request( connection_i &conn ) const
 {
 	std::string request_line;
 	conn.read_line( request_line );

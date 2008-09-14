@@ -23,9 +23,29 @@ class request_c;
 
 
 /**
+ * Interface to abstract different kinds of request_readers which
+ * will be able to create different kinds of requests.
+ */
+class request_reader_i
+{
+public:
+	/**
+	 * Virtual destructor
+	 */
+	virtual ~request_reader_i() {}
+
+	/**
+	 * Create a request given a connection.
+	 */
+	virtual request_c * create_request( connection_i & ) const = 0;
+};
+
+
+/**
  * A class to read requests from an existing connection.
  */
 class request_reader_c
+: public request_reader_i
 {
 public:
 	/**
@@ -42,7 +62,7 @@ public:
 	 * Create a request by parsing the input from
 	 * the socket.
 	 */
-	request_c * create_request( connection_i & );
+	request_c * create_request( connection_i & ) const;
 };
 
 

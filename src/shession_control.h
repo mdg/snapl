@@ -17,12 +17,13 @@
 
 
 #include <list>
+#include <map>
 #include <memory>
 
 class connection_listener_i;
 class request_c;
 class request_processor_c;
-class request_reader_c;
+class request_reader_i;
 
 
 /**
@@ -31,17 +32,24 @@ class request_reader_c;
  */
 class shession_control_c
 {
+	typedef std::map< short, request_reader_i * > reader_map;
+
 public:
 	/**
 	 * Construct the shession control
 	 * object.
 	 */
-	shession_control_c( connection_listener_i &, request_reader_c &
-			, request_processor_c & );
+	shession_control_c( connection_listener_i &, request_processor_c & );
+
 	/**
 	 * Destroy the shession_control_c
 	 */
 	~shession_control_c();
+
+	/**
+	 * Add a reader and connect it to the given port.
+	 */
+	void add_reader( short port, request_reader_i & );
 
 	/**
 	 * Start the shession
@@ -51,11 +59,11 @@ public:
 	/**
 	 * Run one iteration of the main loop.
 	 */
-	bool iterate();
+	void iterate();
 
 private:
 	connection_listener_i &m_connection_factory;
-	request_reader_c & m_reader;
+	reader_map m_reader;
 	request_processor_c &m_processor;
 };
 

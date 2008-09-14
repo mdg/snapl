@@ -110,8 +110,10 @@ int main( int argc, const char **argv )
 		return 1;
 	}
 
+
 	// begin main loop
-	shession_control_c control( acceptor, reader, processor );
+	shession_control_c control( acceptor, processor );
+	control.add_reader( service_port.value(), reader );
 	control.main_loop();
 	return 0;
 }
