@@ -6,13 +6,16 @@
 modify protocol so create generates the sha1 session_id.
 	replace the current session_id with an optional username parameter
 
-separate request_processors into cmd pattern style executors
-
-create path for service connections to provide only service requests
-	and admin connections to provide only admin requests
-	and mirror connections to provide only mirror requests
+add tests for new classes:
+	protocol
+	request_type
+	shession_control
+	shession_protocol?
 
 mirror connections accepted
+
+modify protocols to write back some response for all requests
+	necessary for keeping things in sync on errors
 
 add a logger class to allow turning debug messages on and off
 	this should probably be log4c
