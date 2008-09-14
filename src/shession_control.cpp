@@ -57,7 +57,6 @@ void shession_control_c::iterate()
 		return;
 	}
 
-	// find the request_reader
 	int port( conn->port() );
 	std::string req_line;
 
