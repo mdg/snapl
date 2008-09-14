@@ -30,7 +30,7 @@ TESTPP( test_create_kill )
 	request_processor_c proc( store );
 	connection_i *conn = NULL;
 	int fd( fileno( stdout ) );
-	conn = new connected_socket_c( fd );
+	conn = new connected_socket_c( fd, 0 );
 
 	false == actual( proc.session_live( "dog" ) );
 

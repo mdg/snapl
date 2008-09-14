@@ -25,6 +25,13 @@ class request_c;
 class shession_store_i;
 
 
+class request_processor_i
+{
+public:
+	void process( const request_c &, connection_i & );
+};
+
+
 /**
  * An object that processes requests.  Probably needs to
  * be rewritten and reshaped at some point.

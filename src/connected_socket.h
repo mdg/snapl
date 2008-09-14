@@ -31,8 +31,13 @@ public:
 	 * Construct the connected socket object, given an open
 	 * socket.
 	 */
-	connected_socket_c( int socket );
+	connected_socket_c( int socket, int port );
 	virtual ~connected_socket_c();
+
+	/**
+	 * Get the port that this socket was connected to.
+	 */
+	virtual int port() const { return m_port; }
 
 	/**
 	 * Read a line of input from this connection.
@@ -52,6 +57,7 @@ public:
 
 private:
 	int m_socket;
+	int m_port;
 	line_parser_c m_line_parser;
 };
 

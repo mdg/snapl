@@ -165,10 +165,10 @@ connection_i * connection_acceptor_c::connection()
 
 	// accept connections on the listeners if there's anything
 	if ( polls[0].revents & POLLIN ) {
-		accept( m_service_listener );
+		accept( m_service_listener, m_service_port );
 	}
 	if ( polls[1].revents & POLLIN ) {
-		accept( m_admin_listener );
+		accept( m_admin_listener, m_admin_port );
 	}
 	// check for input on open connections
 	for ( i=2; i<poll_count; ++i ) {
@@ -194,7 +194,7 @@ connection_i * connection_acceptor_c::connection()
 	return ready_conn;
 }
 
-void connection_acceptor_c::accept( int listener )
+void connection_acceptor_c::accept( int listener, int port )
 {
 	int sock( ::accept( listener, NULL, 0 ) );
 	if ( sock < 0 ) {
@@ -221,6 +221,6 @@ void connection_acceptor_c::accept( int listener )
 
 	// set the socket as non-blocking before returning it
 	fcntl( sock, F_SETFL, O_NONBLOCK );
-	m_open[ sock ] = new connected_socket_c( sock );
+	m_open[ sock ] = new connected_socket_c( sock, port );
 }
 

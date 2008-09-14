@@ -30,6 +30,11 @@ public:
 	virtual ~connection_i() {}
 
 	/**
+	 * Return the server port that this connection is on
+	 */
+	virtual int port() const = 0;
+
+	/**
 	 * Read a line of input from this connection.
 	 */
 	virtual void read_line( std::string& ) = 0;

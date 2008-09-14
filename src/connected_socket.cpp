@@ -18,15 +18,17 @@
 #include <errno.h>
 
 
-connected_socket_c::connected_socket_c( int socket )
+connected_socket_c::connected_socket_c( int socket, int port )
 : m_socket( socket )
-{
-}
+, m_port( port )
+{}
+
 
 connected_socket_c::~connected_socket_c()
 {
 	shutdown( m_socket, SHUT_RDWR );
 	m_socket = 0;
+	m_port = 0;
 }
 
 

@@ -35,7 +35,7 @@ static connection_i * create_connection( const char *contents )
 	// std::cerr << connection_name << std::endl;
 	FILE *connection_file = fopen( connection_name, "r" );
 	int fd( fileno( connection_file ) );
-	return new connected_socket_c( fd );
+	return new connected_socket_c( fd, 0 );
 }
 
 

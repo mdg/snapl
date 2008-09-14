@@ -55,7 +55,7 @@ bool shession_client_c::open( const std::string &url, short port )
 		return false;
 	}
 
-	m_connection.reset( new connected_socket_c( connection ) );
+	m_connection.reset( new connected_socket_c( connection, port ) );
 	std::cerr << "Connected to " << url << "!\n";
 	return true;
 }
