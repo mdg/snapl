@@ -28,30 +28,29 @@
 
 
 connection_acceptor_c::connection_acceptor_c()
-: m_service_port( 0 )
-, m_service_listener( 0 )
-, m_admin_port( 0 )
-, m_admin_listener( 0 )
-{
-}
+: m_listener()
+, m_open()
+, m_ready()
+{}
+
 
 connection_acceptor_c::~connection_acceptor_c()
 {
 	close();
 }
 
-bool connection_acceptor_c::open( int service_port, int admin_port
-		, int backlog )
+bool connection_acceptor_c::open_listener( short port, int backlog )
 {
-	m_service_port = service_port;
-	m_admin_port = admin_port;
+	int listener( create_listener_socket( port, backlog ) );
+	if ( ! listener ) {
+		return false;
+	}
 
-	m_service_listener = open_listener( m_service_port, backlog );
-	m_admin_listener = open_listener( m_admin_port, backlog );
-	return m_service_listener && m_admin_listener;
+	m_listener[ listener ] = port;
+	return true;
 }
 
-int connection_acceptor_c::open_listener( int port, int backlog )
+int connection_acceptor_c::create_listener_socket( int port, int backlog )
 {
 	int listener( 0 );
 	// create the socket
@@ -105,18 +104,21 @@ int connection_acceptor_c::open_listener( int port, int backlog )
 
 void connection_acceptor_c::close()
 {
-	m_service_port = 0;
-	m_admin_port = 0;
-	if ( m_service_listener ) {
-		std::cerr << "acceptor_c::close()\n";
-		shutdown( m_service_listener, SHUT_RDWR );
-		m_service_listener = 0;
+	// close the listeners first
+	listener_iterator listener( m_listener.begin() );
+	for ( ; listener!=m_listener.end(); ++listener ) {
+		shutdown( listener->first, SHUT_RDWR );
 	}
-	if ( m_admin_listener ) {
-		std::cerr << "acceptor_c::close( admin )\n";
-		shutdown( m_admin_listener, SHUT_RDWR );
-		m_admin_listener = 0;
+	m_listener.clear();
+
+	// close the open connections
+	connection_iterator conn( m_open.begin() );
+	for ( ; conn!=m_open.end(); ++conn ) {
+		shutdown( conn->first, SHUT_RDWR );
+		delete conn->second;
 	}
+	m_ready.clear();
+	m_open.clear();
 }
 
 connection_i * connection_acceptor_c::connection()
@@ -125,29 +127,29 @@ connection_i * connection_acceptor_c::connection()
 	connection_i *ready_conn = NULL;
 	if ( ! m_ready.empty() ) {
 		ready_conn = m_ready.front();
-		m_ready.pop();
+		m_ready.pop_front();
 		return ready_conn;
 	}
 
 	// build the poll set to check for new connections and input
-	int poll_count( m_open.size() + 2 );
+	int listener_count( m_listener.size() );
+	int connection_count( m_open.size() );
+	int poll_count( listener_count + connection_count );
 	pollfd *polls = new pollfd[ poll_count ];
 
 	int i( 0 );
-	std::map< int, connection_i * >::const_iterator it;
-
-	// build service listener poll
-	polls[i].fd = m_service_listener;
-	polls[i].events = POLLIN;
-	polls[i++].revents = 0;
-	// build admin listener poll
-	polls[i].fd = m_admin_listener;
-	polls[i].events = POLLIN;
-	polls[i++].revents = 0;
+	// build listener poll structures
+	listener_iterator lit( m_listener.begin() );
+	for ( ; lit != m_listener.end(); ++lit ) {
+		polls[i].fd = lit->first;
+		polls[i].events = POLLIN;
+		polls[i++].revents = 0;
+	}
 
 	// build polls for open connections
-	for ( it=m_open.begin(); it!=m_open.end(); ++it ) {
-		polls[i].fd = it->first;
+	connection_iterator conn( m_open.begin() );
+	for ( ; conn!=m_open.end(); ++conn ) {
+		polls[i].fd = conn->first;
 		polls[i].events = POLLIN;
 		polls[i++].revents = 0;
 	}
@@ -163,22 +165,27 @@ connection_i * connection_acceptor_c::connection()
 		perror( "Poll error" );
 	}
 
-	// accept connections on the listeners if there's anything
-	if ( polls[0].revents & POLLIN ) {
-		accept( m_service_listener, m_service_port );
+	// accept connections on the listeners
+	for ( i=0; i<listener_count; ++i ) {
+		if ( polls[i].revents & POLLIN ) {
+			int listener( polls[i].fd );
+			int port( m_listener[ listener ] );
+			accept( listener, port );
+		} else if ( polls[i].revents != 0 ) {
+			std::cerr << "polls[" << i << "].revents = "
+				<< polls[i].revents << std::endl;
+		}
 	}
-	if ( polls[1].revents & POLLIN ) {
-		accept( m_admin_listener, m_admin_port );
-	}
+
 	// check for input on open connections
-	for ( i=2; i<poll_count; ++i ) {
+	for ( i=0; i<poll_count; ++i ) {
 		if ( polls[i].revents & POLLHUP ) {
 			// this connection is closed.
 			// delete it.
 			delete m_open[ polls[i].fd ];
 			m_open.erase( polls[i].fd );
 		} else if ( polls[i].revents & POLLIN ) {
-			m_ready.push( m_open[ polls[i].fd ] );
+			m_ready.push_back( m_open[ polls[i].fd ] );
 		} else {
 			std::cerr << "polls[" << i << "].revents = "
 				<< polls[i].revents << std::endl;
@@ -190,7 +197,7 @@ connection_i * connection_acceptor_c::connection()
 		return NULL;
 	}
 	ready_conn = m_ready.front();
-	m_ready.pop();
+	m_ready.pop_front();
 	return ready_conn;
 }
 

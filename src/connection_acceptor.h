@@ -17,7 +17,7 @@
 
 #include "connection_listener.h"
 #include <map>
-#include <queue>
+#include <list>
 
 
 /**
@@ -28,6 +28,12 @@ class connection_acceptor_c
 : public connection_listener_i
 {
 	static const int DEFAULT_BACKLOG = 128;
+	// listener typedefs
+	typedef std::map< int, short > listener_map;
+	typedef listener_map::iterator listener_iterator;
+	// connection typedefs
+	typedef std::map< int, connection_i * > connection_map;
+	typedef connection_map::const_iterator connection_iterator;
 
 public:
 	/**
@@ -41,13 +47,10 @@ public:
 	virtual ~connection_acceptor_c();
 
 	/**
-	 * Open the service and admin acceptors on the given ports.
-	 * @service_port The port on which service connections are be accepted.
-	 * @admin_port   The port on which admin connections should be accepted.
+	 * Open a listening acceptor on the given port.
 	 * @return  true if the sockets were opened successfully.
 	 */
-	bool open( int service_port, int admin_port
-			, int backlog = DEFAULT_BACKLOG );
+	bool open_listener( short port, int backlog = DEFAULT_BACKLOG );
 
 	/**
 	 * Closes both the normal and admin listeners.
@@ -62,19 +65,13 @@ public:
 	virtual connection_i * connection();
 
 private:
-	static int open_listener( int port, int backlog );
+	static int create_listener_socket( int port, int backlog );
 	void accept( int listener, int port );
 
-	connection_i * old_connection( int );
-
 private:
-	int m_service_port;
-	int m_service_listener;
-	int m_admin_port;
-	int m_admin_listener;
-
-	std::map< int, connection_i * > m_open;
-	std::queue< connection_i * > m_ready;
+	listener_map m_listener;
+	connection_map m_open;
+	std::list< connection_i * > m_ready;
 };
 
 

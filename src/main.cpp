@@ -86,18 +86,31 @@ int main( int argc, const char **argv )
 	}
 
 
+	// construct runtime objects
 	connection_acceptor_c acceptor;
 	request_reader_c reader;
 	shession_store_c store( session_timeout.value() );
 	request_processor_c processor( store );
 
-	bool accept_open( acceptor.open( service_port.value()
-				, admin_port.value() ) );
+	// open listeners
+	bool accept_open;
+	accept_open = acceptor.open_listener( service_port.value() );
 	if ( ! accept_open ) {
-		std::cerr << "Error opening acceptor.\n";
+		std::cerr << "Error opening service listener.\n";
+		return 1;
+	}
+	accept_open = acceptor.open_listener( admin_port.value() );
+	if ( ! accept_open ) {
+		std::cerr << "Error opening admin listener.\n";
+		return 1;
+	}
+	accept_open = acceptor.open_listener( mirror_port.value() );
+	if ( ! accept_open ) {
+		std::cerr << "Error opening mirror listener.\n";
 		return 1;
 	}
 
+	// begin main loop
 	shession_control_c control( acceptor, reader, processor );
 	control.main_loop();
 	return 0;
