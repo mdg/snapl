@@ -17,6 +17,7 @@
 
 
 #include <string>
+#include <vector>
 #include "request_type.h"
 
 
@@ -31,21 +32,29 @@ public:
 	 * Construct a request object with a given request type
 	 * and a string parameter.
 	 */
-	request_c( request_type_e, const std::string& session_id );
+	request_c( const std::string &request_line );
 
 	/**
 	 * Get the type of this request
 	 */
-	request_type_e request_type() const { return m_req_type; }
+	request_type_e type() const { return m_type.type(); }
+	/**
+	 * Get then type name of this request
+	 */
+	const std::string & name() const { return m_type.name(); }
 
 	/**
-	 * Get the session_id for this request
+	 * Number of arguments to this request.
 	 */
-	const std::string & session_id() const { return m_session_id; }
+	int argc() const { return m_args.size(); }
+	/**
+	 * Get a specific argument to this request.
+	 */
+	const std::string & argv( int i ) const { return m_args[i]; }
 
 private:
-	request_type_e m_req_type;
-	std::string m_session_id;
+	request_type_c m_type;
+	std::vector< std::string > m_args;
 };
 
 

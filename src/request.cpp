@@ -14,11 +14,25 @@
  */
 
 #include "request.h"
+#include <sstream>
 
 
-request_c::request_c( request_type_e request_type
-		, const std::string& session_id )
-: m_req_type( request_type )
-, m_session_id( session_id )
-{}
+request_c::request_c( const std::string &request_line )
+: m_type()
+, m_args()
+{
+	std::istringstream input( request_line );
+	std::string parsed_word;
+
+	// get the request_type
+	input >> parsed_word;
+	m_type = request_type_c( parsed_word );
+
+	// parse the arguments
+	input >> parsed_word;
+	while ( ! parsed_word.empty() ) {
+		m_args.push_back( parsed_word );
+		input >> parsed_word;
+	}
+}
 
