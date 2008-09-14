@@ -25,9 +25,10 @@
  */
 TESTPP( test_constructor_1 )
 {
-	request_c req( RT_RENEW_SESSION, "dog" );
-	RT_RENEW_SESSION == actual( req.request_type() );
-	std::string( "dog" ) == actual( req.session_id() );
+	request_c req( "renew dog" );
+	RT_RENEW_SESSION == actual( req.type() );
+	1 == actual( req.argc() );
+	std::string( "dog" ) == actual( req.argv( 0 ) );
 }
 
 /**
@@ -36,8 +37,10 @@ TESTPP( test_constructor_1 )
  */
 TESTPP( test_constructor_2 )
 {
-	request_c req( RT_CREATE_SESSION, "cat" );
-	RT_CREATE_SESSION == actual( req.request_type() );
-	std::string( "cat" ) == actual( req.session_id() );
+	request_c req( "create cat mouse" );
+	RT_CREATE_SESSION == actual( req.type() );
+	2 == actual( req.argc() );
+	std::string( "cat" ) == actual( req.argv( 0 ) );
+	std::string( "mouse" ) == actual( req.argv( 1 ) );
 }
 
