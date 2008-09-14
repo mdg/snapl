@@ -16,6 +16,7 @@
 #include "request.h"
 #include <sstream>
 
+#include <iostream>
 
 request_c::request_c( const std::string &request_line )
 : m_type()
@@ -32,6 +33,8 @@ request_c::request_c( const std::string &request_line )
 	input >> parsed_word;
 	while ( ! parsed_word.empty() ) {
 		m_args.push_back( parsed_word );
+		if ( input.eof() )
+			break;
 		input >> parsed_word;
 	}
 }
