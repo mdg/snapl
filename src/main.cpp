@@ -29,6 +29,7 @@ static const int DEFAULT_SESSION_TIMEOUT( 20 );
 static const int DEFAULT_SERVICE_PORT( 9000 );
 static const int DEFAULT_ADMIN_PORT( 9001 );
 static const int DEFAULT_MIRROR_PORT( 9002 );
+static const bool DEFAULT_LOCALHOST_LOCKDOWN( false );
 
 
 int main( int argc, const char **argv )
@@ -45,6 +46,8 @@ int main( int argc, const char **argv )
 	config_option_c< int > admin_port( "admin-port", DEFAULT_ADMIN_PORT );
 	config_option_c< int > mirror_port( "mirror-port"
 			, DEFAULT_MIRROR_PORT );
+	config_option_c< bool > localhost_lockdown( "localhost-lockdown"
+			, DEFAULT_LOCALHOST_LOCKDOWN );
 
 	// parse usage
 	usage_c usage;
