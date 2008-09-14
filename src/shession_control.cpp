@@ -25,17 +25,11 @@
 
 shession_control_c::shession_control_c( connection_listener_i &conn_fact )
 : m_connection_factory( conn_fact )
-, m_reader()
 , m_protocol()
 {}
 
 shession_control_c::~shession_control_c() {}
 
-
-void shession_control_c::add_reader( short port, request_reader_i &reader )
-{
-	m_reader[ port ] = &reader;
-}
 
 void shession_control_c::add_protocol( short port, protocol_c &protocol )
 {

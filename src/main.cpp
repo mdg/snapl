@@ -19,7 +19,6 @@
 #include <fstream>
 #include "configuration.h"
 #include "connection_acceptor.h"
-#include "request_reader.h"
 #include "request_processor.h"
 #include "shession_control.h"
 #include "shession_protocol.h"
@@ -89,7 +88,6 @@ int main( int argc, const char **argv )
 
 	// construct runtime objects
 	connection_acceptor_c acceptor;
-	request_reader_c reader;
 	shession_store_c store( session_timeout.value() );
 	shession_protocol_c protocol( store );
 
@@ -116,7 +114,6 @@ int main( int argc, const char **argv )
 
 	// begin main loop
 	shession_control_c control( acceptor );
-	control.add_reader( service_port.value(), reader );
 	control.add_protocol( service_port.value(), service_protocol );
 	control.main_loop();
 	return 0;

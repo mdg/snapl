@@ -22,7 +22,6 @@ class connection_listener_i;
 class protocol_c;
 class request_c;
 class request_processor_c;
-class request_reader_i;
 
 
 /**
@@ -31,8 +30,6 @@ class request_reader_i;
  */
 class shession_control_c
 {
-	typedef std::map< short, request_reader_i * > reader_map;
-	typedef reader_map::const_iterator reader_iterator;
 	typedef std::map< short, protocol_c * > protocol_map;
 	typedef protocol_map::iterator protocol_iterator;
 
@@ -47,11 +44,6 @@ public:
 	 * Destroy the shession_control_c
 	 */
 	~shession_control_c();
-
-	/**
-	 * Add a reader and connect it to the given port.
-	 */
-	void add_reader( short port, request_reader_i & );
 
 	/**
 	 * Add a protocol to be executed.
@@ -70,7 +62,6 @@ public:
 
 private:
 	connection_listener_i &m_connection_factory;
-	reader_map m_reader;
 	protocol_map m_protocol;
 };
 
