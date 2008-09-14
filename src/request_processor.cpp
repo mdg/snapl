@@ -34,7 +34,17 @@ create_request_processor_c::create_request_processor_c(
 void create_request_processor_c::process( const request_c &req
 		, connection_i &conn )
 {
-	m_store.create_session( req.session_id() );
+	if ( req.argc() > 1 ) {
+		// error
+		return;
+	}
+
+	// process the request
+	std::string user_id;
+	if ( req.argc() == 1 ) {
+		user_id = req.argv( 0 );
+	}
+	m_store.create_session( user_id );
 }
 
 
@@ -45,10 +55,22 @@ renew_request_processor_c::renew_request_processor_c( shession_store_i &store )
 void renew_request_processor_c::process( const request_c &req
 		, connection_i &conn )
 {
-	// std::cerr << "begin process_status\n";
-	bool live( m_store.renew_session( req.session_id() ) );
+	// verify arguments
+	if ( req.argc() < 1 || 2 < req.argc() ) {
+		conn.write_line( "error" );
+		return;
+	}
+
+	// make arguments meaningful
+	const std::string &session_id( req.argv( 0 ) );
+	std::string user_id;
+	if ( req.argc() == 2 ) {
+		user_id = req.argv( 1 );
+	}
+
+	// process arguments
+	bool live( m_store.renew_session( session_id ) );
 	conn.write_line( live ? "live" : "dead" );
-	// std::cerr << "end process_status\n";
 }
 
 
@@ -59,7 +81,13 @@ kill_request_processor_c::kill_request_processor_c( shession_store_i &store )
 void kill_request_processor_c::process( const request_c &req
 		, connection_i &conn )
 {
-	m_store.kill_session( req.session_id() );
+	if ( req.argc() != 1 ) {
+		// error, but kill doesn't write a response
+		return;
+	}
+
+	const std::string &session_id( req.argv( 0 ) );
+	m_store.kill_session( session_id );
 }
 
 
