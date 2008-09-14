@@ -190,17 +190,19 @@ TESTPP( test_crlf )
 
 /**
  * Test that whitespace doesn't mess up the parsing of a config file.
+ */
 TESTPP( test_whitespace )
 {
+	config_option_c< int > timeout( "session-timeout" );
 	const char str_input[] = "\nsession-timeout = 20  \n";
 	std::stringstream input( str_input );
 
-	config_parser_c parser( input );
-	parser.parse_input();
+	configuration_c config;
+	config.add( timeout );
+	config.parse( input );
 
-	std::string( "20" ) == actual( parser.str_value( "session-timeout" ) );
+	20 == actual( timeout.value() );
 }
- */
 
 
 /**
