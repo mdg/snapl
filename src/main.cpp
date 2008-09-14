@@ -22,6 +22,7 @@
 #include "request_reader.h"
 #include "request_processor.h"
 #include "shession_control.h"
+#include "shession_protocol.h"
 #include "shession_store.h"
 #include "usage.h"
 
@@ -90,7 +91,7 @@ int main( int argc, const char **argv )
 	connection_acceptor_c acceptor;
 	request_reader_c reader;
 	shession_store_c store( session_timeout.value() );
-	request_processor_c processor( store );
+	shession_protocol_c protocol( store );
 
 	// open listeners
 	bool accept_open;
@@ -110,10 +111,13 @@ int main( int argc, const char **argv )
 		return 1;
 	}
 
+	protocol_c &service_protocol( protocol.create_service_protocol(
+				service_port.value() ) );
 
 	// begin main loop
-	shession_control_c control( acceptor, processor );
+	shession_control_c control( acceptor );
 	control.add_reader( service_port.value(), reader );
+	control.add_protocol( service_port.value(), service_protocol );
 	control.main_loop();
 	return 0;
 }

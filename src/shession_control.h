@@ -15,12 +15,11 @@
  * limitations under the License.
  */
 
-
-#include <list>
 #include <map>
 #include <memory>
 
 class connection_listener_i;
+class protocol_c;
 class request_c;
 class request_processor_c;
 class request_reader_i;
@@ -33,13 +32,16 @@ class request_reader_i;
 class shession_control_c
 {
 	typedef std::map< short, request_reader_i * > reader_map;
+	typedef reader_map::const_iterator reader_iterator;
+	typedef std::map< short, protocol_c * > protocol_map;
+	typedef protocol_map::iterator protocol_iterator;
 
 public:
 	/**
 	 * Construct the shession control
 	 * object.
 	 */
-	shession_control_c( connection_listener_i &, request_processor_c & );
+	shession_control_c( connection_listener_i & );
 
 	/**
 	 * Destroy the shession_control_c
@@ -50,6 +52,11 @@ public:
 	 * Add a reader and connect it to the given port.
 	 */
 	void add_reader( short port, request_reader_i & );
+
+	/**
+	 * Add a protocol to be executed.
+	 */
+	void add_protocol( short port, protocol_c & );
 
 	/**
 	 * Start the shession
@@ -64,7 +71,7 @@ public:
 private:
 	connection_listener_i &m_connection_factory;
 	reader_map m_reader;
-	request_processor_c &m_processor;
+	protocol_map m_protocol;
 };
 
 

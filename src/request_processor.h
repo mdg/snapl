@@ -18,6 +18,7 @@
 
 #include <set>
 #include <string>
+#include "request_type.h"
 
 
 class connection_i;
@@ -25,53 +26,75 @@ class request_c;
 class shession_store_i;
 
 
+/**
+ * Abstract request_processor interface
+ */
 class request_processor_i
 {
 public:
-	void process( const request_c &, connection_i & );
+	request_type_e request_type() const { return m_request_type; }
+	virtual void process( const request_c &, connection_i & ) = 0;
+protected:
+	request_processor_i( request_type_e, shession_store_i & );
+	shession_store_i &m_store;
+	request_type_e m_request_type;
 };
 
 
 /**
- * An object that processes requests.  Probably needs to
- * be rewritten and reshaped at some point.
+ * Create session request processor
  */
-class request_processor_c
+class create_request_processor_c
+: public request_processor_i
 {
 public:
-	/**
-	 * Construct a request processor.
-	 */
-	request_processor_c( shession_store_i & );
-
-	/**
-	 * Process a request
-	 * This should take a response_c object instead of
-	 * a connection.
-	 */
-	void process( const request_c &, connection_i & );
-
-	/**
-	 * Check if this session is live
-	 */
-	bool session_live( const std::string &session_id ) const;
-
-private:
+	create_request_processor_c( shession_store_i & );
 	/**
 	 * Process a create request.
 	 */
-	void process_create( const request_c & );
+	virtual void process( const request_c &, connection_i & );
+};
+
+
+/**
+ * Renew session request processor
+ */
+class renew_request_processor_c
+: public request_processor_i
+{
+public:
+	renew_request_processor_c( shession_store_i & );
 	/**
-	 * Process a status request.
+	 * Process a renew request.
 	 */
-	void process_renew( const request_c &, connection_i & );
+	virtual void process( const request_c &, connection_i & );
+};
+
+
+/**
+ * Kill session request processor
+ */
+class kill_request_processor_c
+: public request_processor_i
+{
+public:
+	kill_request_processor_c( shession_store_i & );
 	/**
 	 * Process a kill request.
 	 */
-	void process_kill( const request_c & );
+	virtual void process( const request_c &, connection_i & );
+};
 
-private:
-	shession_store_i &m_store;
+
+/**
+ * The close request processor.
+ */
+class close_request_processor_c
+: public request_processor_i
+{
+public:
+	close_request_processor_c( shession_store_i & );
+	virtual void process( const request_c &, connection_i & );
 };
 
 

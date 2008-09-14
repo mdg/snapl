@@ -18,16 +18,16 @@
 #include <iostream>
 #include "connection.h"
 #include "connection_listener.h"
+#include "protocol.h"
 #include "request.h"
 #include "request_processor.h"
 #include "request_reader.h"
 
 
-shession_control_c::shession_control_c( connection_listener_i &conn_fact
-	       , request_processor_c &processor )
+shession_control_c::shession_control_c( connection_listener_i &conn_fact )
 : m_connection_factory( conn_fact )
 , m_reader()
-, m_processor( processor )
+, m_protocol()
 {}
 
 shession_control_c::~shession_control_c() {}
@@ -36,6 +36,11 @@ shession_control_c::~shession_control_c() {}
 void shession_control_c::add_reader( short port, request_reader_i &reader )
 {
 	m_reader[ port ] = &reader;
+}
+
+void shession_control_c::add_protocol( short port, protocol_c &protocol )
+{
+	m_protocol[ port ] = &protocol;
 }
 
 
@@ -70,8 +75,20 @@ void shession_control_c::iterate()
 
 	do {
 		req = reader.create_request( *conn );
-		if ( req ) {
-			m_processor.process( *req, *conn );
+		if ( ! req ) {
+			continue;
+		}
+
+		protocol_iterator it( m_protocol.find( port ) );
+		if ( it == m_protocol.end() ) {
+			continue;
+		}
+
+		protocol_c &protocol( *it->second );
+		request_processor_i *proc = protocol.processor(
+					req->request_type() );
+		if ( proc ) {
+			proc->process( *req, *conn );
 		}
 		// continue reading from this connection
 		// while it has input

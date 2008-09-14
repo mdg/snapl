@@ -20,45 +20,29 @@
 #include "shession_store.h"
 
 
-request_processor_c::request_processor_c( shession_store_i &store )
+request_processor_i::request_processor_i( request_type_e req_type, shession_store_i &store )
 : m_store( store )
+, m_request_type( req_type )
 {}
 
 
-void request_processor_c::process( const request_c &req
+create_request_processor_c::create_request_processor_c(
+		shession_store_i &store )
+: request_processor_i( RT_CREATE_SESSION, store )
+{}
+
+void create_request_processor_c::process( const request_c &req
 		, connection_i &conn )
-{
-	switch ( req.request_type() ) {
-		case RT_CREATE_SESSION:
-			// std::cerr << "process create request\n";
-			process_create( req );
-			break;
-		case RT_RENEW_SESSION:
-			// std::cerr << "process status request\n";
-			process_renew( req, conn );
-			break;
-		case RT_KILL_SESSION:
-			// std::cerr << "process kill request\n";
-			process_kill( req );
-			break;
-		case RT_CLOSE:
-			// process_close( req, conn );
-			break;
-	}
-}
-
-bool request_processor_c::session_live( const std::string &session_id ) const
-{
-	return m_store.live_session( session_id );
-}
-
-void request_processor_c::process_create( const request_c &req )
 {
 	m_store.create_session( req.session_id() );
 }
 
 
-void request_processor_c::process_renew( const request_c &req
+renew_request_processor_c::renew_request_processor_c( shession_store_i &store )
+: request_processor_i( RT_RENEW_SESSION, store )
+{}
+
+void renew_request_processor_c::process( const request_c &req
 		, connection_i &conn )
 {
 	// std::cerr << "begin process_status\n";
@@ -68,8 +52,24 @@ void request_processor_c::process_renew( const request_c &req
 }
 
 
-void request_processor_c::process_kill( const request_c &req )
+kill_request_processor_c::kill_request_processor_c( shession_store_i &store )
+: request_processor_i( RT_KILL_SESSION, store )
+{}
+
+void kill_request_processor_c::process( const request_c &req
+		, connection_i &conn )
 {
 	m_store.kill_session( req.session_id() );
+}
+
+
+close_request_processor_c::close_request_processor_c( shession_store_i &store )
+: request_processor_i( RT_CLOSE, store )
+{}
+
+void close_request_processor_c::process( const request_c &req
+		, connection_i &conn )
+{
+	// need to actually do something here.
 }
 
