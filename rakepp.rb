@@ -36,6 +36,9 @@ def header_path( inc, inc_dirs )
     return nil
 end
 
+# This function should be modified to use yield
+# somehow.  Haven't quite got yield figured out
+# enough for that yet though.
 def cpp_headers( cpp, inc_dirs )
     headers = []
 
@@ -49,8 +52,10 @@ def cpp_headers( cpp, inc_dirs )
         if ( ! inc.nil? )
             # inc_path = path_prefix + inc[1]
             inc_path = header_path( inc[1], inc_dirs )
-            # print inc_path, "\n"
-            headers << inc_path
+            if not inc_path.nil?
+                # print inc_path, "\n"
+                headers << inc_path
+            end
         end
     end
     return headers

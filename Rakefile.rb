@@ -2,9 +2,7 @@
 require "rakepp.rb"
 
 task :clean => [] do
-    sh "rm -f *.o"
     sh "rm -rf obj"
-    sh "rm -f test/*.o"
 end
 
 directory "obj/src"
