@@ -21,7 +21,6 @@
 #include "protocol.h"
 #include "request.h"
 #include "request_processor.h"
-#include "request_reader.h"
 
 
 shession_control_c::shession_control_c( connection_listener_i &conn_fact )
@@ -66,29 +65,24 @@ void shession_control_c::iterate()
 
 	// find the request_reader
 	int port( conn->port() );
-	reader_map::const_iterator it( m_reader.find( port ) );
-	if ( it == m_reader.end() ) {
-		std::cerr << "Unmapped port: " << conn << std::endl;
-		return;
-	}
-	request_reader_i &reader( *it->second );
+	std::string req_line;
 
 	do {
-		req = reader.create_request( *conn );
-		if ( ! req ) {
-			continue;
-		}
+		conn->read_line( req_line );
+		request_c req( req_line );
 
 		protocol_iterator it( m_protocol.find( port ) );
 		if ( it == m_protocol.end() ) {
+			std::cerr << "port " << port << " has no protocol\n";
+			// maybe should close this connection also?
 			continue;
 		}
 
 		protocol_c &protocol( *it->second );
 		request_processor_i *proc = protocol.processor(
-					req->request_type() );
+					req.type() );
 		if ( proc ) {
-			proc->process( *req, *conn );
+			proc->process( req, *conn );
 		}
 		// continue reading from this connection
 		// while it has input
