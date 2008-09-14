@@ -20,6 +20,8 @@
 #include "configuration.h"
 
 
+/// Tests for the config_option_c class first
+
 /**
  * Test that preconditions are set properly
  * in the config_option class.
@@ -109,6 +111,8 @@ TESTPP( test_invalid_int_option )
 }
 
 
+/// Tests for the configuration_c class
+
 /**
  * Test the most basic functionality, 2 string options
  */
@@ -116,6 +120,7 @@ TESTPP( test_basic_string_options )
 {
 	config_option_c< std::string > option1( "option1" );
 	config_option_c< std::string > option2( "option2" );
+	config_option_c< std::string > option3( "option3" );
 
 	configuration_c config;
 	config.add( option1 );
@@ -127,6 +132,7 @@ TESTPP( test_basic_string_options )
 
 	true == actual( option1.set() );
 	true == actual( option2.set() );
+	false == actual( option3.set() );
 	std::string( "dog" ) == actual( option1.value() );
 	std::string( "cat" ) == actual( option2.value() );
 }
@@ -158,45 +164,29 @@ TESTPP( test_int_options )
 
 
 /**
- * Test the most basic, default case of a config file.
-TESTPP( test_easy_format )
-{
-	const char str_input[] =
-		"session_timeout=30\n"
-		"split=dog";
-	std::stringstream input( str_input );
-
-	config_parser_c parser( input );
-	parser.parse_input();
-
-	true == actual( parser.configured( "session_timeout" ) );
-	true == actual( parser.configured( "split" ) );
-
-	std::string( "30" ) == actual( parser.str_value( "session_timeout" ) );
-	30 == actual( parser.int_value( "session_timeout" ) );
-	std::string( "dog" ) == actual( parser.str_value( "split" ) );
-}
- */
-
-/**
  * Test that it still works with windows line endings.
+ */
 TESTPP( test_crlf )
 {
+	config_option_c< int > timeout( "session-timeout" );
+	config_option_c< std::string > split( "split" );
+
 	const char str_input[] =
-		"session_timeout=30\r\n"
+		"session-timeout=30\r\n"
 		"split=dog";
 	std::stringstream input( str_input );
 
-	config_parser_c parser( input );
-	parser.parse_input();
+	configuration_c config;
+	config.add( split );
+	config.add( timeout );
+	config.parse( input );
 
-	true == actual( parser.configured( "session_timeout" ) );
-	true == actual( parser.configured( "split" ) );
+	true == actual( timeout.set() );
+	true == actual( split.set() );
 
-	30 == actual( parser.int_value( "session_timeout" ) );
-	std::string( "dog" ) == actual( parser.str_value( "split" ) );
+	30 == actual( timeout.value() );
+	std::string( "dog" ) == actual( split.value() );
 }
- */
 
 /**
  * Test that whitespace doesn't mess up the parsing of a config file.
