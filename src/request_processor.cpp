@@ -33,7 +33,7 @@ void request_processor_c::process( const request_c &req
 			std::cerr << "process create request\n";
 			process_create( req );
 			break;
-		case RT_SESSION_STATUS:
+		case RT_RENEW_SESSION:
 			std::cerr << "process status request\n";
 			process_status( req, conn );
 			break;
