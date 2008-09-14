@@ -17,6 +17,7 @@
 
 #include <sstream>
 #include <map>
+#include <vector>
 
 
 /**
@@ -124,6 +125,92 @@ public:
 private:
 	std::string m_name;
 	T m_value;
+	bool m_set;
+	bool m_error;
+};
+
+/**
+ * Templated implementation of the config_option_i interface.
+ * A config_option_list_c allows multiple configurations to
+ * be declared for a single option.
+ * The >> ( istream& ) operator must be implemented for typename T.
+ */
+template < typename T >
+class config_option_list_c
+: public config_option_i
+{
+public:
+	typedef typename std::vector< T >::const_iterator iterator;
+private:
+	typedef std::vector< T > value_list;
+
+public:
+	/**
+	 * Construct the config option.  The name is the key in the
+	 * configuration file.
+	 */
+	config_option_list_c( const std::string &name )
+	: m_name( name )
+	, m_values()
+	, m_set( false )
+	, m_error( false )
+	{}
+	virtual ~config_option_list_c() {}
+
+	/**
+	 * Parse the string value in the typed m_value.
+	 */
+	virtual bool parse( const std::string &str_value )
+	{
+		std::istringstream input( str_value );
+		m_values.push_back( T() );
+		input >> m_values.back();
+		m_error = input.fail();
+		m_set = ! m_error;
+	}
+
+	/**
+	 * Get the name of this config option.
+	 */
+	virtual const std::string & name() const { return m_name; }
+
+	/**
+	 * Check if the config option was set _correctly_ in the
+	 * configuration file.
+	 */
+	virtual bool set() const { return m_set; }
+	/**
+	 * Check if the config option was set _incorrectly_ in the
+	 * configuration file.
+	 */
+	virtual bool error() const { return m_error; }
+
+	/**
+	 * Return the number of parsed values.
+	 */
+	int size() const { return m_values.size(); }
+	/**
+	 * [] operator to return the ith value.
+	 */
+	const T & operator [] ( int i ) const { return m_values[ i ]; }
+	/**
+	 * Return the ith value.
+	 */
+	const T & value( int i ) const { return m_values[ i ]; }
+	/**
+	 * Get the begin iterator for the list of values.
+	 */
+	iterator begin() const { return m_values.begin(); }
+	/**
+	 * Get the end iterator for the list of values.
+	 */
+	iterator end() const { return m_values.end(); }
+
+	// virtual std::string doc() const = 0;
+
+private:
+	std::string m_name;
+	value_list m_values;
 	bool m_set;
 	bool m_error;
 };

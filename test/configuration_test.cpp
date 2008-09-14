@@ -111,6 +111,36 @@ TESTPP( test_invalid_int_option )
 }
 
 
+/// Tests for the config_option_list_c class
+
+/**
+ * Test that the config_option_list_c class accepts multiple items.
+ */
+TESTPP( test_option_list )
+{
+	config_option_list_c< int > ports( "port" );
+	ports.parse( "5" );
+	ports.parse( "6" );
+	ports.parse( "7" );
+	ports.parse( "8" );
+
+	// verify the array access
+	4 == actual( ports.size() );
+	int i( 0 );
+	5 == actual( ports[ i++ ] );
+	6 == actual( ports[ i++ ] );
+	7 == actual( ports[ i++ ] );
+	8 == actual( ports[ i++ ] );
+
+	// verify the iterator access
+	config_option_list_c< int >::iterator it( ports.begin() );
+	5 == actual( *(it++) );
+	6 == actual( *(it++) );
+	7 == actual( *(it++) );
+	8 == actual( *(it++) );
+}
+
+
 /// Tests for the configuration_c class
 
 /**
@@ -160,6 +190,27 @@ TESTPP( test_int_options )
 	4000 == actual( port.value() );
 	20 == actual( timeout.value() );
 	true == actual( debug.value() );
+}
+
+/**
+ * Test that option_lists are parsed properly
+ */
+TESTPP( test_parse_option_list )
+{
+	config_option_list_c< int > ports( "port" );
+	std::istringstream input( "port=4000\nport=2000\nport=4001" );
+
+	configuration_c config;
+	config.add( ports );
+	config.parse( input );
+
+	true == actual( ports.set() );
+	false == actual( ports.error() );
+
+	3 == actual( ports.size() );
+	4000 == actual( ports[ 0 ] );
+	2000 == actual( ports[ 1 ] );
+	4001 == actual( ports[ 2 ] );
 }
 
 
