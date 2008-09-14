@@ -131,13 +131,29 @@ TESTPP( test_basic_string_options )
 	std::string( "cat" ) == actual( option2.value() );
 }
 
+/**
+ * Test the integer and boolean options
+ */
 TESTPP( test_int_options )
 {
-	/*
-	config.int_option( "port" );
-	config.int_option( "session-timeout" );
-	config.bool_option( "t_or_f" );
-	*/
+	config_option_c< int > port( "port" );
+	config_option_c< int > timeout( "timeout" );
+	config_option_c< bool > debug( "debug" );
+	std::istringstream input( "port=4000\ntimeout=20\ndebug=1" );
+
+	configuration_c config;
+	config.add( port );
+	config.add( timeout );
+	config.add( debug );
+	config.parse( input );
+
+	true == actual( port.set() );
+	true == actual( timeout.set() );
+	true == actual( debug.set() );
+
+	4000 == actual( port.value() );
+	20 == actual( timeout.value() );
+	true == actual( debug.value() );
 }
 
 
