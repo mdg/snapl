@@ -48,10 +48,6 @@ public:
 	 * Construct a stringed request type given a type name
 	 */
 	request_type_c( const std::string &name );
-	/**
-	 * Assignment operator
-	 */
-	request_type_c & operator = ( const request_type_c & );
 
 	/**
 	 * Return the type of request.
