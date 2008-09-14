@@ -67,7 +67,7 @@ end
 
 
 
-task :default => [ :compile ]
+task :default => [ :build ]
 
 
 desc "Compile all source files into objects"
