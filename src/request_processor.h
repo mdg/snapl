@@ -47,7 +47,7 @@ public:
 	/**
 	 * Check if this session is live
 	 */
-	bool session_status( const std::string &session_id ) const;
+	bool session_live( const std::string &session_id ) const;
 
 private:
 	/**
@@ -57,7 +57,7 @@ private:
 	/**
 	 * Process a status request.
 	 */
-	void process_status( const request_c &, connection_i & );
+	void process_renew( const request_c &, connection_i & );
 	/**
 	 * Process a kill request.
 	 */

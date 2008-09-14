@@ -32,14 +32,14 @@ TESTPP( test_create_kill )
 	int fd( fileno( stdout ) );
 	conn = new connected_socket_c( fd );
 
-	false == actual( proc.session_status( "dog" ) );
+	false == actual( proc.session_live( "dog" ) );
 
 	request_c create_req( RT_CREATE_SESSION, "dog" );
 	proc.process( create_req, *conn );
-	true == actual( proc.session_status( "dog" ) );
+	true == actual( proc.session_live( "dog" ) );
 
 	request_c kill_req( RT_KILL_SESSION, "dog" );
 	proc.process( kill_req, *conn );
-	false == actual( proc.session_status( "dog" ) );
+	false == actual( proc.session_live( "dog" ) );
 }
 

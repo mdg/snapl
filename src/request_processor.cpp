@@ -30,15 +30,15 @@ void request_processor_c::process( const request_c &req
 {
 	switch ( req.request_type() ) {
 		case RT_CREATE_SESSION:
-			std::cerr << "process create request\n";
+			// std::cerr << "process create request\n";
 			process_create( req );
 			break;
 		case RT_RENEW_SESSION:
-			std::cerr << "process status request\n";
-			process_status( req, conn );
+			// std::cerr << "process status request\n";
+			process_renew( req, conn );
 			break;
 		case RT_KILL_SESSION:
-			std::cerr << "process kill request\n";
+			// std::cerr << "process kill request\n";
 			process_kill( req );
 			break;
 		case RT_CLOSE:
@@ -47,7 +47,7 @@ void request_processor_c::process( const request_c &req
 	}
 }
 
-bool request_processor_c::session_status( const std::string &session_id ) const
+bool request_processor_c::session_live( const std::string &session_id ) const
 {
 	return m_store.live_session( session_id );
 }
@@ -58,13 +58,13 @@ void request_processor_c::process_create( const request_c &req )
 }
 
 
-void request_processor_c::process_status( const request_c &req
+void request_processor_c::process_renew( const request_c &req
 		, connection_i &conn )
 {
-	std::cerr << "begin process_status\n";
+	// std::cerr << "begin process_status\n";
 	bool live( m_store.renew_session( req.session_id() ) );
 	conn.write_line( live ? "live" : "dead" );
-	std::cerr << "end process_status\n";
+	// std::cerr << "end process_status\n";
 }
 
 
