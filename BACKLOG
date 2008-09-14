@@ -15,6 +15,7 @@ create path for service connections to provide only service requests
 mirror connections accepted
 
 add a logger class to allow turning debug messages on and off
+	this should probably be log4c
 
 see if it's possible to speed up the requests after polling
 
