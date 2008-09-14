@@ -23,6 +23,11 @@ const std::string request_type_c::CLOSE( "close" );
 const std::string request_type_c::s_null;
 
 
+request_type_c::request_type_c()
+: m_type( RT_NULL )
+, m_name()
+{}
+
 request_type_c::request_type_c( request_type_e typ )
 : m_type( typ )
 , m_name( type_to_name( typ ) )
@@ -32,6 +37,15 @@ request_type_c::request_type_c( const std::string &name )
 : m_type( name_to_type( name ) )
 , m_name( name )
 {}
+
+request_type_c & request_type_c::operator = ( const request_type_c &src )
+{
+	// I think this should work, but the C++ FAQ Lite 11.10
+	// says something about having to manually call the destructor
+	// after this.
+	this->~request_type_c();
+	new ( this ) request_type_c( src );
+}
 
 
 const std::string & request_type_c::type_to_name( request_type_e typ )
