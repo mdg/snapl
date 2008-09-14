@@ -1,4 +1,8 @@
 
+###############
+### BACKLOG ###
+###############
+
 add a logger class to allow turning debug messages on and off
 
 modify protocol so create generates the sha1 session_id.
