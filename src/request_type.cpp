@@ -25,16 +25,16 @@ const std::string request_type_c::s_null;
 
 request_type_c::request_type_c( request_type_e typ )
 : m_type( typ )
-, m_string( type_to_str( typ ) )
+, m_name( type_to_name( typ ) )
 {}
 
-request_type_c::request_type_c( const std::string &str )
-: m_type( str_to_type( str ) )
-, m_string( str )
+request_type_c::request_type_c( const std::string &name )
+: m_type( name_to_type( name ) )
+, m_name( name )
 {}
 
 
-const std::string & request_type_c::type_to_str( request_type_e typ )
+const std::string & request_type_c::type_to_name( request_type_e typ )
 {
 	switch ( typ ) {
 		case RT_CREATE_SESSION:
@@ -49,17 +49,17 @@ const std::string & request_type_c::type_to_str( request_type_e typ )
 	return s_null;
 }
 
-request_type_e request_type_c::str_to_type( const std::string & str )
+request_type_e request_type_c::name_to_type( const std::string &name )
 {
 	request_type_e typ( RT_NULL );
 
-	if ( str == CREATE ) {
+	if ( name == CREATE ) {
 		typ = RT_CREATE_SESSION;
-	} else if ( str == RENEW ) {
+	} else if ( name == RENEW ) {
 		typ = RT_RENEW_SESSION;
-	} else if ( str == KILL ) {
+	} else if ( name == KILL ) {
 		typ = RT_KILL_SESSION;
-	} else if ( str == CLOSE ) {
+	} else if ( name == CLOSE ) {
 		typ = RT_CLOSE;
 	}
 

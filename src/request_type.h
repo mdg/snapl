@@ -41,9 +41,9 @@ public:
 	 */
 	request_type_c( request_type_e );
 	/**
-	 * Construct a stringed request type given a string
+	 * Construct a stringed request type given a type name
 	 */
-	request_type_c( const std::string & );
+	request_type_c( const std::string &name );
 
 	/**
 	 * Return the type of request.
@@ -52,16 +52,16 @@ public:
 	/**
 	 * Return the string type of request.
 	 */
-	const std::string & str() const { return m_string; }
+	const std::string & name() const { return m_name; }
 
 	/**
 	 * Convert a request_type_e to a string.
 	 */
-	static const std::string & type_to_str( request_type_e );
+	static const std::string & type_to_name( request_type_e );
 	/**
 	 * Convert a string to a request_type_e.
 	 */
-	static request_type_e str_to_type( const std::string & );
+	static request_type_e name_to_type( const std::string & );
 
 	static const std::string CREATE;
 	static const std::string RENEW;
@@ -70,7 +70,7 @@ public:
 
 private:
 	request_type_e m_type;
-	const std::string &m_string;
+	const std::string &m_name;
 
 	static const std::string s_null;
 };
