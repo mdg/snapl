@@ -244,15 +244,29 @@ TESTPP( test_crlf )
  */
 TESTPP( test_whitespace )
 {
-	config_option_c< int > timeout( "session-timeout" );
-	const char str_input[] = "\nsession-timeout = 20  \n";
+	config_option_list_c< int > timeouts( "session-timeout" );
+	config_option_list_c< int > ports( "port" );
+	const char str_input[] = "\nsession-timeout = 20  \n" \
+				  "\n session-timeout  = 23 \n "\
+				  "\n port = 9000\n" \
+				  "\n port = 9001 \n";
 	std::stringstream input( str_input );
 
 	configuration_c config;
-	config.add( timeout );
+	config.add( timeouts );
+	config.add( ports );
 	config.parse( input );
 
-	20 == actual( timeout.value() );
+	int i( 0 );
+	2 == actual( timeouts.size() );
+	2 == actual( ports.size() );
+
+	20 == actual( timeouts[ i++ ] );
+	23 == actual( timeouts[ i++ ] );
+
+	i = 0;
+	9000 == actual( ports[ i++ ] );
+	9001 == actual( ports[ i++ ] );
 }
 
 

@@ -49,6 +49,12 @@ int main( int argc, const char **argv )
 	config_option_c< bool > localhost_lockdown( "localhost-lockdown"
 			, DEFAULT_LOCALHOST_LOCKDOWN );
 
+	config_option_list_c< std::string > mirrors( "mirror" );
+	config_option_list_c< std::string > service_whitelist(
+			"service-whitelist" );
+	config_option_list_c< std::string > admin_whitelist(
+			"admin-whitelist" );
+
 	// parse usage
 	usage_c usage;
 	usage.add( debug_option );
@@ -66,8 +72,19 @@ int main( int argc, const char **argv )
 		config.add( service_port );
 		config.add( admin_port );
 		config.add( mirror_port );
+		config.add( mirrors );
+		config.add( service_whitelist );
+		config.add( admin_whitelist );
 		config.parse( config_file );
+
+		std::cout << "mirrors.size() == " << mirrors.size()
+			<< std::endl;
+		std::cout << "service_whitelist.size() == "
+			<< service_whitelist.size() << std::endl;
+		std::cout << "admin_whitelist.size() == "
+			<< admin_whitelist.size() << std::endl;
 	}
+
 
 	connection_acceptor_c acceptor;
 	request_reader_c reader;

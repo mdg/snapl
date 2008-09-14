@@ -37,6 +37,13 @@ void configuration_c::parse( std::istream &input )
 	std::string value;
 
 	while ( ! input.eof() ) {
+		// reset these for the next line
+		line.clear();
+		key_chunk.clear();
+		value_chunk.clear();
+		key.clear();
+		value.clear();
+
 		// separate the line into chunks broken by the first '='
 		getline( input, line );
 		std::istringstream line_parser( line );
