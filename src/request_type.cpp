@@ -25,26 +25,21 @@ const std::string request_type_c::s_null;
 
 request_type_c::request_type_c()
 : m_type( RT_NULL )
-, m_name()
+, m_name( &s_null )
 {}
 
 request_type_c::request_type_c( request_type_e typ )
 : m_type( typ )
-, m_name( type_to_name( typ ) )
+, m_name( &type_to_name( typ ) )
 {}
 
 request_type_c::request_type_c( const std::string &name )
 : m_type( name_to_type( name ) )
-, m_name( name )
-{}
-
-request_type_c & request_type_c::operator = ( const request_type_c &src )
+, m_name( &s_null )
 {
-	// I think this should work, but the C++ FAQ Lite 11.10
-	// says something about having to manually call the destructor
-	// after this.
-	this->~request_type_c();
-	new ( this ) request_type_c( src );
+	// could put this in the initializer, but it depends on
+	// initialization order which is easily broken
+	m_name = &type_to_name( m_type );
 }
 
 

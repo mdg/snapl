@@ -60,7 +60,7 @@ public:
 	/**
 	 * Return the string type of request.
 	 */
-	const std::string & name() const { return m_name; }
+	const std::string & name() const { return *m_name; }
 
 	/**
 	 * Convert a request_type_e to a string.
@@ -78,7 +78,7 @@ public:
 
 private:
 	request_type_e m_type;
-	const std::string &m_name;
+	const std::string *m_name;
 
 	static const std::string s_null;
 };
