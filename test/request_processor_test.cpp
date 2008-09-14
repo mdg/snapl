@@ -27,19 +27,20 @@
 TESTPP( test_create_kill )
 {
 	shession_store_c store( 180 );
-	request_processor_c proc( store );
+	create_request_processor_c create_proc( store );
+	kill_request_processor_c kill_proc( store );
 	connection_i *conn = NULL;
 	int fd( fileno( stdout ) );
 	conn = new connected_socket_c( fd, 0 );
 
-	false == actual( proc.session_live( "dog" ) );
+	false == actual( store.live_session( "dog" ) );
 
 	request_c create_req( RT_CREATE_SESSION, "dog" );
-	proc.process( create_req, *conn );
-	true == actual( proc.session_live( "dog" ) );
+	create_proc.process( create_req, *conn );
+	true == actual( store.live_session( "dog" ) );
 
 	request_c kill_req( RT_KILL_SESSION, "dog" );
-	proc.process( kill_req, *conn );
-	false == actual( proc.session_live( "dog" ) );
+	kill_proc.process( kill_req, *conn );
+	false == actual( store.live_session( "dog" ) );
 }
 
