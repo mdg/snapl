@@ -8,7 +8,6 @@ modify protocol so create generates the sha1 session_id.
 
 add tests for new classes:
 	protocol
-	request_type
 	shession_control
 	shession_protocol?
 
