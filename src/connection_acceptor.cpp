@@ -47,6 +47,7 @@ bool connection_acceptor_c::open_listener( short port, int backlog )
 	}
 
 	m_listener[ listener ] = port;
+	std::cerr << "m_listener[ " << listener << " ] = " << port << "\n";
 	return true;
 }
 
@@ -154,7 +155,8 @@ connection_i * connection_acceptor_c::connection()
 		polls[i++].revents = 0;
 	}
 
-	std::cerr << "poll( " << poll_count << " )...\n";
+	std::cerr << "poll( " << listener_count << ", " << connection_count
+	       << " )...\n";
 	int ready_count( poll( polls, poll_count, 1000 ) );
 	if ( ready_count == 0 ) {
 		return NULL;
@@ -178,13 +180,16 @@ connection_i * connection_acceptor_c::connection()
 	}
 
 	// check for input on open connections
-	for ( i=0; i<poll_count; ++i ) {
+	for ( i=listener_count; i<poll_count; ++i ) {
 		if ( polls[i].revents & POLLHUP ) {
 			// this connection is closed.
 			// delete it.
-			delete m_open[ polls[i].fd ];
-			m_open.erase( polls[i].fd );
+			std::cerr << "deleting a closed connection\n";
+			close_socket( polls[i].fd );
 		} else if ( polls[i].revents & POLLIN ) {
+			std::cerr << "i=" << i << "; ";
+			std::cerr << "m_ready.push_back( m_open["
+				<< polls[i].fd << "] )\n";
 			m_ready.push_back( m_open[ polls[i].fd ] );
 		} else {
 			std::cerr << "polls[" << i << "].revents = "
@@ -229,5 +234,17 @@ void connection_acceptor_c::accept( int listener, int port )
 	// set the socket as non-blocking before returning it
 	fcntl( sock, F_SETFL, O_NONBLOCK );
 	m_open[ sock ] = new connected_socket_c( sock, port );
+}
+
+
+void connection_acceptor_c::close_socket( int socket )
+{
+	connection_iterator it( m_open.find( socket ) );
+	if ( it == m_open.end() ) {
+		return;
+	}
+
+	delete it->second;
+	m_open.erase( it->first );
 }
 

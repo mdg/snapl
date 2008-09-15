@@ -68,6 +68,8 @@ private:
 	static int create_listener_socket( int port, int backlog );
 	void accept( int listener, int port );
 
+	void close_socket( int socket );
+
 private:
 	listener_map m_listener;
 	connection_map m_open;
