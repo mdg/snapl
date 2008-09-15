@@ -13,8 +13,10 @@ add tests for new classes:
 modify protocols to write back some response for all requests
 	necessary for keeping things in sync on errors
 
-modify protocol so create generates the sha1 session_id.
-	replace the current session_id with an optional username parameter
+modify protocol so create generates the session_id.
+	replace the current session_id with an optional user-id parameter
+	username can be updated by renew command
+	make session_id generator a modifiable class
 
 add a logger class to allow turning debug messages on and off
 	this should probably be log4c
