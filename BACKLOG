@@ -3,18 +3,18 @@
 ### BACKLOG ###
 ###############
 
-modify protocol so create generates the sha1 session_id.
-	replace the current session_id with an optional username parameter
+implement the mirror protocol
 
 add tests for new classes:
 	protocol
 	shession_control
 	shession_protocol?
 
-mirror connections accepted
-
 modify protocols to write back some response for all requests
 	necessary for keeping things in sync on errors
+
+modify protocol so create generates the sha1 session_id.
+	replace the current session_id with an optional username parameter
 
 add a logger class to allow turning debug messages on and off
 	this should probably be log4c
