@@ -21,6 +21,7 @@
 #include "connection_acceptor.h"
 #include "request_processor.h"
 #include "shession_control.h"
+#include "shession_generator.h"
 #include "shession_protocol.h"
 #include "shession_store.h"
 #include "usage.h"
@@ -87,9 +88,10 @@ int main( int argc, const char **argv )
 
 
 	// construct runtime objects
-	connection_acceptor_c acceptor;
 	shession_store_c store( session_timeout.value() );
-	shession_protocol_c protocol( store );
+	shession_generator_c generator;
+	shession_protocol_c protocol( store, generator );
+	connection_acceptor_c acceptor;
 
 	// open listeners
 	bool accept_open;

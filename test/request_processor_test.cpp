@@ -18,6 +18,7 @@
 #include "request.h"
 #include "request_processor.h"
 #include "shession_store.h"
+#include "shession_generator.h"
 #include <stdio.h>
 
 
@@ -27,7 +28,8 @@
 TESTPP( test_create_kill )
 {
 	shession_store_c store( 180 );
-	create_request_processor_c create_proc( store );
+	shession_generator_c gen;
+	create_request_processor_c create_proc( store, gen );
 	kill_request_processor_c kill_proc( store );
 	connection_i *conn = NULL;
 	int fd( fileno( stdout ) );

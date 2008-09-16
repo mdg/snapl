@@ -17,12 +17,12 @@
 #include "request_processor.h"
 
 
-shession_protocol_c::shession_protocol_c( shession_store_i &store )
+shession_protocol_c::shession_protocol_c( shession_store_i &store, shession_generator_i &gen )
 : m_store( store )
 , m_service()
 , m_mirror()
 , m_admin()
-, m_create( new create_request_processor_c( store ) )
+, m_create( new create_request_processor_c( store, gen ) )
 , m_renew( new renew_request_processor_c( store ) )
 , m_kill( new kill_request_processor_c( store ) )
 , m_close( new close_request_processor_c( store ) )

@@ -17,6 +17,7 @@
 #include <iostream>
 #include "connection.h"
 #include "request.h"
+#include "shession_generator.h"
 #include "shession_store.h"
 
 
@@ -28,8 +29,9 @@ request_processor_i::request_processor_i( request_type_e req_type
 
 
 create_request_processor_c::create_request_processor_c(
-		shession_store_i &store )
+		shession_store_i &store, shession_generator_i &gen )
 : request_processor_i( RT_CREATE_SESSION, store )
+, m_generator( gen )
 {}
 
 void create_request_processor_c::process( const request_c &req
@@ -46,7 +48,8 @@ void create_request_processor_c::process( const request_c &req
 	if ( req.argc() == 1 ) {
 		user_id = req.argv( 0 );
 	}
-	std::string shession_id;
+	std::string shession_id( m_generator.shession_id( user_id ) );
+
 	m_store.create_session( shession_id, user_id );
 	std::string response( "ok "+ shession_id );
 	conn.write_line( response );

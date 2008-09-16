@@ -17,11 +17,13 @@
 
 #include "protocol.h"
 
+class shession_generator_i;
+
 
 class shession_protocol_c
 {
 public:
-	shession_protocol_c( shession_store_i & );
+	shession_protocol_c( shession_store_i &, shession_generator_i & );
 	~shession_protocol_c();
 
 	protocol_c & create_service_protocol( short service_port );

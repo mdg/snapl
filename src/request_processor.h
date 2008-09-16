@@ -23,6 +23,7 @@
 
 class connection_i;
 class request_c;
+class shession_generator_i;
 class shession_store_i;
 
 
@@ -48,11 +49,15 @@ class create_request_processor_c
 : public request_processor_i
 {
 public:
-	create_request_processor_c( shession_store_i & );
+	create_request_processor_c( shession_store_i &
+			, shession_generator_i & );
 	/**
 	 * Process a create request.
 	 */
 	virtual void process( const request_c &, connection_i & );
+
+private:
+	shession_generator_i &m_generator;
 };
 
 
