@@ -9,33 +9,51 @@ Client Sequence
 SERVICE PROTOCOL:
 
 session requests:
-request:  create <id>
-response: none
+request:  create [user_id]
+response: (ok <session_id>|err msg)
 
-request:  status <id>
-response: (live|dead)
+request:  renew <session_id> [user_id]
+response: ((ok (live|dead))|err msg)
 
-request:  kill <id>
-response: none
+request:  kill <session_id>
+response: (ok|err msg)
 
 request: close
-response: none
+response: (ok|err)
 
 
 ADMIN PROTOCOL:
 
 number connections:
-request: num_cxn
-response: <num>
+request: num_connections
+response: (ok <num>|err)
+
+session dump:
+request: dump
+response: (ok|err)
+	<session_id> <time> [user_id]
+	repeat for each live session
+	finish with a blank line
 
 shutdown:
 request: shutdown
-response: none
+response: (ok|err)
 
 
 MIRROR PROTOCOL:
-no mirror requests accept a response
 
-mirror request:
-request: mirror <id>
+synchronize:
+request: synchronize <time>
+response: (ok|err msg)
+
+mirror create:
+request: mirror_create <session_id> [user_id]
+response: (ok|err)
+
+mirror renew:
+request: mirror_renew <session_id> [user_id]
+response: (ok|err)
+
+dump:
+same as for ADMIN PROTOCOL
 
