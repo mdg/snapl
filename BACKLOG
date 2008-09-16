@@ -3,10 +3,8 @@
 ### BACKLOG ###
 ###############
 
-add tests for new classes:
-	protocol
-	shession_control
-	shession_protocol?
+consider creating a response object for the request_processor to write
+	back to, rather than writing directly to the connection
 
 implement the admin protocol
 
@@ -15,6 +13,11 @@ implement the mirror protocol
 modify protocols to write an error if an unknown request_type is passed
 
 make username updateable by renew command
+
+add tests for new classes:
+	protocol
+	shession_control
+	shession_protocol?
 
 add a logger class to allow turning debug messages on and off
 	this should probably be log4c
@@ -25,9 +28,6 @@ add a localhost-lockdown configuration to restrict all connections to those
 	that are tunneled in through SSH
 
 separate src code into server code and client code
-
-consider creating a response object for the request_processor to write
-	back to, rather than writing directly to the connection
 
 testpp assertion interface is a little flaky.  find a way to make it better
 
