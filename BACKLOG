@@ -8,17 +8,13 @@ add tests for new classes:
 	shession_control
 	shession_protocol?
 
-modify protocols to write back some response for all requests
-	necessary for keeping things in sync on errors
-
-modify protocol so create generates the session_id.
-	replace the current session_id with an optional user-id parameter
-	username can be updated by renew command
-	make session_id generator a modifiable class
-
 implement the admin protocol
 
 implement the mirror protocol
+
+modify protocols to write an error if an unknown request_type is passed
+
+make username updateable by renew command
 
 add a logger class to allow turning debug messages on and off
 	this should probably be log4c
