@@ -63,11 +63,12 @@ TESTPP( test_4_sessions )
 	const char *sid_2 = "cat";
 	const char *sid_3 = "mouse";
 	const char *sid_4 = "flea";
+	std::string empty;
 
-	store.create_session( sid_1 );
-	store.create_session( sid_2 );
-	store.create_session( sid_3 );
-	store.create_session( sid_4 );
+	store.create_session( sid_1, empty );
+	store.create_session( sid_2, empty );
+	store.create_session( sid_3, empty );
+	store.create_session( sid_4, empty );
 
 	true == actual( store.renew_session( sid_1 ) );
 	true == actual( store.renew_session( sid_2 ) );
@@ -98,11 +99,12 @@ TESTPP( test_expiration )
 	const char *sid_2 = "cat";
 	const char *sid_3 = "mouse";
 	const char *sid_4 = "flea";
+	std::string user_id;
 
-	store.create_session( sid_1 );
-	store.create_session( sid_2 );
-	store.create_session( sid_3 );
-	store.create_session( sid_4 );
+	store.create_session( sid_1, user_id );
+	store.create_session( sid_2, user_id );
+	store.create_session( sid_3, user_id );
+	store.create_session( sid_4, user_id );
 
 	mock_timer += 3;
 	true == actual( store.renew_session( sid_4 ) );

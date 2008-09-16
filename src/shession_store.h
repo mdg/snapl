@@ -31,9 +31,10 @@ public:
 	virtual ~shession_store_i() {}
 
 	/**
-	 * Create a session for the given session_id.
+	 * Create a session for an optional user_id.
 	 */
-	virtual void create_session( const std::string &session_id ) = 0;
+	virtual void create_session( const std::string &shession_id
+			, const std::string &user_id ) = 0;
 	/**
 	 * Check if the given session_id is live.
 	 * @return true if it is still alive.
@@ -99,9 +100,10 @@ public:
 	void set_timer( timer_c & );
 
 	/**
-	 * Create a session for the given session_id.
+	 * Create a session for an optional user_id.
 	 */
-	virtual void create_session( const std::string &session_id );
+	virtual void create_session( const std::string &shession_id
+			, const std::string &user_id );
 	/**
 	 * Check if the given session_id is live.
 	 * @return true if it is still alive.
