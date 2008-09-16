@@ -35,14 +35,17 @@ TESTPP( test_create_kill )
 	int fd( fileno( stdout ) );
 	conn = new connected_socket_c( fd, 0 );
 
-	false == actual( store.live_session( "dog" ) );
+	false == actual( store.live_session( "dog1714636915" ) );
 
 	request_c create_req( "create dog" );
 	create_proc.process( create_req, *conn );
-	true == actual( store.live_session( "dog" ) );
+	true == actual( store.live_session( "dog1714636915" ) );
 
-	request_c kill_req( "kill dog" );
+	request_c kill_req( "kill dog1714636915" );
 	kill_proc.process( kill_req, *conn );
-	false == actual( store.live_session( "dog" ) );
+	false == actual( store.live_session( "dog1714636915" ) );
+
+	delete conn;
+	conn = 0;
 }
 
