@@ -34,7 +34,7 @@ public:
 	/**
 	 * Create the a session for the given session_id.
 	 */
-	virtual void create_session( const std::string &session_id ) = 0;
+	virtual std::string create_session( const std::string &user_id ) = 0;
 
 	/**
 	 * Check if a session is alive.
@@ -78,7 +78,7 @@ public:
 	/**
 	 * Send a create_session request for the given session_id.
 	 */
-	virtual void create_session( const std::string &session_id );
+	virtual std::string create_session( const std::string &session_id );
 	/**
 	 * Send a live_session request for the given session_id
 	 */
