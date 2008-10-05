@@ -70,20 +70,20 @@ TESTPP( test_4_sessions )
 	store.create_session( sid_3, empty );
 	store.create_session( sid_4, empty );
 
-	true == actual( store.renew_session( sid_1 ) );
-	true == actual( store.renew_session( sid_2 ) );
-	true == actual( store.renew_session( sid_3 ) );
-	true == actual( store.renew_session( sid_4 ) );
+	assertpp( store.renew_session( sid_1 ) ).t();
+	assertpp( store.renew_session( sid_2 ) ).t();
+	assertpp( store.renew_session( sid_3 ) ).t();
+	assertpp( store.renew_session( sid_4 ) ).t();
 
 	store.kill_session( sid_1 );
 	store.kill_session( sid_2 );
 	store.kill_session( sid_3 );
 	store.kill_session( sid_4 );
 
-	false == actual( store.renew_session( sid_1 ) );
-	false == actual( store.renew_session( sid_2 ) );
-	false == actual( store.renew_session( sid_3 ) );
-	false == actual( store.renew_session( sid_4 ) );
+	assertpp( store.renew_session( sid_1 ) ).f();
+	assertpp( store.renew_session( sid_2 ) ).f();
+	assertpp( store.renew_session( sid_3 ) ).f();
+	assertpp( store.renew_session( sid_4 ) ).f();
 }
 
 /**
@@ -107,17 +107,17 @@ TESTPP( test_expiration )
 	store.create_session( sid_4, user_id );
 
 	mock_timer += 3;
-	true == actual( store.renew_session( sid_4 ) );
+	assertpp( store.renew_session( sid_4 ) ).t();
 
 	mock_timer += 4;
-	true == actual( store.renew_session( sid_4 ) );
-	4 == actual( store.size() );
-	false == actual( store.renew_session( sid_1 ) );
-	3 == actual( store.size() );
-	2 == actual( store.kill_expired() );
-	1 == actual( store.size() );
+	assertpp( store.renew_session( sid_4 ) ).t();
+	assertpp( store.size() ) == 4;
+	assertpp( store.renew_session( sid_1 ) ).f();
+	assertpp( store.size() ) == 3;
+	assertpp( store.kill_expired() ) == 2;
+	assertpp( store.size() ) == 1;
 
 	mock_timer += 4;
-	true == actual( store.renew_session( sid_4 ) );
+	assertpp( store.renew_session( sid_4 ) ).t();
 }
 
