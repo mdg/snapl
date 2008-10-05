@@ -23,6 +23,7 @@ TEST_OBJ = TEST_SRC.sub( /\.cpp$/, '.o' ).sub( /^test\//, 'obj/test/' )
 TEST_INC.freeze
 TEST_SRC.freeze
 TEST_OBJ.freeze
+TESTPP_OBJ = FileList[ 'testpp/*.o' ]
 
 
 # Return dependencies for an object file.
@@ -43,7 +44,7 @@ end
 
 
 rule '.o' => [ proc { |o| obj_dep( o ) } ] do |t|
-    sh %{g++ -c -g -Isrc -o #{t.name} #{t.source}}
+    sh %{g++ -c -g -Isrc -Itestpp/include -o #{t.name} #{t.source}}
 end
 
 
@@ -55,7 +56,7 @@ end
 file "test_shessiond" => [ :compile, :compile_test ] do |t|
     no_main_obj = OBJ.clone
     no_main_obj.exclude( 'main.o' )
-    sh "g++ -o test_shessiond #{no_main_obj} #{TEST_OBJ}"
+    sh "g++ -o test_shessiond #{no_main_obj} #{TEST_OBJ} #{TESTPP_OBJ}"
 end
 
 
