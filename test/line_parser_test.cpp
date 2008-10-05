@@ -72,7 +72,7 @@ TESTPP( test_incomplete )
  * The parser needs to tolerate clients sending \r\n line endings.
  * This test proves that works.
  */
-TESTPP( test_crlf )
+TESTPP( test_line_parser_crlf )
 {
 	std::string parsed_line;
 	line_parser_c parser;

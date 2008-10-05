@@ -55,7 +55,7 @@ private:
  * Test 4 basic sessions to make sure they can be added and killed
  * and things work as expected.
  */
-TESTPP( test_4_sessions )
+TESTPP( test_storing_4_sessions )
 {
 	shession_store_c store( 1 );
 
