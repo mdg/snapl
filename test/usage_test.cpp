@@ -32,7 +32,7 @@ TESTPP( test_short_usage )
 
 	usage.parse_args( argc, argv );
 
-	true == actual( debug.is_set() );
+	assertpp( debug.is_set() ).t();
 }
 
 /**
@@ -49,7 +49,7 @@ TESTPP( test_long_usage )
 
 	usage.parse_args( argc, argv );
 
-	true == actual( debug.is_set() );
+	assertpp( debug.is_set() ).t();
 }
 
 /**
@@ -61,7 +61,6 @@ TESTPP( test_option_doc )
 	std::ostringstream doc;
 	debug.write_usage_doc( doc );
 
-	std::string( "\t-g\t--debug\tWrite debugging logging.\n" )
-			== actual( doc.str() );
+	assertpp( doc.str() ) == "\t-g\t--debug\tWrite debugging logging.\n";
 }
 
