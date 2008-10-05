@@ -66,9 +66,12 @@ void shession_client_c::close()
 }
 
 
-void shession_client_c::create_session( const std::string &session_id )
+std::string shession_client_c::create_session( const std::string &user_id )
 {
-	write_request( request_type_c::CREATE, session_id );
+	std::string session_id;
+	write_request( request_type_c::CREATE, user_id );
+	m_connection->read_line( session_id );
+	return session_id;
 }
 
 bool shession_client_c::renew_session( const std::string &session_id )
@@ -85,6 +88,9 @@ bool shession_client_c::renew_session( const std::string &session_id )
 void shession_client_c::kill_session( const std::string &session_id )
 {
 	write_request( request_type_c::KILL, session_id );
+
+	std::string response;
+	m_connection->read_line( response );
 }
 
 
