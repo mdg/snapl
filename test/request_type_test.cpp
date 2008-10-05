@@ -25,8 +25,8 @@
 TESTPP( test_default_constructor )
 {
 	request_type_c req_type;
-	RT_NULL == actual( req_type.type() );
-	std::string() == actual( req_type.name() );
+	assertpp( req_type.type() ) == RT_NULL;
+	assertpp( req_type.name() ) == "";
 }
 
 /**
@@ -35,8 +35,8 @@ TESTPP( test_default_constructor )
 TESTPP( test_req_type_constructor )
 {
 	request_type_c req_type( RT_CREATE_SESSION );
-	RT_CREATE_SESSION == actual( req_type.type() );
-	std::string( "create" ) == actual( req_type.name() );
+	assertpp( req_type.type() ) == RT_CREATE_SESSION;
+	assertpp( req_type.name() ) == "create";
 }
 
 /**
@@ -46,9 +46,11 @@ TESTPP( test_req_name_constructor )
 {
 	std::string name( "renew" );
 	request_type_c req_type( name );
+	// this line changes the source string to verify it doesn't
+	// affect the req_type's data
 	name = "newer";
-	RT_RENEW_SESSION == actual( req_type.type() );
-	std::string( "renew" ) == actual( req_type.name() );
+	assertpp( req_type.type() ) == RT_RENEW_SESSION;
+	assertpp( req_type.name() ) == "renew";
 }
 
 /**
@@ -57,7 +59,7 @@ TESTPP( test_req_name_constructor )
 TESTPP( test_unknown_typename )
 {
 	request_type_c req_type( "something weird" );
-	RT_NULL == actual( req_type.type() );
-	std::string() == actual( req_type.name() );
+	assertpp( req_type.type() ) == RT_NULL;
+	assertpp( req_type.name() ) == "";
 }
 
