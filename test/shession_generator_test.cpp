@@ -28,8 +28,8 @@ TESTPP( test_4_sessions )
 	std::string cat( gen.shession_id( "cat" ) );
 	std::string mouse( gen.shession_id( "mouse" ) );
 
-	std::string( "dog1804289383" ) == actual( dog );
-	std::string( "cat846930886" ) == actual( cat );
-	std::string( "mouse1681692777" ) == actual( mouse );
+	assertpp( dog ) == "dog1804289383";
+	assertpp( cat ) == "cat846930886";
+	assertpp( mouse ) == "mouse1681692777";
 }
 
