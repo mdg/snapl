@@ -31,9 +31,9 @@ TESTPP( test_config_option_initialization )
 	config_option_c< std::string > opt( "dog" );
 
 	// assert preconditions
-	std::string( "dog" ) == actual( opt.name() );
-	false == actual( opt.set() );
-	false == actual( opt.error() );
+	assertpp( opt.name() ) == "dog";
+	assertpp( opt.set() ).f();
+	assertpp( opt.error() ).f();
 }
 
 /**
@@ -46,10 +46,10 @@ TESTPP( test_config_option_default_init )
 	config_option_c< int > opt( "dog", 58 );
 
 	// assert preconditions
-	std::string( "dog" ) == actual( opt.name() );
-	58 == actual( opt.value() );
-	true == actual( opt.set() );
-	false == actual( opt.error() );
+	assertpp( opt.name() ) == "dog";
+	assertpp( opt.value() ) == 58;
+	assertpp( opt.set() ).t();
+	assertpp( opt.error() ).f();
 }
 
 /**
@@ -62,9 +62,9 @@ TESTPP( test_string_config_option )
 	opt.parse( "cat" );
 
 	// assert postconditions
-	std::string( "cat" ) == actual( opt.value() );
-	true == actual( opt.set() );
-	false == actual( opt.error() );
+	assertpp( opt.value() ) == "cat";
+	assertpp( opt.set() ).t();
+	assertpp( opt.error() ).f();
 }
 
 /**
@@ -76,9 +76,9 @@ TESTPP( test_int_config_option )
 	opt.parse( "89" );
 
 	// assert postconditions
-	89 == actual( opt.value() );
-	true == actual( opt.set() );
-	false == actual( opt.error() );
+	assertpp( opt.value() ) == 89;
+	assertpp( opt.set() ).t();
+	assertpp( opt.error() ).f();
 }
 
 
@@ -91,9 +91,9 @@ TESTPP( test_bool_config_option )
 	opt.parse( "1" );
 
 	// assert postconditions
-	true == actual( opt.value() );
-	true == actual( opt.set() );
-	false == actual( opt.error() );
+	assertpp( opt.value() ).t();
+	assertpp( opt.set() ).t();
+	assertpp( opt.error() ).f();
 }
 
 /**
@@ -105,9 +105,9 @@ TESTPP( test_invalid_int_option )
 	opt.parse( "cat" );
 
 	// assert postconditions
-	true == actual( opt.error() );
-	false == actual( opt.set() );
-	0 == actual( opt.value() );
+	assertpp( opt.error() ).t();
+	assertpp( opt.set() ).f();
+	assertpp( opt.value() ) == 0;
 }
 
 
@@ -125,19 +125,19 @@ TESTPP( test_option_list )
 	ports.parse( "8" );
 
 	// verify the array access
-	4 == actual( ports.size() );
+	assertpp( ports.size() ) == 4;
 	int i( 0 );
-	5 == actual( ports[ i++ ] );
-	6 == actual( ports[ i++ ] );
-	7 == actual( ports[ i++ ] );
-	8 == actual( ports[ i++ ] );
+	assertpp( ports[ i++ ] ) == 5;
+	assertpp( ports[ i++ ] ) == 6;
+	assertpp( ports[ i++ ] ) == 7;
+	assertpp( ports[ i++ ] ) == 8;
 
 	// verify the iterator access
 	config_option_list_c< int >::iterator it( ports.begin() );
-	5 == actual( *(it++) );
-	6 == actual( *(it++) );
-	7 == actual( *(it++) );
-	8 == actual( *(it++) );
+	assertpp( *(it++) ) == 5;
+	assertpp( *(it++) ) == 6;
+	assertpp( *(it++) ) == 7;
+	assertpp( *(it++) ) == 8;
 }
 
 
@@ -160,11 +160,11 @@ TESTPP( test_basic_string_options )
 
 	config.parse( input );
 
-	true == actual( option1.set() );
-	true == actual( option2.set() );
-	false == actual( option3.set() );
-	std::string( "dog" ) == actual( option1.value() );
-	std::string( "cat" ) == actual( option2.value() );
+	assertpp( option1.set() ).t();
+	assertpp( option2.set() ).t();
+	assertpp( option3.set() ).f();
+	assertpp( option1.value() ) == "dog";
+	assertpp( option2.value() ) == "cat";
 }
 
 /**
@@ -183,13 +183,13 @@ TESTPP( test_int_options )
 	config.add( debug );
 	config.parse( input );
 
-	true == actual( port.set() );
-	true == actual( timeout.set() );
-	true == actual( debug.set() );
+	assertpp( port.set() ).t();
+	assertpp( timeout.set() ).t();
+	assertpp( debug.set() ).t();
 
-	4000 == actual( port.value() );
-	20 == actual( timeout.value() );
-	true == actual( debug.value() );
+	assertpp( port.value() ) == 400;
+	assertpp( timeout.value() ) == 20;
+	assertpp( debug.value() ).t();
 }
 
 /**
@@ -204,13 +204,13 @@ TESTPP( test_parse_option_list )
 	config.add( ports );
 	config.parse( input );
 
-	true == actual( ports.set() );
-	false == actual( ports.error() );
+	assertpp( ports.set() ).t();
+	assertpp( ports.error() ).f();
 
-	3 == actual( ports.size() );
-	4000 == actual( ports[ 0 ] );
-	2000 == actual( ports[ 1 ] );
-	4001 == actual( ports[ 2 ] );
+	assertpp( ports.size() ) == 3;
+	assertpp( ports[ 0 ] ) == 4000;
+	assertpp( ports[ 1 ] ) == 2000;
+	assertpp( ports[ 2 ] ) == 4001;
 }
 
 
@@ -232,11 +232,11 @@ TESTPP( test_crlf )
 	config.add( timeout );
 	config.parse( input );
 
-	true == actual( timeout.set() );
-	true == actual( split.set() );
+	assertpp( timeout.set() ).t();
+	assertpp( split.set() ).t();
 
-	30 == actual( timeout.value() );
-	std::string( "dog" ) == actual( split.value() );
+	assertpp( timeout.value() ) == 30;
+	assertpp( split.value() ) == "dog";
 }
 
 /**
@@ -258,15 +258,15 @@ TESTPP( test_whitespace )
 	config.parse( input );
 
 	int i( 0 );
-	2 == actual( timeouts.size() );
-	2 == actual( ports.size() );
+	assertpp( timeouts.size() ) == 2;
+	assertpp( ports.size() ) == 2;
 
-	20 == actual( timeouts[ i++ ] );
-	23 == actual( timeouts[ i++ ] );
+	assertpp( timeouts[ i++ ] ) == 20;
+	assertpp( timeouts[ i++ ] ) == 23;
 
 	i = 0;
-	9000 == actual( ports[ i++ ] );
-	9001 == actual( ports[ i++ ] );
+	assertpp( ports[ i++ ] ) == 9000;
+	assertpp( ports[ i++ ] ) == 90001;
 }
 
 
@@ -284,7 +284,7 @@ TESTPP( test_non_integer )
 	config.add( timeout );
 	config.parse( input );
 
-	true == actual( timeout.error() );
-	true == actual( config.error() );
+	assertpp( timeout.error() ).t();
+	assertpp( config.error() ).t();
 }
 
