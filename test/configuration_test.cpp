@@ -187,7 +187,7 @@ TESTPP( test_int_options )
 	assertpp( timeout.set() ).t();
 	assertpp( debug.set() ).t();
 
-	assertpp( port.value() ) == 400;
+	assertpp( port.value() ) == 4000;
 	assertpp( timeout.value() ) == 20;
 	assertpp( debug.value() ).t();
 }
@@ -266,7 +266,7 @@ TESTPP( test_whitespace )
 
 	i = 0;
 	assertpp( ports[ i++ ] ) == 9000;
-	assertpp( ports[ i++ ] ) == 90001;
+	assertpp( ports[ i++ ] ) == 9001;
 }
 
 
