@@ -28,7 +28,8 @@ TESTPP( test_single_line )
 	parser.add_input( "status dog\n" );
 	std::string parsed_line;
 	parser.readline( parsed_line );
-	std::string( "status dog" ) == actual( parsed_line );
+
+	assertpp( parsed_line ) == "status dog";
 }
 
 
@@ -41,9 +42,9 @@ TESTPP( test_multiline )
 	parser.add_input( "status dog\nstore cat\n" );
 	std::string parsed_line;
 	parser.readline( parsed_line );
-	std::string( "status dog" ) == actual( parsed_line );
+	assertpp( parsed_line ) == "status dog";
 	parser.readline( parsed_line );
-	std::string( "store cat" ) == actual( parsed_line );
+	assertpp( parsed_line ) == "store cat";
 }
 
 
@@ -58,12 +59,12 @@ TESTPP( test_incomplete )
 	line_parser_c parser;
 	parser.add_input( "status dog\nstore cat" );
 	parser.readline( parsed_line );
-	std::string( "status dog" ) == actual( parsed_line );
+	assertpp( parsed_line ) == "status dog";
 	parser.readline( parsed_line );
-	std::string( "" ) == actual( parsed_line );
+	assertpp( parsed_line ) == "";
 	parser.add_input( "\n" );
 	parser.readline( parsed_line );
-	std::string( "store cat" ) == actual( parsed_line );
+	assertpp( parsed_line ) == "store cat";
 }
 
 
@@ -77,9 +78,9 @@ TESTPP( test_crlf )
 	line_parser_c parser;
 	parser.add_input( "status dog\r\nstore cat\r\n" );
 	parser.readline( parsed_line );
-	std::string( "status dog" ) == actual( parsed_line );
+	assertpp( parsed_line ) == "status dog";
 	parser.readline( parsed_line );
-	std::string( "store cat" ) == actual( parsed_line );
+	assertpp( parsed_line ) == "store cat";
 }
 
 
@@ -93,9 +94,9 @@ TESTPP( test_blanklf )
 	line_parser_c parser;
 	parser.add_input( "\nstore cat\r\n" );
 	parser.readline( parsed_line );
-	std::string( "" ) == actual( parsed_line );
+	assertpp( parsed_line ) == "";
 	parser.readline( parsed_line );
-	std::string( "store cat" ) == actual( parsed_line );
+	assertpp( parsed_line ) == "store cat";
 }
 
 /**
@@ -107,6 +108,6 @@ TESTPP( test_line_ready )
 	line_parser_c parser;
 	parser.add_input( "store cat\nstatus cat\n" );
 	parser.readline( parsed_line );
-	true == actual( parser.line_ready() );
+	assertpp( parser.line_ready() ).t();
 }
 
