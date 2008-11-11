@@ -15,6 +15,7 @@
 
 #include "shession_generator.h"
 #include <sstream>
+#include <cstdlib>
 
 
 shession_generator_c::~shession_generator_c()

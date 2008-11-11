@@ -16,6 +16,7 @@
  */
 
 #include <string>
+#include <memory>
 
 class connection_i;
 

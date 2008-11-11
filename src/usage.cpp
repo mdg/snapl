@@ -16,6 +16,7 @@
 #include "usage.h"
 #include <iostream>
 #include <sstream>
+#include <cstring>
 
 
 usage_option_c::usage_option_c( bool param_expected, char short_option

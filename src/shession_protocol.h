@@ -16,6 +16,7 @@
  */
 
 #include "protocol.h"
+#include <memory>
 
 class shession_generator_i;
 
