@@ -57,6 +57,8 @@ void mirror_dump_processor_c::process( const request_c &req
 {
 	std::ostringstream out;
 	time_t now( time( NULL ) );
+
+	// need a way to iterate over sessions
 }
 
 
