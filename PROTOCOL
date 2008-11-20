@@ -22,24 +22,6 @@ request: close
 response: (ok|err)
 
 
-ADMIN PROTOCOL:
-
-number connections:
-request: num_connections
-response: (ok <num>|err)
-
-session dump:
-request: dump
-response: (ok|err)
-	<session_id> <time> [user_id]
-	repeat for each live session
-	finish with a blank line
-
-shutdown:
-request: shutdown
-response: (ok|err)
-
-
 MIRROR PROTOCOL:
 
 synchronize:
@@ -56,4 +38,22 @@ response: (ok|err)
 
 dump:
 same as for ADMIN PROTOCOL
+
+
+ADMIN PROTOCOL:
+
+number connections:
+request: num_connections
+response: (ok <num>|err)
+
+session dump:
+request: dump
+response: (ok|err)
+	<session_id> <time> [user_id]
+	repeat for each live session
+	finish with a blank line
+
+shutdown:
+request: shutdown
+response: (ok|err)
 
