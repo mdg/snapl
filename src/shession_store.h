@@ -20,6 +20,42 @@
 
 
 /**
+ * This is an object to aggregate info for a given shession.
+ */
+class shession_c
+{
+public:
+	/**
+	 * Construct a shession object.
+	 */
+	shession_c( const std::string &shession_id
+			, const std::string &user_id = std::string() );
+
+	/**
+	 * Get the shession_id for this shession.
+	 */
+	const std::string & shession_id() const { return m_shession_id; }
+	/**
+	 * Get the user_id for this shession.  May be empty.
+	 */
+	const std::string & user_id() const { return m_user_id; }
+	/**
+	 * Get the expiration time for this shession.
+	 */
+	time_t expiration() const { return m_expiration; }
+
+	/**
+	 * Check if this shession is expired.
+	 */
+	bool expired( time_t now = 0 ) const;
+
+private:
+	std::string m_shession_id;
+	std::string m_user_id;
+	time_t m_expiration;
+};
+
+/**
  * Abstract shession_store interface.
  */
 class shession_store_i

@@ -16,6 +16,20 @@
 #include "testpp.h"
 #include "shession_store.h"
 
+/**
+ * Test that the shession_constructor sets members to the proper default
+ * values.
+ */
+TESTPP( test_shession_constructor )
+{
+	shession_c sh( "dog" );
+
+	assertpp( sh.shession_id() ) == "dog";
+	assertpp( sh.user_id() ) == "";
+	assertpp( sh.expiration() ) == 0;
+	assertpp( sh.expired() ).t();
+}
+
 
 /**
  * A mock timer class for injecting into the shession_store
