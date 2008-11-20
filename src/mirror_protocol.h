@@ -19,11 +19,20 @@
 #include "request_processor.h"
 
 
-class mirror_create_processor_c
+class mirror_request_processor_c
 : public request_processor_i
 {
 public:
-	mirror_create_processor_c( shession_store_i & );
+	mirror_request_processor_c( shession_store_i & );
+	virtual void process( const request_c &, connection_i & );
+};
+
+
+class mirror_dump_processor_c
+: public request_processor_i
+{
+public:
+	mirror_dump_processor_c( shession_store_i & );
 	virtual void process( const request_c &, connection_i & );
 };
 
@@ -36,7 +45,7 @@ public:
 	virtual ~mirror_protocol_c();
 
 private:
-	mirror_create_processor_c m_create;
+	mirror_request_processor_c m_create;
 };
 
 

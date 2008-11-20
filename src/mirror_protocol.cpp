@@ -14,16 +14,49 @@
  */
 
 #include "mirror_protocol.h"
+#include "request.h"
+#include "connection.h"
+#include <sstream>
 
 
-mirror_create_processor_c::mirror_create_processor_c(
+mirror_request_processor_c::mirror_request_processor_c(
 		shession_store_i &store )
 : request_processor_i( RT_NULL, store )
 {}
 
-void mirror_create_processor_c::process( const request_c &req
+void mirror_request_processor_c::process( const request_c &req
 		, connection_i &conn )
 {
+	if ( req.argc() == 0 ) {
+		// error
+		return;
+	}
+	if ( req.argc() > 2 ) {
+		// error
+		// conn.write_line( "err" );
+		return;
+	}
+
+	// process the request
+	std::string shession_id( req.argv( 0 ) );
+	std::string user_id;
+	if ( req.argc() == 2 ) {
+		user_id = req.argv( 1 );
+	}
+
+	// m_store.create_session( shession_id, user_id );
+}
+
+
+mirror_dump_processor_c::mirror_dump_processor_c( shession_store_i &store )
+: request_processor_i( RT_NULL, store )
+{}
+
+void mirror_dump_processor_c::process( const request_c &req
+		, connection_i &conn )
+{
+	std::ostringstream out;
+	time_t now( time( NULL ) );
 }
 
 
