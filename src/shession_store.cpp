@@ -16,6 +16,14 @@
 #include "shession_store.h"
 
 
+shession_c::shession_c( const std::string &shession_id
+		, const std::string &user_id )
+: m_shession_id( shession_id )
+, m_user_id( user_id )
+, m_expiration( 0 )
+{}
+
+
 shession_store_c::shession_store_c( int timeout_seconds )
 : m_default_timer()
 , m_timer( &m_default_timer )

@@ -20,7 +20,7 @@
 
 
 /**
- * This is an object to aggregate info for a given shession.
+ * This is an object to aggregate info for a given shared session.
  */
 class shession_c
 {
@@ -30,6 +30,11 @@ public:
 	 */
 	shession_c( const std::string &shession_id
 			, const std::string &user_id = std::string() );
+
+	/**
+	 * Set when this shession should expired.
+	 */
+	void expire_at( time_t expiration ) { m_expiration = expiration; }
 
 	/**
 	 * Get the shession_id for this shession.
@@ -47,7 +52,7 @@ public:
 	/**
 	 * Check if this shession is expired.
 	 */
-	bool expired( time_t now = 0 ) const;
+	bool expired( time_t now ) const { return now >= m_expiration; }
 
 private:
 	std::string m_shession_id;

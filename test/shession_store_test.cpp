@@ -27,7 +27,33 @@ TESTPP( test_shession_constructor )
 	assertpp( sh.shession_id() ) == "dog";
 	assertpp( sh.user_id() ) == "";
 	assertpp( sh.expiration() ) == 0;
-	assertpp( sh.expired() ).t();
+	assertpp( sh.expired( 5 ) ).t();
+}
+
+/**
+ * Test that the constructor with the user ID works as expected.
+ */
+TESTPP( test_shession_user_id_constructor )
+{
+	shession_c sh( "dog", "cat" );
+
+	assertpp( sh.shession_id() ) == "dog";
+	assertpp( sh.user_id() ) == "cat";
+	assertpp( sh.expiration() ) == 0;
+	assertpp( sh.expired( 4 ) ).t();
+}
+
+/**
+ * Test that the expiration functionality works.
+ */
+TESTPP( test_shession_expiration )
+{
+	shession_c sh( "dog" );
+
+	sh.expire_at( 5 );
+	assertpp( sh.expired( 4 ) ).f();
+	assertpp( sh.expired( 5 ) ).t(); // should expire at the given time
+	assertpp( sh.expired( 6 ) ).t();
 }
 
 
