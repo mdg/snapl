@@ -19,6 +19,10 @@
 #include "request_processor.h"
 
 
+/**
+ * Request to mirror a session that was created or renewed on another
+ * from another shessiond server.
+ */
 class mirror_request_processor_c
 : public request_processor_i
 {
@@ -28,6 +32,10 @@ public:
 };
 
 
+/**
+ * Request to dump the full shession_store out for a mirrored server
+ * that is just starting up.
+ */
 class mirror_dump_processor_c
 : public request_processor_i
 {
