@@ -28,6 +28,11 @@ synchronize:
 request: synchronize <time>
 response: (ok|err msg)
 
+mirror session:
+Tell the mirrored server to have a new session.
+request: mirror <session_id> [user_id]
+response: (none)
+
 mirror create:
 request: mirror_create <session_id> [user_id]
 response: (ok|err)
