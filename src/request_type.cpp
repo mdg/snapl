@@ -19,6 +19,7 @@
 const std::string request_type_c::CREATE( "create" );
 const std::string request_type_c::RENEW( "renew" );
 const std::string request_type_c::KILL( "kill" );
+const std::string request_type_c::MIRROR( "mirror" );
 const std::string request_type_c::EXPORT( "export" );
 const std::string request_type_c::CLOSE( "close" );
 const std::string request_type_c::s_null;
@@ -53,6 +54,8 @@ const std::string & request_type_c::type_to_name( request_type_e typ )
 			return RENEW;
 		case RT_KILL_SESSION:
 			return KILL;
+		case RT_MIRROR:
+			return MIRROR;
 		case RT_EXPORT:
 			return EXPORT;
 		case RT_CLOSE:
@@ -71,6 +74,8 @@ request_type_e request_type_c::name_to_type( const std::string &name )
 		typ = RT_RENEW_SESSION;
 	} else if ( name == KILL ) {
 		typ = RT_KILL_SESSION;
+	} else if ( name == MIRROR ) {
+		typ = RT_MIRROR;
 	} else if ( name == EXPORT ) {
 		typ = RT_EXPORT;
 	} else if ( name == CLOSE ) {

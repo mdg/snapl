@@ -26,6 +26,7 @@ enum request_type_e
 ,	RT_CREATE_SESSION
 ,	RT_RENEW_SESSION
 ,	RT_KILL_SESSION
+,	RT_MIRROR
 ,	RT_EXPORT
 ,	RT_CLOSE
 };
@@ -71,6 +72,7 @@ public:
 	static const std::string CREATE;
 	static const std::string RENEW;
 	static const std::string KILL;
+	static const std::string MIRROR;
 	static const std::string EXPORT;
 	static const std::string CLOSE;
 
