@@ -60,6 +60,12 @@ private:
 	time_t m_expiration;
 };
 
+
+class shession_iterator_c
+{
+};
+
+
 /**
  * Abstract shession_store interface.
  */
