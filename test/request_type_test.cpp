@@ -40,6 +40,8 @@ TESTPP( test_request_type_to_name_map )
 		== "renew";
 	assertpp( request_type_c::type_to_name( RT_KILL_SESSION ) )
 		== "kill";
+	assertpp( request_type_c::type_to_name( RT_MIRROR ) )
+		== "mirror";
 	assertpp( request_type_c::type_to_name( RT_EXPORT ) )
 		== "export";
 	assertpp( request_type_c::type_to_name( RT_CLOSE ) )
@@ -57,6 +59,8 @@ TESTPP( test_request_name_to_type_map )
 		== RT_RENEW_SESSION;
 	assertpp( request_type_c::name_to_type( "kill" ) )
 		== RT_KILL_SESSION;
+	assertpp( request_type_c::name_to_type( "mirror" ) )
+		== RT_MIRROR;
 	assertpp( request_type_c::name_to_type( "export" ) )
 		== RT_EXPORT;
 	assertpp( request_type_c::name_to_type( "close" ) )
