@@ -76,6 +76,9 @@ void shession_control_c::iterate()
 					req.type() );
 		if ( proc ) {
 			proc->process( req, *conn );
+		} else {
+			std::cerr << "no request processor for " << req.name()
+				<< std::endl;
 		}
 		// continue reading from this connection
 		// while it has input
