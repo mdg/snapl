@@ -46,7 +46,7 @@ void shession_store_c::create_session( const std::string &shession_id
 	m_store[ shession_id ] = (*m_timer)() + m_timeout;
 }
 
-bool shession_store_c::live_session( const std::string &session_id ) const
+bool shession_store_c::live( const std::string &session_id ) const
 {
 	std::map< std::string, time_t >::const_iterator it;
 	// look for the session_id

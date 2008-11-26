@@ -31,6 +31,6 @@ TESTPP( test_mirror_request )
 	connection_i *conn = new connected_socket_c( fileno( stdout ), 0 );
 
 	proc.process( req, *conn );
-	assertpp( store.live_session( "dog" ) ).t();
+	assertpp( store.live( "dog" ) ).t();
 }
 

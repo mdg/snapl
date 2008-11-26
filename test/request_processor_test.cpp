@@ -35,15 +35,15 @@ TESTPP( test_create_kill )
 	int fd( fileno( stdout ) );
 	conn = new connected_socket_c( fd, 0 );
 
-	assertpp( store.live_session( "dog1714636915" ) ).f();
+	assertpp( store.live( "dog1714636915" ) ).f();
 
 	request_c create_req( "create dog" );
 	create_proc.process( create_req, *conn );
-	assertpp( store.live_session( "dog1714636915" ) ).t();
+	assertpp( store.live( "dog1714636915" ) ).t();
 
 	request_c kill_req( "kill dog1714636915" );
 	kill_proc.process( kill_req, *conn );
-	assertpp( store.live_session( "dog1714636915" ) ).f();
+	assertpp( store.live( "dog1714636915" ) ).f();
 
 	delete conn;
 	conn = 0;

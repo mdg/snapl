@@ -86,7 +86,7 @@ public:
 	 * Check if the given session_id is live.
 	 * @return true if it is still alive.
 	 */
-	virtual bool live_session( const std::string &session_id ) const = 0;
+	virtual bool live( const std::string &session_id ) const = 0;
 	/**
 	 * Renew the session if it exists.
 	 * @return true if it is still alive.
@@ -161,7 +161,7 @@ public:
 	 * Check if the given session_id is live.
 	 * @return true if it is still alive.
 	 */
-	virtual bool live_session( const std::string &session_id ) const;
+	virtual bool live( const std::string &session_id ) const;
 	/**
 	 * Renew the session if it exists.
 	 * @return true if it is still alive.

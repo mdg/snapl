@@ -170,7 +170,7 @@ TESTPP( test_store_mirror_creation )
 
 	store.mirror( "dog", "cat" );
 
-	assertpp( store.live_session( "dog" ) ).t();
+	assertpp( store.live( "dog" ) ).t();
 }
 
 /**
@@ -187,6 +187,6 @@ TESTPP( test_store_mirror_renewal )
 	store.mirror( "dog", "cat" );
 	mock_timer += 4;
 
-	assertpp( store.live_session( "dog" ) ).t();
+	assertpp( store.live( "dog" ) ).t();
 }
 
