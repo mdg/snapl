@@ -15,6 +15,7 @@
 
 #include "mirror_protocol.h"
 #include "request.h"
+#include "shession_store.h"
 #include "connection.h"
 #include <sstream>
 
@@ -45,7 +46,7 @@ void mirror_request_processor_c::process( const request_c &req
 		user_id = req.argv( 1 );
 	}
 
-	// m_store.create_session( shession_id, user_id );
+	m_store.mirror( shession_id, user_id );
 }
 
 
