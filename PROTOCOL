@@ -27,19 +27,14 @@ MIRROR PROTOCOL:
 mirror session:
 Tell the mirrored server to have a new session.
 request: mirror <session_id> [user_id]
-response: (none)
+response: none, log only to speed mirroring
 
-synchronize:
-request: synchronize <time>
+export request:
+request: export
 response: (ok|err msg)
-
-mirror create:
-request: mirror_create <session_id> [user_id]
-response: (ok|err)
-
-mirror renew:
-request: mirror_renew <session_id> [user_id]
-response: (ok|err)
+	<session_id> <time> [user_id]
+	repeat for each live session
+	finish with a blank line
 
 
 ADMIN PROTOCOL:
