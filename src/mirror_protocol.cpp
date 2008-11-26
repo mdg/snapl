@@ -23,7 +23,7 @@
 
 mirror_request_processor_c::mirror_request_processor_c(
 		shession_store_i &store )
-: request_processor_i( RT_NULL, store )
+: request_processor_i( RT_MIRROR, store )
 {}
 
 void mirror_request_processor_c::process( const request_c &req
@@ -53,7 +53,7 @@ void mirror_request_processor_c::process( const request_c &req
 
 export_request_processor_c::export_request_processor_c(
 		shession_store_i &store )
-: request_processor_i( RT_NULL, store )
+: request_processor_i( RT_EXPORT, store )
 {}
 
 void export_request_processor_c::process( const request_c &req
@@ -82,6 +82,7 @@ mirror_protocol_c::mirror_protocol_c( short port, shession_store_i &store )
 , m_export( store )
 {
 	add( m_create );
+	add( m_export );
 }
 
 mirror_protocol_c::~mirror_protocol_c()
