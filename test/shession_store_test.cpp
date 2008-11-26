@@ -211,9 +211,31 @@ TESTPP( test_store_mirror_renewal )
 }
 
 /**
- * Test that const iteration works.
+ * Test that const iteration works when called on a const store.
  */
-TESTPP( test_const_iteration )
+TESTPP( test_const_store_const_iteration )
+{
+	shession_store_c store( 5 );
+	store.create( "dog", "user1" );
+	store.create( "cat", "user2" );
+	store.create( "mouse", "user3" );
+	std::set< std::string > found;
+	const shession_store_c &cstore( store );
+
+	const_shession_iterator_c it( cstore.begin() );
+	for ( ; it!=cstore.end(); ++it ) {
+		found.insert( it->shession_id() );
+	}
+
+	assertpp( found.find( "dog" ) != found.end() ).t();
+	assertpp( found.find( "cat" ) != found.end() ).t();
+	assertpp( found.find( "mouse" ) != found.end() ).t();
+}
+
+/**
+ * Test that const iteration works when called on a non-const store.
+ */
+TESTPP( test_store_const_iteration )
 {
 	shession_store_c store( 5 );
 	store.create( "dog", "user1" );
@@ -234,7 +256,21 @@ TESTPP( test_const_iteration )
 /**
  * Test that non-const iteration works.
  */
-TESTPP( test_nonconst_iteration )
+TESTPP( test_store_iteration )
 {
+	shession_store_c store( 5 );
+	store.create( "dog", "user1" );
+	store.create( "cat", "user2" );
+	store.create( "mouse", "user3" );
+	std::set< std::string > found;
+
+	shession_iterator_c it( store.begin() );
+	for ( ; it!=store.end(); ++it ) {
+		found.insert( it->shession_id() );
+	}
+
+	assertpp( found.find( "dog" ) != found.end() ).t();
+	assertpp( found.find( "cat" ) != found.end() ).t();
+	assertpp( found.find( "mouse" ) != found.end() ).t();
 }
 
