@@ -3,8 +3,6 @@
 ### BACKLOG ###
 ###############
 
-modify renew request_processor to not allow updating the username
-
 consider creating a response object for the request_processor to write
 	back to, rather than writing directly to the connection
 
