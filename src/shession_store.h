@@ -218,19 +218,23 @@ public:
 
 	/**
 	 * Get the begin iterator.
+	 * This may include expired shessions.
 	 */
 	virtual shession_iterator_c begin() = 0;
 	/**
 	 * Get the end iterator.
+	 * This may include expired shessions.
 	 */
 	virtual shession_iterator_c end() = 0;
 
 	/**
 	 * Get the begin iterator.
+	 * This may include expired shessions.
 	 */
 	virtual const_shession_iterator_c begin() const = 0;
 	/**
 	 * Get the end iterator.
+	 * This may include expired shessions.
 	 */
 	virtual const_shession_iterator_c end() const = 0;
 };
@@ -311,19 +315,23 @@ public:
 
 	/**
 	 * Get the begin iterator.
+	 * This may include expired shessions.
 	 */
 	virtual shession_iterator_c begin();
 	/**
 	 * Get the end iterator.
+	 * This may include expired shessions.
 	 */
 	virtual shession_iterator_c end();
 
 	/**
 	 * Get the begin const_iterator.
+	 * This may include expired shessions.
 	 */
 	virtual const_shession_iterator_c begin() const;
 	/**
 	 * Get the end const_iterator.
+	 * This may include expired shessions.
 	 */
 	virtual const_shession_iterator_c end() const;
 
