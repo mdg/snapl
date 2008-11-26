@@ -74,7 +74,7 @@ public:
 	/**
 	 * Return the constant number of seconds.
 	 */
-	virtual time_t operator () () const
+	virtual time_t now() const
 	{
 		return m_seconds;
 	}

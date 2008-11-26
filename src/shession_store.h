@@ -162,7 +162,7 @@ public:
 	{
 	public:
 		virtual ~timer_c() {}
-		virtual time_t operator () () const { return time( NULL ); }
+		virtual time_t now() const { return time( NULL ); }
 	};
 
 public:
