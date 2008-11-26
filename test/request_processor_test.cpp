@@ -49,3 +49,25 @@ TESTPP( test_create_kill )
 	conn = 0;
 }
 
+/**
+ * Test that the renew_request works as expected.
+ */
+TESTPP( test_renew_success )
+{
+	shession_store_c store( 5 );
+	renew_request_processor_c renew_proc( store );
+
+	connection_i *conn = NULL;
+	int fd( fileno( stdout ) );
+	conn = new connected_socket_c( fd, 0 );
+
+	store.create( "dog", "cat" );
+	assertpp( store.live( "dog" ) ) == true;
+
+	request_c req( "renew dog" );
+	renew_proc.process( req, *conn );
+
+	assertpp( store.live( "dog" ) ).t();
+	// assertpp( response data );
+}
+

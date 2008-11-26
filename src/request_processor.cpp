@@ -64,17 +64,13 @@ void renew_request_processor_c::process( const request_c &req
 		, connection_i &conn )
 {
 	// verify arguments
-	if ( req.argc() < 1 || 2 < req.argc() ) {
-		conn.write_line( "err" );
+	if ( req.argc() != 1 ) {
+		conn.write_line( "err wrong number of params" );
 		return;
 	}
 
 	// make arguments meaningful
 	const std::string &session_id( req.argv( 0 ) );
-	std::string user_id;
-	if ( req.argc() == 2 ) {
-		user_id = req.argv( 1 );
-	}
 
 	// process arguments
 	bool live( m_store.renew( session_id ) );
