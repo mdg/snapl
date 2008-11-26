@@ -161,3 +161,32 @@ TESTPP( test_expiration )
 	assertpp( store.renew_session( sid_4 ) ).t();
 }
 
+/**
+ * Test that mirroring works correctly for creation.
+ */
+TESTPP( test_store_mirror_creation )
+{
+	shession_store_c store( 60 );
+
+	store.mirror( "dog", "cat" );
+
+	assertpp( store.live_session( "dog" ) ).t();
+}
+
+/**
+ * Test that mirroring works correctly for renewal.
+ */
+TESTPP( test_store_mirror_renewal )
+{
+	shession_store_c store( 5 );
+	mock_timer_c mock_timer;
+	store.set_timer( mock_timer );
+
+	store.mirror( "dog", "cat" );
+	mock_timer += 3;
+	store.mirror( "dog", "cat" );
+	mock_timer += 4;
+
+	assertpp( store.live_session( "dog" ) ).t();
+}
+

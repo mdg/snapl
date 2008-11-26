@@ -83,6 +83,21 @@ void shession_store_c::kill_session( const std::string &session_id )
 	m_store.erase( session_id );
 }
 
+void shession_store_c::mirror( const std::string &shession_id
+		, const std::string &user_id )
+{
+	std::map< std::string, time_t >::iterator it;
+
+	time_t expiration( (*m_timer)() + m_timeout );
+	it = m_store.find( shession_id );
+	if ( it == m_store.end() ) {
+		m_store[ shession_id ] = expiration;
+	} else {
+		it->second = expiration;
+	}
+}
+
+
 int shession_store_c::kill_expired()
 {
 	int kill_count( 0 );

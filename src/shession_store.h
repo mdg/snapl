@@ -98,6 +98,12 @@ public:
 	virtual void kill_session( const std::string &ession_id ) = 0;
 
 	/**
+	 * Mirror a session from another server.
+	 */
+	virtual void mirror( const std::string &shession_id
+			, const std::string &user_id ) = 0;
+
+	/**
 	 * Check if any sessions are expired and kill them.
 	 * @return the number of sessions killed
 	 */
@@ -165,6 +171,13 @@ public:
 	 * Kill the given session if it exists.
 	 */
 	virtual void kill_session( const std::string &ession_id );
+
+	/**
+	 * Mirror a session from another server.
+	 * This creates it if it doesn't exist and renews it if it does.
+	 */
+	virtual void mirror( const std::string &shession_id
+			, const std::string &user_id );
 
 	/**
 	 * Check if any sessions are expired and kill them.
