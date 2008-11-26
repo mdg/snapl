@@ -21,7 +21,7 @@
 
 
 /**
- * Test that the mirror session 
+ * Test that the mirror session
  */
 TESTPP( test_mirror_request )
 {
