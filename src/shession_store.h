@@ -67,9 +67,21 @@ private:
 class shession_iterator_c
 {
 public:
+	/**
+	 * Prefix increment operator
+	 */
 	void operator ++ ();
+	/**
+	 * Prefix decrement operator
+	 */
 	void operator -- ();
+	/**
+	 * Postfix increment operator
+	 */
 	void operator ++ ( int );
+	/**
+	 * Postfix decrement operator
+	 */
 	void operator -- ( int );
 
 	shession_c & operator * ();
