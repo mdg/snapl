@@ -77,7 +77,7 @@ void renew_request_processor_c::process( const request_c &req
 	}
 
 	// process arguments
-	bool live( m_store.renew_session( session_id ) );
+	bool live( m_store.renew( session_id ) );
 	conn.write_line( live ? "ok live" : "ok dead" );
 }
 

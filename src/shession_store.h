@@ -91,7 +91,7 @@ public:
 	 * Renew the session if it exists.
 	 * @return true if it is still alive.
 	 */
-	virtual bool renew_session( const std::string &session_id ) = 0;
+	virtual bool renew( const std::string &session_id ) = 0;
 	/**
 	 * Kill the given session if it exists.
 	 */
@@ -166,7 +166,7 @@ public:
 	 * Renew the session if it exists.
 	 * @return true if it is still alive.
 	 */
-	virtual bool renew_session( const std::string &session_id );
+	virtual bool renew( const std::string &session_id );
 	/**
 	 * Kill the given session if it exists.
 	 */

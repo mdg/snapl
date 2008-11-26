@@ -59,7 +59,7 @@ bool shession_store_c::live( const std::string &session_id ) const
 	return now <= it->second;
 }
 
-bool shession_store_c::renew_session( const std::string &session_id )
+bool shession_store_c::renew( const std::string &session_id )
 {
 	std::map< std::string, time_t >::iterator it;
 	// look for the session_id
