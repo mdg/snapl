@@ -29,11 +29,12 @@ void mirror_request_processor_c::process( const request_c &req
 {
 	if ( req.argc() == 0 ) {
 		// error
+		// write to the log, don't write anything back to the sender
 		return;
 	}
 	if ( req.argc() > 2 ) {
 		// error
-		// conn.write_line( "err" );
+		// write to the log, don't write anything back to the sender
 		return;
 	}
 
