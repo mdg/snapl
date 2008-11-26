@@ -64,33 +64,91 @@ private:
 /**
  * Class for iterating through shessions
  */
-class shession_iterator_c
+class const_shession_iterator_c
 {
 public:
+	const_shession_iterator_c(
+			std::map< std::string, shession_c >::const_iterator it )
+	: m_base( it )
+	{}
+
 	/**
 	 * Prefix increment operator
 	 */
-	void operator ++ ();
+	void operator ++ () { ++m_base; }
 	/**
 	 * Prefix decrement operator
 	 */
-	void operator -- ();
+	void operator -- () { --m_base; }
 	/**
 	 * Postfix increment operator
 	 */
-	void operator ++ ( int );
+	void operator ++ ( int ) { m_base++; }
 	/**
 	 * Postfix decrement operator
 	 */
-	void operator -- ( int );
+	void operator -- ( int ) { m_base--; }
 
-	shession_c & operator * ();
-	shession_c * operator -> ();
-	const shession_c & operator * () const;
-	const shession_c * operator -> () const;
+	const shession_c & operator * () const { return m_base->second; }
+	const shession_c * operator -> () const { return &( m_base->second ); }
+
+	bool operator == ( const const_shession_iterator_c &it ) const
+	{
+		return m_base == it.m_base;
+	}
+	bool operator != ( const const_shession_iterator_c &it ) const
+	{
+		return m_base != it.m_base;
+	}
 
 private:
-	std::map< std::string, shession_c * >::iterator m_base;
+	std::map< std::string, shession_c >::const_iterator m_base;
+};
+
+/**
+ * Class for iterating through shessions
+ */
+class shession_iterator_c
+{
+public:
+	shession_iterator_c(
+			std::map< std::string, shession_c >::iterator it )
+	: m_base( it )
+	{}
+
+	/**
+	 * Prefix increment operator
+	 */
+	void operator ++ () { ++m_base; }
+	/**
+	 * Prefix decrement operator
+	 */
+	void operator -- () { --m_base; }
+	/**
+	 * Postfix increment operator
+	 */
+	void operator ++ ( int ) { m_base++; }
+	/**
+	 * Postfix decrement operator
+	 */
+	void operator -- ( int ) { m_base--; }
+
+	shession_c & operator * () { return m_base->second; }
+	shession_c * operator -> () { return &( m_base->second ); }
+	const shession_c & operator * () const { return m_base->second; }
+	const shession_c * operator -> () const { return &( m_base->second ); }
+
+	bool operator == ( const shession_iterator_c &it ) const
+	{
+		return m_base == it.m_base;
+	}
+	bool operator != ( const shession_iterator_c &it ) const
+	{
+		return m_base != it.m_base;
+	}
+
+private:
+	std::map< std::string, shession_c >::iterator m_base;
 };
 
 
@@ -143,6 +201,25 @@ public:
 	 * expired but are still in the store.
 	 */
 	virtual int size() const = 0;
+
+
+	/**
+	 * Get the begin iterator.
+	 */
+	virtual shession_iterator_c begin() = 0;
+	/**
+	 * Get the end iterator.
+	 */
+	virtual shession_iterator_c end() = 0;
+
+	/**
+	 * Get the begin iterator.
+	 */
+	virtual const_shession_iterator_c begin() const = 0;
+	/**
+	 * Get the end iterator.
+	 */
+	virtual const_shession_iterator_c end() const = 0;
 };
 
 
@@ -217,6 +294,25 @@ public:
 	 * Check the total number of sessions in the store.
 	 */
 	virtual int size() const;
+
+
+	/**
+	 * Get the begin iterator.
+	 */
+	virtual shession_iterator_c begin();
+	/**
+	 * Get the end iterator.
+	 */
+	virtual shession_iterator_c end();
+
+	/**
+	 * Get the begin const_iterator.
+	 */
+	virtual const_shession_iterator_c begin() const;
+	/**
+	 * Get the end const_iterator.
+	 */
+	virtual const_shession_iterator_c end() const;
 
 private:
 	timer_c m_default_timer;

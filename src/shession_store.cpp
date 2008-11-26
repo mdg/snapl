@@ -138,3 +138,24 @@ int shession_store_c::size() const
 	return m_store.size();
 }
 
+
+shession_iterator_c shession_store_c::begin()
+{
+	return shession_iterator_c( m_store.begin() );
+}
+
+shession_iterator_c shession_store_c::end()
+{
+	return shession_iterator_c( m_store.end() );
+}
+
+const_shession_iterator_c shession_store_c::begin() const
+{
+	return const_shession_iterator_c( m_store.begin() );
+}
+
+const_shession_iterator_c shession_store_c::end() const
+{
+	return const_shession_iterator_c( m_store.end() );
+}
+
