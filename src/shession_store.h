@@ -222,7 +222,7 @@ private:
 	timer_c m_default_timer;
 	timer_c *m_timer;
 	int m_timeout; // in seconds
-	std::map< std::string, time_t > m_store;
+	std::map< std::string, shession_c > m_store;
 };
 
 

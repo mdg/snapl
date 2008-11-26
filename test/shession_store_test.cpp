@@ -162,6 +162,24 @@ TESTPP( test_expiration )
 }
 
 /**
+ * Test the live function on the shession_store class.
+ */
+TESTPP( test_shession_store_live )
+{
+	shession_store_c store( 5 );
+	mock_timer_c mock_timer;
+	store.set_timer( mock_timer );
+
+	store.create( "dog", "cat" );
+	mock_timer += 2;
+	assertpp( store.live( "dog" ) ).t();
+
+	mock_timer += 10;
+	assertpp( store.live( "dog" ) ).f();
+}
+
+
+/**
  * Test that mirroring works correctly for creation.
  */
 TESTPP( test_store_mirror_creation )
