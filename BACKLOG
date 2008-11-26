@@ -8,11 +8,11 @@ consider creating a response object for the request_processor to write
 
 implement the admin protocol
 
+modify renew request_processor to not allow updating the username
+
 implement the mirror protocol
 
 modify protocols to write an error if an unknown request_type is passed
-
-make username updateable by renew command
 
 add tests for new classes:
 	protocol

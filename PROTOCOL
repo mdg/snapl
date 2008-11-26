@@ -12,7 +12,7 @@ session requests:
 request:  create [user_id]
 response: (ok <session_id>|err msg)
 
-request:  renew <session_id> [user_id]
+request:  renew <session_id>
 response: ((ok (live|dead))|err msg)
 
 request:  kill <session_id>
