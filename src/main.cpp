@@ -100,14 +100,14 @@ int main( int argc, const char **argv )
 		std::cerr << "Error opening service listener.\n";
 		return 1;
 	}
-	accept_open = acceptor.open_listener( admin_port.value() );
-	if ( ! accept_open ) {
-		std::cerr << "Error opening admin listener.\n";
-		return 1;
-	}
 	accept_open = acceptor.open_listener( mirror_port.value() );
 	if ( ! accept_open ) {
 		std::cerr << "Error opening mirror listener.\n";
+		return 1;
+	}
+	accept_open = acceptor.open_listener( admin_port.value() );
+	if ( ! accept_open ) {
+		std::cerr << "Error opening admin listener.\n";
 		return 1;
 	}
 
