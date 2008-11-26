@@ -113,10 +113,13 @@ int main( int argc, const char **argv )
 
 	protocol_c &service_protocol( protocol.create_service_protocol(
 				service_port.value() ) );
+	protocol_c &mirror_protocol( protocol.create_mirror_protocol(
+				mirror_port.value() ) );
 
 	// begin main loop
 	shession_control_c control( acceptor );
 	control.add_protocol( service_port.value(), service_protocol );
+	control.add_protocol( mirror_port.value(), mirror_protocol );
 	control.main_loop();
 	return 0;
 }

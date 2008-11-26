@@ -15,6 +15,7 @@
 
 #include "shession_protocol.h"
 #include "request_processor.h"
+#include "mirror_protocol.h"
 
 
 shession_protocol_c::shession_protocol_c( shession_store_i &store, shession_generator_i &gen )
@@ -26,6 +27,7 @@ shession_protocol_c::shession_protocol_c( shession_store_i &store, shession_gene
 , m_renew( new renew_request_processor_c( store ) )
 , m_kill( new kill_request_processor_c( store ) )
 , m_close( new close_request_processor_c( store ) )
+, m_mirror_processor( new mirror_request_processor_c( store ) )
 {}
 
 shession_protocol_c::~shession_protocol_c()
@@ -40,5 +42,12 @@ protocol_c & shession_protocol_c::create_service_protocol( short port )
 	m_service->add( *m_kill );
 	m_service->add( *m_close );
 	return *m_service;
+}
+
+protocol_c & shession_protocol_c::create_mirror_protocol( short port )
+{
+	m_mirror.reset( new protocol_c( port ) );
+	m_mirror->add( *m_mirror_processor );
+	return *m_mirror;
 }
 
