@@ -15,6 +15,7 @@
 
 #include "protocol.h"
 #include "request_processor.h"
+#include <iostream>
 
 
 protocol_c::protocol_c( short port )
@@ -35,6 +36,12 @@ request_processor_i * protocol_c::processor(
 {
 	processor_iterator it( m_processor.find( req_type ) );
 	if ( it == m_processor.end() ) {
+		std::cerr << "No processor found for req_type = " << req_type
+			<< ".  Supported types are: ";
+		for ( it=m_processor.begin(); it!=m_processor.end(); ++it ) {
+			std::cerr << it->first << ", ";
+		}
+		std::cerr << std::endl;
 		return NULL;
 	}
 	return it->second;
