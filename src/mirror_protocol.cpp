@@ -18,6 +18,7 @@
 #include "shession_store.h"
 #include "connection.h"
 #include <sstream>
+#include <iostream>
 
 
 mirror_request_processor_c::mirror_request_processor_c(
@@ -50,23 +51,35 @@ void mirror_request_processor_c::process( const request_c &req
 }
 
 
-mirror_dump_processor_c::mirror_dump_processor_c( shession_store_i &store )
+export_request_processor_c::export_request_processor_c(
+		shession_store_i &store )
 : request_processor_i( RT_NULL, store )
 {}
 
-void mirror_dump_processor_c::process( const request_c &req
+void export_request_processor_c::process( const request_c &req
 		, connection_i &conn )
 {
 	std::ostringstream out;
 	time_t now( time( NULL ) );
 
 	// need a way to iterate over sessions
+	const_shession_iterator_c it( m_store.begin() );
+	for ( ; it!=m_store.end(); ++it ) {
+		out << it->shession_id() << " "
+			<< it->user_id() << std::endl;
+	}
+	out << std::endl;
+
+	conn.write_line( out.str() );
+
+	// doesn't write anything I can assert.
 }
 
 
 mirror_protocol_c::mirror_protocol_c( short port, shession_store_i &store )
 : protocol_c( port )
 , m_create( store )
+, m_export( store )
 {
 	add( m_create );
 }

@@ -34,3 +34,21 @@ TESTPP( test_mirror_request )
 	assertpp( store.live( "dog" ) ).t();
 }
 
+/**
+ * Test that the mirror dump request works.
+ */
+TESTPP( test_export_request )
+{
+	shession_store_c store( 50 );
+
+	store.create( "dog", "user1" );
+	store.create( "cat", "user2" );
+	store.create( "mouse", "user3" );
+
+	request_c req( "export" );
+	export_request_processor_c proc( store );
+	connection_i *conn = new connected_socket_c( fileno( stdout ), 0 );
+
+	proc.process( req, *conn );
+}
+

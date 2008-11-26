@@ -36,11 +36,11 @@ public:
  * Request to dump the full shession_store out for a mirrored server
  * that is just starting up.
  */
-class mirror_dump_processor_c
+class export_request_processor_c
 : public request_processor_i
 {
 public:
-	mirror_dump_processor_c( shession_store_i & );
+	export_request_processor_c( shession_store_i & );
 	virtual void process( const request_c &, connection_i & );
 };
 
@@ -57,6 +57,7 @@ public:
 
 private:
 	mirror_request_processor_c m_create;
+	export_request_processor_c m_export;
 };
 
 
