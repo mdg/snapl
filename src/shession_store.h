@@ -64,53 +64,11 @@ private:
 /**
  * Class for iterating through shessions
  */
-class const_shession_iterator_c
-{
-public:
-	const_shession_iterator_c(
-			std::map< std::string, shession_c >::const_iterator it )
-	: m_base( it )
-	{}
-
-	/**
-	 * Prefix increment operator
-	 */
-	void operator ++ () { ++m_base; }
-	/**
-	 * Prefix decrement operator
-	 */
-	void operator -- () { --m_base; }
-	/**
-	 * Postfix increment operator
-	 */
-	void operator ++ ( int ) { m_base++; }
-	/**
-	 * Postfix decrement operator
-	 */
-	void operator -- ( int ) { m_base--; }
-
-	const shession_c & operator * () const { return m_base->second; }
-	const shession_c * operator -> () const { return &( m_base->second ); }
-
-	bool operator == ( const const_shession_iterator_c &it ) const
-	{
-		return m_base == it.m_base;
-	}
-	bool operator != ( const const_shession_iterator_c &it ) const
-	{
-		return m_base != it.m_base;
-	}
-
-private:
-	std::map< std::string, shession_c >::const_iterator m_base;
-};
-
-/**
- * Class for iterating through shessions
- */
 class shession_iterator_c
 {
 public:
+	friend class const_shession_iterator_c;
+
 	shession_iterator_c(
 			std::map< std::string, shession_c >::iterator it )
 	: m_base( it )
@@ -149,6 +107,61 @@ public:
 
 private:
 	std::map< std::string, shession_c >::iterator m_base;
+};
+
+/**
+ * Class for iterating through shessions
+ */
+class const_shession_iterator_c
+{
+public:
+	/**
+	 * Construct a const_shession_iterator for the internal iterator
+	 * type in the shession_store.
+	 */
+	const_shession_iterator_c(
+			std::map< std::string, shession_c >::const_iterator it )
+	: m_base( it )
+	{}
+	/**
+	 * Construct a const shession iterator from a non-const
+	 * shession_iterator.
+	 */
+	const_shession_iterator_c( shession_iterator_c it )
+	: m_base( it.m_base )
+	{}
+
+	/**
+	 * Prefix increment operator
+	 */
+	void operator ++ () { ++m_base; }
+	/**
+	 * Prefix decrement operator
+	 */
+	void operator -- () { --m_base; }
+	/**
+	 * Postfix increment operator
+	 */
+	void operator ++ ( int ) { m_base++; }
+	/**
+	 * Postfix decrement operator
+	 */
+	void operator -- ( int ) { m_base--; }
+
+	const shession_c & operator * () const { return m_base->second; }
+	const shession_c * operator -> () const { return &( m_base->second ); }
+
+	bool operator == ( const const_shession_iterator_c &it ) const
+	{
+		return m_base == it.m_base;
+	}
+	bool operator != ( const const_shession_iterator_c &it ) const
+	{
+		return m_base != it.m_base;
+	}
+
+private:
+	std::map< std::string, shession_c >::const_iterator m_base;
 };
 
 

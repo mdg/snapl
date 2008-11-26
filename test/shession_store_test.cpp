@@ -15,6 +15,8 @@
 
 #include "testpp.h"
 #include "shession_store.h"
+#include <set>
+
 
 /**
  * Test that the shession_constructor sets members to the proper default
@@ -206,5 +208,33 @@ TESTPP( test_store_mirror_renewal )
 	mock_timer += 4;
 
 	assertpp( store.live( "dog" ) ).t();
+}
+
+/**
+ * Test that const iteration works.
+ */
+TESTPP( test_const_iteration )
+{
+	shession_store_c store( 5 );
+	store.create( "dog", "user1" );
+	store.create( "cat", "user2" );
+	store.create( "mouse", "user3" );
+	std::set< std::string > found;
+
+	const_shession_iterator_c it( store.begin() );
+	for ( ; it!=store.end(); ++it ) {
+		found.insert( it->shession_id() );
+	}
+
+	assertpp( found.find( "dog" ) != found.end() ).t();
+	assertpp( found.find( "cat" ) != found.end() ).t();
+	assertpp( found.find( "mouse" ) != found.end() ).t();
+}
+
+/**
+ * Test that non-const iteration works.
+ */
+TESTPP( test_nonconst_iteration )
+{
 }
 
