@@ -96,7 +96,7 @@ void kill_request_processor_c::process( const request_c &req
 	}
 
 	const std::string &session_id( req.argv( 0 ) );
-	m_store.kill_session( session_id );
+	m_store.kill( session_id );
 	conn.write_line( "ok" );
 }
 

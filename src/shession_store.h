@@ -95,7 +95,7 @@ public:
 	/**
 	 * Kill the given session if it exists.
 	 */
-	virtual void kill_session( const std::string &ession_id ) = 0;
+	virtual void kill( const std::string &ession_id ) = 0;
 
 	/**
 	 * Mirror a session from another server.
@@ -170,7 +170,7 @@ public:
 	/**
 	 * Kill the given session if it exists.
 	 */
-	virtual void kill_session( const std::string &ession_id );
+	virtual void kill( const std::string &ession_id );
 
 	/**
 	 * Mirror a session from another server.

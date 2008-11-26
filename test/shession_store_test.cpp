@@ -115,10 +115,10 @@ TESTPP( test_storing_4_sessions )
 	assertpp( store.renew( sid_3 ) ).t();
 	assertpp( store.renew( sid_4 ) ).t();
 
-	store.kill_session( sid_1 );
-	store.kill_session( sid_2 );
-	store.kill_session( sid_3 );
-	store.kill_session( sid_4 );
+	store.kill( sid_1 );
+	store.kill( sid_2 );
+	store.kill( sid_3 );
+	store.kill( sid_4 );
 
 	assertpp( store.renew( sid_1 ) ).f();
 	assertpp( store.renew( sid_2 ) ).f();

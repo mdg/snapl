@@ -78,7 +78,7 @@ bool shession_store_c::renew( const std::string &session_id )
 	return true;
 }
 
-void shession_store_c::kill_session( const std::string &session_id )
+void shession_store_c::kill( const std::string &session_id )
 {
 	m_store.erase( session_id );
 }
