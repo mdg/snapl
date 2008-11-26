@@ -105,10 +105,10 @@ TESTPP( test_storing_4_sessions )
 	const char *sid_4 = "flea";
 	std::string empty;
 
-	store.create_session( sid_1, empty );
-	store.create_session( sid_2, empty );
-	store.create_session( sid_3, empty );
-	store.create_session( sid_4, empty );
+	store.create( sid_1, empty );
+	store.create( sid_2, empty );
+	store.create( sid_3, empty );
+	store.create( sid_4, empty );
 
 	assertpp( store.renew( sid_1 ) ).t();
 	assertpp( store.renew( sid_2 ) ).t();
@@ -141,10 +141,10 @@ TESTPP( test_expiration )
 	const char *sid_4 = "flea";
 	std::string user_id;
 
-	store.create_session( sid_1, user_id );
-	store.create_session( sid_2, user_id );
-	store.create_session( sid_3, user_id );
-	store.create_session( sid_4, user_id );
+	store.create( sid_1, user_id );
+	store.create( sid_2, user_id );
+	store.create( sid_3, user_id );
+	store.create( sid_4, user_id );
 
 	mock_timer += 3;
 	assertpp( store.renew( sid_4 ) ).t();

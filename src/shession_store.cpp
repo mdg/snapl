@@ -40,7 +40,7 @@ void shession_store_c::set_timer( shession_store_c::timer_c &timer )
 }
 
 
-void shession_store_c::create_session( const std::string &shession_id
+void shession_store_c::create( const std::string &shession_id
 		, const std::string &user_id )
 {
 	m_store[ shession_id ] = (*m_timer)() + m_timeout;

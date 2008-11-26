@@ -80,7 +80,7 @@ public:
 	/**
 	 * Create a session for an optional user_id.
 	 */
-	virtual void create_session( const std::string &shession_id
+	virtual void create( const std::string &shession_id
 			, const std::string &user_id ) = 0;
 	/**
 	 * Check if the given session_id is live.
@@ -155,7 +155,7 @@ public:
 	/**
 	 * Create a session for an optional user_id.
 	 */
-	virtual void create_session( const std::string &shession_id
+	virtual void create( const std::string &shession_id
 			, const std::string &user_id );
 	/**
 	 * Check if the given session_id is live.
