@@ -47,6 +47,7 @@ private:
 
 	// mirror processors
 	std::auto_ptr< request_processor_i > m_mirror_processor;
+	std::auto_ptr< request_processor_i > m_export;
 };
 
 
