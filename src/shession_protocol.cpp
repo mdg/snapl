@@ -53,3 +53,10 @@ protocol_c & shession_protocol_c::create_mirror_protocol( short port )
 	return *m_mirror;
 }
 
+protocol_c & shession_protocol_c::create_admin_protocol( short port )
+{
+	m_admin.reset( new protocol_c( port ) );
+	m_admin->add( *m_export );
+	return *m_admin;
+}
+
