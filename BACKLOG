@@ -3,16 +3,14 @@
 ### BACKLOG ###
 ###############
 
+modify renew request_processor to not allow updating the username
+
 consider creating a response object for the request_processor to write
 	back to, rather than writing directly to the connection
 
-implement the admin protocol
-
-modify renew request_processor to not allow updating the username
-
-implement the mirror protocol
-
 modify protocols to write an error if an unknown request_type is passed
+
+implement the admin protocol
 
 add tests for new classes:
 	protocol
