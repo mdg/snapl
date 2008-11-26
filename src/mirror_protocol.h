@@ -45,6 +45,9 @@ public:
 };
 
 
+/**
+ * The mirror protocol object.
+ */
 class mirror_protocol_c
 : public protocol_c
 {
