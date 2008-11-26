@@ -61,8 +61,24 @@ private:
 };
 
 
+/**
+ * Class for iterating through shessions
+ */
 class shession_iterator_c
 {
+public:
+	void operator ++ ();
+	void operator -- ();
+	void operator ++ ( int );
+	void operator -- ( int );
+
+	shession_c & operator * ();
+	shession_c * operator -> ();
+	const shession_c & operator * () const;
+	const shession_c * operator -> () const;
+
+private:
+	std::map< std::string, shession_c * >::iterator m_base;
 };
 
 
