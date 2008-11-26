@@ -24,14 +24,14 @@ response: (ok|err)
 
 MIRROR PROTOCOL:
 
-synchronize:
-request: synchronize <time>
-response: (ok|err msg)
-
 mirror session:
 Tell the mirrored server to have a new session.
 request: mirror <session_id> [user_id]
 response: (none)
+
+synchronize:
+request: synchronize <time>
+response: (ok|err msg)
 
 mirror create:
 request: mirror_create <session_id> [user_id]
@@ -40,9 +40,6 @@ response: (ok|err)
 mirror renew:
 request: mirror_renew <session_id> [user_id]
 response: (ok|err)
-
-dump:
-same as for ADMIN PROTOCOL
 
 
 ADMIN PROTOCOL:
