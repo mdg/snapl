@@ -30,6 +30,41 @@ TESTPP( test_default_constructor )
 }
 
 /**
+ * Test request type to name mapping.
+ */
+TESTPP( test_request_type_to_name_map )
+{
+	assertpp( request_type_c::type_to_name( RT_CREATE_SESSION ) )
+		== "create";
+	assertpp( request_type_c::type_to_name( RT_RENEW_SESSION ) )
+		== "renew";
+	assertpp( request_type_c::type_to_name( RT_KILL_SESSION ) )
+		== "kill";
+	assertpp( request_type_c::type_to_name( RT_EXPORT ) )
+		== "export";
+	assertpp( request_type_c::type_to_name( RT_CLOSE ) )
+		== "close";
+}
+
+/**
+ * Test request name to type mapping.
+ */
+TESTPP( test_request_name_to_type_map )
+{
+	assertpp( request_type_c::name_to_type( "create" ) )
+		== RT_CREATE_SESSION;
+	assertpp( request_type_c::name_to_type( "renew" ) )
+		== RT_RENEW_SESSION;
+	assertpp( request_type_c::name_to_type( "kill" ) )
+		== RT_KILL_SESSION;
+	assertpp( request_type_c::name_to_type( "export" ) )
+		== RT_EXPORT;
+	assertpp( request_type_c::name_to_type( "close" ) )
+		== RT_CLOSE;
+}
+
+
+/**
  * Test the constructor that takes a request_type_e
  */
 TESTPP( test_req_type_constructor )
