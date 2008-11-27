@@ -41,12 +41,15 @@ protected:
 	request_type_e m_request_type;
 };
 
+// planning to rename request_processor_i to action_i
+typedef request_processor_i action_i;
+
 
 /**
  * Create session request processor
  */
 class create_request_processor_c
-: public request_processor_i
+: public action_i
 {
 public:
 	create_request_processor_c( shession_store_i &
@@ -65,7 +68,7 @@ private:
  * Renew session request processor
  */
 class renew_request_processor_c
-: public request_processor_i
+: public action_i
 {
 public:
 	renew_request_processor_c( shession_store_i & );
@@ -80,7 +83,7 @@ public:
  * Kill session request processor
  */
 class kill_request_processor_c
-: public request_processor_i
+: public action_i
 {
 public:
 	kill_request_processor_c( shession_store_i & );
@@ -95,7 +98,7 @@ public:
  * The close request processor.
  */
 class close_request_processor_c
-: public request_processor_i
+: public action_i
 {
 public:
 	close_request_processor_c( shession_store_i & );
