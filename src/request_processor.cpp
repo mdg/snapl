@@ -15,8 +15,8 @@
 
 #include "request_processor.h"
 #include <iostream>
-#include "connection.h"
 #include "request.h"
+#include "response.h"
 #include "shession_generator.h"
 #include "shession_store.h"
 
@@ -35,11 +35,11 @@ create_request_processor_c::create_request_processor_c(
 {}
 
 void create_request_processor_c::process( const request_c &req
-		, connection_i &conn )
+		, response_c &resp )
 {
 	if ( req.argc() > 1 ) {
 		// error
-		conn.write_line( "err" );
+		resp.err();
 		return;
 	}
 
@@ -51,8 +51,7 @@ void create_request_processor_c::process( const request_c &req
 	std::string shession_id( m_generator.shession_id( user_id ) );
 
 	m_store.create( shession_id, user_id );
-	std::string response( "ok "+ shession_id );
-	conn.write_line( response );
+	resp.ok( "shession_id" );
 }
 
 
@@ -61,11 +60,11 @@ renew_request_processor_c::renew_request_processor_c( shession_store_i &store )
 {}
 
 void renew_request_processor_c::process( const request_c &req
-		, connection_i &conn )
+		, response_c &resp )
 {
 	// verify arguments
 	if ( req.argc() != 1 ) {
-		conn.write_line( "err wrong number of params" );
+		resp.err( "wrong number of params" );
 		return;
 	}
 
@@ -74,7 +73,7 @@ void renew_request_processor_c::process( const request_c &req
 
 	// process arguments
 	bool live( m_store.renew( session_id ) );
-	conn.write_line( live ? "ok live" : "ok dead" );
+	resp.ok( live ? "live" : "dead" );
 }
 
 
@@ -83,17 +82,17 @@ kill_request_processor_c::kill_request_processor_c( shession_store_i &store )
 {}
 
 void kill_request_processor_c::process( const request_c &req
-		, connection_i &conn )
+		, response_c &resp )
 {
 	if ( req.argc() != 1 ) {
 		// error
-		conn.write_line( "err" );
+		resp.err();
 		return;
 	}
 
 	const std::string &session_id( req.argv( 0 ) );
 	m_store.kill( session_id );
-	conn.write_line( "ok" );
+	resp.ok();
 }
 
 
@@ -102,9 +101,9 @@ close_request_processor_c::close_request_processor_c( shession_store_i &store )
 {}
 
 void close_request_processor_c::process( const request_c &req
-		, connection_i &conn )
+		, response_c &resp )
 {
 	// need to actually do something here.
-	conn.write_line( "ok" );
+	resp.ok();
 }
 

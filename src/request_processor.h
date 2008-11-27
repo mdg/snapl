@@ -23,6 +23,7 @@
 
 class connection_i;
 class request_c;
+class response_c;
 class shession_generator_i;
 class shession_store_i;
 
@@ -34,7 +35,7 @@ class request_processor_i
 {
 public:
 	request_type_e request_type() const { return m_request_type; }
-	virtual void process( const request_c &, connection_i & ) = 0;
+	virtual void process( const request_c &, response_c & ) = 0;
 protected:
 	request_processor_i( request_type_e, shession_store_i & );
 	shession_store_i &m_store;
@@ -57,7 +58,7 @@ public:
 	/**
 	 * Process a create request.
 	 */
-	virtual void process( const request_c &, connection_i & );
+	virtual void process( const request_c &, response_c & );
 
 private:
 	shession_generator_i &m_generator;
@@ -75,7 +76,7 @@ public:
 	/**
 	 * Process a renew request.
 	 */
-	virtual void process( const request_c &, connection_i & );
+	virtual void process( const request_c &, response_c & );
 };
 
 
@@ -90,7 +91,7 @@ public:
 	/**
 	 * Process a kill request.
 	 */
-	virtual void process( const request_c &, connection_i & );
+	virtual void process( const request_c &, response_c & );
 };
 
 
@@ -102,7 +103,7 @@ class close_request_processor_c
 {
 public:
 	close_request_processor_c( shession_store_i & );
-	virtual void process( const request_c &, connection_i & );
+	virtual void process( const request_c &, response_c & );
 };
 
 

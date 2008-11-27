@@ -28,7 +28,7 @@ class mirror_request_processor_c
 {
 public:
 	mirror_request_processor_c( shession_store_i & );
-	virtual void process( const request_c &, connection_i & );
+	virtual void process( const request_c &, response_c & );
 };
 
 
@@ -41,7 +41,7 @@ class export_request_processor_c
 {
 public:
 	export_request_processor_c( shession_store_i & );
-	virtual void process( const request_c &, connection_i & );
+	virtual void process( const request_c &, response_c & );
 };
 
 

@@ -15,8 +15,8 @@
 
 #include "mirror_protocol.h"
 #include "request.h"
+#include "response.h"
 #include "shession_store.h"
-#include "connection.h"
 #include <sstream>
 #include <iostream>
 
@@ -27,7 +27,7 @@ mirror_request_processor_c::mirror_request_processor_c(
 {}
 
 void mirror_request_processor_c::process( const request_c &req
-		, connection_i &conn )
+		, response_c &resp )
 {
 	if ( req.argc() == 0 ) {
 		// error
@@ -57,20 +57,22 @@ export_request_processor_c::export_request_processor_c(
 {}
 
 void export_request_processor_c::process( const request_c &req
-		, connection_i &conn )
+		, response_c &resp )
 {
 	std::ostringstream out;
 	time_t now( time( NULL ) );
+
+	resp.ok();
 
 	// need a way to iterate over sessions
 	const_shession_iterator_c it( m_store.begin() );
 	for ( ; it!=m_store.end(); ++it ) {
 		out << it->shession_id() << " "
+			<< it->expiration() - now << " "
 			<< it->user_id() << std::endl;
 	}
 	out << std::endl;
-
-	conn.write_line( out.str() );
+	std::cout << out.str();
 
 	// doesn't write anything I can assert.
 }

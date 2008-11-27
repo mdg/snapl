@@ -20,6 +20,7 @@
 #include "connection_listener.h"
 #include "protocol.h"
 #include "request.h"
+#include "response.h"
 #include "request_processor.h"
 
 
@@ -75,7 +76,9 @@ void shession_control_c::iterate()
 		request_processor_i *proc = protocol.processor(
 					req.type() );
 		if ( proc ) {
-			proc->process( req, *conn );
+			response_c resp;
+			proc->process( req, resp );
+			// conn->write_response( resp );
 		} else {
 			std::cerr << "no request processor for " << req.name()
 				<< std::endl;

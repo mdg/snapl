@@ -14,8 +14,8 @@
  */
 
 #include "testpp.h"
-#include "connected_socket.h"
 #include "request.h"
+#include "response.h"
 #include "request_processor.h"
 #include "shession_store.h"
 #include "shession_generator.h"
@@ -31,22 +31,18 @@ TESTPP( test_create_kill )
 	shession_generator_c gen;
 	create_request_processor_c create_proc( store, gen );
 	kill_request_processor_c kill_proc( store );
-	connection_i *conn = NULL;
-	int fd( fileno( stdout ) );
-	conn = new connected_socket_c( fd, 0 );
 
 	assertpp( store.live( "dog1714636915" ) ).f();
 
 	request_c create_req( "create dog" );
-	create_proc.process( create_req, *conn );
+	response_c create_resp;
+	create_proc.process( create_req, create_resp );
 	assertpp( store.live( "dog1714636915" ) ).t();
 
 	request_c kill_req( "kill dog1714636915" );
-	kill_proc.process( kill_req, *conn );
+	response_c kill_resp;
+	kill_proc.process( kill_req, kill_resp );
 	assertpp( store.live( "dog1714636915" ) ).f();
-
-	delete conn;
-	conn = 0;
 }
 
 /**
@@ -57,17 +53,14 @@ TESTPP( test_renew_success )
 	shession_store_c store( 5 );
 	renew_request_processor_c renew_proc( store );
 
-	connection_i *conn = NULL;
-	int fd( fileno( stdout ) );
-	conn = new connected_socket_c( fd, 0 );
-
 	store.create( "dog", "cat" );
 	assertpp( store.live( "dog" ) ) == true;
 
 	request_c req( "renew dog" );
-	renew_proc.process( req, *conn );
+	response_c resp;
+	renew_proc.process( req, resp );
 
 	assertpp( store.live( "dog" ) ).t();
-	// assertpp( response data );
+	assertpp( resp.code() ) == "ok";
 }
 

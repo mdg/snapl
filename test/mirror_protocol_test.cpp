@@ -16,7 +16,7 @@
 #include "mirror_protocol.h"
 #include "shession_store.h"
 #include "request.h"
-#include "connected_socket.h"
+#include "response.h"
 #include <testpp.h>
 
 
@@ -26,11 +26,11 @@
 TESTPP( test_mirror_request )
 {
 	shession_store_c store( 50 );
-	request_c req( "mirror dog cat" );
 	mirror_request_processor_c proc( store );
-	connection_i *conn = new connected_socket_c( fileno( stdout ), 0 );
+	request_c req( "mirror dog cat" );
+	response_c resp;
 
-	proc.process( req, *conn );
+	proc.process( req, resp );
 	assertpp( store.live( "dog" ) ).t();
 }
 
@@ -45,10 +45,11 @@ TESTPP( test_export_request )
 	store.create( "cat", "user2" );
 	store.create( "mouse", "user3" );
 
-	request_c req( "export" );
 	export_request_processor_c proc( store );
-	connection_i *conn = new connected_socket_c( fileno( stdout ), 0 );
+	request_c req( "export" );
+	response_c resp;
 
-	proc.process( req, *conn );
+	proc.process( req, resp );
+	// assert contents of response
 }
 
