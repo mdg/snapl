@@ -14,7 +14,6 @@
  */
 
 #include "response.h"
-#include <sstream>
 
 
 response_c::response_c()
