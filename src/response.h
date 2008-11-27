@@ -19,25 +19,43 @@
 #include <string>
 
 
-enum response_code_e
-{ RC_NULL
-, RC_OK
-, RC_ERR
-};
-
 /**
+ * The response object for request processors to send output
+ * back to a client.
  */
 class response_c
 {
 public:
 	/**
-	 * Construct a request object with a given request type
-	 * and a string parameter.
+	 * Construct an empty response object.  It will be filled
+	 * in by the request processors.
 	 */
-	response_c( const std::string &response_line );
+	response_c();
+
+	/**
+	 * Flag this response as successful.
+	 * Include an optional message.
+	 */
+	void ok( const std::string &msg = std::string() );
+
+	/**
+	 * Flag this response as having failed.
+	 * Include an optional error message.
+	 */
+	void err( const std::string &msg = std::string() );
+
+	/**
+	 * Get the code for this response. ok or err
+	 */
+	const std::string & code() const { return m_code; }
+	/**
+	 * Get the msg that is part of this response.
+	 */
+	const std::string & msg() const { return m_msg; }
 
 private:
-	response_code_e m_code;
+	std::string m_code;
+	std::string m_msg;
 };
 
 

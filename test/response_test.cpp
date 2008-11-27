@@ -14,23 +14,41 @@
  */
 
 #include "response.h"
-#include <sstream>
+#include "testpp.h"
 
 
-response_c::response_c()
-: m_code()
-, m_msg()
-{}
-
-void response_c::ok( const std::string &msg )
+/**
+ * Test constructor for correctly set empty values.
+ */
+TESTPP( test_response_constructor )
 {
-	m_code = "ok";
-	m_msg = msg;
+	response_c r;
+
+	assertpp( r.code() ) == "";
+	assertpp( r.msg() ) == "";
 }
 
-void response_c::err( const std::string &msg )
+/**
+ * Test that the ok code is set properly.
+ */
+TESTPP( test_response_ok )
 {
-	m_code = "err";
-	m_msg = msg;
+	response_c r;
+	r.ok( "Sweet!  This works!" );
+
+	assertpp( r.code() ) == "ok";
+	assertpp( r.msg() ) == "Sweet!  This works!";
+}
+
+/**
+ * Test that the err code is set properly.
+ */
+TESTPP( test_response_err )
+{
+	response_c r;
+	r.err( "too bad... didn't work." );
+
+	assertpp( r.code() ) == "err";
+	assertpp( r.msg() ) == "too bad... didn't work.";
 }
 
