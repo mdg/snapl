@@ -78,7 +78,12 @@ void shession_control_c::iterate()
 		if ( proc ) {
 			response_c resp;
 			proc->process( req, resp );
-			// conn->write_response( resp );
+			// proc silence not implemented yet.
+			// if ( proc.silent() ) {
+			conn->write_line( resp.coded_msg() );
+			if ( resp.has_content() ) {
+				conn->write_line( resp.content() );
+			}
 		} else {
 			std::cerr << "no request processor for " << req.name()
 				<< std::endl;
