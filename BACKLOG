@@ -26,6 +26,10 @@ add a localhost-lockdown configuration to restrict all connections to those
 add a version handshake upon connections being made.  to allow shessiond to change
 	while clients don't.
 
+resolve blocking issues between mirrors.  export request can currently leave 2
+	mirrors hanging on each other.  making thread queues for incoming & outgoing
+	should resolve this and potentially speed up execution as well.
+
 separate src code into server code and client code
 
 usage, configuration and connections could potentially be
