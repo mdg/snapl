@@ -59,9 +59,12 @@ TESTPP( test_write_content )
 {
 	response_c r;
 
+	assertpp( r.has_content() ).f();
+
 	r.write_line( "line 1" );
 	r.write_line( "line 2" );
 
+	assertpp( r.has_content() ).t();
 	assertpp( r.content() ) == "\tline 1\n\tline 2\n";
 }
 
