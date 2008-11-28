@@ -51,7 +51,7 @@ void create_request_processor_c::process( const request_c &req
 	std::string shession_id( m_generator.shession_id( user_id ) );
 
 	m_store.create( shession_id, user_id );
-	resp.ok( "shession_id" );
+	resp.ok( shession_id );
 }
 
 
