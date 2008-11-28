@@ -41,3 +41,12 @@ void response_c::write_line( const std::string &line )
 	m_has_content = true;
 }
 
+std::string response_c::coded_msg() const
+{
+	std::string msg( m_code );
+	if ( ! m_msg.empty() ) {
+		msg += ( " "+ m_msg );
+	}
+	return msg;
+}
+

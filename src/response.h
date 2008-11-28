@@ -51,6 +51,10 @@ public:
 	void write_line( const std::string &line );
 
 	/**
+	 * Get the code & message in a single line.
+	 */
+	std::string coded_msg() const;
+	/**
 	 * Get the code for this response. ok or err
 	 */
 	const std::string & code() const { return m_code; }

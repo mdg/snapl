@@ -38,6 +38,7 @@ TESTPP( test_response_ok )
 
 	assertpp( r.code() ) == "ok";
 	assertpp( r.msg() ) == "Sweet!  This works!";
+	assertpp( r.coded_msg() ) == "ok Sweet!  This works!";
 }
 
 /**
@@ -50,6 +51,7 @@ TESTPP( test_response_err )
 
 	assertpp( r.code() ) == "err";
 	assertpp( r.msg() ) == "too bad... didn't work.";
+	assertpp( r.coded_msg() ) == "err too bad... didn't work.";
 }
 
 /**
