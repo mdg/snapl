@@ -17,6 +17,7 @@
 
 
 #include <string>
+#include <sstream>
 
 
 /**
@@ -45,6 +46,11 @@ public:
 	void err( const std::string &msg = std::string() );
 
 	/**
+	 * Add a line of text as output for this response.
+	 */
+	void write_line( const std::string &line );
+
+	/**
 	 * Get the code for this response. ok or err
 	 */
 	const std::string & code() const { return m_code; }
@@ -53,9 +59,20 @@ public:
 	 */
 	const std::string & msg() const { return m_msg; }
 
+	/**
+	 * Check if this response has content.
+	 */
+	bool has_content() const { return m_has_content; }
+	/**
+	 * Get the content to be sent with this response.
+	 */
+	std::string content() const { return m_content.str(); }
+
 private:
 	std::string m_code;
 	std::string m_msg;
+	std::ostringstream m_content;
+	bool m_has_content;
 };
 
 

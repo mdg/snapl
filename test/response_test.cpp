@@ -52,3 +52,16 @@ TESTPP( test_response_err )
 	assertpp( r.msg() ) == "too bad... didn't work.";
 }
 
+/**
+ * Test that the content is set correctly.
+ */
+TESTPP( test_write_content )
+{
+	response_c r;
+
+	r.write_line( "line 1" );
+	r.write_line( "line 2" );
+
+	assertpp( r.content() ) == "\tline 1\n\tline 2\n";
+}
+
