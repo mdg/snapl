@@ -3,9 +3,6 @@
 ### BACKLOG ###
 ###############
 
-consider creating a response object for the request_processor to write
-	back to, rather than writing directly to the connection
-
 modify protocols to write an error if an unknown request_type is passed
 
 implement the admin protocol
