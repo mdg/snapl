@@ -40,10 +40,13 @@ TESTPP( test_mirror_request )
 TESTPP( test_export_request )
 {
 	shession_store_c store( 50 );
+	// this store object needs to use the mock timer to avoid
+	// weird problems where the second count turns over during
+	// the test.
 
 	store.create( "dog", "user1" );
 	store.create( "cat", "user2" );
-	store.create( "mouse", "user3" );
+	store.create( "mouse", "" );
 
 	export_request_processor_c proc( store );
 	request_c req( "export" );
@@ -51,5 +54,9 @@ TESTPP( test_export_request )
 
 	proc.process( req, resp );
 	// assert contents of response
+
+	assertpp( resp.content() ) == "\tcat 50 user2\n" \
+				    "\tdog 50 user1\n" \
+				    "\tmouse 50\n";
 }
 

@@ -59,7 +59,6 @@ export_request_processor_c::export_request_processor_c(
 void export_request_processor_c::process( const request_c &req
 		, response_c &resp )
 {
-	std::ostringstream out;
 	time_t now( time( NULL ) );
 
 	resp.ok();
@@ -67,14 +66,13 @@ void export_request_processor_c::process( const request_c &req
 	// need a way to iterate over sessions
 	const_shession_iterator_c it( m_store.begin() );
 	for ( ; it!=m_store.end(); ++it ) {
-		out << it->shession_id() << " "
-			<< it->expiration() - now << " "
-			<< it->user_id() << std::endl;
+		std::ostringstream out;
+		out << it->shession_id() << " " << it->expiration() - now;
+		if ( ! it->user_id().empty() ) {
+			out << " " << it->user_id();
+		}
+		resp.write_line( out.str() );
 	}
-	out << std::endl;
-	std::cout << out.str();
-
-	// doesn't write anything I can assert.
 }
 
 
