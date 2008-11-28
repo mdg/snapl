@@ -45,21 +45,5 @@ public:
 };
 
 
-/**
- * The mirror protocol object.
- */
-class mirror_protocol_c
-: public protocol_c
-{
-public:
-	mirror_protocol_c( short port, shession_store_i & );
-	virtual ~mirror_protocol_c();
-
-private:
-	mirror_request_processor_c m_create;
-	export_request_processor_c m_export;
-};
-
-
 #endif
 

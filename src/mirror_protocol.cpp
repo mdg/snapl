@@ -75,16 +75,3 @@ void export_request_processor_c::process( const request_c &req
 	}
 }
 
-
-mirror_protocol_c::mirror_protocol_c( short port, shession_store_i &store )
-: protocol_c( port )
-, m_create( store )
-, m_export( store )
-{
-	add( m_create );
-	add( m_export );
-}
-
-mirror_protocol_c::~mirror_protocol_c()
-{}
-
