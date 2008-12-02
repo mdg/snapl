@@ -25,7 +25,7 @@ class pthread_lock_c
 {
 public:
 	pthread_lock_c();
-	virtual ~pthread_lock_c() {}
+	virtual ~pthread_lock_c();
 
 	/**
 	 * Lock this lock.

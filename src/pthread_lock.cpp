@@ -13,6 +13,8 @@
  * limitations under the License.
  */
 
+#include "pthread_lock.h"
+
 
 pthread_lock_c::pthread_lock_c()
 {
