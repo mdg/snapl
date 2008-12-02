@@ -54,7 +54,8 @@ end
 
 
 file "test_shessiond" => [ :compile, :compile_test ] do |t|
-    no_main_obj = OBJ.clone
+    no_main_obj = FileList.new()
+    no_main_obj.import( OBJ )
     no_main_obj.exclude( 'main.o' )
     sh "g++ -o test_shessiond #{no_main_obj} #{TEST_OBJ} #{TESTPP_OBJ}"
 end
