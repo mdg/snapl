@@ -8,6 +8,8 @@ end
 directory "obj/src"
 directory "obj/test"
 
+LINKS = "-lpthread"
+
 INC = FileList[ 'src/*.h' ]
 SRC = FileList[ 'src/*.cpp' ]
 OBJ = SRC.sub( /\.cpp$/, '.o' ).sub( /^src\//, 'obj/src/' )
@@ -49,7 +51,7 @@ end
 
 
 file "shessiond" => [ :compile ] do |t|
-    sh "g++ -o shessiond #{OBJ}"
+    sh "g++ -o shessiond #{OBJ} #{LINKS}"
 end
 
 
@@ -57,7 +59,7 @@ file "test_shessiond" => [ :compile, :compile_test ] do |t|
     no_main_obj = FileList.new()
     no_main_obj.import( OBJ )
     no_main_obj.exclude( 'main.o' )
-    sh "g++ -o test_shessiond #{no_main_obj} #{TEST_OBJ} #{TESTPP_OBJ}"
+    sh "g++ -o test_shessiond #{no_main_obj} #{TEST_OBJ} #{TESTPP_OBJ} #{LINKS}"
 end
 
 
