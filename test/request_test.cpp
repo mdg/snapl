@@ -46,3 +46,15 @@ TESTPP( test_constructor_2 )
 	assertpp( req.argv( 1 ) ) == "mouse";
 }
 
+
+/**
+ * Test that an invalid request type name still shows up as something.
+ */
+TESTPP( test_invalid_request_type )
+{
+	request_c req( "dog 5" );
+
+	assertpp( req.type() ) == RT_NULL;
+	assertpp( req.name() ) == "dog";
+}
+
