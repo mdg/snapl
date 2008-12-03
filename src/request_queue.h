@@ -19,7 +19,7 @@
 
 
 class request_c;
-class lock_i;
+class mutex_i;
 
 /**
  * Queue for managing requests.
@@ -53,7 +53,7 @@ class request_queue_c
 {
 public:
 	request_queue_c();
-	request_queue_c( lock_i & );
+	request_queue_c( mutex_i & );
 	virtual ~request_queue_c();
 
 	/**
@@ -68,17 +68,8 @@ public:
 	virtual request_c * pop();
 
 private:
-	/**
-	 * Check if the lock exists.  If so, lock it.
-	 */
-	inline void lock();
-	/**
-	 * Check if the lock exists.  If so, unlock it.
-	 */
-	inline void unlock();
-
 	std::queue< request_c * > m_requests;
-	lock_i *m_lock;
+	mutex_i *m_mutex;
 };
 
 

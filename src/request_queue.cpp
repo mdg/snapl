@@ -17,47 +17,35 @@
 #include "lock.h"
 
 
-void request_queue_c::lock()
-{
-	if ( m_lock )
-		m_lock->lock();
-}
-
-void request_queue_c::unlock()
-{
-	if ( m_lock )
-		m_lock->unlock();
-}
-
-
 request_queue_c::request_queue_c()
 : m_requests()
-, m_lock( NULL )
+, m_mutex( NULL )
 {}
 
-request_queue_c::request_queue_c( lock_i &lock )
+request_queue_c::request_queue_c( mutex_i &mutex )
 : m_requests()
-, m_lock( &lock )
+, m_mutex( &mutex )
 {}
 
 request_queue_c::~request_queue_c() {}
 
+
 void request_queue_c::push( request_c *req )
 {
-	lock();
+	lock_c lock( m_mutex );
 	m_requests.push( req );
-	unlock();
+	// lock is freed by destructor
 }
 
 request_c * request_queue_c::pop()
 {
 	request_c *req = 0;
-	lock();
+	lock_c lock( m_mutex );
 	if ( ! m_requests.empty() ) {
 		req = m_requests.front();
 		m_requests.pop();
 	}
-	unlock();
+	lock.unlock();
 	return req;
 }
 
