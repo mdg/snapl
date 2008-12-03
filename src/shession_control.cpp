@@ -75,19 +75,23 @@ void shession_control_c::iterate()
 		protocol_c &protocol( *it->second );
 		request_processor_i *proc = protocol.processor(
 					req.type() );
+		response_c resp;
 		if ( proc ) {
-			response_c resp;
 			proc->process( req, resp );
-			// proc silence not implemented yet.
-			// if ( proc.silent() ) {
-			conn->write_line( resp.coded_msg() );
-			if ( resp.has_content() ) {
-				conn->write_line( resp.content() );
-			}
 		} else {
 			std::cerr << "no request processor for " << req.name()
 				<< std::endl;
+			resp.err( "unknown request type: '"+ req.name()
+			       +"'" );
 		}
+
+		// protocol silence not implemented yet.
+		// if ( protocol.silent() ) {
+		conn->write_line( resp.coded_msg() );
+		if ( resp.has_content() ) {
+			conn->write_line( resp.content() );
+		}
+
 		// continue reading from this connection
 		// while it has input
 	} while ( conn->line_ready() );
