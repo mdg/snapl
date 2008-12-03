@@ -17,13 +17,16 @@
 
 
 /**
- * Locking object interface.
+ * A mutex lock interface.
  */
-class lock_i
+class mutex_i
 {
-public:
-	virtual ~lock_i() {}
+	friend class lock_c;
 
+public:
+	virtual ~mutex_i() {}
+
+private:
 	/**
 	 * Lock this lock.
 	 */
@@ -37,8 +40,89 @@ public:
 	/**
 	 * Try to lock, but don't block if the lock isn't available.
 	 */
-	virtual void trylock() = 0;
+	virtual bool trylock() = 0;
 
+};
+
+
+/**
+ * A mutex lock.  This will block on construction until the lock can be
+ * acquired.
+ */
+class lock_c
+{
+public:
+	/**
+	 * Construct the lock on the mutex.  This will block until the
+	 * mutex can be locked.
+	 */
+	lock_c( mutex_i &mutex )
+	: m_mutex( mutex )
+	{
+		m_mutex.lock();
+	}
+	/**
+	 * Destructor to automatically unlock the mutex when the lock is
+	 * destroyed.  Unlocking automatically is the reason for this
+	 * class's existence.
+	 */
+	~lock_c()
+	{
+		unlock();
+	}
+
+	/**
+	 * Unlock the mutex prior to destruction of this object.
+	 */
+	void unlock()
+	{
+		m_mutex.unlock();
+	}
+
+private:
+	mutex_i &m_mutex;
+};
+
+/**
+ * A try lock.  This won't block if it can't get the lock.
+ */
+class trylock_c
+{
+public:
+	/**
+	 * Construct the trylock and attempt to lock the mutex.
+	 * Set the successful try flag for calling code to check success.
+	 */
+	trylock_c( mutex_i &mutex );
+	: m_mutex( mutex )
+	, m_successful_try( mutex.trylock() )
+	{}
+	/**
+	 * Destructor that automatically unlocks the mutex when it is
+	 * destroyed.  Unlocking automatically is reason for this class's
+	 * existence.
+	 */
+	~trylock_c()
+	{
+		unlock();
+	}
+
+	/**
+	 * Unlock the mutex prior to going out of scope.
+	 */
+	void unlock()
+	{
+		m_mutex.unlock();
+	}
+
+	/**
+	 * Check if the try successfully locked the mutex.
+	 */
+	bool successful_try() const { return m_successful_try; }
+
+private:
+	mutex_i &m_mutex;
+	const bool m_successful_try;
 };
 
 
