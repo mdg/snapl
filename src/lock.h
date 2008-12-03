@@ -22,6 +22,7 @@
 class mutex_i
 {
 	friend class lock_c;
+	friend class trylock_c;
 
 public:
 	virtual ~mutex_i() {}
@@ -57,10 +58,23 @@ public:
 	 * mutex can be locked.
 	 */
 	lock_c( mutex_i &mutex )
+	: m_mutex( &mutex )
+	{
+		if ( m_mutex )
+			m_mutex->lock();
+	}
+	/**
+	 * Construct the lock on a mutex ptr.  This will block until the
+	 * mutex can be locked.  It will tolerate a null pointer and do
+	 * nothing.
+	 */
+	lock_c( mutex_i *mutex )
 	: m_mutex( mutex )
 	{
-		m_mutex.lock();
+		if ( m_mutex )
+			m_mutex->lock();
 	}
+
 	/**
 	 * Destructor to automatically unlock the mutex when the lock is
 	 * destroyed.  Unlocking automatically is the reason for this
@@ -76,11 +90,12 @@ public:
 	 */
 	void unlock()
 	{
-		m_mutex.unlock();
+		if ( m_mutex )
+			m_mutex->unlock();
 	}
 
 private:
-	mutex_i &m_mutex;
+	mutex_i *m_mutex;
 };
 
 /**
@@ -93,10 +108,21 @@ public:
 	 * Construct the trylock and attempt to lock the mutex.
 	 * Set the successful try flag for calling code to check success.
 	 */
-	trylock_c( mutex_i &mutex );
-	: m_mutex( mutex )
+	trylock_c( mutex_i &mutex )
+	: m_mutex( &mutex )
 	, m_successful_try( mutex.trylock() )
 	{}
+	/**
+	 * Construct the trylock for a mutex pointer and attempt to lock
+	 * it if the pointer is valid.  Don't do anything if the mutex pointer
+	 * is null.
+	 * Set the successful try flag for calling code to check success.
+	 */
+	trylock_c( mutex_i *mutex )
+	: m_mutex( mutex )
+	, m_successful_try( mutex ? mutex->trylock() : false )
+	{}
+
 	/**
 	 * Destructor that automatically unlocks the mutex when it is
 	 * destroyed.  Unlocking automatically is reason for this class's
@@ -112,7 +138,7 @@ public:
 	 */
 	void unlock()
 	{
-		m_mutex.unlock();
+		m_mutex->unlock();
 	}
 
 	/**
@@ -121,7 +147,7 @@ public:
 	bool successful_try() const { return m_successful_try; }
 
 private:
-	mutex_i &m_mutex;
+	mutex_i *m_mutex;
 	const bool m_successful_try;
 };
 
