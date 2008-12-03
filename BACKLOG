@@ -5,6 +5,8 @@
 
 modify protocols to write an error if an unknown request_type is passed
 
+remove enumerated request_type; use strings instead
+
 implement the admin protocol
 
 add tests for new classes:
