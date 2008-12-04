@@ -18,5 +18,13 @@
 
 class message_i
 {
+public:
+	virtual ~message_i() {}
+
+	virtual void parse_message( istream & ) = 0;
+	virtual void format_message( ostream & ) = 0;
 };
+
+
+#endif
 
