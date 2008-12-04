@@ -3,8 +3,6 @@
 ### BACKLOG ###
 ###############
 
-modify protocols to write an error if an unknown request_type is passed
-
 remove enumerated request_type; use strings instead
 
 separate client send and receive commands so they can be
