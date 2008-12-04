@@ -18,7 +18,6 @@
 
 #include <string>
 #include <vector>
-#include "request_type.h"
 
 
 /**
@@ -27,6 +26,15 @@
  */
 class request_c
 {
+public:
+	static const std::string CREATE;
+	static const std::string RENEW;
+	static const std::string KILL;
+	static const std::string CLOSE;
+
+	static const std::string MIRROR;
+	static const std::string EXPORT;
+
 public:
 	/**
 	 * Construct a request object with a given request type
@@ -37,11 +45,7 @@ public:
 	/**
 	 * Get the type of this request
 	 */
-	request_type_e type() const { return m_type.type(); }
-	/**
-	 * Get then type name of this request
-	 */
-	const std::string & name() const { return m_type.name(); }
+	const std::string & type() const { return m_type; }
 
 	/**
 	 * Number of arguments to this request.
@@ -53,7 +57,7 @@ public:
 	const std::string & argv( int i ) const { return m_args[i]; }
 
 private:
-	request_type_c m_type;
+	std::string m_type;
 	std::vector< std::string > m_args;
 };
 

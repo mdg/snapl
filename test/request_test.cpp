@@ -16,7 +16,6 @@
 
 #include "testpp.h"
 #include "request.h"
-#include "request_type.h"
 
 
 /**
@@ -27,7 +26,7 @@ TESTPP( test_constructor_1 )
 {
 	request_c req( "renew dog" );
 
-	assertpp( req.type() ) == RT_RENEW_SESSION;
+	assertpp( req.type() ) == request_c::RENEW;
 	assertpp( req.argc() ) == 1;
 	assertpp( req.argv( 0 ) ) == "dog";
 }
@@ -40,7 +39,7 @@ TESTPP( test_constructor_2 )
 {
 	request_c req( "create cat mouse" );
 
-	assertpp( req.type() ) == RT_CREATE_SESSION;
+	assertpp( req.type() ) == request_c::CREATE;
 	assertpp( req.argc() ) == 2;
 	assertpp( req.argv( 0 ) ) == "cat";
 	assertpp( req.argv( 1 ) ) == "mouse";
@@ -54,7 +53,8 @@ TESTPP( test_invalid_request_type )
 {
 	request_c req( "dog 5" );
 
-	assertpp( req.type() ) == RT_NULL;
-	assertpp( req.name() ) == "dog";
+	assertpp( req.type() ) == "dog";
+	assertpp( req.argc() ) == 1;
+	assertpp( req.argv( 0 ) ) == "5";
 }
 

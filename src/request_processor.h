@@ -18,7 +18,6 @@
 
 #include <set>
 #include <string>
-#include "request_type.h"
 
 
 class connection_i;
@@ -34,12 +33,14 @@ class shession_store_i;
 class request_processor_i
 {
 public:
-	request_type_e request_type() const { return m_request_type; }
+	const std::string & request_type() const { return m_request_type; }
 	virtual void process( const request_c &, response_c & ) = 0;
+
 protected:
-	request_processor_i( request_type_e, shession_store_i & );
+	request_processor_i( const std::string &req_type, shession_store_i & );
+
 	shession_store_i &m_store;
-	request_type_e m_request_type;
+	const std::string m_request_type;
 };
 
 // planning to rename request_processor_i to action_i

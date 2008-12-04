@@ -16,7 +16,15 @@
 #include "request.h"
 #include <sstream>
 
-#include <iostream>
+
+const std::string request_c::CREATE( "create" );
+const std::string request_c::RENEW( "renew" );
+const std::string request_c::KILL( "kill" );
+const std::string request_c::CLOSE( "close" );
+
+const std::string request_c::MIRROR( "mirror" );
+const std::string request_c::EXPORT( "export" );
+
 
 request_c::request_c( const std::string &request_line )
 : m_type()
@@ -27,7 +35,7 @@ request_c::request_c( const std::string &request_line )
 
 	// get the request_type
 	input >> parsed_word;
-	m_type = request_type_c( parsed_word );
+	m_type = parsed_word;
 
 	// parse the arguments
 	input >> parsed_word;
