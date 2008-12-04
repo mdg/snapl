@@ -23,7 +23,7 @@
 
 mirror_request_processor_c::mirror_request_processor_c(
 		shession_store_i &store )
-: request_processor_i( RT_MIRROR, store )
+: request_processor_i( request_c::MIRROR, store )
 {}
 
 void mirror_request_processor_c::process( const request_c &req
@@ -53,7 +53,7 @@ void mirror_request_processor_c::process( const request_c &req
 
 export_request_processor_c::export_request_processor_c(
 		shession_store_i &store )
-: request_processor_i( RT_EXPORT, store )
+: request_processor_i( request_c::EXPORT, store )
 {}
 
 void export_request_processor_c::process( const request_c &req
