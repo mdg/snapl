@@ -21,7 +21,7 @@
 #include "shession_store.h"
 
 
-request_processor_i::request_processor_i( request_type_e req_type
+request_processor_i::request_processor_i( const std::string &req_type
 		, shession_store_i &store )
 : m_store( store )
 , m_request_type( req_type )
@@ -30,7 +30,7 @@ request_processor_i::request_processor_i( request_type_e req_type
 
 create_request_processor_c::create_request_processor_c(
 		shession_store_i &store, shession_generator_i &gen )
-: request_processor_i( RT_CREATE_SESSION, store )
+: request_processor_i( request_c::CREATE, store )
 , m_generator( gen )
 {}
 
@@ -56,7 +56,7 @@ void create_request_processor_c::process( const request_c &req
 
 
 renew_request_processor_c::renew_request_processor_c( shession_store_i &store )
-: request_processor_i( RT_RENEW_SESSION, store )
+: request_processor_i( request_c::RENEW, store )
 {}
 
 void renew_request_processor_c::process( const request_c &req
@@ -78,7 +78,7 @@ void renew_request_processor_c::process( const request_c &req
 
 
 kill_request_processor_c::kill_request_processor_c( shession_store_i &store )
-: request_processor_i( RT_KILL_SESSION, store )
+: request_processor_i( request_c::KILL, store )
 {}
 
 void kill_request_processor_c::process( const request_c &req
@@ -97,7 +97,7 @@ void kill_request_processor_c::process( const request_c &req
 
 
 close_request_processor_c::close_request_processor_c( shession_store_i &store )
-: request_processor_i( RT_CLOSE, store )
+: request_processor_i( request_c::CLOSE, store )
 {}
 
 void close_request_processor_c::process( const request_c &req

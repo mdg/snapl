@@ -37,9 +37,8 @@ public:
 	virtual void process( const request_c &, response_c & ) = 0;
 
 protected:
-	request_processor_i( request_type_e, shession_store_i & );
+	request_processor_i( const std::string &req_type, shession_store_i & );
 
-private:
 	shession_store_i &m_store;
 	const std::string m_request_type;
 };
