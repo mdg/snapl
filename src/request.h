@@ -30,6 +30,7 @@ public:
 	static const std::string CREATE;
 	static const std::string RENEW;
 	static const std::string KILL;
+	static const std::string CLOSE;
 
 public:
 	/**
