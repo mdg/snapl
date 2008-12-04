@@ -3,8 +3,6 @@
 ### BACKLOG ###
 ###############
 
-remove enumerated request_type; use strings instead
-
 implement message queue structure
 
 separate client send and receive commands so they can be
