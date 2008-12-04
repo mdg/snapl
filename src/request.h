@@ -27,6 +27,11 @@
 class request_c
 {
 public:
+	static const std::string CREATE;
+	static const std::string RENEW;
+	static const std::string KILL;
+
+public:
 	/**
 	 * Construct a request object with a given request type
 	 * and a string parameter.

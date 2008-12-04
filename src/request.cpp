@@ -16,7 +16,11 @@
 #include "request.h"
 #include <sstream>
 
-#include <iostream>
+
+const std::string request_c::CREATE( "create" );
+const std::string request_c::RENEW( "renew" );
+const std::string request_c::KILL( "kill" );
+
 
 request_c::request_c( const std::string &request_line )
 : m_type()
