@@ -16,7 +16,7 @@
  */
 
 #include <map>
-#include "request_type.h"
+#include <string>
 
 class request_processor_i;
 class shession_store_i;
@@ -24,7 +24,7 @@ class shession_store_i;
 
 class protocol_c
 {
-	typedef std::map< request_type_e
+	typedef std::map< std::string
 		, request_processor_i * > processor_map;
 	typedef processor_map::iterator processor_iterator;
 
@@ -34,7 +34,7 @@ public:
 	void add( request_processor_i & );
 
 	short port() const { return m_port; }
-	request_processor_i * processor( request_type_e );
+	request_processor_i * processor( const std::string & );
 
 private:
 	short m_port;

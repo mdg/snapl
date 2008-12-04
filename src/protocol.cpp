@@ -32,7 +32,7 @@ void protocol_c::add( request_processor_i &proc )
 }
 
 request_processor_i * protocol_c::processor(
-		request_type_e req_type )
+		const std::string &req_type )
 {
 	processor_iterator it( m_processor.find( req_type ) );
 	if ( it == m_processor.end() ) {
