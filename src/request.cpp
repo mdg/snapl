@@ -22,6 +22,9 @@ const std::string request_c::RENEW( "renew" );
 const std::string request_c::KILL( "kill" );
 const std::string request_c::CLOSE( "close" );
 
+const std::string request_c::MIRROR( "mirror" );
+const std::string request_c::EXPORT( "export" );
+
 
 request_c::request_c( const std::string &request_line )
 : m_type()

@@ -32,6 +32,9 @@ public:
 	static const std::string KILL;
 	static const std::string CLOSE;
 
+	static const std::string MIRROR;
+	static const std::string EXPORT;
+
 public:
 	/**
 	 * Construct a request object with a given request type
