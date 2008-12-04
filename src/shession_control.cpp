@@ -79,9 +79,9 @@ void shession_control_c::iterate()
 		if ( proc ) {
 			proc->process( req, resp );
 		} else {
-			std::cerr << "no request processor for " << req.name()
+			std::cerr << "no request processor for " << req.type()
 				<< std::endl;
-			resp.err( "unknown request type: '"+ req.name()
+			resp.err( "unknown request type: '"+ req.type()
 			       +"'" );
 		}
 
