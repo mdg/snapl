@@ -27,7 +27,7 @@ request_c::request_c( const std::string &request_line )
 
 	// get the request_type
 	input >> parsed_word;
-	m_type = request_type_c( parsed_word );
+	m_type = parsed_word;
 
 	// parse the arguments
 	input >> parsed_word;
