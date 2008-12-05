@@ -33,6 +33,27 @@ public:
 	virtual void receive( connection_i & );
 };
 
+class message_pusher_i
+{
+public:
+	virtual void push( connection_i &, message_i * ) = 0;
+};
+
+class message_popper_i
+{
+public:
+	virtual message_i * pop() = 0;
+};
+
+class message_queue_i
+{
+public:
+	virtual ~message_queue_i() {}
+
+	virtual void push( message_i * ) = 0;
+	virtual message_i * pop() = 0;
+};
+
 
 #endif
 
