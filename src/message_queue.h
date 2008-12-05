@@ -1,5 +1,5 @@
-#ifndef MESSAGE_QUEUE_H
-#define MESSAGE_QUEUE_H
+#ifndef MESSAGE_BOX_H
+#define MESSAGE_BOX_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
