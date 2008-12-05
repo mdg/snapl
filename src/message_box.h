@@ -21,8 +21,8 @@ class inbox_i
 public:
 	virtual ~inbox_i() {}
 
-	virtual void send( connection_i &, message_i * ) = 0;
-	virtual void send( connection_i &, const message_i & ) = 0;
+	virtual void queue( connection_i &, message_i * ) = 0;
+	virtual void queue( connection_i &, const message_i & ) = 0;
 };
 
 class outbox_i
