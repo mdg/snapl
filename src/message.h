@@ -23,7 +23,44 @@ public:
 
 	virtual void parse_message( istream & ) = 0;
 	virtual void format_message( ostream & ) = 0;
+
+	virtual connection_i * release_connection() = 0;
 };
+
+/**
+ * Maybe unnecessary.  Just message_i for now probably.
+ */
+class incoming_message_i
+{
+public:
+	virtual void parse_message( istream & ) = 0;
+};
+
+/**
+ * Maybe unnecessary.  Just message_i for now probably.
+ */
+class outgoing_message_i
+{
+public:
+	virtual void format_message( ostream & ) = 0;
+};
+
+
+class request_message_i
+: public message_i
+{
+public:
+	virtual const request_c & request() const = 0;
+};
+
+class response_message_i
+: public message_i
+{
+{
+public:
+	virtual const response_c & response() const = 0;
+};
+
 
 
 #endif

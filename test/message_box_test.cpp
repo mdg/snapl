@@ -18,31 +18,22 @@
 
 void do_with_queue( message_queue_i &queue )
 {
-	message_i *msg_in = queue.pop_incoming();
+	std::auto_ptr< message_i > msg_in( queue.pop_incoming() );
 	message_i msg_out;
 
 	execute( *msg_in, msg_out );
-
-	source.queue( msg_out );
+	queue.queue( msg_out );
 }
 
-void do_request( message_queue_i &queue )
+void loop_iteration( message_queue_i &queue )
 {
-	for (;;) {
-		std::auto_ptr< request_c > msg_in( source.pop_request() );
-		response_c msg_out;
+	std::auto_ptr< request_message_i > req_msg( queue.pop_request() );
+	response_c response;
 
-		execute( *msg_in, msg_out );
-		source.queue_response( msg_out );
-	}
+	execute( req_msg->request(), response );
+
+	response_message_c resp_msg( req_msg, response );
+	queue.push( resp_msg );
 }
 
-
-TESTPP( test_outbox_syntax )
-{
-	outbox_i out;
-	message_i msg;
-
-	out.queue( msg );
-}
 
