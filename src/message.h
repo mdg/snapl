@@ -25,6 +25,7 @@ public:
 	virtual void format_message( ostream & ) = 0;
 
 	virtual connection_i * release_connection() = 0;
+	virtual int port() const = 0;
 };
 
 /**
@@ -61,6 +62,25 @@ public:
 	virtual const response_c & response() const = 0;
 };
 
+
+class request_message_c
+: public request_message_i
+{
+public:
+	virtual const request_c & request() const;
+
+	virtual int port() const;
+	virtual connection_i & connection();
+
+private:
+	request_c m_request;
+};
+
+class response_message_c
+{
+public:
+	virtual response_c & response();
+};
 
 
 #endif
