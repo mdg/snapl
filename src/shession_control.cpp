@@ -73,8 +73,7 @@ void shession_control_c::iterate()
 		}
 
 		protocol_c &protocol( *it->second );
-		request_processor_i *proc = protocol.processor(
-					req.type() );
+		action_i *proc = protocol.processor( req.type() );
 		response_c resp;
 		if ( proc ) {
 			proc->process( req, resp );

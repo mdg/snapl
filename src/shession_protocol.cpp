@@ -23,12 +23,12 @@ shession_protocol_c::shession_protocol_c( shession_store_i &store, shession_gene
 , m_service()
 , m_mirror()
 , m_admin()
-, m_create( new create_request_processor_c( store, gen ) )
-, m_renew( new renew_request_processor_c( store ) )
-, m_kill( new kill_request_processor_c( store ) )
-, m_close( new close_request_processor_c( store ) )
-, m_mirror_processor( new mirror_request_processor_c( store ) )
-, m_export( new export_request_processor_c( store ) )
+, m_create( new create_action_c( store, gen ) )
+, m_renew( new renew_action_c( store ) )
+, m_kill( new kill_action_c( store ) )
+, m_close( new close_action_c( store ) )
+, m_mirror_processor( new mirror_action_c( store ) )
+, m_export( new export_action_c( store ) )
 {}
 
 shession_protocol_c::~shession_protocol_c()
