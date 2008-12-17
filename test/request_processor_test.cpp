@@ -29,8 +29,8 @@ TESTPP( test_create_kill )
 {
 	shession_store_c store( 180 );
 	shession_generator_c gen;
-	create_request_processor_c create_proc( store, gen );
-	kill_request_processor_c kill_proc( store );
+	create_action_c create_proc( store, gen );
+	kill_action_c kill_proc( store );
 
 	assertpp( store.live( "dog1714636915" ) ).f();
 
@@ -51,7 +51,7 @@ TESTPP( test_create_kill )
 TESTPP( test_renew_success )
 {
 	shession_store_c store( 5 );
-	renew_request_processor_c renew_proc( store );
+	renew_action_c renew_proc( store );
 
 	store.create( "dog", "cat" );
 	assertpp( store.live( "dog" ) ) == true;

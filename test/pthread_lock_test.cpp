@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-#include <testpp/test.h>
+#include "testpp.h"
 #include "pthread_lock.h"
 
 
