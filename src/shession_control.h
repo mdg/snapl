@@ -1,5 +1,5 @@
-#ifndef REQUEST_ROUTER_H
-#define REQUEST_ROUTER_H
+#ifndef SHESSION_CONTROL_H
+#define SHESSION_CONTROL_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,7 @@
 #include <map>
 #include <memory>
 
-class message_queue_i;
+class server_queue_i;
 class protocol_c;
 class request_c;
 class response_c;
@@ -38,7 +38,7 @@ public:
 	 * Construct the shession control
 	 * object.
 	 */
-	shession_control_c( message_queue_i & );
+	shession_control_c( server_queue_i & );
 
 	/**
 	 * Destroy the shession_control_c
@@ -61,7 +61,7 @@ public:
 	void execute( const request_c &, response_c & );
 
 private:
-	message_queue_i &m_queue;
+	server_queue_i &m_queue;
 	protocol_map m_protocol;
 };
 

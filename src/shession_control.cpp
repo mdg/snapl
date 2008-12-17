@@ -24,7 +24,7 @@
 #include "request_processor.h"
 
 
-shession_control_c::shession_control_c( message_queue_i &queue )
+shession_control_c::shession_control_c( server_queue_i &queue )
 : m_queue( queue )
 , m_protocol()
 {}
@@ -42,15 +42,13 @@ bool shession_control_c::main_loop()
 {
 	bool success( false );
 	for (;;) {
-		std::auto_ptr< request_c > req( m_queue.pop_request() );
-		if ( ! req.get() ) {
+		std::auto_ptr< request_message_i > msg( m_queue.pop() );
+		if ( ! msg.get() ) {
 			// sleep or yield or something, then reiterate
 			continue;
 		}
 
-		std::auto_ptr< response_c > resp( new response_c() );
 		execute( *req, *resp );
-		m_queue.push( resp.release() );
 	}
 
 	return success;
@@ -59,6 +57,7 @@ bool shession_control_c::main_loop()
 void request_router_c::execute( const request_c &req, response_c &resp )
 {
 	bool success( false );
+	std::auto_ptr< response_c > resp( new response_c() );
 
 	protocol_c *protocol = find_protocol( port );
 	if ( ! protocol ) {
@@ -70,7 +69,7 @@ void request_router_c::execute( const request_c &req, response_c &resp )
 		return;
 	}
 
-	action_i *action = protocol.processor( req.type() );
+	action_i *action = protocol->processor( req.type() );
 	if ( ! action ) {
 		std::cerr << "no request processor for " << req.type()
 			<< std::endl;
@@ -80,6 +79,10 @@ void request_router_c::execute( const request_c &req, response_c &resp )
 	}
 
 	action->process( req, resp );
+
+	if ( ! protocol->silent() ) {
+		m_queue.push( resp.release() );
+	}
 }
 
 protocol_i * request_router_c::find_protocol( int port )
