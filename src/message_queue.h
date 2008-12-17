@@ -1,5 +1,5 @@
-#ifndef MESSAGE_BOX_H
-#define MESSAGE_BOX_H
+#ifndef MESSAGE_QUEUE_H
+#define MESSAGE_QUEUE_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,42 +16,34 @@
  */
 
 
-class inbox_i
+/**
+ * A server message queue.
+ */
+class server_queue_i
 {
 public:
-	virtual ~inbox_i() {}
+	virtual ~server_message_queue_i() {}
 
-	virtual void queue( connection_i &, message_i * ) = 0;
-	virtual void queue( connection_i &, const message_i & ) = 0;
+	/**
+	 * Pop a request message off of the queue.
+	 */
+	virtual request_message_i * pop() = 0;
+
+	/**
+	 * Push a response message onto the queue.
+	 */
+	virtual void push( response_message_i * ) = 0;
 };
 
-class outbox_i
+
+class client_queue_i
 {
 public:
-	virtual ~outbox_i() {}
+	virtual ~client_message_queue_i() {}
 
-	virtual void receive( connection_i & );
-};
+	virtual void push( request_message_i * ) = 0;
 
-class message_pusher_i
-{
-public:
-	virtual void push( connection_i &, message_i * ) = 0;
-};
-
-class message_popper_i
-{
-public:
-	virtual message_i * pop() = 0;
-};
-
-class message_queue_i
-{
-public:
-	virtual ~message_queue_i() {}
-
-	virtual void push( message_i * ) = 0;
-	virtual request_message_i * pop_request() = 0;
+	virtual response_message_i * pop() = 0;
 };
 
 
