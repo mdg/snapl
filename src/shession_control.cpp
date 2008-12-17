@@ -24,8 +24,8 @@
 #include "request_processor.h"
 
 
-shession_control_c::shession_control_c( connection_listener_i &conn_fact )
-: m_connection_factory( conn_fact )
+shession_control_c::shession_control_c( message_queue_i &queue )
+: m_queue( queue )
 , m_protocol()
 {}
 
@@ -42,58 +42,54 @@ bool shession_control_c::main_loop()
 {
 	bool success( false );
 	for (;;) {
-		iterate();
+		std::auto_ptr< request_c > req( m_queue.pop_request() );
+		if ( ! req.get() ) {
+			// sleep or yield or something, then reiterate
+			continue;
+		}
+
+		std::auto_ptr< response_c > resp( new response_c() );
+		execute( *req, *resp );
+		m_queue.push( resp.release() );
 	}
 
 	return success;
 }
 
-void shession_control_c::iterate()
+void request_router_c::execute( const request_c &req, response_c &resp )
 {
 	bool success( false );
-	request_c *req = 0;
 
-	connection_i *conn = m_connection_factory.connection();
-	if ( ! conn ) {
+	protocol_c *protocol = find_protocol( port );
+	if ( ! protocol ) {
+		// can't do anything.
+		// write to the response and return
+		std::ostringstream err;
+		err << "No protocol for port " << port";
+		resp.err( err.str() );
 		return;
 	}
 
-	int port( conn->port() );
-	std::string req_line;
+	action_i *action = protocol.processor( req.type() );
+	if ( ! action ) {
+		std::cerr << "no request processor for " << req.type()
+			<< std::endl;
+		resp.err( "unknown request type: '"+ req.type()
+		       +"'" );
+		return;
+	}
 
-	do {
-		conn->read_line( req_line );
-		request_c req( req_line );
+	action->process( req, resp );
+}
 
-		protocol_iterator it( m_protocol.find( port ) );
-		if ( it == m_protocol.end() ) {
-			std::cerr << "port " << port << " has no protocol\n";
-			// maybe should close this connection also?
-			continue;
-		}
-
-		protocol_c &protocol( *it->second );
-		request_processor_i *proc = protocol.processor(
-					req.type() );
-		response_c resp;
-		if ( proc ) {
-			proc->process( req, resp );
-		} else {
-			std::cerr << "no request processor for " << req.type()
-				<< std::endl;
-			resp.err( "unknown request type: '"+ req.type()
-			       +"'" );
-		}
-
-		// protocol silence not implemented yet.
-		// if ( protocol.silent() ) {
-		conn->write_line( resp.coded_msg() );
-		if ( resp.has_content() ) {
-			conn->write_line( resp.content() );
-		}
-
-		// continue reading from this connection
-		// while it has input
-	} while ( conn->line_ready() );
+protocol_i * request_router_c::find_protocol( int port )
+{
+	protocol_iterator it( m_protocol.find( port ) );
+	if ( it == m_protocol.end() ) {
+		std::cerr << "port " << port << " has no protocol\n";
+		// maybe should close this connection also?
+		return NULL;
+	}
+	return it->second;
 }
 
