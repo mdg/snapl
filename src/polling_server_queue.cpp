@@ -1,5 +1,3 @@
-#ifndef SERVER_QUEUE_H
-#define SERVER_QUEUE_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,26 +13,25 @@
  * limitations under the License.
  */
 
+#include "polling_server_queue.h"
 
-/**
- * A server message queue.
- */
-class server_queue_i
+
+polling_server_queue_c::polling_server_queue_c(
+		connection_listener_i &listener )
+: m_listener( listener )
+{}
+
+
+polling_server_queue_c::~polling_server_queue_c()
+{}
+
+
+request_message_i * polling_server_queue_c::pop()
 {
-public:
-	virtual ~server_queue_i() {}
+	return NULL;
+}
 
-	/**
-	 * Pop a request message off of the queue.
-	 */
-	virtual request_message_i * pop() = 0;
-
-	/**
-	 * Push a response message onto the queue.
-	 */
-	virtual void push( response_message_i * ) = 0;
-};
-
-
-#endif
+void polling_server_queue_c::push( response_message_i *msg )
+{
+}
 
