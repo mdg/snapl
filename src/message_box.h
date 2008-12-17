@@ -51,7 +51,7 @@ public:
 	virtual ~message_queue_i() {}
 
 	virtual void push( message_i * ) = 0;
-	virtual request_message_i * pop_request_message() = 0;
+	virtual request_message_i * pop_request() = 0;
 };
 
 
