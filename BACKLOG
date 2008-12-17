@@ -10,6 +10,8 @@ separate client send and receive commands so they can be
 
 implement the admin protocol
 
+switch to official testpp library
+
 add tests for new classes:
 	protocol
 	shession_control
