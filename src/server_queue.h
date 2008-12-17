@@ -1,5 +1,5 @@
-#ifndef MESSAGE_QUEUE_H
-#define MESSAGE_QUEUE_H
+#ifndef SERVER_QUEUE_H
+#define SERVER_QUEUE_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,14 +16,23 @@
  */
 
 
-class client_queue_i
+/**
+ * A server message queue.
+ */
+class server_queue_i
 {
 public:
-	virtual ~client_message_queue_i() {}
+	virtual ~server_message_queue_i() {}
 
-	virtual void push( request_message_i * ) = 0;
+	/**
+	 * Pop a request message off of the queue.
+	 */
+	virtual request_message_i * pop() = 0;
 
-	virtual response_message_i * pop() = 0;
+	/**
+	 * Push a response message onto the queue.
+	 */
+	virtual void push( response_message_i * ) = 0;
 };
 
 
