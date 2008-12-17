@@ -18,23 +18,22 @@
 #include <map>
 #include <string>
 
-class request_processor_i;
+class action_i;
 class shession_store_i;
 
 
 class protocol_c
 {
-	typedef std::map< std::string
-		, request_processor_i * > processor_map;
+	typedef std::map< std::string, action_i * > processor_map;
 	typedef processor_map::iterator processor_iterator;
 
 public:
 	protocol_c( short port );
 	virtual ~protocol_c();
-	void add( request_processor_i & );
+	void add( action_i & );
 
 	short port() const { return m_port; }
-	request_processor_i * processor( const std::string & );
+	action_i * processor( const std::string & );
 
 private:
 	short m_port;

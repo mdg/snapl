@@ -21,20 +21,20 @@
 #include "shession_store.h"
 
 
-request_processor_i::request_processor_i( const std::string &req_type
+action_i::action_i( const std::string &req_type
 		, shession_store_i &store )
 : m_store( store )
 , m_request_type( req_type )
 {}
 
 
-create_request_processor_c::create_request_processor_c(
+create_action_c::create_action_c(
 		shession_store_i &store, shession_generator_i &gen )
-: request_processor_i( request_c::CREATE, store )
+: action_i( request_c::CREATE, store )
 , m_generator( gen )
 {}
 
-void create_request_processor_c::process( const request_c &req
+void create_action_c::process( const request_c &req
 		, response_c &resp )
 {
 	if ( req.argc() > 1 ) {
@@ -55,11 +55,11 @@ void create_request_processor_c::process( const request_c &req
 }
 
 
-renew_request_processor_c::renew_request_processor_c( shession_store_i &store )
-: request_processor_i( request_c::RENEW, store )
+renew_action_c::renew_action_c( shession_store_i &store )
+: action_i( request_c::RENEW, store )
 {}
 
-void renew_request_processor_c::process( const request_c &req
+void renew_action_c::process( const request_c &req
 		, response_c &resp )
 {
 	// verify arguments
@@ -77,11 +77,11 @@ void renew_request_processor_c::process( const request_c &req
 }
 
 
-kill_request_processor_c::kill_request_processor_c( shession_store_i &store )
-: request_processor_i( request_c::KILL, store )
+kill_action_c::kill_action_c( shession_store_i &store )
+: action_i( request_c::KILL, store )
 {}
 
-void kill_request_processor_c::process( const request_c &req
+void kill_action_c::process( const request_c &req
 		, response_c &resp )
 {
 	if ( req.argc() != 1 ) {
@@ -96,11 +96,11 @@ void kill_request_processor_c::process( const request_c &req
 }
 
 
-close_request_processor_c::close_request_processor_c( shession_store_i &store )
-: request_processor_i( request_c::CLOSE, store )
+close_action_c::close_action_c( shession_store_i &store )
+: action_i( request_c::CLOSE, store )
 {}
 
-void close_request_processor_c::process( const request_c &req
+void close_action_c::process( const request_c &req
 		, response_c &resp )
 {
 	// need to actually do something here.

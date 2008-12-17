@@ -30,31 +30,31 @@ class shession_store_i;
 /**
  * Abstract request_processor interface
  */
-class request_processor_i
+class action_i
 {
 public:
 	const std::string & request_type() const { return m_request_type; }
 	virtual void process( const request_c &, response_c & ) = 0;
 
 protected:
-	request_processor_i( const std::string &req_type, shession_store_i & );
+	action_i( const std::string &req_type, shession_store_i & );
 
 	shession_store_i &m_store;
 	const std::string m_request_type;
 };
 
 // planning to rename request_processor_i to action_i
-typedef request_processor_i action_i;
+// typedef action_i request_processor_i;
 
 
 /**
  * Create session request processor
  */
-class create_request_processor_c
+class create_action_c
 : public action_i
 {
 public:
-	create_request_processor_c( shession_store_i &
+	create_action_c( shession_store_i &
 			, shession_generator_i & );
 	/**
 	 * Process a create request.
@@ -69,11 +69,11 @@ private:
 /**
  * Renew session request processor
  */
-class renew_request_processor_c
+class renew_action_c
 : public action_i
 {
 public:
-	renew_request_processor_c( shession_store_i & );
+	renew_action_c( shession_store_i & );
 	/**
 	 * Process a renew request.
 	 */
@@ -82,13 +82,13 @@ public:
 
 
 /**
- * Kill session request processor
+ * Kill session action
  */
-class kill_request_processor_c
+class kill_action_c
 : public action_i
 {
 public:
-	kill_request_processor_c( shession_store_i & );
+	kill_action_c( shession_store_i & );
 	/**
 	 * Process a kill request.
 	 */
@@ -99,11 +99,11 @@ public:
 /**
  * The close request processor.
  */
-class close_request_processor_c
+class close_action_c
 : public action_i
 {
 public:
-	close_request_processor_c( shession_store_i & );
+	close_action_c( shession_store_i & );
 	virtual void process( const request_c &, response_c & );
 };
 

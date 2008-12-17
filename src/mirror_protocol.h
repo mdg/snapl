@@ -23,11 +23,11 @@
  * Request to mirror a session that was created or renewed on another
  * from another shessiond server.
  */
-class mirror_request_processor_c
-: public request_processor_i
+class mirror_action_c
+: public action_i
 {
 public:
-	mirror_request_processor_c( shession_store_i & );
+	mirror_action_c( shession_store_i & );
 	virtual void process( const request_c &, response_c & );
 };
 
@@ -36,11 +36,11 @@ public:
  * Request to dump the full shession_store out for a mirrored server
  * that is just starting up.
  */
-class export_request_processor_c
-: public request_processor_i
+class export_action_c
+: public action_i
 {
 public:
-	export_request_processor_c( shession_store_i & );
+	export_action_c( shession_store_i & );
 	virtual void process( const request_c &, response_c & );
 };
 

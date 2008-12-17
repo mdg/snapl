@@ -26,12 +26,12 @@ protocol_c::protocol_c( short port )
 protocol_c::~protocol_c()
 {}
 
-void protocol_c::add( request_processor_i &proc )
+void protocol_c::add( action_i &proc )
 {
 	m_processor[ proc.request_type() ] = &proc;
 }
 
-request_processor_i * protocol_c::processor(
+action_i * protocol_c::processor(
 		const std::string &req_type )
 {
 	processor_iterator it( m_processor.find( req_type ) );

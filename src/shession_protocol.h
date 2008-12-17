@@ -40,14 +40,14 @@ private:
 	std::auto_ptr< protocol_c > m_admin;
 
 	// service processors
-	std::auto_ptr< request_processor_i > m_create;
-	std::auto_ptr< request_processor_i > m_renew;
-	std::auto_ptr< request_processor_i > m_kill;
-	std::auto_ptr< request_processor_i > m_close;
+	std::auto_ptr< action_i > m_create;
+	std::auto_ptr< action_i > m_renew;
+	std::auto_ptr< action_i > m_kill;
+	std::auto_ptr< action_i > m_close;
 
 	// mirror processors
-	std::auto_ptr< request_processor_i > m_mirror_processor;
-	std::auto_ptr< request_processor_i > m_export;
+	std::auto_ptr< action_i > m_mirror_processor;
+	std::auto_ptr< action_i > m_export;
 
 	// admin processors
 	// use export mirror processor
