@@ -44,6 +44,7 @@ public:
 
 private:
 	connection_listener_i &m_listener;
+	std::queue< request_message_i * > m_queue;
 };
 
 
