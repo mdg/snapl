@@ -26,7 +26,7 @@
 TESTPP( test_mirror_request )
 {
 	shession_store_c store( 50 );
-	mirror_request_processor_c proc( store );
+	mirror_action_c proc( store );
 	request_c req( "mirror dog cat" );
 	response_c resp;
 
@@ -48,7 +48,7 @@ TESTPP( test_export_request )
 	store.create( "cat", "user2" );
 	store.create( "mouse", "" );
 
-	export_request_processor_c proc( store );
+	export_action_c proc( store );
 	request_c req( "export" );
 	response_c resp;
 
