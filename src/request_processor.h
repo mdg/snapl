@@ -16,19 +16,14 @@
  * limitations under the License.
  */
 
-#include <set>
 #include <string>
 
-
-class connection_i;
 class request_c;
 class response_c;
-class shession_generator_i;
-class shession_store_i;
 
 
 /**
- * Abstract request_processor interface
+ * Abstract action interface
  */
 class action_i
 {
@@ -37,74 +32,10 @@ public:
 	virtual void process( const request_c &, response_c & ) = 0;
 
 protected:
-	action_i( const std::string &req_type, shession_store_i & );
-
-	shession_store_i &m_store;
-	const std::string m_request_type;
-};
-
-// planning to rename request_processor_i to action_i
-// typedef action_i request_processor_i;
-
-
-/**
- * Create session request processor
- */
-class create_action_c
-: public action_i
-{
-public:
-	create_action_c( shession_store_i &
-			, shession_generator_i & );
-	/**
-	 * Process a create request.
-	 */
-	virtual void process( const request_c &, response_c & );
+	action_i( const std::string &req_type );
 
 private:
-	shession_generator_i &m_generator;
-};
-
-
-/**
- * Renew session request processor
- */
-class renew_action_c
-: public action_i
-{
-public:
-	renew_action_c( shession_store_i & );
-	/**
-	 * Process a renew request.
-	 */
-	virtual void process( const request_c &, response_c & );
-};
-
-
-/**
- * Kill session action
- */
-class kill_action_c
-: public action_i
-{
-public:
-	kill_action_c( shession_store_i & );
-	/**
-	 * Process a kill request.
-	 */
-	virtual void process( const request_c &, response_c & );
-};
-
-
-/**
- * The close request processor.
- */
-class close_action_c
-: public action_i
-{
-public:
-	close_action_c( shession_store_i & );
-	virtual void process( const request_c &, response_c & );
+	const std::string m_request_type;
 };
 
 
