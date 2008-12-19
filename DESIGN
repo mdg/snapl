@@ -1,0 +1,39 @@
+
+# Request Server
+dispatcher
+	an interface for routing requests from the queue, to an action and delivering
+	the response.
+
+protocol
+	an interface for grouping a set of actions and mapping requests to actions
+
+action
+	an interface for acting on a request and building a response
+
+request
+	an object for holding info about a request
+
+response
+	an object for holding a response
+
+server_queue
+	pops requests off the queue, and pushes responses into it
+
+
+# Client
+client_queue
+	pushes requests into the queue, and pops responses off it
+
+
+# Connections
+
+connection
+	an open network connection
+
+connection_listener
+	listens for new connections and input on existing connections
+
+line_parser
+	separates a stream of input into discrete lines of text
+
+
