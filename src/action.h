@@ -1,5 +1,6 @@
-#ifndef MIRROR_PROTOCOL_H
-#define MIRROR_PROTOCOL_H
+#ifndef REQUEST_PROCESSOR_H
+#define REQUEST_PROCESSOR_H
+
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,33 +16,28 @@
  * limitations under the License.
  */
 
-#include "protocol.h"
-#include "request_processor.h"
+#include <string>
+
+class request_c;
+class response_c;
 
 
 /**
- * Request to mirror a session that was created or renewed on another
- * from another shessiond server.
+ * Abstract action interface
  */
-class mirror_action_c
-: public action_i
+class action_i
 {
 public:
-	mirror_action_c( shession_store_i & );
-	virtual void process( const request_c &, response_c & );
-};
+	const std::string & request_type() const { return m_request_type; }
+	virtual void process( const request_c &, response_c & ) = 0;
 
+protected:
+	action_i( const std::string &req_type )
+	: m_request_type( req_type )
+	{}
 
-/**
- * Request to dump the full shession_store out for a mirrored server
- * that is just starting up.
- */
-class export_action_c
-: public action_i
-{
-public:
-	export_action_c( shession_store_i & );
-	virtual void process( const request_c &, response_c & );
+private:
+	const std::string m_request_type;
 };
 
 
