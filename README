@@ -1,7 +1,4 @@
-The shared session daemon.
-
-A light-weight server for sharing web application sessions across multiple servers.
-Also known as "Single Sign-On".
+The library for creating simple, line-based protocols.
 
 Dependencies to build this project are:
 * ruby/rake for the Rakefile
