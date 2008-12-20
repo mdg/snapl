@@ -29,7 +29,7 @@ class action_i
 {
 public:
 	const std::string & request_type() const { return m_request_type; }
-	virtual void process( const request_c &, response_c & ) = 0;
+	virtual void execute( const request_c &, response_c & ) = 0;
 
 protected:
 	action_i( const std::string &req_type )
