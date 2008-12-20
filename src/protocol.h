@@ -23,6 +23,7 @@ class shession_store_i;
 
 
 class protocol_c
+: public protocol_i
 {
 	typedef std::map< std::string, action_i * > processor_map;
 	typedef processor_map::iterator processor_iterator;
@@ -32,10 +33,12 @@ public:
 	virtual ~protocol_c();
 	void add( action_i & );
 
+	const std::string & name() const { return m_name; }
 	short port() const { return m_port; }
-	action_i * processor( const std::string & );
+	action_i * action( const std::string & );
 
 private:
+	std::string m_name;
 	short m_port;
 	processor_map m_processor;
 };
