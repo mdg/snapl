@@ -25,14 +25,14 @@ public:
 	virtual ~server_queue_i() {}
 
 	/**
-	 * Pop a request message off of the queue.
+	 * Pop a message with a request off of the queue.
 	 */
-	virtual request_message_i * pop() = 0;
+	virtual server_message_c * pop() = 0;
 
 	/**
-	 * Push a response message onto the queue.
+	 * Push a message back onto the queue with a response
 	 */
-	virtual void push( response_message_i * ) = 0;
+	virtual void push( server_message_c * ) = 0;
 };
 
 
