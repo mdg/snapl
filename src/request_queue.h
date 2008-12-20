@@ -53,7 +53,13 @@ class request_queue_c
 {
 public:
 	request_queue_c();
-	request_queue_c( mutex_i & );
+	/**
+	 * Request queue that takes a mutex as a parameter for being
+	 * threadsafe.  This is optional if queue won't run in threaded
+	 * environment.  The request queue will own this mutex and destroy
+	 * the mutex when the queue is destroyed.
+	 */
+	request_queue_c( mutex_i * );
 	virtual ~request_queue_c();
 
 	/**
@@ -69,7 +75,7 @@ public:
 
 private:
 	std::queue< request_c * > m_requests;
-	mutex_i *m_mutex;
+	std::auto_ptr< mutex_i > m_mutex;
 };
 
 

@@ -19,12 +19,12 @@
 
 request_queue_c::request_queue_c()
 : m_requests()
-, m_mutex( NULL )
+, m_mutex()
 {}
 
-request_queue_c::request_queue_c( mutex_i &mutex )
+request_queue_c::request_queue_c( mutex_i *mutex )
 : m_requests()
-, m_mutex( &mutex )
+, m_mutex( mutex )
 {}
 
 request_queue_c::~request_queue_c() {}
@@ -32,7 +32,7 @@ request_queue_c::~request_queue_c() {}
 
 void request_queue_c::push( request_c *req )
 {
-	lock_c lock( m_mutex );
+	lock_c lock( m_mutex.get() );
 	m_requests.push( req );
 	// lock is freed by destructor
 }
@@ -40,7 +40,7 @@ void request_queue_c::push( request_c *req )
 request_c * request_queue_c::pop()
 {
 	request_c *req = 0;
-	lock_c lock( m_mutex );
+	lock_c lock( m_mutex.get() );
 	if ( ! m_requests.empty() ) {
 		req = m_requests.front();
 		m_requests.pop();
