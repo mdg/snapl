@@ -16,6 +16,9 @@ request
 response
 	an object for holding a response
 
+message
+	an interface and object for passing info through the message queues
+
 server_queue
 	pops requests off the queue, and pushes responses into it
 
@@ -35,5 +38,4 @@ connection_listener
 
 line_parser
 	separates a stream of input into discrete lines of text
-
 
