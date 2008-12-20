@@ -16,8 +16,9 @@ request
 response
 	an object for holding a response
 
-message
-	an interface and object for passing info through the message queues
+server_message
+	an interface and object for receiving request info from the message queue
+	and passing response back
 
 server_queue
 	pops requests off the queue, and pushes responses into it
