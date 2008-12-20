@@ -19,7 +19,7 @@
 #include "protocol.h"
 #include "request.h"
 #include "response.h"
-#include "../message/message.h"
+#include "message.h"
 #include <iostream>
 
 
