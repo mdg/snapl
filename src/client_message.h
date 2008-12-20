@@ -15,76 +15,31 @@
  * limitations under the License.
  */
 
-#include <iostream>
+#include <string>
+#include <memory>
 
 class connection_i;
+class request_c;
+class response_c;
 
 
-class message_i
+class client_message_c
 {
 public:
-	virtual ~message_i() {}
+	client_message_c( const request_c & );
+	~client_message_c();
 
-	virtual void parse_message( std::istream & ) = 0;
-	virtual void format_message( std::ostream & ) = 0;
+	void set_response( response_c * );
 
-	virtual connection_i * release_connection() = 0;
-	virtual int port() const = 0;
-	virtual const std::string & protocol() const = 0;
-};
+	bool has_response() const;
+	const response_c & response() const;
 
-
-class request_message_i
-: public message_i
-{
-public:
-	virtual const request_c & request() const = 0;
-};
-
-
-class response_message_i
-: public message_i
-{
-public:
-	virtual response_c & response() = 0;
-};
-
-
-class request_message_c
-: public request_message_i
-{
-public:
-	virtual const request_c & request() const;
-
-	virtual void parse_message( std::istream & );
-	virtual void format_message( std::ostream & );
-
-	virtual connection_i * release_connection();
-	virtual int port() const;
-	virtual const std::string & protocol() const;
+	connection_i * release_connection();
 
 private:
-	request_c m_request;
-};
-
-
-class response_message_c
-: public response_message_i
-{
-public:
-	response_message_c( response_c * );
-
-	virtual response_c & response();
-
-	virtual void parse_message( std::istream & );
-	virtual void format_message( std::ostream & );
-
-	virtual connection_i * release_connection();
-	virtual int port() const;
-	virtual const std::string & protocol() const;
-
-private:
-	response_c m_response;
+	std::string m_request;
+	std::auto_ptr< response_c > m_response;
+	std::auto_ptr< connection_i > m_connection;
 };
 
 
