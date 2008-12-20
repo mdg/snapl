@@ -14,31 +14,30 @@
  */
 
 #include "protocol.h"
-#include "request_processor.h"
+#include "action.h"
 #include <iostream>
 
 
 protocol_c::protocol_c( short port )
 : m_port( port )
-, m_processor()
+, m_action()
 {}
 
 protocol_c::~protocol_c()
 {}
 
-void protocol_c::add( action_i &proc )
+void protocol_c::add( action_i &action )
 {
-	m_processor[ proc.request_type() ] = &proc;
+	m_action[ action.request_type() ] = &action;
 }
 
-action_i * protocol_c::processor(
-		const std::string &req_type )
+action_i * protocol_c::action( const std::string &req_type )
 {
-	processor_iterator it( m_processor.find( req_type ) );
-	if ( it == m_processor.end() ) {
+	action_iterator it( m_action.find( req_type ) );
+	if ( it == m_action.end() ) {
 		std::cerr << "No processor found for req_type = " << req_type
 			<< ".  Supported types are: ";
-		for ( it=m_processor.begin(); it!=m_processor.end(); ++it ) {
+		for ( it=m_action.begin(); it!=m_action.end(); ++it ) {
 			std::cerr << it->first << ", ";
 		}
 		std::cerr << std::endl;

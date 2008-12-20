@@ -19,14 +19,12 @@
 #include <string>
 
 class action_i;
-class shession_store_i;
 
 
 class protocol_c
-: public protocol_i
 {
-	typedef std::map< std::string, action_i * > processor_map;
-	typedef processor_map::iterator processor_iterator;
+	typedef std::map< std::string, action_i * > action_map;
+	typedef action_map::iterator action_iterator;
 
 public:
 	protocol_c( short port );
@@ -40,7 +38,7 @@ public:
 private:
 	std::string m_name;
 	short m_port;
-	processor_map m_processor;
+	action_map m_action;
 };
 
 
