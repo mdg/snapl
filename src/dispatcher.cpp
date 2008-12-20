@@ -14,31 +14,29 @@
  */
 
 
-#include "shession_control.h"
-#include <iostream>
-#include "connection.h"
-#include "connection_listener.h"
+#include "dispatcher.h"
+#include "action.h"
 #include "protocol.h"
 #include "request.h"
 #include "response.h"
-#include "request_processor.h"
+#include <iostream>
 
 
-shession_control_c::shession_control_c( server_queue_i &queue )
+dispatcher_c::dispatcher_c( server_queue_i &queue )
 : m_queue( queue )
 , m_protocol()
 {}
 
-shession_control_c::~shession_control_c() {}
+dispatcher_c::~dispatcher_c() {}
 
 
-void shession_control_c::add_protocol( short port, protocol_c &protocol )
+void dispatcher_c::add_protocol( short port, protocol_c &protocol )
 {
 	m_protocol[ port ] = &protocol;
 }
 
 
-bool shession_control_c::main_loop()
+bool dispatcher_c::main_loop()
 {
 	bool success( false );
 	for (;;) {
@@ -48,13 +46,13 @@ bool shession_control_c::main_loop()
 			continue;
 		}
 
-		execute( *req, *resp );
+		dispatch( *req, *resp );
 	}
 
 	return success;
 }
 
-void request_router_c::execute( const request_c &req, response_c &resp )
+void request_router_c::dispatch( const request_c &req, response_c &resp )
 {
 	bool success( false );
 	std::auto_ptr< response_c > resp( new response_c() );
@@ -69,7 +67,7 @@ void request_router_c::execute( const request_c &req, response_c &resp )
 		return;
 	}
 
-	action_i *action = protocol->processor( req.type() );
+	action_i *action = protocol->action( req.type() );
 	if ( ! action ) {
 		std::cerr << "no request processor for " << req.type()
 			<< std::endl;
@@ -78,7 +76,7 @@ void request_router_c::execute( const request_c &req, response_c &resp )
 		return;
 	}
 
-	action->process( req, resp );
+	action->execute( req, resp );
 
 	if ( ! protocol->silent() ) {
 		m_queue.push( resp.release() );

@@ -18,17 +18,17 @@
 #include <map>
 #include <memory>
 
-class server_queue_i;
 class protocol_c;
 class request_c;
 class response_c;
+class server_queue_i;
 
 
 /**
  * The controlling object for the overall
  * shession application.
  */
-class shession_control_c
+class dispatcher_c
 {
 	typedef std::map< short, protocol_c * > protocol_map;
 	typedef protocol_map::iterator protocol_iterator;
@@ -38,12 +38,12 @@ public:
 	 * Construct the shession control
 	 * object.
 	 */
-	shession_control_c( server_queue_i & );
+	dispatcher_c( server_queue_i & );
 
 	/**
-	 * Destroy the shession_control_c
+	 * Destroy the dispatcher_c
 	 */
-	~shession_control_c();
+	~dispatcher_c();
 
 	/**
 	 * Add a protocol to be executed.
@@ -58,7 +58,7 @@ public:
 	/**
 	 * Run one iteration of the main loop.
 	 */
-	void execute( const request_c &, response_c & );
+	void dispatch( const request_c &, response_c & );
 
 private:
 	server_queue_i &m_queue;
