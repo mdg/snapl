@@ -58,9 +58,11 @@ public:
 	/**
 	 * Run one iteration of the main loop.
 	 */
-	void dispatch( const request_c &, response_c & );
+	void dispatch( const request_c & );
 
 private:
+	protocol_c * find_protocol( int port );
+
 	server_queue_i &m_queue;
 	protocol_map m_protocol;
 };

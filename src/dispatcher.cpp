@@ -20,6 +20,7 @@
 #include "request.h"
 #include "response.h"
 #include "message.h"
+#include "server_queue.h"
 #include <iostream>
 
 
@@ -47,24 +48,24 @@ bool dispatcher_c::main_loop()
 			continue;
 		}
 
-		dispatch( *req, *resp );
+		dispatch( msg->request() );
 	}
 
 	return success;
 }
 
-void request_router_c::dispatch( const request_c &req, response_c &resp )
+void dispatcher_c::dispatch( const request_c &req )
 {
 	bool success( false );
 	std::auto_ptr< response_c > resp( new response_c() );
 
-	protocol_c *protocol = find_protocol( port );
+	protocol_c *protocol = find_protocol( req.port() );
 	if ( ! protocol ) {
 		// can't do anything.
 		// write to the response and return
 		std::ostringstream err;
-		err << "No protocol for port " << port;
-		resp.err( err.str() );
+		err << "No protocol for port " << req.port();
+		resp->err( err.str() );
 		return;
 	}
 
@@ -72,19 +73,19 @@ void request_router_c::dispatch( const request_c &req, response_c &resp )
 	if ( ! action ) {
 		std::cerr << "no request processor for " << req.type()
 			<< std::endl;
-		resp.err( "unknown request type: '"+ req.type()
+		resp->err( "unknown request type: '"+ req.type()
 		       +"'" );
 		return;
 	}
 
-	action->execute( req, resp );
+	action->execute( req, *resp );
 
 	if ( ! protocol->silent() ) {
-		m_queue.push( resp.release() );
+		m_queue.push( new response_message_c( resp.release() ) );
 	}
 }
 
-protocol_i * request_router_c::find_protocol( int port )
+protocol_c * dispatcher_c::find_protocol( int port )
 {
 	protocol_iterator it( m_protocol.find( port ) );
 	if ( it == m_protocol.end() ) {

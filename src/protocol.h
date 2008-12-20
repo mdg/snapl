@@ -33,12 +33,14 @@ public:
 
 	const std::string & name() const { return m_name; }
 	short port() const { return m_port; }
+	bool silent() const { return m_silent; }
 	action_i * action( const std::string & );
 
 private:
 	std::string m_name;
-	short m_port;
 	action_map m_action;
+	short m_port;
+	bool m_silent;
 };
 
 

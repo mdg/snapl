@@ -45,9 +45,8 @@ public:
 class response_message_i
 : public message_i
 {
-{
 public:
-	virtual const response_c & response() const = 0;
+	virtual response_c & response() = 0;
 };
 
 
@@ -57,8 +56,12 @@ class request_message_c
 public:
 	virtual const request_c & request() const;
 
+	virtual void parse_message( std::istream & );
+	virtual void format_message( std::ostream & );
+
+	virtual connection_i * release_connection();
 	virtual int port() const;
-	virtual connection_i & connection();
+	virtual const std::string & protocol() const;
 
 private:
 	request_c m_request;
@@ -66,9 +69,22 @@ private:
 
 
 class response_message_c
+: public response_message_i
 {
 public:
+	response_message_c( response_c * );
+
 	virtual response_c & response();
+
+	virtual void parse_message( std::istream & );
+	virtual void format_message( std::ostream & );
+
+	virtual connection_i * release_connection();
+	virtual int port() const;
+	virtual const std::string & protocol() const;
+
+private:
+	response_c m_response;
 };
 
 

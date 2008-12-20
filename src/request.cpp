@@ -29,6 +29,7 @@ const std::string request_c::EXPORT( "export" );
 request_c::request_c( const std::string &request_line )
 : m_type()
 , m_args()
+, m_port( 0 )
 {
 	std::istringstream input( request_line );
 	std::string parsed_word;

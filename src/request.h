@@ -56,9 +56,15 @@ public:
 	 */
 	const std::string & argv( int i ) const { return m_args[i]; }
 
+	/**
+	 * Get the port that this request came in on.
+	 */
+	int port() const { return m_port; }
+
 private:
 	std::string m_type;
 	std::vector< std::string > m_args;
+	int m_port;
 };
 
 

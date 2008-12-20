@@ -19,8 +19,10 @@
 
 
 protocol_c::protocol_c( short port )
-: m_port( port )
+: m_name()
 , m_action()
+, m_port( port )
+, m_silent( false )
 {}
 
 protocol_c::~protocol_c()
