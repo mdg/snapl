@@ -15,14 +15,18 @@
  * limitations under the License.
  */
 
+#include <iostream>
+
+class connection_i;
+
 
 class message_i
 {
 public:
 	virtual ~message_i() {}
 
-	virtual void parse_message( istream & ) = 0;
-	virtual void format_message( ostream & ) = 0;
+	virtual void parse_message( std::istream & ) = 0;
+	virtual void format_message( std::ostream & ) = 0;
 
 	virtual connection_i * release_connection() = 0;
 	virtual int port() const = 0;

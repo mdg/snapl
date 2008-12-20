@@ -19,6 +19,7 @@
 #include "protocol.h"
 #include "request.h"
 #include "response.h"
+#include "../message/message.h"
 #include <iostream>
 
 
@@ -62,7 +63,7 @@ void request_router_c::dispatch( const request_c &req, response_c &resp )
 		// can't do anything.
 		// write to the response and return
 		std::ostringstream err;
-		err << "No protocol for port " << port";
+		err << "No protocol for port " << port;
 		resp.err( err.str() );
 		return;
 	}
