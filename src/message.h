@@ -26,6 +26,7 @@ public:
 
 	virtual connection_i * release_connection() = 0;
 	virtual int port() const = 0;
+	virtual const std::string & protocol() const = 0;
 };
 
 
