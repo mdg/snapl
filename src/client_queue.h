@@ -19,11 +19,16 @@
 class client_queue_i
 {
 public:
-	virtual ~client_message_queue_i() {}
+	virtual ~client_queue_i() {}
 
-	virtual void push( request_message_i * ) = 0;
+	virtual void push( client_message_c * ) = 0;
 
-	virtual response_message_i * pop() = 0;
+	/**
+	 * Popping the message isn't really necessary, if the client holds
+	 * onto the message object, they can poll for having a response
+	 * back.
+	 */
+	virtual client_message_c * pop() = 0;
 };
 
 
