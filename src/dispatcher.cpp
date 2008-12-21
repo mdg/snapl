@@ -19,7 +19,7 @@
 #include "protocol.h"
 #include "request.h"
 #include "response.h"
-#include "message.h"
+#include "server_message.h"
 #include "server_queue.h"
 #include <iostream>
 
@@ -42,46 +42,46 @@ bool dispatcher_c::main_loop()
 {
 	bool success( false );
 	for (;;) {
-		std::auto_ptr< request_message_i > msg( m_queue.pop() );
-		if ( ! msg.get() ) {
+		server_message_c *msg = m_queue.pop();
+		if ( ! msg ) {
 			// sleep or yield or something, then reiterate
 			continue;
 		}
 
-		dispatch( msg->request() );
+		dispatch( msg );
 	}
 
 	return success;
 }
 
-void dispatcher_c::dispatch( const request_c &req )
+void dispatcher_c::dispatch( server_message_c *msg_ptr )
 {
+	std::auto_ptr< server_message_c > msg( msg_ptr );
 	bool success( false );
-	std::auto_ptr< response_c > resp( new response_c() );
 
-	protocol_c *protocol = find_protocol( req.port() );
+	protocol_c *protocol = find_protocol( msg->port() );
 	if ( ! protocol ) {
 		// can't do anything.
 		// write to the response and return
 		std::ostringstream err;
-		err << "No protocol for port " << req.port();
-		resp->err( err.str() );
+		err << "No protocol for port " << msg->port();
+		msg->response().err( err.str() );
 		return;
 	}
 
-	action_i *action = protocol->action( req.type() );
+	action_i *action = protocol->action( msg->request_type() );
 	if ( ! action ) {
-		std::cerr << "no request processor for " << req.type()
+		std::cerr << "no request processor for " << msg->request_type()
 			<< std::endl;
-		resp->err( "unknown request type: '"+ req.type()
-		       +"'" );
+		msg->response().err( "unknown request type: '"
+				+ msg->request_type() +"'" );
 		return;
 	}
 
-	action->execute( req, *resp );
+	action->execute( msg->request(), msg->response() );
 
 	if ( ! protocol->silent() ) {
-		m_queue.push( new response_message_c( resp.release() ) );
+		m_queue.push( msg.release() );
 	}
 }
 

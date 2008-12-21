@@ -22,6 +22,7 @@ class protocol_c;
 class request_c;
 class response_c;
 class server_queue_i;
+class server_message_c;
 
 
 /**
@@ -57,8 +58,9 @@ public:
 	bool main_loop();
 	/**
 	 * Run one iteration of the main loop.
+	 * Dispatch will own the pointer that's passed in.
 	 */
-	void dispatch( const request_c & );
+	void dispatch( server_message_c * );
 
 private:
 	protocol_c * find_protocol( int port );
