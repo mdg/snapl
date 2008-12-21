@@ -26,6 +26,7 @@ public:
 	server_message_c( const std::string &request );
 	~server_message_c();
 
+	const std::string & request_type() const;
 	const request_c & request() const;
 	const response_c & response() const;
 	response_c & response();
