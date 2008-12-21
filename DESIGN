@@ -1,11 +1,12 @@
 
 # Request Server
 dispatcher
-	an interface for routing requests from the queue, to an action and delivering
-	the response.
+	an interface for routing requests from the queue, to an action
+	and delivering the response.
 
 protocol
-	an interface for grouping a set of actions and mapping requests to actions
+	an interface for grouping a set of actions and mapping requests
+	to actions
 
 action
 	an interface for acting on a request and building a response
@@ -17,8 +18,8 @@ response
 	an object for holding a response
 
 server_message
-	an interface and object for receiving request info from the message queue
-	and passing response back
+	an interface and object for receiving request info from the
+	message queue and passing response back
 
 server_queue
 	pops requests off the queue, and pushes responses into it
@@ -27,6 +28,10 @@ server_queue
 # Client
 client_queue
 	pushes requests into the queue, and pops responses off it
+
+client_message
+	a class for passing request & response data to and from the
+	client queue
 
 
 # Connections
