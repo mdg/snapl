@@ -16,9 +16,9 @@
  */
 
 #include <queue>
+#include <memory>
 
-
-class request_c;
+class request_message_i;
 class mutex_i;
 
 /**
@@ -36,12 +36,12 @@ public:
 	 * Push a request to end of the queue.
 	 * The request owns the pointer after it's passed in.
 	 */
-	virtual void push( request_c * ) = 0;
+	virtual void push( request_message_i * ) = 0;
 	/**
 	 * Pop a request from the front of the queue.
 	 * The caller owns the pointer after it's returned.
 	 */
-	virtual request_c * pop() = 0;
+	virtual request_message_i * pop() = 0;
 };
 
 
@@ -66,15 +66,15 @@ public:
 	 * Push a request to end of the queue.
 	 * The request owns the pointer after it's passed in.
 	 */
-	virtual void push( request_c * );
+	virtual void push( request_message_i * );
 	/**
 	 * Pop a request from the front of the queue.
 	 * The caller owns the pointer after it's returned.
 	 */
-	virtual request_c * pop();
+	virtual request_message_i * pop();
 
 private:
-	std::queue< request_c * > m_requests;
+	std::queue< request_message_i * > m_requests;
 	std::auto_ptr< mutex_i > m_mutex;
 };
 

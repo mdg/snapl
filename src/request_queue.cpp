@@ -30,16 +30,16 @@ request_queue_c::request_queue_c( mutex_i *mutex )
 request_queue_c::~request_queue_c() {}
 
 
-void request_queue_c::push( request_c *req )
+void request_queue_c::push( request_message_i *req )
 {
 	lock_c lock( m_mutex.get() );
 	m_requests.push( req );
 	// lock is freed by destructor
 }
 
-request_c * request_queue_c::pop()
+request_message_i * request_queue_c::pop()
 {
-	request_c *req = 0;
+	request_message_i *req = 0;
 	lock_c lock( m_mutex.get() );
 	if ( ! m_requests.empty() ) {
 		req = m_requests.front();
