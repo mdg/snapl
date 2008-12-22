@@ -8,7 +8,7 @@ end
 directory "obj/src"
 directory "obj/test"
 
-LINKS = "-lpthread"
+LINKS = "-lpthread -ltestpp"
 
 INC = FileList[ 'src/*.h' ]
 SRC = FileList[ 'src/*.cpp' ]
