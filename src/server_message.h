@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 
-#include <iostream>
+#include <memory>
+#include "request.h"
+#include "response.h"
 
 class connection_i;
 
@@ -23,7 +25,7 @@ class connection_i;
 class server_message_c
 {
 public:
-	server_message_c( const std::string &request );
+	server_message_c( const std::string &request, connection_i & );
 	~server_message_c();
 
 	const std::string & request_type() const;
@@ -39,7 +41,7 @@ public:
 private:
 	request_c m_request;
 	response_c m_response;
-	std::auto_ptr< connection_i > m_connection;
+	connection_i &m_connection;
 };
 
 

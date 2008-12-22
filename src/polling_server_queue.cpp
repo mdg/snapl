@@ -14,6 +14,9 @@
  */
 
 #include "polling_server_queue.h"
+#include "connection.h"
+#include "connection_listener.h"
+#include "server_message.h"
 
 
 polling_server_queue_c::polling_server_queue_c(
@@ -26,16 +29,16 @@ polling_server_queue_c::~polling_server_queue_c()
 {}
 
 
-request_message_i * polling_server_queue_c::pop()
+server_message_c * polling_server_queue_c::pop()
 {
-	request_message_i *msg = NULL;
+	server_message_c *msg = NULL;
 	if ( ! m_queue.empty() ) {
 		msg = m_queue.front();
 		m_queue.pop();
 		return msg;
 	}
 
-	connection_i *conn = m_connection_factory.connection();
+	connection_i *conn = m_listener.connection();
 	if ( ! conn )
 		return NULL;
 
@@ -44,9 +47,8 @@ request_message_i * polling_server_queue_c::pop()
 
 	do {
 		conn->read_line( req_line );
-		request_c req( req_line );
-		msg = new request_message_c( req, conn );
-		m_queue.push_back( msg );
+		msg = new server_message_c( req_line, *conn );
+		m_queue.push( msg );
 	} while ( conn->line_ready() );
 
 	if ( m_queue.empty() ) {
@@ -58,7 +60,7 @@ request_message_i * polling_server_queue_c::pop()
 	return msg;
 }
 
-void polling_server_queue_c::push( response_message_i *msg )
+void polling_server_queue_c::push( server_message_c *msg )
 {
 }
 

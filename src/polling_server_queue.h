@@ -16,6 +16,7 @@
  */
 
 #include "server_queue.h"
+#include <queue>
 
 
 class connection_listener_i;
@@ -35,16 +36,16 @@ public:
 	/**
 	 * Pop a request message off of the queue.
 	 */
-	virtual request_message_i * pop();
+	virtual server_message_c * pop();
 
 	/**
 	 * Push a response message onto the queue.
 	 */
-	virtual void push( response_message_i * );
+	virtual void push( server_message_c * );
 
 private:
 	connection_listener_i &m_listener;
-	std::queue< request_message_i * > m_queue;
+	std::queue< server_message_c * > m_queue;
 };
 
 

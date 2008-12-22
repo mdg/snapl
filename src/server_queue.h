@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+class server_message_c;
+
 
 /**
  * A server message queue.
