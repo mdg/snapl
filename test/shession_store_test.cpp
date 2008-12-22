@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#include "testpp.h"
 #include "shession_store.h"
+#include <testpp/test.h>
 #include <set>
 
 

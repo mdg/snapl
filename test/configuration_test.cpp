@@ -14,7 +14,7 @@
  */
 
 
-#include "testpp.h"
+#include <testpp/test.h>
 #include <sstream>
 #include <fstream>
 #include "configuration.h"

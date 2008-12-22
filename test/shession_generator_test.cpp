@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#include "testpp.h"
 #include "shession_generator.h"
+#include <testpp/test.h>
 
 
 /**

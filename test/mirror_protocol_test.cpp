@@ -17,7 +17,7 @@
 #include "shession_store.h"
 #include "request.h"
 #include "response.h"
-#include <testpp.h>
+#include <testpp/test.h>
 
 
 /**

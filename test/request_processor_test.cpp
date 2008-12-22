@@ -13,12 +13,12 @@
  * limitations under the License.
  */
 
-#include "testpp.h"
 #include "request.h"
 #include "response.h"
 #include "request_processor.h"
 #include "shession_store.h"
 #include "shession_generator.h"
+#include <testpp/test.h>
 #include <stdio.h>
 
 
