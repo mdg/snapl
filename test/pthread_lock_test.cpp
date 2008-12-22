@@ -19,5 +19,6 @@
 
 TESTPP( pthread_lock_test )
 {
+	failpp( "test not implemented." );
 }
 
