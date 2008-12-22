@@ -13,27 +13,16 @@
  * limitations under the License.
  */
 
-#include "message_queue.h"
+#include "server_queue.h"
+#include <testpp/test.h>
 
 
-void do_with_queue( message_queue_i &queue )
+/**
+ * Test the usage of the server queue.  Don't actually assert behavior,
+ * just show usage.
+ */
+TESTPP( test_server_queue_usage )
 {
-	std::auto_ptr< message_i > msg_in( queue.pop_incoming() );
-	message_i msg_out;
-
-	execute( *msg_in, msg_out );
-	queue.queue( msg_out );
+	failpp( "test not implemented" );
 }
-
-void loop_iteration( message_queue_i &queue )
-{
-	std::auto_ptr< request_message_i > req_msg( queue.pop_request() );
-	response_c response;
-
-	execute( req_msg->request(), response );
-
-	response_message_c resp_msg( req_msg, response );
-	queue.push( resp_msg );
-}
-
 
