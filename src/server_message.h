@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 
-#include <memory>
 #include "request.h"
 #include "response.h"
+#include <memory>
 
 class connection_i;
 
@@ -28,15 +28,15 @@ public:
 	server_message_c( const std::string &request, connection_i & );
 	~server_message_c();
 
-	const std::string & request_type() const;
-	const request_c & request() const;
-	const response_c & response() const;
-	response_c & response();
+	const std::string & request_type() const { return m_request.type(); }
+	const request_c & request() const { return m_request; }
+	const response_c & response() const { return m_response; }
+	response_c & response() { return m_response; }
 
-	int port() const;
-	const std::string & protocol() const;
+	short port() const;
+	const std::string & protocol() const { return m_request.protocol(); }
 
-	connection_i * release_connection();
+	connection_i & connection() { return m_connection; }
 
 private:
 	request_c m_request;
