@@ -57,6 +57,11 @@ public:
 	const std::string & argv( int i ) const { return m_args[i]; }
 
 	/**
+	 * Get the name of the protocol where this request arrived.
+	 */
+	const std::string & protocol() const { return m_protocol; }
+
+	/**
 	 * Get the port that this request came in on.
 	 */
 	int port() const { return m_port; }
@@ -64,6 +69,7 @@ public:
 private:
 	std::string m_type;
 	std::vector< std::string > m_args;
+	std::string m_protocol;
 	int m_port;
 };
 
