@@ -55,11 +55,11 @@ file "shessiond" => [ :compile ] do |t|
 end
 
 
-file "run_shessiond_tests" => [ :compile, :compile_test ] do |t|
+file "run_protocolt_tests" => [ :compile, :compile_test ] do |t|
     no_main_obj = FileList.new()
     no_main_obj.import( OBJ )
     no_main_obj.exclude( 'main.o' )
-    sh "g++ -o run_shessiond_tests #{no_main_obj} #{TEST_OBJ} #{TESTPP_OBJ} \
+    sh "g++ -o run_protocolt_tests #{no_main_obj} #{TEST_OBJ} #{TESTPP_OBJ} \
             #{LINKS}"
 end
 
@@ -86,7 +86,7 @@ desc "Build the main executable"
 task :build => [ "shessiond" ]
 
 desc "Build the test executable"
-task :build_test => [ "run_shessiond_tests" ]
+task :build_test => [ "run_protocolt_tests" ]
 
 desc "Build the test executable"
 task :build_load => [ "load_shessiond" ]
