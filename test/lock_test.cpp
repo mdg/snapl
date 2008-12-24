@@ -75,18 +75,34 @@ TESTPP( test_lock_destructor )
 }
 
 /**
- * Test that manually unlocking allows it to be relocked.
+ * Test the trylock constructor when it works.
  */
-TESTPP( test_trylock_constructor )
+TESTPP( test_trylock_success )
 {
-	failpp( "not implemented." );
+	mock_mutex_c mutex;
+	trylock_c lock( mutex );
+	assertpp( lock.successful_try() ).t();
+	assertpp( mutex.locked() ).t();
+
+	lock.unlock();
+	assertpp( mutex.locked() ).f();
+}
+
+/**
+ * Test the trylock constructor when it fails.
+ */
+TESTPP( test_trylock_failure )
+{
 	mock_mutex_c mutex;
 	lock_c lock( mutex );
-	assertpp( lock.successful_try() ).t();
-	lock.unlock();
+	assertpp( mutex.locked() ).t();
 
-	lock_c lock2( mutex );
-	assertpp( lock2.successful_try() ).t();
+	trylock_c trylock( mutex );
+	assertpp( lock.successful_try() ).f();
+	assertpp( mutex.locked() ).t();
+
+	lock.unlock();
+	assertpp( mutex.locked() ).f();
 }
 
 /**
