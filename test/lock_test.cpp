@@ -62,13 +62,11 @@ TESTPP( test_lock_constructor )
 
 /**
  * Test that lock destructor actually unlocks.
- * This should be a lock test, not a pthread_mutex test.
  */
 TESTPP( test_lock_destructor )
 {
 	mock_mutex_c mutex;
-	int i( 5 );
-	if ( i == 5 ) {
+	if ( true ) {
 		lock_c lock( mutex );
 		assertpp( lock.successful_try() ).t();
 		assertpp( mutex.locked() ).t();
