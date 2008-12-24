@@ -15,7 +15,10 @@
 
 
 #include "request_queue.h"
+#include "server_message.h"
 #include <testpp/test.h>
+
+class connection_i;
 
 
 /**
@@ -23,6 +26,31 @@
  */
 TESTPP( test_request_queue_constructor )
 {
-	failpp( "not implemented" );
+	request_queue_c queue;
+	assertpp( queue.pop() ).f();
+}
+
+/**
+ * Test pushing and popping works as expected.
+ */
+TESTPP( test_request_queue_push_pop )
+{
+	connection_i *conn = 0;
+	request_queue_c queue;
+
+	queue.push( new server_message_c( "create dog", *conn ) );
+	queue.push( new server_message_c( "create cat", *conn ) );
+
+	std::auto_ptr< server_message_c > msg;
+
+	msg.reset( queue.pop() );
+	assertpp( msg->request_type() ) == "create";
+	assertpp( msg->request().argc() ) == 1;
+	assertpp( msg->request().argv( 0 ) ) == "dog";
+
+	msg.reset( queue.pop() );
+	assertpp( msg->request_type() ) == "create";
+	assertpp( msg->request().argc() ) == 1;
+	assertpp( msg->request().argv( 0 ) ) == "cat";
 }
 
