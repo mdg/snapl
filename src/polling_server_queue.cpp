@@ -60,7 +60,16 @@ server_message_c * polling_server_queue_c::pop()
 	return msg;
 }
 
-void polling_server_queue_c::push( server_message_c *msg )
+void polling_server_queue_c::push( server_message_c *msg_ptr )
 {
+	std::auto_ptr< server_message_c > msg( msg_ptr );
+
+	// this should go somewhere else, maybe into response now
+	connection_i &conn( msg->connection() );
+	const response_c &resp( msg->response() );
+	conn.write_line( resp.coded_msg() );
+	if ( resp.has_content() ) {
+		conn.write_line( resp.content() );
+	}
 }
 
