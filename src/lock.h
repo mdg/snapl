@@ -31,12 +31,12 @@ private:
 	/**
 	 * Lock this lock.
 	 */
-	virtual void lock() = 0;
+	virtual bool lock() = 0;
 
 	/**
 	 * Unlock the lock.
 	 */
-	virtual void unlock() = 0;
+	virtual bool unlock() = 0;
 
 	/**
 	 * Try to lock, but don't block if the lock isn't available.
@@ -72,7 +72,7 @@ public:
 	: m_mutex( mutex )
 	{
 		if ( m_mutex )
-			m_mutex->lock();
+			m_successful_try = m_mutex->lock();
 	}
 
 	/**
@@ -94,8 +94,14 @@ public:
 			m_mutex->unlock();
 	}
 
+	/**
+	 * Check if the try successfully locked the mutex.
+	 */
+	bool successful_try() const { return m_successful_try; }
+
 private:
 	mutex_i *m_mutex;
+	bool m_successful_try;
 };
 
 /**

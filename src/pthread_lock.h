@@ -30,16 +30,16 @@ public:
 	/**
 	 * Lock this lock.
 	 */
-	virtual void lock();
+	virtual bool lock();
 	/**
 	 * Unlock the lock.
 	 */
-	virtual void unlock();
+	virtual bool unlock();
 
 	/**
 	 * Try to lock, but don't block if the lock isn't available.
 	 */
-	virtual void trylock();
+	virtual bool trylock();
 
 private:
 	pthread_mutex_t m_mutex;

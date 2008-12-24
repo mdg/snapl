@@ -27,18 +27,18 @@ pthread_lock_c::~pthread_lock_c()
 }
 
 
-void pthread_lock_c::lock()
+bool pthread_mutex_c::lock()
 {
-	pthread_mutex_lock( &m_mutex );
+	return pthread_mutex_lock( &m_mutex ) == 0;
 }
 
-void pthread_lock_c::unlock()
+bool pthread_mutex_c::unlock()
 {
-	pthread_mutex_unlock( &m_mutex );
+	return pthread_mutex_unlock( &m_mutex ) == 0;
 }
 
-void pthread_lock_c::trylock()
+bool pthread_mutex_c::trylock()
 {
-	pthread_mutex_trylock( &m_mutex );
+	return pthread_mutex_trylock( &m_mutex ) == 0;
 }
 
