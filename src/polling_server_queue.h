@@ -40,6 +40,8 @@ public:
 
 	/**
 	 * Push a response message onto the queue.
+	 * The polling message queue writes it directly back to the
+	 * connection.
 	 */
 	virtual void push( server_message_c * );
 
