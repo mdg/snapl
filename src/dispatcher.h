@@ -49,7 +49,7 @@ public:
 	/**
 	 * Add a protocol to be executed.
 	 */
-	void add_protocol( short port, protocol_c & );
+	void add( protocol_c & );
 
 	/**
 	 * Start the shession
@@ -62,9 +62,9 @@ public:
 	 */
 	void dispatch( server_message_c * );
 
-private:
 	protocol_c * find_protocol( int port );
 
+private:
 	server_queue_i &m_queue;
 	protocol_map m_protocol;
 };

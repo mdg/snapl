@@ -15,17 +15,29 @@
 
 
 #include "dispatcher.h"
+#include "server_queue_test.h"
+#include "protocol.h"
 #include <testpp/test.h>
 
 
 /**
- * Test that the line parser correctly parses a single line.
+ * Test that protocols are correctly found after being added.
  */
-TESTPP( test_normal_dispatch )
+TESTPP( test_dispatch_find_protocol )
 {
-	// request_message_c *msg = new request_message_c( "create dog", NULL );
-	// dispatcher_c dispatch;
+	mock_server_queue_c queue;
+	dispatcher_c d( queue );
 
-	failpp( "not implemented" );
+	protocol_c p1( 1 );
+	protocol_c p2( 2 );
+	protocol_c p3( 3 );
+
+	d.add( p1 );
+	d.add( p2 );
+	d.add( p3 );
+
+	protocol_c *found = d.find_protocol( 2 );
+	assertpp( found ).t();
+	assertpp( found->port() ) == 2;
 }
 

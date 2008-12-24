@@ -32,9 +32,9 @@ dispatcher_c::dispatcher_c( server_queue_i &queue )
 dispatcher_c::~dispatcher_c() {}
 
 
-void dispatcher_c::add_protocol( short port, protocol_c &protocol )
+void dispatcher_c::add( protocol_c &protocol )
 {
-	m_protocol[ port ] = &protocol;
+	m_protocol[ protocol.port() ] = &protocol;
 }
 
 
