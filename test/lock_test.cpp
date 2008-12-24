@@ -110,14 +110,12 @@ TESTPP( test_trylock_failure )
  */
 TESTPP( test_trylock_destructor )
 {
-	failpp( "not implemented." );
 	mock_mutex_c mutex;
-	lock_c lock( mutex );
-	assertpp( lock.successful_try() ).t();
-
-	trylock_c lock2( mutex );
-	assertpp( lock2.successful_try() ).f();
-
-	lock.unlock();
+	if ( true ) {
+		trylock_c lock( mutex );
+		assertpp( lock.successful_try() ).t();
+		assertpp( mutex.locked() ).t();
+	}
+	assertpp( mutex.locked() ).f();
 }
 
