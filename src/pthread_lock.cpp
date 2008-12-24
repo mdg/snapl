@@ -16,14 +16,24 @@
 #include "pthread_lock.h"
 
 
-pthread_lock_c::pthread_lock_c()
+pthread_once_t pthread_mutex_once = PTHREAD_ONCE_INIT;
+
+
+pthread_mutex_c::pthread_mutex_c()
 {
-	pthread_mutex_init( &m_mutex, &m_mutex_attr );
+	pthread_mutexattr_init( &m_attr );
+	pthread_mutex_init( &m_mutex, &m_attr );
 }
 
-pthread_lock_c::~pthread_lock_c()
+pthread_mutex_c::~pthread_mutex_c()
 {
 	pthread_mutex_destroy( &m_mutex );
+	pthread_mutexattr_destroy( &m_attr );
+}
+
+void pthread_mutex_c::init()
+{
+	// pthread_init();
 }
 
 

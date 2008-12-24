@@ -17,8 +17,52 @@
 #include <testpp/test.h>
 
 
-TESTPP( pthread_lock_test )
+/**
+ * Test basic functionality of the lock.
+ */
+TESTPP( test_pthread_lock )
 {
-	failpp( "test not implemented." );
+	pthread_mutex_c mutex;
+	lock_c lock( mutex );
+	assertpp( lock.successful_try() ).t();
+	lock.unlock();
+}
+
+/**
+ * Test that lock destructor actually unlocks.
+ * This should be a lock test, not a pthread_mutex test.
+ */
+TESTPP( test_lock_destructor )
+{
+	failpp( "not implemented." );
+}
+
+/**
+ * Test that manually unlocking allows it to be relocked.
+ */
+TESTPP( test_pthread_relock )
+{
+	pthread_mutex_c mutex;
+	lock_c lock( mutex );
+	assertpp( lock.successful_try() ).t();
+	lock.unlock();
+
+	lock_c lock2( mutex );
+	assertpp( lock2.successful_try() ).t();
+}
+
+/**
+ * Test that manually unlocking allows it to be relocked.
+ */
+TESTPP( test_pthread_failed_trylock )
+{
+	pthread_mutex_c mutex;
+	lock_c lock( mutex );
+	assertpp( lock.successful_try() ).t();
+
+	trylock_c lock2( mutex );
+	assertpp( lock2.successful_try() ).f();
+
+	lock.unlock();
 }
 

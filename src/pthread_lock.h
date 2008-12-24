@@ -15,17 +15,21 @@
  * limitations under the License.
  */
 
+#include "lock.h"
 #include <pthread.h>
+#include <memory>
 
 
 /**
  * pthread based lock.
  */
-class pthread_lock_c
+class pthread_mutex_c
+: public mutex_i
 {
 public:
-	pthread_lock_c();
-	virtual ~pthread_lock_c();
+	pthread_mutex_c();
+	virtual ~pthread_mutex_c();
+	static void init();
 
 	/**
 	 * Lock this lock.
@@ -43,7 +47,7 @@ public:
 
 private:
 	pthread_mutex_t m_mutex;
-	pthread_mutexattr_t m_mutex_attr;
+	pthread_mutexattr_t m_attr;
 };
 
 
