@@ -13,27 +13,76 @@
  * limitations under the License.
  */
 
-#include "pthread_lock.h"
+#include "lock_test.h"
 #include <testpp/test.h>
+
+
+mock_mutex_c::mock_mutex_c()
+: m_locked( false )
+{}
+
+bool mock_mutex_c::lock()
+{
+	if ( m_locked )
+		return false;
+	m_locked = true;
+	return true;
+}
+
+bool mock_mutex_c::trylock()
+{
+	if ( m_locked )
+		return false;
+	m_locked = true;
+	return true;
+}
+
+bool mock_mutex_c::unlock()
+{
+	if ( ! m_locked )
+		return false;
+	m_locked = false;
+	return true;
+}
 
 
 /**
  * Test basic functionality of the lock.
  */
-TESTPP( test_pthread_lock )
+TESTPP( test_lock_constructor )
 {
-	pthread_mutex_c mutex;
+	mock_mutex_c mutex;
+	assertpp( mutex.locked() ).f();
 	lock_c lock( mutex );
 	assertpp( lock.successful_try() ).t();
+	assertpp( mutex.locked() ).t();
 	lock.unlock();
+	assertpp( mutex.locked() ).f();
+}
+
+/**
+ * Test that lock destructor actually unlocks.
+ * This should be a lock test, not a pthread_mutex test.
+ */
+TESTPP( test_lock_destructor )
+{
+	mock_mutex_c mutex;
+	int i( 5 );
+	if ( i == 5 ) {
+		lock_c lock( mutex );
+		assertpp( lock.successful_try() ).t();
+		assertpp( mutex.locked() ).t();
+	}
+	assertpp( mutex.locked() ).f();
 }
 
 /**
  * Test that manually unlocking allows it to be relocked.
  */
-TESTPP( test_pthread_relock )
+TESTPP( test_trylock_constructor )
 {
-	pthread_mutex_c mutex;
+	failpp( "not implemented." );
+	mock_mutex_c mutex;
 	lock_c lock( mutex );
 	assertpp( lock.successful_try() ).t();
 	lock.unlock();
@@ -45,9 +94,10 @@ TESTPP( test_pthread_relock )
 /**
  * Test that manually unlocking allows it to be relocked.
  */
-TESTPP( test_pthread_failed_trylock )
+TESTPP( test_trylock_destructor )
 {
-	pthread_mutex_c mutex;
+	failpp( "not implemented." );
+	mock_mutex_c mutex;
 	lock_c lock( mutex );
 	assertpp( lock.successful_try() ).t();
 
