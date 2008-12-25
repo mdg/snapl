@@ -14,6 +14,7 @@ int main( int argc, char **argv )
 	polling_server_queue_c queue( acceptor );
 	dispatcher_c dispatch( queue );
 
+	dispatch.add( sample_protocol );
 	dispatch.main_loop();
 	return 0;
 }
