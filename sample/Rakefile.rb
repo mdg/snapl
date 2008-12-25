@@ -5,30 +5,28 @@ task :clean => [] do
     sh "rm -rf obj"
 end
 
-directory "obj/src"
-directory "obj/test"
-
 LINKS = "-lpthread"
 
-INC = FileList[ 'src/*.h' ]
-SRC = FileList[ 'src/*.cpp' ]
+directory( "../obj/src" )
+
+INC = FileList[ '../src/*.h' ]
+SRC = FileList[ '../src/*.cpp' ]
 OBJ = SRC.sub( /\.cpp$/, '.o' ).sub( /^src\//, 'obj/src/' )
 INC.freeze
 SRC.freeze
 OBJ.freeze
-SRC_DIR = 'src'
 SAMPLE_INC = FileList[ 'server/*.h', 'client/*.h' ]
 SAMPLE_SRC = FileList[ 'server/*.cpp', 'client/*.cpp' ]
-SAMPLE_OBJ = SAMPLE_SRC.sub( /\.cpp$/, '.o' ).sub( /^src\//, 'obj/src/' )
+SAMPLE_OBJ = SAMPLE_SRC.sub( /\.cpp$/, '.o' )
+SRC_DIR = 'src'
+SAMPLE_DIR = '.'
 
 
 # Return dependencies for an object file.
 def obj_dep( o )
     deps = []
-    inc_dirs = [ SRC_DIR, TEST_DIR ]
-    cpp = o.sub(/\.o$/,'.cpp') \
-        .sub(/^obj\/src\//, 'src/') \
-        .sub(/^obj\/test\//, 'test/')
+    inc_dirs = [ SRC_DIR, SAMPLE_DIR ]
+    cpp = o.sub(/\.o$/,'.cpp')
     # print cpp, "\n"
     headers = cpp_headers( cpp, inc_dirs )
     # print headers.join(" "), "\n"
@@ -40,7 +38,7 @@ end
 
 
 rule '.o' => [ proc { |o| obj_dep( o ) } ] do |t|
-    sh %{g++ -c -g -Isrc -Itestpp/include -o #{t.name} #{t.source}}
+    sh %{g++ -c -g -Isrc -o #{t.name} #{t.source}}
 end
 
 
@@ -61,18 +59,13 @@ task :default => [ :build ]
 
 
 desc "Compile all source files into objects"
-task :compile => [ "obj/src" ] + OBJ
+task :compile => [ "../obj/src" ] + OBJ + SAMPLE_OBJ
 
 
 desc "Build the main executable"
 task :build => [ "sample" ]
 
-desc "Build the test executable"
+desc "Build the load testing executable"
 task :build_load => [ "load_shessiond" ]
 
-
-desc "Make and run tests"
-task :test => [ :build_test ] do |t|
-    sh "./test_shession"
-end
 
