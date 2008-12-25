@@ -15,13 +15,15 @@
  * limitations under the License.
  */
 
+class client_message_c;
+
 
 class client_queue_i
 {
 public:
 	virtual ~client_queue_i() {}
 
-	virtual void push( client_message_c * ) = 0;
+	virtual void push( client_message_c & ) = 0;
 
 	/**
 	 * Popping the message isn't really necessary, if the client holds
