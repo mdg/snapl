@@ -5,20 +5,38 @@
 #include "../../src/protocol.h"
 
 
-class dog_action_c
+class get_action_c
 : public action_i
 {
 public:
-	dog_action_c();
+	get_action_c();
 
 	virtual void execute( const request_c &, response_c & );
 };
 
-class cat_action_c
+class put_action_c
 : public action_i
 {
 public:
-	cat_action_c();
+	put_action_c();
+
+	virtual void execute( const request_c &, response_c & );
+};
+
+class add_action_c
+: public action_i
+{
+public:
+	add_action_c();
+
+	virtual void execute( const request_c &, response_c & );
+};
+
+class delete_action_c
+: public action_i
+{
+public:
+	delete_action_c();
 
 	virtual void execute( const request_c &, response_c & );
 };
@@ -31,13 +49,17 @@ public:
 	sample_protocol_c( short port )
 	: protocol_c( port )
 	{
-		add( m_dog );
-		add( m_cat );
+		add( m_get );
+		add( m_put );
+		add( m_add );
+		add( m_delete );
 	}
 
 private:
-	dog_action_c m_dog;
-	cat_action_c m_cat;
+	get_action_c m_get;
+	put_action_c m_put;
+	add_action_c m_add;
+	delete_action_c m_delete;
 };
 
 
