@@ -55,6 +55,14 @@ response
 	an object for holding a response
 
 # Network
+
+request -> message -> text -> message -> request
+
+response <- message <- text  <- message <- response
+
+message
+	an interface between requests & responses and plain text
+
 connection
 	an open network connection
 
