@@ -8,15 +8,12 @@ implement message queue structure
 separate client send and receive commands so they can be
 	executed (and tested) separately
 
+added templated action and client messages, that use the same
+	request/response overrides
+
 implement the admin protocol
 
 switch to official testpp library
-
-add tests for new classes:
-	protocol
-	shession_control
-	shession_protocol?
-	shession_client
 
 add a logger class to allow turning debug messages on and off
 	this should be log4c maybe?
