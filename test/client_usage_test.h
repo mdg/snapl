@@ -68,46 +68,6 @@ public:
 	}
 };
 
-class command_i
-{
-public:
-	const request_i & command_request() const { return m_request; }
-	response_i & command_response() { return m_response; }
-
-protected:
-	command_i( const request_i &req, response_i &resp )
-	: m_request( req )
-	, m_response( resp )
-	{}
-
-private:
-	const request_i &m_command_request;
-	response_i &m_command_response;
-};
-
-template < typename ReqT, typename RespT >
-class command_c
-{
-public:
-	const ReqT & request() const { return m_request; }
-	RespT & response() const { return m_response; }
-
-protected:
-	command_c()
-	: command_i( m_request, m_response )
-	, m_request()
-	, m_response()
-	{}
-
-	command_c( const Reqt &req )
-	: command_i( m_request, m_response )
-	, m_request( req )
-	, m_response()
-	{}
-
-	ReqT m_request;
-	RespT m_response;
-};
 
 class get_command_c
 : public command_c< get_request_c, get_response_c >
