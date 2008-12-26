@@ -65,39 +65,3 @@ void shession_client_c::close()
 	m_connection.reset();
 }
 
-
-std::string shession_client_c::create_session( const std::string &user_id )
-{
-	std::string session_id;
-	write_request( request_c::CREATE, user_id );
-	m_connection->read_line( session_id );
-	return session_id;
-}
-
-bool shession_client_c::renew_session( const std::string &session_id )
-{
-	write_request( request_c::RENEW, session_id );
-
-	std::string live;
-	std::cerr << "read status response... ";
-	m_connection->read_line( live );
-	std::cerr << "complete\n";
-	return live == "live";
-}
-
-void shession_client_c::kill_session( const std::string &session_id )
-{
-	write_request( request_c::KILL, session_id );
-
-	std::string response;
-	m_connection->read_line( response );
-}
-
-
-void shession_client_c::write_request( const std::string &request_type
-		, const std::string &session_id )
-{
-	std::string request( request_type +" "+ session_id );
-	m_connection->write_line( request );
-}
-
