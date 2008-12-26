@@ -1,5 +1,3 @@
-#ifndef MESSAGE_H
-#define MESSAGE_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,33 +13,21 @@
  * limitations under the License.
  */
 
-#include <string>
-#include <memory>
-
-class connection_i;
-class request_c;
-class response_c;
+#include "client_message.h"
+#include "response.h"
 
 
-class client_message_c
+client_message_c::client_message_c( const request_c &req )
+: m_request()
+, m_response()
+, m_connection( NULL )
+{}
+
+client_message_c::~client_message_c()
+{}
+
+void client_message_c::set_response( response_c *resp )
 {
-public:
-	client_message_c( const request_c & );
-	~client_message_c();
-
-	void set_response( response_c * );
-
-	bool has_response() const { return m_response.get(); }
-	const response_c & response() const { return *m_response; }
-
-	connection_i * get_connection() { return m_connection; }
-
-private:
-	std::string m_request;
-	std::auto_ptr< response_c > m_response;
-	connection_i *m_connection;
-};
-
-
-#endif
+	m_response.reset( resp );
+}
 

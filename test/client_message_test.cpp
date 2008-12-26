@@ -6,12 +6,9 @@
 
 TESTPP( client_message_constructor )
 {
-	client_message_c< request_c, response_c > msg;
+	request_c req( "get dog" );
+	client_message_c msg( req );
 
 	assertpp( msg.has_response() ).f();
-
-	msg.set_response();
-
-	assertpp( msg.has_response() ).t();
 }
 
