@@ -11,9 +11,7 @@ separate client send and receive commands so they can be
 added templated action and client messages, that use the same
 	request/response overrides
 
-implement the admin protocol
-
-switch to official testpp library
+add support for handling the content portion of messages
 
 add a logger class to allow turning debug messages on and off
 	this should be log4c maybe?
