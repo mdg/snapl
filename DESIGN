@@ -1,5 +1,25 @@
 
-# Request Server
+# Command/Service Hexagon
+The client creates a command with a request & response.
+
+The command is passed into the client framework.  The request is
+turned into text and sent through the network.
+
+The server turns the line of text back into the same request type
+and passed into an implemented service.  The service processes the
+request and puts the result in a typed response implementation.
+
+The response is turned into text and sent through the network back
+to the client.  The client framework turns the text back into the
+typed response object and returned to the client through the command.
+
+                    -> request ------- request -
+                  /                              \
+client <-> command                               service
+                  \                              /
+                    <-response ------ response <-
+
+# Server
 dispatcher
 	an interface for routing requests from the queue, to an action
 	and delivering the response.
@@ -8,16 +28,10 @@ protocol
 	an interface for grouping a set of actions and mapping requests
 	to actions
 
-action
-	an interface for acting on a request and building a response
+service
+	an interface for handling requests and building responses
 
-request
-	an object for holding info about a request
-
-response
-	an object for holding a response
-
-server_message
+service_command
 	an interface and object for receiving request info from the
 	message queue and passing response back
 
@@ -26,16 +40,21 @@ server_queue
 
 
 # Client
-client_queue
-	pushes requests into the queue, and pops responses off it
+client
+	pushes commands into the queue, and waits for responses
 
-client_message
-	a class for passing request & response data to and from the
-	client queue
+command
+	a class that carries request & response data to and from the
+	client
 
+# Shared Client/Server
+request
+	an object for holding info about a request
 
-# Connections
+response
+	an object for holding a response
 
+# Network
 connection
 	an open network connection
 
