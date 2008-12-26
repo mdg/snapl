@@ -58,25 +58,6 @@ public:
 	}
 };
 
-class service_i
-{
-	virtual ~service_i() {}
-
-	virtual void execute() = 0;
-};
-
-template < typename ReqT, typename RespT >
-class service_c
-{
-public:
-	virtual void execute()
-	{
-		execute( m_request, m_response );
-	}
-
-	virtual void execute( const ReqT &, RespT & ) = 0;
-};
-
 class get_service_c
 : public service_c< get_request_c, get_response_c >
 {
