@@ -47,10 +47,10 @@ file "sample" => [ :compile ] do |t|
 end
 
 
-file "load_shessiond" => [ :compile, "load/load.cpp" ] do |t|
-    no_main_obj = OBJ.clone
-    no_main_obj.exclude( 'main.o' )
-    sh "g++ -Isrc -o load_shessiond #{no_main_obj} load/load.cpp"
+file "load_sample" => [ :compile, "load/load.cpp" ] do |t|
+    no_main_obj = SAMPLE_OBJ.clone
+    no_main_obj.exclude( 'sample_main.o' )
+    sh "g++ -Isrc -o load_sample #{OBJ} #{no_main_obj} load/load.cpp"
 end
 
 
@@ -66,6 +66,6 @@ desc "Build the main executable"
 task :build => [ "sample" ]
 
 desc "Build the load testing executable"
-task :build_load => [ "load_shessiond" ]
+task :build_load => [ "load_sample" ]
 
 
