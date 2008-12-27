@@ -20,6 +20,12 @@ message_c::message_c()
 : m_arg()
 {}
 
+message_c::message_c( const std::string &args )
+: m_arg()
+{
+	parse_args( args );
+}
+
 message_c::~message_c()
 {}
 
@@ -27,5 +33,14 @@ message_c::~message_c()
 void message_c::add_arg( const std::string &arg )
 {
 	m_arg.push_back( arg );
+}
+
+void message_c::parse_args( const std::string &args )
+{
+	std::istringstream in( args );
+	std::string value;
+	while ( in >> value ) {
+		add_arg( value );
+	}
 }
 

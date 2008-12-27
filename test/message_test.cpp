@@ -72,3 +72,22 @@ TESTPP( test_message_import_mixed )
 	assertpp( msg.argv( 2 ) ) == "1";
 }
 
+TESTPP( test_message_parse_basic_args )
+{
+	message_c msg( "dog 5 purple" );
+
+	assertpp( msg.argc() ) == 3;
+	assertpp( msg.argv( 0 ) ) == "dog";
+	assertpp( msg.argv( 1 ) ) == "5";
+	assertpp( msg.argv( 2 ) ) == "purple";
+}
+
+TESTPP( test_message_parse_quoted_args )
+{
+	message_c msg( "dog \"cat mouse\"" );
+
+	assertpp( msg.argc() ) == 2;
+	assertpp( msg.argv( 0 ) ) == "dog";
+	assertpp( msg.argv( 1 ) ) == "cat mouse";
+}
+

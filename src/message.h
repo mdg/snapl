@@ -26,6 +26,7 @@ class message_c
 {
 public:
 	message_c();
+	message_c( const std::string &args );
 	~message_c();
 	void add_arg( const std::string & );
 	void add_content( const std::string & );
@@ -36,6 +37,9 @@ public:
 	const std::list< std::string > & content() const;
 	std::list< std::string >::const_iterator begin_content() const;
 	std::list< std::string >::const_iterator end_content() const;
+
+	void parse_args( const std::string & );
+	void write_args( std::string & ) const;
 
 private:
 	std::vector< std::string > m_arg;
