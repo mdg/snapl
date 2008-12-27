@@ -18,17 +18,20 @@
 
 #include <vector>
 #include <string>
+#include <list>
+#include <sstream>
 
 
 class message_c
 {
 public:
 	message_c();
+	~message_c();
 	void add_arg( const std::string & );
 	void add_content( const std::string & );
 
-	int argc() const;
-	const std::string & argv( int i ) const;
+	int argc() const { return m_arg.size(); }
+	const std::string & argv( int i ) const { return m_arg[ i ]; }
 
 	const std::list< std::string > & content() const;
 	std::list< std::string >::const_iterator begin_content() const;
@@ -62,7 +65,7 @@ public:
 			return *this;
 		}
 
-		copy( value, m_message.argv[ m_arg++ ] );
+		copy( value, m_message.argv( m_arg++ ) );
 		return *this;
 	}
 
@@ -74,13 +77,13 @@ public:
 	{
 		std::istringstream in( src );
 		in >> dest;
-		if ( in.error() ) {
+		if ( ! in ) {
 			m_error = true;
 		}
 	}
 
 private:
-	message_c &m_msg;
+	const message_c &m_message;
 	int m_arg;
 	bool m_error;
 };
@@ -99,11 +102,11 @@ public:
 	{}
 
 	template < typename T >
-	copy_ostream & operator + ( const T &value )
+	message_import_c & operator + ( const T &value )
 	{
 		std::string arg;
 		copy( arg, value );
-		out >> value;
+		m_message.add_arg( arg );
 		return *this;
 	}
 
@@ -119,9 +122,18 @@ public:
 	}
 
 private:
-	std::ostream &m_out;
+	message_c &m_message;
 	int m_arg;
 	bool m_error;
+};
+
+
+class message_reader_i
+{
+};
+
+class message_writer_i
+{
 };
 
 
