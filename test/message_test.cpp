@@ -24,3 +24,17 @@ TESTPP( test_message_constructor )
 	assertpp( msg.argc() ) == 0;
 }
 
+TESTPP( test_message_add_arg )
+{
+	message_c msg;
+
+	msg.add_arg( "hello" );
+	msg.add_arg( "world!" );
+	msg.add_arg( "hello world!" );
+
+	assertpp( msg.argc() ) == 3;
+	assertpp( msg.argv( 0 ) ) == "hello";
+	assertpp( msg.argv( 1 ) ) == "world!";
+	assertpp( msg.argv( 2 ) ) == "hello world!";
+}
+
