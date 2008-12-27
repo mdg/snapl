@@ -30,24 +30,6 @@ transfer
 request
 
 
-class message_c
-{
-public:
-	message_c();
-	void add_arg( const std::string & );
-	void add_content( const std::string & );
-
-	int argc() const;
-	const std::string & argv( int i ) const;
-
-	const std::list< std::string > & content() const;
-	std::list< std::string >::const_iterator begin_content() const;
-	std::list< std::string >::const_iterator end_content() const;
-
-private:
-};
-
-
 /**
  * Object that exports general values from a message class into a typed
  * object.
