@@ -84,6 +84,8 @@ TESTPP( test_message_parse_basic_args )
 
 TESTPP( test_message_parse_quoted_args )
 {
+	not_implemented( 2009, 2, 1 );
+
 	message_c msg( "dog \"cat mouse\"" );
 
 	assertpp( msg.argc() ) == 2;
