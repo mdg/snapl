@@ -15,32 +15,32 @@
  * limitations under the License.
  */
 
-#include "client_queue.h"
+#include "client.h"
 
 class connection_i;
 
 
 class blocking_client_queue_c
-: public client_queue_i
+: public client_i
 {
 public:
 	blocking_client_queue_c( connection_i & );
 
 	virtual ~blocking_client_queue_c();
 
-	virtual void push( client_message_c & );
+	virtual void send( command_i & );
 
 	/**
 	 * Popping the message isn't really necessary, if the client holds
 	 * onto the message object, they can poll for having a response
 	 * back.
 	 */
-	virtual client_message_c * pop();
+	virtual command_i * pop();
 
 	/**
 	 * Block while waiting for the response.
 	 */
-	virtual void wait_for_response( client_message_c & );
+	virtual void wait( command_i & );
 
 private:
 	connection_i &m_connection;

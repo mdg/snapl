@@ -25,18 +25,18 @@ blocking_client_queue_c::~blocking_client_queue_c()
 }
 
 
-void blocking_client_queue_c::push( client_message_c &msg )
+void blocking_client_queue_c::send( command_i &cmd )
 {
 	// msg.set_connection( conn );
 	// conn.write( msg.request().line() );
 }
 
-client_message_c * blocking_client_queue_c::pop()
+command_i * blocking_client_queue_c::pop()
 {
 	return 0;
 }
 
-void blocking_client_queue_c::wait_for_response( client_message_c & )
+void blocking_client_queue_c::wait( command_i & )
 {
 }
 
