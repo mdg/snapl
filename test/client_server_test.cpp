@@ -24,3 +24,11 @@ bool mock_connection_c::line_ready() const
 	return ! m_read_queue.empty();
 }
 
+
+mock_client_server_connection_c::mock_client_server_connection_c()
+: m_client_read_queue()
+, m_server_read_queue()
+, m_client( m_client_read_queue, m_server_read_queue )
+, m_server( m_server_read_queue, m_client_read_queue )
+{}
+

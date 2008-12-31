@@ -49,8 +49,8 @@ class mock_client_server_connection_c
 public:
 	mock_client_server_connection_c();
 
-	connection_i & client();
-	connection_i & server();
+	connection_i & client() { return m_client; }
+	connection_i & server() { return m_server; }
 
 private:
 	std::queue< std::string > m_client_read_queue;
