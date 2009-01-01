@@ -3,7 +3,10 @@
 ### BACKLOG ###
 ###############
 
-implement message queue structure
+add client_server tests that use the mock connections
+
+modify all code to use the new command/service interfaces
+	remove action.h
 
 separate client send and receive commands so they can be
 	executed (and tested) separately
