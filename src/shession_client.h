@@ -22,39 +22,10 @@ class connection_i;
 
 
 /**
- * Client for a shessiond.
- */
-class shession_client_i
-{
-public:
-	/**
-	 * Destroy the implemented session client object.
-	 */
-	virtual ~shession_client_i() {}
-
-	/**
-	 * Create the a session for the given session_id.
-	 */
-	virtual std::string create_session( const std::string &user_id ) = 0;
-
-	/**
-	 * Check if a session is alive.
-	 */
-	virtual bool renew_session( const std::string &session_id ) = 0;
-
-	/**
-	 * Kill a session that is no longer valid.
-	 */
-	virtual void kill_session( const std::string &session_id ) = 0;
-};
-
-
-/**
  * Concrete implementation of this.  Probably need to rename
  * and move to another place later.
  */
 class shession_client_c
-: public shession_client_i
 {
 public:
 	/**
@@ -75,19 +46,6 @@ public:
 	 * Close the shession_client_c
 	 */
 	void close();
-
-	/**
-	 * Send a create_session request for the given session_id.
-	 */
-	virtual std::string create_session( const std::string &session_id );
-	/**
-	 * Send a live_session request for the given session_id
-	 */
-	virtual bool renew_session( const std::string &session_id );
-	/**
-	 * Send a kill_session request for the given session_id
-	 */
-	virtual void kill_session( const std::string &session_id );
 
 private:
 	/**
