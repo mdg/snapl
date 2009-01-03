@@ -17,6 +17,9 @@ separate client send and receive commands so they can be
 added templated action and client messages, that use the same
 	request/response overrides
 
+add integration test framework for easily running client/server tests
+	on customized protocols
+
 add support for handling the content portion of messages
 
 add a logger class to allow turning debug messages on and off
