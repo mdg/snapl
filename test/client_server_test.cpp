@@ -14,6 +14,9 @@
  */
 
 #include "client_server_test.h"
+#include "blocking_client_queue.h"
+#include "polling_server_queue.h"
+#include "connection_listener_test.h"
 #include <testpp/test.h>
 
 
@@ -46,4 +49,22 @@ mock_client_server_connection_c::mock_client_server_connection_c()
 , m_client( m_client_read_queue, m_server_read_queue )
 , m_server( m_server_read_queue, m_client_read_queue )
 {}
+
+
+TESTPP( test_client_server )
+{
+	mock_client_server_connection_c cs;
+
+	blocking_client_queue_c client( cs.client() );
+	mock_connection_listener_c listener( cs.server() );
+	polling_server_queue_c server( listener );
+
+	not_implemented();
+
+	// need to add code and assertions here
+	// create client command
+	// send command to client
+	// execute dispatcher
+	// read client response
+}
 
