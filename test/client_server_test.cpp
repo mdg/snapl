@@ -16,7 +16,9 @@
 #include "client_server_test.h"
 #include "blocking_client_queue.h"
 #include "polling_server_queue.h"
+#include "dispatcher.h"
 #include "connection_listener_test.h"
+#include "command_test.h"
 #include <testpp/test.h>
 
 
@@ -58,13 +60,22 @@ TESTPP( test_client_server )
 	blocking_client_queue_c client( cs.client() );
 	mock_connection_listener_c listener( cs.server() );
 	polling_server_queue_c server( listener );
+	dispatcher_c dispatch( server );
 
 	not_implemented();
 
 	// need to add code and assertions here
 	// create client command
+	mock_command_c cmd( "id5", 17 );
+
 	// send command to client
+	client.send( cmd );
+
 	// execute dispatcher
+	dispatch.iterate();
+
 	// read client response
+	assertpp( cmd.response().code() ) == "ok";
+	assertpp( cmd.response().message() ) == "id5_17";
 }
 
