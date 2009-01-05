@@ -23,18 +23,18 @@
 class command_i
 {
 public:
-	const request_i & command_request() const { return m_request; }
-	response_i & command_response() { return m_response; }
+	const request_c & command_request() const { return m_command_request; }
+	response_c & command_response() { return m_command_response; }
 
 protected:
-	command_i( const request_i &req, response_i &resp )
-	: m_request( req )
-	, m_response( resp )
+	command_i( const request_c &req, response_c &resp )
+	: m_command_request( req )
+	, m_command_response( resp )
 	{}
 
 private:
-	const request_i &m_command_request;
-	response_i &m_command_response;
+	const request_c &m_command_request;
+	response_c &m_command_response;
 };
 
 /**
@@ -44,6 +44,7 @@ private:
  */
 template < typename ReqT, typename RespT >
 class command_c
+: public command_i
 {
 public:
 	/**
@@ -66,7 +67,7 @@ protected:
 	, m_response()
 	{}
 
-	command_c( const Reqt &req )
+	command_c( const ReqT &req )
 	: command_i( m_request, m_response )
 	, m_request( req )
 	, m_response()
