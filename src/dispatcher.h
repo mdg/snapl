@@ -58,6 +58,10 @@ public:
 	bool main_loop();
 	/**
 	 * Run one iteration of the main loop.
+	 */
+	void iterate();
+	/**
+	 * Dispatch a server message through to the correct protocol.
 	 * Dispatch will own the pointer that's passed in.
 	 */
 	void dispatch( server_message_c * );

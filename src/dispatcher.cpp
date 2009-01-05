@@ -42,16 +42,21 @@ bool dispatcher_c::main_loop()
 {
 	bool success( false );
 	for (;;) {
-		server_message_c *msg = m_queue.pop();
-		if ( ! msg ) {
-			// sleep or yield or something, then reiterate
-			continue;
-		}
-
-		dispatch( msg );
+		iterate();
 	}
 
 	return success;
+}
+
+void dispatcher_c::iterate()
+{
+	server_message_c *msg = m_queue.pop();
+	if ( ! msg ) {
+		// sleep or yield or something, then reiterate
+		return;
+	}
+
+	dispatch( msg );
 }
 
 void dispatcher_c::dispatch( server_message_c *msg_ptr )
