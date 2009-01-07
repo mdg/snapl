@@ -8,6 +8,12 @@ class mock_request_c
 : public request_c
 {
 public:
+	mock_request_c()
+	: request_c( "mock" )
+	, m_id()
+	, m_number( 0 )
+	{}
+
 	mock_request_c( const std::string &id, int number )
 	: request_c( "mock" )
 	, m_id( id )
