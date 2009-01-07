@@ -17,8 +17,10 @@
 #include "blocking_client_queue.h"
 #include "polling_server_queue.h"
 #include "dispatcher.h"
+#include "protocol.h"
 #include "connection_listener_test.h"
 #include "command_test.h"
+#include "service_test.h"
 #include <testpp/test.h>
 
 
@@ -53,6 +55,26 @@ mock_client_server_connection_c::mock_client_server_connection_c()
 {}
 
 
+/**
+ * Test that the mock_client_server_connection class works.
+ */
+TESTPP( test_mock_client_server_conn )
+{
+	mock_client_server_connection_c cs;
+	connection_i &client( cs.client() );
+	connection_i &server( cs.server() );
+
+	std::string line;
+	client.write_line( "test 1" );
+	assertpp( server.line_ready() );
+	server.read_line( line );
+	assertpp( line ) == "test 1";
+}
+
+
+/**
+ * Integration test of mock client running with mock server
+ */
 TESTPP( test_client_server )
 {
 	mock_client_server_connection_c cs;
@@ -62,7 +84,10 @@ TESTPP( test_client_server )
 	polling_server_queue_c server( listener );
 	dispatcher_c dispatch( server );
 
-	not_implemented();
+	protocol_c protocol( 3 );
+	mock_service_c mock_srv;
+	protocol.add( "mock", mock_srv );
+
 
 	// need to add code and assertions here
 	// create client command
