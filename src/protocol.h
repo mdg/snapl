@@ -18,27 +18,27 @@
 #include <map>
 #include <string>
 
-class action_i;
+class service_i;
 
 
 class protocol_c
 {
-	typedef std::map< std::string, action_i * > action_map;
-	typedef action_map::iterator action_iterator;
+	typedef std::map< std::string, service_i * > service_map;
+	typedef service_map::iterator service_iterator;
 
 public:
 	protocol_c( short port );
 	virtual ~protocol_c();
-	void add( action_i & );
+	void add( const std::string &name, service_i & );
 
 	const std::string & name() const { return m_name; }
 	short port() const { return m_port; }
 	bool silent() const { return m_silent; }
-	action_i * action( const std::string & );
+	service_i * service( const std::string & );
 
 private:
 	std::string m_name;
-	action_map m_action;
+	service_map m_service;
 	short m_port;
 	bool m_silent;
 };

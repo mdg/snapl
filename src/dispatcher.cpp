@@ -19,6 +19,7 @@
 #include "protocol.h"
 #include "request.h"
 #include "response.h"
+#include "service.h"
 #include "server_message.h"
 #include "server_queue.h"
 #include <iostream>
@@ -74,8 +75,8 @@ void dispatcher_c::dispatch( server_message_c *msg_ptr )
 		return;
 	}
 
-	action_i *action = protocol->action( msg->request_type() );
-	if ( ! action ) {
+	service_i *service = protocol->service( msg->request_type() );
+	if ( ! service ) {
 		std::cerr << "no request processor for " << msg->request_type()
 			<< std::endl;
 		msg->response().err( "unknown request type: '"
@@ -83,7 +84,7 @@ void dispatcher_c::dispatch( server_message_c *msg_ptr )
 		return;
 	}
 
-	action->execute( msg->request(), msg->response() );
+	service->execute( msg->request(), msg->response() );
 
 	if ( ! protocol->silent() ) {
 		m_queue.push( msg.release() );
