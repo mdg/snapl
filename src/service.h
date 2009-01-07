@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 
+#include <iostream>
+
+
+class request_c;
+class response_c;
 
 
 /**
@@ -23,14 +28,13 @@
  */
 class service_i
 {
+public:
 	virtual ~service_i() {}
 
 	/**
 	 * Execute this untyped service.
 	 */
-	virtual void execute() = 0;
-
-	virtual const response_c & response() const = 0;
+	virtual void execute( const request_c &, response_c & ) = 0;
 };
 
 
@@ -41,18 +45,22 @@ class service_i
  */
 template < typename ReqT, typename RespT >
 class service_c
+: public service_i
 {
 public:
-	service_c( const std::string &req )
-	: m_request( req )
-	, m_response()
+	service_c()
 	{}
 
-	virtual const response_c & response() const { return m_response; }
+	virtual void execute( const request_c &req, response_c &resp )
+	{
+		std::cerr << "service_c::execute()\n";
+		const ReqT *preq = static_cast< const ReqT * >( &req );
+		RespT *presp = static_cast< RespT * >( &resp );
+		execute( *preq, *presp );
+	}
 
-protected:
-	const ReqT m_request;
-	RespT m_response;
+	virtual void execute( const ReqT &, RespT & ) = 0;
+
 };
 
 
