@@ -27,15 +27,6 @@
 class request_c
 {
 public:
-	static const std::string CREATE;
-	static const std::string RENEW;
-	static const std::string KILL;
-	static const std::string CLOSE;
-
-	static const std::string MIRROR;
-	static const std::string EXPORT;
-
-public:
 	/**
 	 * Construct a request object with a given request type
 	 * and a string parameter.
