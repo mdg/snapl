@@ -38,5 +38,22 @@ public:
 };
 
 
+/**
+ * Implemented class of the client interface.
+ */
+class client_c
+{
+public:
+	client_c();
+
+	virtual void send_request( command_i & );
+
+	virtual void wait_for_response( command_i & );
+
+private:
+	// client_factory_i &m_factory;
+};
+
+
 #endif
 
