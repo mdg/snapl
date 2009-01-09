@@ -98,7 +98,8 @@ public:
 	void add_content( const std::string & );
 
 	int argc() const { return m_arg.size(); }
-	const std::string & argv( int i ) const { return m_arg[ i ]; }
+	void get_argv( int i, std::string &argv ) const;
+	void set_argv( int i, const std::string &argv );
 
 	const std::list< std::string > & content() const;
 	std::list< std::string >::const_iterator begin_content() const;
