@@ -15,27 +15,10 @@
  * limitations under the License.
  */
 
-class command_i;
+#include "command.h"
+#include "message.h"
 
-
-/**
- * Framework interface for sending commands 
- */
-class client_i
-{
-public:
-	virtual ~client_i() {}
-
-	/**
-	 * Send the command through to the remote server.
-	 */
-	virtual void send( command_i & ) = 0;
-
-	/**
-	 * Wait for a response to a given command.
-	 */
-	virtual void wait( command_i & ) = 0;
-};
+// class message_queue_factory_i;
 
 
 /**
