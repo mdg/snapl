@@ -46,9 +46,20 @@ class client_c
 public:
 	client_c();
 
+	template < typename ReqT, typename RespT >
+	void send_request( const command_c< ReqT, RespT > &cmd )
+	{
+		message_c msg;
+		message_import_c msg_import( msg );
+		msg_import.copy_message( cmd.request() );
+		send_message( msg );
+	}
+
 	virtual void send_request( command_i & );
 
 	virtual void wait_for_response( command_i & );
+
+	void send_message( const message_c & );
 
 private:
 	// client_factory_i &m_factory;
