@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+class request_c;
+class response_c;
 
 
 /**
