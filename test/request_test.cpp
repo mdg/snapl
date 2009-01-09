@@ -26,7 +26,7 @@ TESTPP( test_constructor_1 )
 {
 	request_c req( "renew dog" );
 
-	assertpp( req.type() ) == request_c::RENEW;
+	assertpp( req.type() ) == "renew";
 	assertpp( req.argc() ) == 1;
 	assertpp( req.argv( 0 ) ) == "dog";
 }
@@ -39,7 +39,7 @@ TESTPP( test_constructor_2 )
 {
 	request_c req( "create cat mouse" );
 
-	assertpp( req.type() ) == request_c::CREATE;
+	assertpp( req.type() ) == "create";
 	assertpp( req.argc() ) == 2;
 	assertpp( req.argv( 0 ) ) == "cat";
 	assertpp( req.argv( 1 ) ) == "mouse";
