@@ -17,6 +17,34 @@
 #include <testpp/test.h>
 
 
+TESTPP( test_message_arg_constructor )
+{
+	int value( 5 );
+	message_arg_c< int > arg( value );
+
+	assertpp( arg.value() ) == 5;
+}
+
+TESTPP( test_message_arg_get_string )
+{
+	int value( 5 );
+	message_arg_c< int > arg( value );
+
+	std::string text;
+	arg.get_string( text );
+	assertpp( text ) == "5";
+}
+
+TESTPP( test_message_arg_set_string )
+{
+	int value( 5 );
+	message_arg_c< int > arg( value );
+
+	arg.set_string( "8" );
+	assertpp( arg.value() ) == 8;
+}
+
+
 TESTPP( test_message_constructor )
 {
 	message_c msg;

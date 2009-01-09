@@ -22,6 +22,72 @@
 #include <sstream>
 
 
+class message_arg_i
+{
+public:
+	virtual ~message_arg_i() {}
+	virtual void get_string( std::string & ) const = 0;
+	virtual void set_string( const std::string & ) = 0;
+};
+
+
+template < typename T >
+class message_arg_c
+: public message_arg_i
+{
+public:
+	message_arg_c( T &val )
+	: m_value( val )
+	{}
+	virtual ~message_arg_c() {}
+
+	virtual void get_string( std::string &str ) const
+	{
+		str.clear();
+		std::ostringstream out;
+		out << m_value;
+		str = out.str();
+	}
+
+	virtual void set_string( const std::string &str )
+	{
+		std::istringstream in( str );
+		in >> m_value;
+	}
+
+	const T & value() const { return m_value; }
+
+private:
+	T &m_value;
+};
+
+
+class message_arg_list_c
+{
+public:
+	~message_arg_list_c();
+
+	/**
+	 * Add an argument to the argument list.
+	 */
+	template < typename T >
+	message_arg_list_c & operator << ( T &arg )
+	{
+		m_arg.push_back( new message_arg_c< T >( arg ) );
+	}
+
+	int argc() const { return m_arg.size(); }
+
+	void get_argv( int i, std::string &argv ) const
+	{
+		m_arg[i]->get_string( argv );
+	}
+
+private:
+	std::vector< message_arg_i * > m_arg;
+};
+
+
 class message_c
 {
 public:
@@ -43,6 +109,7 @@ public:
 
 private:
 	std::vector< std::string > m_arg;
+	message_arg_list_c m_arg_list;
 };
 
 
