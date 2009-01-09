@@ -61,6 +61,12 @@ public:
 	{}
 
 	template < typename T >
+	void copy_message( const T &dest )
+	{
+		dest.copy( *this );
+	}
+
+	template < typename T >
 	message_export_c & operator + ( T &value )
 	{
 		// check that too many values haven't already been read
@@ -69,7 +75,7 @@ public:
 			return *this;
 		}
 
-		copy( value, m_message.argv( m_arg++ ) );
+		copy_value( value, m_message.argv( m_arg++ ) );
 		return *this;
 	}
 
@@ -77,7 +83,7 @@ public:
 	 * Copy a string value to a typed value.
 	 */
 	template < typename T >
-	void copy( T &dest, const std::string &src )
+	void copy_value( T &dest, const std::string &src )
 	{
 		std::istringstream in( src );
 		in >> dest;
@@ -106,10 +112,16 @@ public:
 	{}
 
 	template < typename T >
+	void copy_message( const T &typed_obj )
+	{
+		typed_obj.copy( *this );
+	}
+
+	template < typename T >
 	message_import_c & operator + ( const T &value )
 	{
 		std::string arg;
-		copy( arg, value );
+		copy_value( arg, value );
 		m_message.add_arg( arg );
 		return *this;
 	}
@@ -118,7 +130,7 @@ public:
 	 * Copy a value into a string type.
 	 */
 	template < typename T >
-	void copy( std::string &arg, const T &value )
+	void copy_value( std::string &arg, const T &value )
 	{
 		std::ostringstream out;
 		out << value;
