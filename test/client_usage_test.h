@@ -34,6 +34,18 @@ class get_request_c
 : public request_c
 {
 public:
+	get_request_c()
+	: request_c( "get" )
+	, m_user_id()
+	, m_session_id()
+	{
+		m_args << m_user_id << m_session_id;
+	}
+
+	void set( const std::string &user_id
+			, const std::string &session_id );
+
+
 	/**
 	 * Command constructor.
 	 */
@@ -42,16 +54,20 @@ public:
 	: request_c( "get" )
 	, m_user_id( user_id )
 	, m_session_id( session_id )
-	{}
+	{
+		m_args << m_user_id << m_session_id;
+	}
 
 	/**
 	 * Service constructor.
 	 */
-	get_request_c( const request_c &req )
-	: request_c( req )
+	get_request_c( const message_c &msg )
+	: request_c( "get" )
 	, m_user_id( req.argv< int >( 0 ) )
 	, m_session_id( req.argv< std::string >( 1 ) )
-	{}
+	{
+		m_args << m_user_id << m_session_id;
+	}
 
 	/**
 	 * Copy values of the request.
