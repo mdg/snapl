@@ -14,7 +14,7 @@
  */
 
 #include "client_server_test.h"
-#include "blocking_client_queue.h"
+#include "client.h"
 #include "polling_server_queue.h"
 #include "dispatcher.h"
 #include "protocol.h"
@@ -79,7 +79,7 @@ TESTPP( test_client_server )
 {
 	mock_client_server_connection_c cs;
 
-	blocking_client_queue_c client( cs.client() );
+	client_c client; // ( cs.client() );
 	mock_connection_listener_c listener( cs.server() );
 	polling_server_queue_c server( listener );
 	dispatcher_c dispatch( server );
@@ -94,10 +94,13 @@ TESTPP( test_client_server )
 	mock_command_c cmd( "id5", 17 );
 
 	// send command to client
-	client.send( cmd );
+	client.send_request( cmd );
 
 	// execute dispatcher
 	dispatch.iterate();
+
+	// read a command from the client
+	client.wait_for_response( cmd );
 
 	// read client response
 	assertpp( cmd.response().code() ) == "ok";
