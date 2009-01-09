@@ -60,6 +60,16 @@ request -> message -> text -> message -> request
 
 response <- message <- text  <- message <- response
 
+command passed to client
+
+client passes command_request to message_import to turn it into a message
+
+message is passed to client's message_queue
+
+message is read from server message_queue
+
+server_queue passes message to message_export to create typed request
+
 message
 	an interface between requests & responses and plain text
 
