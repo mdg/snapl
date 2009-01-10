@@ -103,7 +103,15 @@ public:
 	 */
 	int size() const { return m_arg.size(); }
 
-	void get_argv( int i, std::string &argv ) const
+	/**
+	 * Return a string version of a given argument.
+	 */
+	std::string argv( int i ) const;
+
+	/**
+	 * Get a string version of a given argument.
+	 */
+	void argv( int i, std::string &argv ) const
 	{
 		m_arg[i]->get_string( argv );
 	}

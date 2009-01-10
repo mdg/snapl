@@ -25,6 +25,12 @@ message_arg_list_c::~message_arg_list_c()
 	m_arg.clear();
 }
 
+std::string message_arg_list_c::argv( int i ) const
+{
+	std::string value;
+	m_arg[i]->get_string( value );
+	return value;
+}
 
 message_c::message_c()
 : m_arg()
@@ -48,13 +54,13 @@ void message_c::add_arg( const std::string &arg )
 std::string message_c::argv( int i ) const
 {
 	std::string arg;
-	m_arg.get_argv( i, arg );
+	m_arg.argv( i, arg );
 	return arg;
 }
 
 void message_c::get_argv( int i, std::string &value ) const
 {
-	m_arg.get_argv( i, value );
+	m_arg.argv( i, value );
 }
 
 
