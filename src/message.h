@@ -22,6 +22,10 @@
 #include <sstream>
 
 
+/**
+ * Untyped interface for a typed message argument that needs to be
+ * converted to a string.
+ */
 class message_arg_i
 {
 public:
@@ -32,7 +36,8 @@ public:
 
 
 /**
- * An object to hold information about arguments to messages
+ * Template-typed implementation of the message arg that will hold
+ * information about arguments to messages
  */
 template < typename T >
 class message_arg_c
