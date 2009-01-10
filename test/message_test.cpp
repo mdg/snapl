@@ -55,6 +55,33 @@ TESTPP( test_message_arg_set_string )
 
 
 /**
+ * Test that the message arg list constructor works.
+ */
+TESTPP( test_message_arg_list_constructor )
+{
+	message_arg_list_c arg_list;
+
+	assertpp( arg_list.size() ) == 0;
+}
+
+/**
+ * Test that arguments are correctly added to a message_arg_list
+ */
+TESTPP( test_message_arg_list_append )
+{
+	message_arg_list_c arg;
+	int val1( 5 );
+	std::string val2( "txt2" );
+
+	arg << val1 << val2;
+
+	assertpp( arg.size() ) == 2;
+	assertpp( arg.argv( 0 ) ) == "5";
+	assertpp( arg.argv( 1 ) ) == "txt2";
+}
+
+
+/**
  * Test that the message constructor works as expected.
  */
 TESTPP( test_message_constructor )
