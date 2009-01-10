@@ -67,39 +67,6 @@ TESTPP( test_message_add_arg )
 }
 
 
-TESTPP( test_message_export_string )
-{
-	message_c msg;
-
-	msg.add_arg( "dog" );
-	msg.add_arg( "cat" );
-	msg.add_arg( "mouse" );
-
-	message_export_c exp( msg );
-	std::string dog, cat, mouse;
-	exp + dog + cat + mouse;
-
-	assertpp( dog ) == "dog";
-	assertpp( cat ) == "cat";
-	assertpp( mouse ) == "mouse";
-}
-
-TESTPP( test_message_import_mixed )
-{
-	std::string dog( "dog" );
-	int five( 5 );
-	bool t( true );
-
-	message_c msg;
-	message_import_c import( msg );
-	import + dog + five + t;
-
-	assertpp( msg.argc() ) == 3;
-	assertpp( msg.argv( 0 ) ) == "dog";
-	assertpp( msg.argv( 1 ) ) == "5";
-	assertpp( msg.argv( 2 ) ) == "1";
-}
-
 TESTPP( test_message_parse_basic_args )
 {
 	message_c msg( "dog 5 purple" );
