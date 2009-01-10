@@ -24,13 +24,14 @@ client_c::client_c()
 {}
 
 
-void client_c::wait_for_response( command_i &cmd )
+void client_c::send_request( command_i &cmd )
 {
-}
-
-void client_c::send_message( const message_c &msg )
-{
+	// send_message( cmd.command_request() );
 	// message_queue_i &queue( m_factory.message() );
 	// queue.
+}
+
+void client_c::wait_for_response( command_i &cmd )
+{
 }
 
