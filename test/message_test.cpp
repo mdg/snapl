@@ -17,6 +17,9 @@
 #include <testpp/test.h>
 
 
+/**
+ * Test that a message argument is constructed properly.
+ */
 TESTPP( test_message_arg_constructor )
 {
 	int value( 5 );
@@ -25,7 +28,10 @@ TESTPP( test_message_arg_constructor )
 	assertpp( arg.value() ) == 5;
 }
 
-TESTPP( test_message_arg_get_string )
+/**
+ * Test that the message_arg's get_string function works properly for an int.
+ */
+TESTPP( test_message_arg_get_string_int )
 {
 	int value( 5 );
 	message_arg_c< int > arg( value );
@@ -35,6 +41,9 @@ TESTPP( test_message_arg_get_string )
 	assertpp( text ) == "5";
 }
 
+/**
+ * Test that the message_arg's set_string works correctly for an integer.
+ */
 TESTPP( test_message_arg_set_string )
 {
 	int value( 5 );
@@ -45,6 +54,9 @@ TESTPP( test_message_arg_set_string )
 }
 
 
+/**
+ * Test that the message constructor works as expected.
+ */
 TESTPP( test_message_constructor )
 {
 	message_c msg;

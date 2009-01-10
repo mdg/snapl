@@ -31,6 +31,9 @@ public:
 };
 
 
+/**
+ * An object to hold information about arguments to messages
+ */
 template < typename T >
 class message_arg_c
 : public message_arg_i
@@ -41,6 +44,14 @@ public:
 	{}
 	virtual ~message_arg_c() {}
 
+	/**
+	 * Get the value of this argument.
+	 */
+	const T & value() const { return m_value; }
+
+	/**
+	 * Get the string version of this argument.
+	 */
 	virtual void get_string( std::string &str ) const
 	{
 		str.clear();
@@ -49,19 +60,23 @@ public:
 		str = out.str();
 	}
 
+	/**
+	 * Set the value of this argument as a string.
+	 */
 	virtual void set_string( const std::string &str )
 	{
 		std::istringstream in( str );
 		in >> m_value;
 	}
 
-	const T & value() const { return m_value; }
-
 private:
 	T &m_value;
 };
 
 
+/**
+ * A list of arguments in a message.
+ */
 class message_arg_list_c
 {
 public:
@@ -93,6 +108,10 @@ private:
 };
 
 
+/**
+ * An object for turning a typed request or response object into
+ * serialized strings so it can be passed to an open network connection.
+ */
 class message_c
 {
 public:
@@ -102,9 +121,18 @@ public:
 	void add_arg( const std::string & );
 	void add_content( const std::string & );
 
+	/**
+	 * Get the number of args for this message.
+	 */
 	int argc() const { return m_arg.size(); }
 	std::string argv( int i ) const;
+	/**
+	 * Get an argument as a string.
+	 */
 	void get_argv( int i, std::string &argv ) const;
+	/**
+	 * Set an argument as a string.
+	 */
 	void set_argv( int i, const std::string &argv );
 
 	const std::list< std::string > & content() const;
