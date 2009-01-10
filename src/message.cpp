@@ -16,6 +16,16 @@
 #include "message.h"
 
 
+message_arg_list_c::~message_arg_list_c()
+{
+	std::vector< message_arg_i * >::iterator it;
+	for ( it=m_arg.begin(); it!=m_arg.end(); ++it ) {
+		delete *it;
+	}
+	m_arg.clear();
+}
+
+
 message_c::message_c()
 : m_arg()
 {}
@@ -32,8 +42,21 @@ message_c::~message_c()
 
 void message_c::add_arg( const std::string &arg )
 {
-	m_arg.push_back( arg );
+	// m_arg.add_arg( arg );
 }
+
+std::string message_c::argv( int i ) const
+{
+	std::string arg;
+	m_arg.get_argv( i, arg );
+	return arg;
+}
+
+void message_c::get_argv( int i, std::string &value ) const
+{
+	m_arg.get_argv( i, value );
+}
+
 
 void message_c::parse_args( const std::string &args )
 {

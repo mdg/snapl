@@ -69,6 +69,8 @@ public:
 
 	/**
 	 * Add an argument to the argument list.
+	 * This is the way that requests & responses will add typed
+	 * values to the message.
 	 */
 	template < typename T >
 	message_arg_list_c & operator << ( T &arg )
@@ -76,7 +78,10 @@ public:
 		m_arg.push_back( new message_arg_c< T >( arg ) );
 	}
 
-	int argc() const { return m_arg.size(); }
+	/**
+	 * Get the number of arguments in this list.
+	 */
+	int size() const { return m_arg.size(); }
 
 	void get_argv( int i, std::string &argv ) const
 	{
@@ -98,6 +103,7 @@ public:
 	void add_content( const std::string & );
 
 	int argc() const { return m_arg.size(); }
+	std::string argv( int i ) const;
 	void get_argv( int i, std::string &argv ) const;
 	void set_argv( int i, const std::string &argv );
 
@@ -109,8 +115,7 @@ public:
 	void write_args( std::string & ) const;
 
 private:
-	std::vector< std::string > m_arg;
-	message_arg_list_c m_arg_list;
+	message_arg_list_c m_arg;
 };
 
 
