@@ -30,7 +30,7 @@ public:
 	 * Construct a request object with a given request type
 	 * and a string parameter.
 	 */
-	request_c( const std::string &req_type );
+	request_c( const std::string &req_type = std::string() );
 
 	/**
 	 * Get the type of this request
