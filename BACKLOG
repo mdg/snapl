@@ -3,7 +3,7 @@
 ### BACKLOG ###
 ###############
 
-modify all code to use the new command/service interfaces
+reimplement server code to use new service/command style classes
 
 combine server queue and the connection_listener class
 	consider also combining blocking_client_queue and a connection class
