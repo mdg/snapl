@@ -77,6 +77,9 @@ TESTPP( test_mock_client_server_conn )
  */
 TESTPP( test_client_server )
 {
+	ignore_until( 2009, 1, 15 );
+	return;
+
 	mock_client_server_connection_c cs;
 
 	client_c client; // ( cs.client() );
