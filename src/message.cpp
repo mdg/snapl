@@ -61,10 +61,26 @@ std::string message_c::argv( int i ) const
 
 void message_c::parse_args( const std::string &args )
 {
+	/*
+from request.cpp
+	std::istringstream input( request_line );
+	std::string parsed_word;
+
+	// parse the arguments
+	input >> parsed_word;
+	while ( ! parsed_word.empty() ) {
+		// m_args.push_back( parsed_word );
+		if ( input.eof() )
+			break;
+		input >> parsed_word;
+	}
+	*/
+	/*
 	std::istringstream in( args );
 	std::string value;
 	while ( in >> value ) {
 		add_arg( value );
 	}
+	*/
 }
 
