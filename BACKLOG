@@ -3,10 +3,7 @@
 ### BACKLOG ###
 ###############
 
-add client_server tests that use the mock connections
-
 modify all code to use the new command/service interfaces
-	remove action.h
 
 combine server queue and the connection_listener class
 	consider also combining blocking_client_queue and a connection class
