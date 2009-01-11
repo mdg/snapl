@@ -95,7 +95,8 @@ public:
 	template < typename T >
 	message_arg_list_c & operator << ( T &arg )
 	{
-		m_arg.push_back( new message_arg_c< T >( arg ) );
+		message_arg_c< T > *msg_arg = new message_arg_c< T >( arg );
+		m_arg.push_back( msg_arg );
 	}
 
 	/**
@@ -111,10 +112,11 @@ public:
 	/**
 	 * Get a string version of a given argument.
 	 */
-	void argv( int i, std::string &argv ) const
-	{
-		m_arg[i]->get_string( argv );
-	}
+	void argv( int i, std::string &argv ) const;
+
+	std::string str() const;
+
+	void parse( const std::string &line );
 
 private:
 	std::vector< message_arg_i * > m_arg;
@@ -155,8 +157,9 @@ public:
 	std::list< std::string >::const_iterator begin_content() const;
 	std::list< std::string >::const_iterator end_content() const;
 
+	std::string arg_string() const { return m_arg.str(); }
+
 	void parse_args( const std::string & );
-	void write_args( std::string & ) const;
 
 protected:
 	message_arg_list_c m_arg;

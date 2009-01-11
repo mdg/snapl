@@ -15,6 +15,8 @@
 
 #include "message.h"
 
+#include <iostream>
+
 
 message_arg_list_c::~message_arg_list_c()
 {
@@ -31,6 +33,38 @@ std::string message_arg_list_c::argv( int i ) const
 	m_arg[i]->get_string( value );
 	return value;
 }
+
+void message_arg_list_c::argv( int i, std::string &argv ) const
+{
+	if ( i >= m_arg.size() ) {
+		std::cerr << "i( " << i << " ) > m_arg.size()\n";
+	}
+
+	message_arg_i *arg( m_arg[i] );
+	if ( arg == NULL ) {
+		std::cerr << "arg is null\n";
+	}
+
+	arg->get_string( argv );
+}
+
+std::string message_arg_list_c::str() const
+{
+	std::ostringstream out;
+	std::string value;
+	int argc( size() );
+	for ( int i(0); i<argc; ++i ) {
+		argv( i, value );
+
+		if ( i > 0 ) {
+			out << " ";
+		}
+		out << value;
+	}
+
+	return out.str();
+}
+
 
 message_c::message_c()
 : m_arg()
