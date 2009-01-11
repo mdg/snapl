@@ -58,11 +58,6 @@ std::string message_c::argv( int i ) const
 	return arg;
 }
 
-void message_c::get_argv( int i, std::string &value ) const
-{
-	m_arg.argv( i, value );
-}
-
 
 void message_c::parse_args( const std::string &args )
 {
