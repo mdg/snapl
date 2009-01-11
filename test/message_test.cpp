@@ -116,50 +116,10 @@ TESTPP( test_message_arg_list_parse )
 	assertpp( val2 ) == "spatula";
 }
 
-
 /**
- * Test that the message constructor works as expected.
+ * Test that the message_arg_list correctly parses quoted strings
  */
-TESTPP( test_message_constructor )
-{
-	message_c msg;
-
-	assertpp( msg.argc() ) == 0;
-}
-
-TESTPP( test_message_add_arg )
-{
-	message_c msg;
-
-	msg.add_arg( "hello" );
-	msg.add_arg( "world!" );
-	msg.add_arg( "hello world!" );
-
-	ignore_until( 2009, 1, 31 );
-	return;
-
-	assertpp( msg.argc() ) == 3;
-	assertpp( msg.argv( 0 ) ) == "hello";
-	assertpp( msg.argv( 1 ) ) == "world!";
-	assertpp( msg.argv( 2 ) ) == "hello world!";
-}
-
-
-TESTPP( test_message_parse_basic_args )
-{
-	ignore_until( 2009, 1, 31 );
-	return;
-
-	message_c msg;
-	msg.parse_args( "dog 5 purple" );
-
-	assertpp( msg.argc() ) == 3;
-	assertpp( msg.argv( 0 ) ) == "dog";
-	assertpp( msg.argv( 1 ) ) == "5";
-	assertpp( msg.argv( 2 ) ) == "purple";
-}
-
-TESTPP( test_message_parse_quoted_args )
+TESTPP( test_message_arg_list_parse_quoted_args )
 {
 	not_implemented( 2009, 2, 1 );
 	return;
@@ -169,5 +129,16 @@ TESTPP( test_message_parse_quoted_args )
 	assertpp( msg.argc() ) == 2;
 	assertpp( msg.argv( 0 ) ) == "dog";
 	assertpp( msg.argv( 1 ) ) == "cat mouse";
+}
+
+
+/**
+ * Test that the message constructor works as expected.
+ */
+TESTPP( test_message_constructor )
+{
+	message_c msg;
+
+	assertpp( msg.argc() ) == 0;
 }
 
