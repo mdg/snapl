@@ -18,6 +18,7 @@
 #include "command.h"
 #include "message.h"
 
+class connection_i;
 // class message_queue_factory_i;
 
 
@@ -28,6 +29,7 @@ class client_c
 {
 public:
 	client_c();
+	client_c( connection_i & );
 
 	void send_request( command_i & );
 
@@ -35,6 +37,7 @@ public:
 
 private:
 	// client_factory_i &m_factory;
+	connection_i *m_connection;
 };
 
 

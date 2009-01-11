@@ -19,8 +19,15 @@
 #include "request.h"
 #include "response.h"
 
+#include "connection.h"
+
 
 client_c::client_c()
+: m_connection( NULL )
+{}
+
+client_c::client_c( connection_i &conn )
+: m_connection( &conn )
 {}
 
 
@@ -29,6 +36,12 @@ void client_c::send_request( command_i &cmd )
 	// send_message( cmd.command_request() );
 	// message_queue_i &queue( m_factory.message() );
 	// queue.
+	if ( ! m_connection )
+		return;
+
+	std::ostringstream out;
+	const request_c &req( cmd.command_request() );
+	m_connection->write_line( req.arg_string() );
 }
 
 void client_c::wait_for_response( command_i &cmd )
