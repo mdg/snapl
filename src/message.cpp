@@ -14,6 +14,7 @@
  */
 
 #include "message.h"
+#include <sstream>
 
 #include <iostream>
 
@@ -63,6 +64,26 @@ std::string message_arg_list_c::str() const
 	}
 
 	return out.str();
+}
+
+void message_arg_list_c::parse( const std::string &line )
+{
+	std::istringstream in( line );
+	std::string token;
+
+	int argc( size() );
+	for ( int i( 0 ); i<argc; ++i ) {
+		in >> token;
+		if ( ! in ) {
+			std::cerr << "token error\n";
+			break;
+		}
+
+		if ( ! m_arg[i]->set_string( token ) ) {
+			std::cerr << "parse error\n";
+			break;
+		}
+	}
 }
 
 

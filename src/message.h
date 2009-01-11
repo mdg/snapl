@@ -30,8 +30,17 @@ class message_arg_i
 {
 public:
 	virtual ~message_arg_i() {}
+	/**
+	 * Rename this to str()
+	 */
 	virtual void get_string( std::string & ) const = 0;
-	virtual void set_string( const std::string & ) = 0;
+	/**
+	 * Rename this to parse_value()
+	 */
+	virtual bool set_string( const std::string & ) = 0;
+
+	virtual std::istream & operator >> ( std::istream & ) = 0;
+	virtual std::ostream & operator << ( std::ostream & ) const = 0;
 };
 
 
@@ -54,6 +63,18 @@ public:
 	 */
 	const T & value() const { return m_value; }
 
+	virtual std::istream & operator >> ( std::istream &in )
+	{
+		in >> m_value;
+		return in;
+	}
+
+	virtual std::ostream & operator << ( std::ostream &out ) const
+	{
+		out << m_value;
+		return out;
+	}
+
 	/**
 	 * Get the string version of this argument.
 	 */
@@ -68,10 +89,11 @@ public:
 	/**
 	 * Set the value of this argument as a string.
 	 */
-	virtual void set_string( const std::string &str )
+	virtual bool set_string( const std::string &str )
 	{
 		std::istringstream in( str );
 		in >> m_value;
+		return in;
 	}
 
 private:
@@ -114,8 +136,14 @@ public:
 	 */
 	void argv( int i, std::string &argv ) const;
 
+	/**
+	 * Convert this arg list into a string.
+	 */
 	std::string str() const;
 
+	/**
+	 * Parse a line of text into the values for this arg list.
+	 */
 	void parse( const std::string &line );
 
 private:

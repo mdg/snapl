@@ -86,6 +86,36 @@ TESTPP( test_message_arg_list_append )
 	assertpp( s[ 1 ] ) == "txt2";
 }
 
+/**
+ * Test that the message_arg_list's str() function works as expected.
+ */
+TESTPP( test_message_arg_list_str )
+{
+	message_arg_list_c arg;
+	int val1( 5 );
+	std::string val2( "txt2" );
+
+	arg << val1 << val2;
+
+	assertpp( arg.str() ) == "5 txt2";
+}
+
+/**
+ * Test that the message_arg_list's parse() function works for a normal case.
+ */
+TESTPP( test_message_arg_list_parse )
+{
+	message_arg_list_c arg;
+	int val1( 5 );
+	std::string val2( "txt2" );
+
+	arg << val1 << val2;
+	arg.parse( "8 spatula" );
+
+	assertpp( val1 ) == 8;
+	assertpp( val2 ) == "spatula";
+}
+
 
 /**
  * Test that the message constructor works as expected.
