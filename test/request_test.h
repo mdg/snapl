@@ -26,13 +26,17 @@ public:
 	: request_c( "mock" )
 	, m_id()
 	, m_number( 0 )
-	{}
+	{
+		m_arg + m_id + m_number;
+	}
 
 	mock_request_c( const std::string &id, int number )
 	: request_c( "mock" )
 	, m_id( id )
 	, m_number( number )
-	{}
+	{
+		m_arg + m_id + m_number;
+	}
 
 	template < typename T >
 	void copy( T &stream )

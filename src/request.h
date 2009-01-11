@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 
-
-#include <string>
-#include <vector>
+#include "message.h"
 
 
 /**
@@ -25,13 +23,14 @@
  * the sessions.
  */
 class request_c
+: public message_c
 {
 public:
 	/**
 	 * Construct a request object with a given request type
 	 * and a string parameter.
 	 */
-	request_c( const std::string &request_line );
+	request_c( const std::string &req_type );
 
 	/**
 	 * Get the type of this request
@@ -41,11 +40,11 @@ public:
 	/**
 	 * Number of arguments to this request.
 	 */
-	int argc() const { return m_args.size(); }
+	int argc() const { return m_arg.size(); }
 	/**
 	 * Get a specific argument to this request.
 	 */
-	const std::string & argv( int i ) const { return m_args[i]; }
+	std::string argv( int i ) const { return m_arg.argv( i ); }
 
 	/**
 	 * Get the name of the protocol where this request arrived.
@@ -59,7 +58,6 @@ public:
 
 private:
 	std::string m_type;
-	std::vector< std::string > m_args;
 	std::string m_protocol;
 	int m_port;
 };

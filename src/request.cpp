@@ -17,26 +17,13 @@
 #include <sstream>
 
 
-request_c::request_c( const std::string &request_line )
-: m_type()
-, m_args()
+request_c::request_c( const std::string &req_type )
+: message_c()
+, m_type( req_type )
 , m_protocol()
 , m_port( 0 )
 {
-	std::istringstream input( request_line );
-	std::string parsed_word;
-
-	// get the request_type
-	input >> parsed_word;
-	m_type = parsed_word;
-
-	// parse the arguments
-	input >> parsed_word;
-	while ( ! parsed_word.empty() ) {
-		m_args.push_back( parsed_word );
-		if ( input.eof() )
-			break;
-		input >> parsed_word;
-	}
+	// add m_type as the first message argument
+	m_arg << m_type;
 }
 
