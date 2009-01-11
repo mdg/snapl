@@ -95,7 +95,7 @@ TESTPP( test_client_server )
 {
 	mock_client_server_connection_c cs;
 
-	client_c client; // ( cs.client() );
+	client_c client( cs.client() );
 	mock_connection_listener_c listener( cs.server() );
 	polling_server_queue_c server( listener );
 	dispatcher_c dispatch( server );
@@ -111,9 +111,17 @@ TESTPP( test_client_server )
 
 	// send command to client
 	client.send_request( cmd );
+	// assert that the server connection has a line ready
+	assertpp( cs.server().line_ready() ).t();
+
+	std::string server_line;
+	cs.server().read_line( server_line );
+	assertpp( server_line ) == "mock id5 17";
 
 	// execute dispatcher
 	dispatch.iterate();
+	// assert that the client connection now has a line ready
+	assertpp( cs.client().line_ready() ).t();
 
 	// read a command from the client
 	client.wait_for_response( cmd );
