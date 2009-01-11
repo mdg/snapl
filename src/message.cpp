@@ -70,6 +70,7 @@ void message_arg_list_c::parse( const std::string &line )
 {
 	std::istringstream in( line );
 	std::string token;
+	message_arg_i *arg( NULL );
 
 	int argc( size() );
 	for ( int i( 0 ); i<argc; ++i ) {
@@ -79,7 +80,8 @@ void message_arg_list_c::parse( const std::string &line )
 			break;
 		}
 
-		if ( ! m_arg[i]->set_string( token ) ) {
+		arg = m_arg[i];
+		if ( ! arg->set_string( token ) ) {
 			std::cerr << "parse error\n";
 			break;
 		}
