@@ -18,6 +18,10 @@
 #include "request.h"
 
 
+/**
+ * Mock request implementation for testing code that needs an implemented
+ * request class.
+ */
 class mock_request_c
 : public request_c
 {
@@ -36,6 +40,12 @@ public:
 	, m_number( number )
 	{
 		m_arg << m_id << m_number;
+	}
+
+	void set( const std::string &id, int number )
+	{
+		m_id = id;
+		m_number = number;
 	}
 
 	const std::string & id() const { return m_id; }

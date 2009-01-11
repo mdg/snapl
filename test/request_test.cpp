@@ -14,7 +14,7 @@
  */
 
 
-#include "request.h"
+#include "request_test.h"
 #include <testpp/test.h>
 
 
@@ -24,11 +24,12 @@
  */
 TESTPP( test_constructor_1 )
 {
-	request_c req( "renew dog" );
+	request_c req( "renew" );
+	req.parse_args( "renew dog" );
 
 	assertpp( req.type() ) == "renew";
-	assertpp( req.argc() ) == 1;
-	assertpp( req.argv( 0 ) ) == "dog";
+	assertpp( req.argc() ) == 2;
+	assertpp( req.argv( 1 ) ) == "dog";
 }
 
 /**
@@ -56,5 +57,18 @@ TESTPP( test_invalid_request_type )
 	assertpp( req.type() ) == "dog";
 	assertpp( req.argc() ) == 1;
 	assertpp( req.argv( 0 ) ) == "5";
+}
+
+
+/**
+ * Test mock request constructor.
+ */
+TESTPP( test_mock_request_constructor )
+{
+	mock_request_c req;
+	req.set( "id_34", 23 );
+
+	assertpp( req.id() ) == "id_34";
+	assertpp( req.number() ) == 23;
 }
 
