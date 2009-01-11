@@ -19,44 +19,16 @@
 
 
 /**
- * Test that the constructor works and the parameters are
- * set correctly and can be requested again.
+ * Test that the default constructor with a basic request_type param works
+ * and the type is set correctly and can be requested again.
  */
-TESTPP( test_constructor_1 )
+TESTPP( test_request_default_constructor )
 {
 	request_c req( "renew" );
-	req.parse_args( "renew dog" );
 
 	assertpp( req.type() ) == "renew";
-	assertpp( req.argc() ) == 2;
-	assertpp( req.argv( 1 ) ) == "dog";
-}
-
-/**
- * Test the constructor and simple getters again, slightly
- * differently.  This test is probably not necessary.
- */
-TESTPP( test_constructor_2 )
-{
-	request_c req( "create cat mouse" );
-
-	assertpp( req.type() ) == "create";
-	assertpp( req.argc() ) == 2;
-	assertpp( req.argv( 0 ) ) == "cat";
-	assertpp( req.argv( 1 ) ) == "mouse";
-}
-
-
-/**
- * Test that an invalid request type name still shows up as something.
- */
-TESTPP( test_invalid_request_type )
-{
-	request_c req( "dog 5" );
-
-	assertpp( req.type() ) == "dog";
 	assertpp( req.argc() ) == 1;
-	assertpp( req.argv( 0 ) ) == "5";
+	assertpp( req.argv( 0 ) ) == "renew";
 }
 
 
