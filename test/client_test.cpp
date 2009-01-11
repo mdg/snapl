@@ -25,9 +25,6 @@
  */
 TESTPP( test_client_send_request )
 {
-	ignore_until( 2009, 1, 15 );
-	return;
-
 	mock_client_server_connection_c cs;
 	client_c client( cs.client() );
 	connection_i &server( cs.server() );
