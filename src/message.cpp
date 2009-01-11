@@ -19,6 +19,10 @@
 #include <iostream>
 
 
+message_arg_list_c::message_arg_list_c()
+{
+}
+
 message_arg_list_c::~message_arg_list_c()
 {
 	std::vector< message_arg_i * >::iterator it;

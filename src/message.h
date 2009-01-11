@@ -107,6 +107,7 @@ private:
 class message_arg_list_c
 {
 public:
+	message_arg_list_c();
 	~message_arg_list_c();
 
 	/**
@@ -147,6 +148,9 @@ public:
 	void parse( const std::string &line );
 
 private:
+	// declared private and not implemented to avoid usage.
+	message_arg_list_c( const message_arg_list_c & );
+
 	std::vector< message_arg_i * > m_arg;
 };
 
