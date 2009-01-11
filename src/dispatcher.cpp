@@ -15,7 +15,6 @@
 
 
 #include "dispatcher.h"
-#include "action.h"
 #include "protocol.h"
 #include "request.h"
 #include "response.h"
