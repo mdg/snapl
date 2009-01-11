@@ -142,7 +142,10 @@ public:
 	/**
 	 * Get an argument as a string.
 	 */
-	void get_argv( int i, std::string &argv ) const;
+	void argv( int i, std::string &argv ) const
+	{
+		m_arg.argv( i, argv );
+	}
 	/**
 	 * Set an argument as a string.
 	 */
@@ -155,7 +158,7 @@ public:
 	void parse_args( const std::string & );
 	void write_args( std::string & ) const;
 
-private:
+protected:
 	message_arg_list_c m_arg;
 };
 
