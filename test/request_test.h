@@ -38,12 +38,6 @@ public:
 		m_arg << m_id << m_number;
 	}
 
-	template < typename T >
-	void copy( T &stream )
-	{
-		stream + m_id + m_number;
-	}
-
 	const std::string & id() const { return m_id; }
 	int number() const { return m_number; }
 
