@@ -32,6 +32,10 @@ mock_connection_c::mock_connection_c( std::queue< std::string > &read_queue,
 
 void mock_connection_c::read_line( std::string &line )
 {
+	if ( m_read_queue.empty() ) {
+		return;
+	}
+
 	line = m_read_queue.front();
 	m_read_queue.pop();
 }
@@ -69,6 +73,18 @@ TESTPP( test_mock_client_server_conn )
 	assertpp( server.line_ready() );
 	server.read_line( line );
 	assertpp( line ) == "test 1";
+}
+
+/**
+ * Test that the mock_connection doesn't crash if it's empty.
+ */
+TESTPP( test_empty_mock_client_server )
+{
+	mock_client_server_connection_c cs;
+
+	std::string line;
+	cs.client().read_line( line );
+	assertpp( line ) == "";
 }
 
 
