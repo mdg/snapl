@@ -46,6 +46,12 @@ private:
 	// message_c &m_response_message;
 	const request_c &m_command_request;
 	response_c &m_command_response;
+
+private:
+	/**
+	 * privatised, unimplemented copy constructor to restrict usage.
+	 */
+	command_i( const command_i & );
 };
 
 
@@ -79,14 +85,14 @@ protected:
 	, m_response()
 	{}
 
-	command_c( const ReqT &req )
-	: command_i( m_request, m_response, m_request, m_response )
-	, m_request( req )
-	, m_response()
-	{}
-
 	ReqT m_request;
 	RespT m_response;
+
+private:
+	/**
+	 * privatised, unimplemented copy constructor to restrict usage.
+	 */
+	command_c( const command_c< ReqT, RespT > & );
 };
 
 

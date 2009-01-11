@@ -21,14 +21,18 @@
 #include "response_test.h"
 
 
+/**
+ * A mock command implementation for verifying that the derived
+ * class works.
+ */
 class mock_command_c
 : public command_c< mock_request_c, mock_response_c >
 {
 public:
 	mock_command_c( const std::string &id, int number )
-	: command_c< mock_request_c, mock_response_c >(
-			mock_request_c( id, number ) )
-	{}
+	{
+		m_request.set( id, number );
+	}
 };
 
 
