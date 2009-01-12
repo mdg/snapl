@@ -138,6 +138,18 @@ public:
 	void argv( int i, std::string &argv ) const;
 
 	/**
+	 * Get the number of extra arguments parsed into this message arg list
+	 * If more arguments are parsed than have been added, then they will
+	 * be allocated as an extra argc.
+	 */
+	int extra_argc() const { return m_extra.size(); }
+
+	/**
+	 * Get a given extra argument.
+	 */
+	const std::string & extra_argv( int i ) const { return m_extra[ i ]; }
+
+	/**
 	 * Convert this arg list into a string.
 	 */
 	std::string str() const;
@@ -152,6 +164,7 @@ private:
 	message_arg_list_c( const message_arg_list_c & );
 
 	std::vector< message_arg_i * > m_arg;
+	std::vector< std::string > m_extra;
 };
 
 

@@ -131,6 +131,29 @@ TESTPP( test_message_arg_list_parse_quoted_args )
 	assertpp( msg.argv( 1 ) ) == "cat mouse";
 }
 
+/**
+ * Test that the message_arg_list parses correctly when there aren't
+ * enough values.
+ */
+TESTPP( test_message_arg_list_parse_extra_values )
+{
+	message_arg_list_c arg;
+	int val1( 5 );
+	std::string val2( "txt2" );
+
+	arg << val1 << val2;
+	arg.parse( "8 spatula 55 dog cat" );
+
+	assertpp( arg.size() ) == 5;
+	assertpp( val1 ) == 8;
+	assertpp( val2 ) == "spatula";
+
+	assertpp( arg.extra_argc() ) == 3;
+	assertpp( arg.extra_argv( 0 ) ) == "55";
+	assertpp( arg.extra_argv( 1 ) ) == "dog";
+	assertpp( arg.extra_argv( 2 ) ) == "cat";
+}
+
 
 /**
  * Test that the message constructor works as expected.
