@@ -147,7 +147,10 @@ public:
 	/**
 	 * Get a given extra argument.
 	 */
-	const std::string & extra_argv( int i ) const { return m_extra[ i ]; }
+	const std::string & extra_argv( int i ) const
+	{
+		return *m_extra_ptr[ i ];
+	}
 
 	/**
 	 * Convert this arg list into a string.
@@ -159,12 +162,15 @@ public:
 	 */
 	void parse( const std::string &line );
 
+	static bool parse_token( std::istream &, std::string & );
+
 private:
 	// declared private and not implemented to avoid usage.
 	message_arg_list_c( const message_arg_list_c & );
 
 	std::vector< message_arg_i * > m_arg;
-	std::vector< std::string > m_extra;
+	std::list< std::string > m_extra;
+	std::vector< std::string * > m_extra_ptr;
 };
 
 

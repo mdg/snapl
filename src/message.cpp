@@ -76,12 +76,12 @@ void message_arg_list_c::parse( const std::string &line )
 	std::string token;
 	message_arg_i *arg( NULL );
 
-	int argc( size() );
-	for ( int i( 0 ); i<argc; ++i ) {
-		in >> token;
-		if ( ! in ) {
-			std::cerr << "token error\n";
-			break;
+	int i( 0 );
+	while ( parse_token( in, token ) ) {
+		if ( i >= m_arg.size() ) {
+			m_extra.push_back( token );
+			m_extra_ptr.push_back( &m_extra.back() );
+			*this << m_extra.back();
 		}
 
 		arg = m_arg[i];
@@ -89,7 +89,14 @@ void message_arg_list_c::parse( const std::string &line )
 			std::cerr << "parse error\n";
 			break;
 		}
+
+		++i;
 	}
+}
+
+bool message_arg_list_c::parse_token( std::istream &in, std::string &token )
+{
+	return in >> token;
 }
 
 
