@@ -50,24 +50,24 @@ rule '.o' => [ proc { |o| obj_dep( o ) } ] do |t|
 end
 
 
-file "shessiond" => [ :compile ] do |t|
-    sh "g++ -o shessiond #{OBJ} #{LINKS}"
+file "snaple" => [ :compile ] do |t|
+    sh "g++ -o snapl #{OBJ} #{LINKS}"
 end
 
 
-file "run_protocolt_tests" => [ :compile, :compile_test ] do |t|
+file "run_snapl_tests" => [ :compile, :compile_test ] do |t|
     no_main_obj = FileList.new()
     no_main_obj.import( OBJ )
     no_main_obj.exclude( 'main.o' )
-    sh "g++ -o run_protocolt_tests #{no_main_obj} #{TEST_OBJ} #{TESTPP_OBJ} \
+    sh "g++ -o run_snapl_tests #{no_main_obj} #{TEST_OBJ} #{TESTPP_OBJ} \
             #{LINKS}"
 end
 
 
-file "load_shessiond" => [ :compile, "load/load.cpp" ] do |t|
+file "load_snapl" => [ :compile, "load/load.cpp" ] do |t|
     no_main_obj = OBJ.clone
     no_main_obj.exclude( 'main.o' )
-    sh "g++ -Isrc -o load_shessiond #{no_main_obj} load/load.cpp"
+    sh "g++ -Isrc -o load_snapl #{no_main_obj} load/load.cpp"
 end
 
 
@@ -83,17 +83,17 @@ task :compile_test => [ "obj/test" ] + TEST_OBJ
 
 
 desc "Build the main executable"
-task :build => [ "shessiond" ]
+task :build => [ "snapl" ]
 
 desc "Build the test executable"
-task :build_test => [ "run_protocolt_tests" ]
+task :build_test => [ "run_snapl_tests" ]
 
 desc "Build the test executable"
-task :build_load => [ "load_shessiond" ]
+task :build_load => [ "load_snapl" ]
 
 
 desc "Make and run tests"
 task :test => [ :build_test ] do |t|
-    sh "./test_shession"
+    sh "./run_snapl_tests"
 end
 
