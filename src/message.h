@@ -123,6 +123,11 @@ public:
 	}
 
 	/**
+	 * Copy the values from the src arg list to this arg list.
+	 */
+	void operator = ( const message_arg_list_c & );
+
+	/**
 	 * Get the number of arguments in this list.
 	 */
 	int size() const { return m_arg.size(); }

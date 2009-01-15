@@ -32,6 +32,20 @@ message_arg_list_c::~message_arg_list_c()
 	m_arg.clear();
 }
 
+void message_arg_list_c::operator = ( const message_arg_list_c &src )
+{
+	if ( size() != src.size() ) {
+		return;
+	}
+	std::string value;
+	for ( int i( 0 ); i<size(); ++i ) {
+		value.clear();
+		src.m_arg[i]->get_string( value );
+		m_arg[i]->set_string( value );
+	}
+}
+
+
 std::string message_arg_list_c::argv( int i ) const
 {
 	std::string value;

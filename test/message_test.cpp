@@ -87,6 +87,23 @@ TESTPP( test_message_arg_list_append )
 }
 
 /**
+ * Test that the assignment operator works for the message arg list
+ */
+TESTPP( test_message_arg_list_assign )
+{
+	message_arg_list_c arg1, arg2;
+	int val1( 0 ), val2( 7 );
+	std::string str1, str2( "txt2" );
+
+	arg1 << val1 << str1;
+	arg2 << val2 << str2;
+
+	arg1 = arg2;
+	assertpp( val1 ) == 7;
+	assertpp( str1 ) == "txt2";
+}
+
+/**
  * Test that the message_arg_list's str() function works as expected.
  */
 TESTPP( test_message_arg_list_str )
