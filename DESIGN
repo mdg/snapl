@@ -56,9 +56,13 @@ response
 
 # Network
 
-request -> message -> text -> message -> request
+# This is an awkward ascii diagram describing how the requests & responses
+# get turned into text and transfered through the network
+# A visual picture would be better
+request -> message -> text -> server_message -> dispatcher -> service -> request
 
-response <- message <- text  <- message <- response
+response <- message <- text <- message <- dispatcher <- response
+
 
 message
 	an interface between requests & responses and plain text
