@@ -14,7 +14,7 @@
  */
 
 #include "client.h"
-#include "client_server_test.h"
+#include "connection_test.h"
 #include "command_test.h"
 #include <testpp/test.h>
 
