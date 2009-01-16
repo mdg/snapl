@@ -1,5 +1,5 @@
-#ifndef CLIENT_SERVER_TEST_H
-#define CLIENT_SERVER_TEST_H
+#ifndef CONNECTION_TEST_H
+#define CONNECTION_TEST_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +16,8 @@
  */
 
 #include "connection.h"
-#include <queue>
 #include <string>
+#include <queue>
 
 
 /**
@@ -27,10 +27,11 @@ class mock_connection_c
 : public connection_i
 {
 public:
-	mock_connection_c( std::queue< std::string > &read_queue,
-			std::queue< std::string > &write_queue );
+	mock_connection_c( std::queue< std::string > &read_queue
+			, std::queue< std::string > &write_queue
+			, short port = 0 );
 
-	virtual int port() const { return 0; }
+	virtual short port() const { return m_port; }
 
 	virtual void read_line( std::string & );
 	virtual void write_line( const std::string & );
@@ -39,6 +40,7 @@ public:
 private:
 	std::queue< std::string > &m_read_queue;
 	std::queue< std::string > &m_write_queue;
+	short m_port;
 };
 
 /**
@@ -47,7 +49,7 @@ private:
 class mock_client_server_connection_c
 {
 public:
-	mock_client_server_connection_c();
+	mock_client_server_connection_c( short port = 0 );
 
 	connection_i & client() { return m_client; }
 	connection_i & server() { return m_server; }
