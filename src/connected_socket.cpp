@@ -18,7 +18,7 @@
 #include <errno.h>
 
 
-connected_socket_c::connected_socket_c( int socket, int port )
+connected_socket_c::connected_socket_c( int socket, short port )
 : m_socket( socket )
 , m_port( port )
 {}
