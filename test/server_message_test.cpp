@@ -14,24 +14,21 @@
  */
 
 #include "server_message.h"
-#include "connection.h"
+#include "connection_test.h"
+#include <testpp/test.h>
 
 
-server_message_c::server_message_c( const std::string &request
-		, connection_i &conn )
-: m_request()
-, m_response()
-, m_connection( conn )
+/**
+ * Test that the constructor for the server message sets fields
+ * into the correct state.
+ */
+TESTPP( test_server_message_constructor )
 {
-	m_request.parse_args( request );
-}
+	mock_client_server_connection_c cs( 3 );
+	server_message_c msg( "create dog cat", cs.server() );
 
-server_message_c::~server_message_c()
-{}
-
-
-short server_message_c::port() const
-{
-	return m_connection.port();
+	assertpp( msg.request_type() ) == "create";
+	// assertpp( msg.request().extra_argc() ) == 3;
+	assertpp( msg.port() ) == 3;
 }
 

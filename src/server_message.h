@@ -22,25 +22,61 @@
 class connection_i;
 
 
+/**
+ * The server message class for passing requests & responses to and from
+ * the protocols.
+ */
 class server_message_c
 {
 public:
+	/**
+	 * Construct the server message from a line of text and a connection.
+	 */
 	server_message_c( const std::string &request, connection_i & );
+	/**
+	 * Destroy the server_message.
+	 */
 	~server_message_c();
 
+	/**
+	 * Get the request type from this message.
+	 */
 	const std::string & request_type() const { return m_request.type(); }
+	/**
+	 * Get the request object from this message.
+	 */
 	const request_c & request() const { return m_request; }
-	const response_c & response() const { return m_response; }
-	response_c & response() { return m_response; }
+	/**
+	 * Get the const response of this server message.
+	 */
+	const response_c & response() const { return *m_response; }
+	/**
+	 * Get the response of this server message.
+	 */
+	response_c & response() { return *m_response; }
 
+	/**
+	 * Get the port of this server_message
+	 */
 	short port() const;
+	/**
+	 * Get the protocol for this server_message
+	 */
 	const std::string & protocol() const { return m_request.protocol(); }
 
+	/**
+	 * Set response for writing back to the client
+	 */
+	void set_response( response_c &resp ) { m_response = &resp; }
+
+	/**
+	 * Get the connection from which this message came.
+	 */
 	connection_i & connection() { return m_connection; }
 
 private:
 	request_c m_request;
-	response_c m_response;
+	response_c *m_response;
 	connection_i &m_connection;
 };
 
