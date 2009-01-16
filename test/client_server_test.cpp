@@ -58,7 +58,7 @@ TESTPP( test_empty_mock_client_server )
  */
 TESTPP( test_client_server )
 {
-	mock_client_server_connection_c cs;
+	mock_client_server_connection_c cs( 3 );
 
 	client_c client( cs.client() );
 	mock_connection_listener_c listener( cs.server() );
@@ -68,6 +68,7 @@ TESTPP( test_client_server )
 	protocol_c protocol( 3 );
 	mock_service_c mock_srv;
 	protocol.add( "mock", mock_srv );
+	dispatch.add( protocol );
 
 
 	// need to add code and assertions here
@@ -78,10 +79,6 @@ TESTPP( test_client_server )
 	client.send_request( cmd );
 	// assert that the server connection has a line ready
 	assertpp( cs.server().line_ready() ).t();
-
-	std::string server_line;
-	cs.server().read_line( server_line );
-	assertpp( server_line ) == "mock id5 17";
 
 	// execute dispatcher
 	dispatch.iterate();
