@@ -29,6 +29,10 @@ class client_c
 {
 public:
 	client_c();
+	/**
+	 * Eventually, this should take a set of connections rather
+	 * than a single connection.
+	 */
 	client_c( connection_i & );
 
 	void send_request( command_i & );
