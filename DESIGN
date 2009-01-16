@@ -63,6 +63,17 @@ request -> message -> text -> server_message -> dispatcher -> service -> request
 
 response <- message <- text <- message <- dispatcher <- response
 
+user sends typed request to client_c
+client_c transforms typed request into message
+client_c transforms message into text
+client_c sends text to open connection
+
+server_queue reads text from open connection
+server_queue transforms text into server_message
+dispatcher pops server_message from server_queue
+dispatcher gets request from server_message
+dispatcher gets service from protocol and request
+
 
 message
 	an interface between requests & responses and plain text
