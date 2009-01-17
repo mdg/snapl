@@ -76,7 +76,7 @@ void dispatcher_c::dispatch( server_message_c *msg_ptr )
 
 	service_i *service = protocol->service( msg->request_type() );
 	if ( ! service ) {
-		std::cerr << "no request processor for " << msg->request_type()
+		std::cerr << "no service for " << msg->request_type()
 			<< std::endl;
 		msg->response().err( "unknown request type: '"
 				+ msg->request_type() +"'" );
