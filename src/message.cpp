@@ -128,9 +128,9 @@ message_c::~message_c()
 {}
 
 
-void message_c::add_arg( const std::string &arg )
+void message_c::copy( const message_c &msg )
 {
-	// m_arg.add_arg( arg );
+	m_arg = msg.m_arg;
 }
 
 std::string message_c::argv( int i ) const

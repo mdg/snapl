@@ -189,8 +189,9 @@ public:
 	message_c();
 	message_c( const std::string &args );
 	~message_c();
-	void add_arg( const std::string & );
 	void add_content( const std::string & );
+
+	void copy( const message_c & );
 
 	/**
 	 * Get the number of args for this message.
