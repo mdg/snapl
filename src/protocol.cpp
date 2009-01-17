@@ -29,12 +29,7 @@ protocol_c::protocol_c( short port )
 protocol_c::~protocol_c()
 {}
 
-void protocol_c::add( const std::string &name, service_i &service )
-{
-	m_service[ name ] = &service;
-}
-
-service_i * protocol_c::service( const std::string &req_type )
+service_i * protocol_c::create_service( const std::string &req_type )
 {
 	service_iterator it( m_service.find( req_type ) );
 	if ( it == m_service.end() ) {
@@ -46,6 +41,6 @@ service_i * protocol_c::service( const std::string &req_type )
 		std::cerr << std::endl;
 		return NULL;
 	}
-	return it->second;
+	return it->second->create();
 }
 

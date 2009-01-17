@@ -74,7 +74,7 @@ void dispatcher_c::dispatch( server_message_c *msg_ptr )
 		return;
 	}
 
-	service_i *service = protocol->service( msg->request_type() );
+	service_i *service = protocol->create_service( msg->request_type() );
 	if ( ! service ) {
 		std::cerr << "no service for " << msg->request_type()
 			<< std::endl;
@@ -83,10 +83,11 @@ void dispatcher_c::dispatch( server_message_c *msg_ptr )
 		return;
 	}
 
-	service->execute( msg->request(), msg->response() );
+	service->execute( msg->request() );
 
 	if ( ! protocol->silent() ) {
-		m_queue.push( msg.release() );
+		// msg->set_response( service->response() );
+		// m_queue.push( msg );
 	}
 }
 

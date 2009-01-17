@@ -66,8 +66,7 @@ TESTPP( test_client_server )
 	dispatcher_c dispatch( server );
 
 	protocol_c protocol( 3 );
-	mock_service_c mock_srv;
-	protocol.add( "mock", mock_srv );
+	protocol.add< mock_service_c >( "mock" );
 	dispatch.add( protocol );
 
 
