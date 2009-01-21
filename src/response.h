@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-
+#include "message.h"
 #include <string>
 #include <sstream>
 
@@ -25,6 +25,7 @@
  * back to a client.
  */
 class response_c
+: public message_c
 {
 public:
 	/**
