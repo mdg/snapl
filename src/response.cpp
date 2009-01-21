@@ -21,7 +21,9 @@ response_c::response_c()
 , m_msg()
 , m_content()
 , m_has_content( false )
-{}
+{
+	m_arg << m_code;
+}
 
 void response_c::ok( const std::string &msg )
 {
