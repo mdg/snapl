@@ -51,8 +51,8 @@ rule '.o' => [ proc { |o| obj_dep( o ) } ] do |t|
 end
 
 
-file "snaple" => [ :compile ] do |t|
-    sh "g++ -o snapl #{OBJ} #{LINKS}"
+file "libsnapl.a" => [ :compile ] do |t|
+    sh "ar r libsnapl.a obj/src/*.o"
 end
 
 
@@ -84,7 +84,7 @@ task :compile_test => [ "obj/test" ] + TEST_OBJ
 
 
 desc "Build the main executable"
-task :build => [ "snapl" ]
+task :build => [ "libsnapl.a" ]
 
 desc "Build the test executable"
 task :build_test => [ "run_snapl_tests" ]
