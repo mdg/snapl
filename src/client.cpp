@@ -46,5 +46,8 @@ void client_c::send_request( command_i &cmd )
 
 void client_c::wait_for_response( command_i &cmd )
 {
+	std::string response_line;
+	m_connection->read_line( response_line );
+	cmd.command_response().parse_args( response_line );
 }
 
