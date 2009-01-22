@@ -89,6 +89,6 @@ TESTPP( test_client_server )
 
 	// read client response
 	assertpp( cmd.response().code() ) == "ok";
-	assertpp( cmd.response().message() ) == "id5_17";
+	assertpp( cmd.response().msg() ) == "id5_17";
 }
 
