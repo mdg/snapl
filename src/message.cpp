@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-#include "message.h"
+#include "snapl/message.h"
 #include <sstream>
 
 #include <iostream>

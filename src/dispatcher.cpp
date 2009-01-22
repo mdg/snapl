@@ -15,10 +15,10 @@
 
 
 #include "dispatcher.h"
-#include "protocol.h"
+#include "snapl/protocol.h"
 #include "snapl/request.h"
 #include "snapl/response.h"
-#include "service.h"
+#include "snapl/service.h"
 #include "server_message.h"
 #include "server_queue.h"
 #include <iostream>

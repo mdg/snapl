@@ -15,7 +15,7 @@
 
 
 #include "dispatcher.h"
-#include "protocol.h"
+#include "snapl/protocol.h"
 #include "polling_server_queue.h"
 #include "server_queue_test.h"
 #include "connection_test.h"

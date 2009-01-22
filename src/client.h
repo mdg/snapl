@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-#include "command.h"
-#include "message.h"
+#include "snapl/command.h"
+#include "snapl/message.h"
 
 class connection_i;
 // class message_queue_factory_i;

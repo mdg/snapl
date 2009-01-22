@@ -14,7 +14,7 @@
  */
 
 
-#include "protocol.h"
+#include "snapl/protocol.h"
 #include <testpp/test.h>
 
 

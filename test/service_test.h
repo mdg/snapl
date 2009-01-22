@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-#include "service.h"
+#include "snapl/service.h"
 #include "request_test.h"
 #include "response_test.h"
 

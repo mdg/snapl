@@ -16,7 +16,7 @@
  */
 
 
-#include "command.h"
+#include "snapl/command.h"
 #include "request_test.h"
 #include "response_test.h"
 

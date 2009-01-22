@@ -13,8 +13,8 @@
  * limitations under the License.
  */
 
-#include "protocol.h"
-#include "service.h"
+#include "snapl/protocol.h"
+#include "snapl/service.h"
 #include "snapl/request.h"
 #include <iostream>
 
