@@ -15,7 +15,7 @@
 
 #include "protocol.h"
 #include "service.h"
-#include "request.h"
+#include "snapl/request.h"
 #include <iostream>
 
 

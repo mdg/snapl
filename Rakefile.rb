@@ -10,7 +10,8 @@ directory "obj/test"
 
 LINKS = "-lpthread -ltestpp"
 
-INC = FileList[ 'src/*.h' ]
+INC_OPTS = '-Iinclude -Itestpp'
+INC = FileList[ 'include/snapl/*.h', 'src/*.h' ]
 SRC = FileList[ 'src/*.cpp' ]
 OBJ = SRC.sub( /\.cpp$/, '.o' ).sub( /^src\//, 'obj/src/' )
 INC.freeze
@@ -46,7 +47,7 @@ end
 
 
 rule '.o' => [ proc { |o| obj_dep( o ) } ] do |t|
-    sh %{g++ -c -g -Isrc -Itestpp/include -o #{t.name} #{t.source}}
+    sh %{g++ -c -g -Isrc #{INC_OPTS} -o #{t.name} #{t.source}}
 end
 
 

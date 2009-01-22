@@ -1,7 +1,7 @@
 #ifndef RESPONSE_TEST_H
 #define RESPONSE_TEST_H
 
-#include "response.h"
+#include "snapl/response.h"
 
 
 class mock_response_c

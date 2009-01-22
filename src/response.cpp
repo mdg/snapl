@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-#include "response.h"
+#include "snapl/response.h"
 
 
 response_c::response_c()

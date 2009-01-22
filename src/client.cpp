@@ -16,8 +16,8 @@
 #include "client.h"
 #include "command.h"
 #include "message.h"
-#include "request.h"
-#include "response.h"
+#include "snapl/request.h"
+#include "snapl/response.h"
 
 #include "connection.h"
 

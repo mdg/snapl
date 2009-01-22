@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-#include "response.h"
+#include "snapl/response.h"
 #include <testpp/test.h>
 
 

@@ -19,7 +19,7 @@
 #include <arpa/inet.h>
 #include <iostream>
 #include "connected_socket.h"
-#include "request.h"
+#include "snapl/request.h"
 
 
 shession_client_c::shession_client_c()

@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-#include "request.h"
-#include "response.h"
+#include "snapl/request.h"
+#include "snapl/response.h"
 #include <memory>
 
 class connection_i;

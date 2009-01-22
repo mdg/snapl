@@ -16,8 +16,8 @@
 
 #include "dispatcher.h"
 #include "protocol.h"
-#include "request.h"
-#include "response.h"
+#include "snapl/request.h"
+#include "snapl/response.h"
 #include "service.h"
 #include "server_message.h"
 #include "server_queue.h"
