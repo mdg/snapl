@@ -66,7 +66,6 @@ public:
 	 */
 	virtual void execute( const request_c &req )
 	{
-		std::cerr << "service.execute()\n";
 		m_request.copy( req );
 		execute( m_request, m_response );
 	}
