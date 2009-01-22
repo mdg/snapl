@@ -13,8 +13,7 @@
  * limitations under the License.
  */
 
-
-#include "dispatcher.h"
+#include "snapl/dispatcher.h"
 #include "snapl/protocol.h"
 #include "snapl/request.h"
 #include "snapl/response.h"
