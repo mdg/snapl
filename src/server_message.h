@@ -47,13 +47,9 @@ public:
 	 */
 	const request_c & request() const { return m_request; }
 	/**
-	 * Get the const response of this server message.
+	 * Get the const message for this server message response.
 	 */
-	const response_c & response() const { return *m_response; }
-	/**
-	 * Get the response of this server message.
-	 */
-	response_c & response() { return *m_response; }
+	const message_c & response() const { return *m_response; }
 
 	/**
 	 * Get the port of this server_message
@@ -67,7 +63,7 @@ public:
 	/**
 	 * Set response for writing back to the client
 	 */
-	void set_response( response_c &resp ) { m_response = &resp; }
+	void set_response( const message_c &resp ) { m_response = &resp; }
 
 	/**
 	 * Get the connection from which this message came.
@@ -76,7 +72,7 @@ public:
 
 private:
 	request_c m_request;
-	response_c *m_response;
+	const message_c *m_response;
 	connection_i &m_connection;
 };
 

@@ -66,10 +66,12 @@ void polling_server_queue_c::push( server_message_c *msg_ptr )
 
 	// this should go somewhere else, maybe into response now
 	connection_i &conn( msg->connection() );
-	const response_c &resp( msg->response() );
-	conn.write_line( resp.coded_msg() );
+	const message_c &resp( msg->response() );
+	conn.write_line( resp.arg_string() );
+	/*
 	if ( resp.has_content() ) {
 		conn.write_line( resp.content() );
 	}
+	*/
 }
 

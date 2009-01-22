@@ -15,8 +15,12 @@
 
 
 #include "dispatcher.h"
-#include "server_queue_test.h"
 #include "protocol.h"
+#include "polling_server_queue.h"
+#include "server_queue_test.h"
+#include "connection_test.h"
+#include "connection_listener_test.h"
+#include "service_test.h"
 #include <testpp/test.h>
 
 
@@ -39,5 +43,33 @@ TESTPP( test_dispatch_find_protocol )
 	protocol_c *found = d.find_protocol( 2 );
 	assertpp( found ).t();
 	assertpp( found->port() ) == 2;
+}
+
+
+/**
+ * Test that the dispatcher write's the expected info back to
+ * the server_queue.
+ */
+TESTPP( test_dispatcher_success )
+{
+	mock_client_server_connection_c cs( 3 );
+
+	mock_connection_listener_c listener( cs.server() );
+	polling_server_queue_c server( listener );
+	dispatcher_c dispatch( server );
+
+	protocol_c protocol( 3 );
+	protocol.add< mock_service_c >( "mock" );
+	dispatch.add( protocol );
+
+	cs.client().write_line( "mock dog 12" );
+
+	dispatch.iterate();
+
+	assertpp( cs.client().line_ready() );
+
+	std::string line;
+	cs.client().read_line( line );
+	assertpp( line ) == "ok dog_12";
 }
 

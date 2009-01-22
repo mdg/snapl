@@ -64,13 +64,14 @@ void dispatcher_c::dispatch( server_message_c *msg_ptr )
 	std::auto_ptr< server_message_c > msg( msg_ptr );
 	bool success( false );
 
+	response_c response;
 	protocol_c *protocol = find_protocol( msg->port() );
 	if ( ! protocol ) {
 		// can't do anything.
 		// write to the response and return
 		std::ostringstream err;
 		err << "No protocol for port " << msg->port();
-		msg->response().err( err.str() );
+		response.err( err.str() );
 		return;
 	}
 
@@ -78,7 +79,7 @@ void dispatcher_c::dispatch( server_message_c *msg_ptr )
 	if ( ! service ) {
 		std::cerr << "no service for " << msg->request_type()
 			<< std::endl;
-		msg->response().err( "unknown request type: '"
+		response.err( "unknown request type: '"
 				+ msg->request_type() +"'" );
 		return;
 	}
@@ -86,8 +87,8 @@ void dispatcher_c::dispatch( server_message_c *msg_ptr )
 	service->execute( msg->request() );
 
 	if ( ! protocol->silent() ) {
-		// msg->set_response( service->response() );
-		// m_queue.push( msg );
+		msg->set_response( service->response_message() );
+		m_queue.push( msg.release() );
 	}
 }
 

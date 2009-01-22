@@ -37,7 +37,7 @@ public:
 	 */
 	virtual void execute( const request_c & ) = 0;
 
-	virtual const response_c & response_message() const = 0;
+	virtual const message_c & response_message() const = 0;
 };
 
 
@@ -80,7 +80,7 @@ public:
 	/**
 	 * Return the typed response as the message parent class.
 	 */
-	virtual const response_c & response_message() const
+	virtual const message_c & response_message() const
 	{
 		return m_response;
 	}
