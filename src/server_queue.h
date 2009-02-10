@@ -38,5 +38,39 @@ public:
 };
 
 
+/**
+ * Lockable queue for managing server messages.
+ */
+class server_queue_c
+: server_queue_i
+{
+public:
+	server_queue_c();
+	/**
+	 * Request queue that takes a mutex as a parameter for being
+	 * threadsafe.  This is optional if queue won't run in threaded
+	 * environment.  The request queue will own this mutex and destroy
+	 * the mutex when the queue is destroyed.
+	 */
+	server_queue_c( mutex_i * );
+	virtual ~server_queue_c();
+
+	/**
+	 * Push a request to end of the queue.
+	 * The request owns the pointer after it's passed in.
+	 */
+	virtual void push( server_message_c * );
+	/**
+	 * Pop a request from the front of the queue.
+	 * The caller owns the pointer after it's returned.
+	 */
+	virtual server_message_c * pop();
+
+private:
+	std::queue< server_message_c * > m_requests;
+	std::auto_ptr< mutex_i > m_mutex;
+};
+
+
 #endif
 
