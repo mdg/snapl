@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 
+#include <queue>
+#include <memory>
+
+class mutex_i;
 class server_message_c;
 
 
