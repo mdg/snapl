@@ -31,14 +31,23 @@ public:
 	virtual ~server_queue_i() {}
 
 	/**
+	 * Push a new server message into the queue to be processed.
+	 */
+	virtual void push_inbound( server_message_i * ) = 0;
+
+	/**
 	 * Pop a message with a request off of the queue.
 	 */
-	virtual server_message_c * pop() = 0;
-
+	virtual server_message_i * pop_inbound() = 0;
 	/**
 	 * Push a message back onto the queue with a response
 	 */
-	virtual void push( server_message_c * ) = 0;
+	virtual void push_outbound( server_message_i * ) = 0;
+
+	/**
+	 * Pop a message with a response off the outbound queue.
+	 */
+	virtual server_message_i * pop_outbound() = 0;
 };
 
 
