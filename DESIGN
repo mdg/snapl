@@ -61,6 +61,8 @@ response
 # A visual picture would be better
 request -> message -> text -> server_message -> dispatcher -> service -> request
 
+(request -> arg_list, msg_content -> message_arg_list, msg_content -> message)
+
 response <- message <- text <- message <- dispatcher <- response
 
 user sends typed request to client_c
