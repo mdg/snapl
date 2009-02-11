@@ -60,6 +60,19 @@ public:
 	{}
 
 	/**
+	 * Execute the service with an input message and output message.
+	 * This creates typed request & response objects and passes
+	 * to the typed execute function.
+	 */
+	virtual void execute( const message_c &req_msg, message_c &resp_msg )
+	{
+		ReqT request( req_msg );
+		RespT response;
+		execute( request, response );
+		// response.copy( resp_msg );
+	}
+
+	/**
 	 * Untyped execute method w/ untyped request param.
 	 * This copies the generic request into the untyped request
 	 * and then calls the typed execute method.
