@@ -30,6 +30,11 @@ public:
 	virtual ~connection_listener_i() {}
 
 	/**
+	 * Set this listener to listen on a given port.
+	 */
+	virtual void listen( short port ) = 0;
+
+	/**
 	 * Get an open connection from the listener that is ready
 	 * to be read.  Callers should expect that this may block
 	 * while waiting for a connection to become ready.
