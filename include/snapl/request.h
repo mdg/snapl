@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-#include "message.h"
+#include "arg.h"
 
 
 /**
@@ -23,7 +23,6 @@
  * the sessions.
  */
 class request_c
-: public message_c
 {
 public:
 	/**
@@ -57,6 +56,7 @@ public:
 	int port() const { return m_port; }
 
 private:
+	arg_list_c m_arg;
 	std::string m_type;
 	std::string m_protocol;
 	int m_port;

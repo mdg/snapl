@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-#include "message.h"
+#include "arg.h"
 #include <string>
 #include <sstream>
 
@@ -25,7 +25,6 @@
  * back to a client.
  */
 class response_c
-: public message_c
 {
 public:
 	/**
@@ -74,6 +73,7 @@ public:
 	std::string content() const { return m_content.str(); }
 
 private:
+	arg_list_c m_arg;
 	std::string m_code;
 	std::string m_msg;
 	std::ostringstream m_content;

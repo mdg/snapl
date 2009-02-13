@@ -17,7 +17,8 @@
 
 
 response_c::response_c()
-: m_code()
+: m_arg()
+, m_code()
 , m_msg()
 , m_content()
 , m_has_content( false )

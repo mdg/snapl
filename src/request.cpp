@@ -18,8 +18,7 @@
 
 
 request_c::request_c( const std::string &req_type )
-: message_c()
-, m_type( req_type )
+: m_type( req_type )
 , m_protocol()
 , m_port( 0 )
 {
