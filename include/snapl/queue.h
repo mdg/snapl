@@ -126,6 +126,15 @@ public:
 		return msg;
 	}
 
+	/**
+	 * Check if the queue is empty.
+	 */
+	virtual bool empty() const
+	{
+		lock_c lock( m_mutex.get() );
+		return m_queue.empty();
+	}
+
 private:
 	std::queue< T * > m_queue;
 	std::auto_ptr< mutex_i > m_mutex;
