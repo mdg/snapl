@@ -19,7 +19,9 @@
 #include <vector>
 #include <string>
 #include <list>
-#include <iostream>
+#include <sstream>
+
+class message_arg_c;
 
 
 /**
@@ -116,10 +118,10 @@ public:
 	 * values to the message.
 	 */
 	template < typename T >
-	arg_list_c & operator << ( T &arg )
+	arg_list_c & operator << ( T &value )
 	{
-		arg_c< T > *arg = new arg_c< T >( arg );
-		m_arg.push_back( msg_arg );
+		arg_c< T > *arg = new arg_c< T >( value );
+		m_arg.push_back( arg );
 		return *this;
 	}
 

@@ -81,7 +81,7 @@ public:
 	 * environment.  The request queue will own this mutex and destroy
 	 * the mutex when the queue is destroyed.
 	 */
-	queue_c( mutex_i *mutex );
+	queue_c( mutex_i *mutex )
 	: m_queue()
 	, m_mutex( mutex )
 	{}
@@ -103,7 +103,7 @@ public:
 	 * Push an object onto end of the queue.
 	 * The request owns the pointer after it's passed in.
 	 */
-	virtual void push( T *ptr );
+	virtual void push( T *ptr )
 	{
 		lock_c lock( m_mutex.get() );
 		m_queue.push( ptr );
@@ -114,7 +114,7 @@ public:
 	 * Pop an object from the front of the queue.
 	 * The caller owns the pointer after it's returned.
 	 */
-	virtual T * pop();
+	virtual T * pop()
 	{
 		T *ptr = 0;
 		lock_c lock( m_mutex.get() );
@@ -123,7 +123,7 @@ public:
 			m_queue.pop();
 		}
 		// lock is freed by destructor
-		return msg;
+		return ptr;
 	}
 
 	/**
