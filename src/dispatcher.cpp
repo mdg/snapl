@@ -19,12 +19,13 @@
 #include "snapl/response.h"
 #include "snapl/service.h"
 #include "server_message.h"
-#include "server_queue.h"
 #include <iostream>
 
 
-dispatcher_c::dispatcher_c( server_queue_i &queue )
-: m_queue( queue )
+dispatcher_c::dispatcher_c( queue_front_i< server_message_c > &request_queue
+			, queue_back_i< server_message_c > &response_queue )
+: m_request_queue( request_queue )
+, m_response_queue( response_queue )
 , m_protocol()
 {}
 
@@ -49,7 +50,7 @@ bool dispatcher_c::main_loop()
 
 void dispatcher_c::iterate()
 {
-	server_message_c *msg = m_queue.pop();
+	server_message_c *msg = m_request_queue.pop();
 	if ( ! msg ) {
 		// sleep or yield or something, then reiterate
 		return;
@@ -85,10 +86,8 @@ void dispatcher_c::dispatch( server_message_c *msg_ptr )
 
 	service->execute( msg->request() );
 
-	if ( ! protocol->silent() ) {
-		msg->set_response( service->response_message() );
-		m_queue.push( msg.release() );
-	}
+	msg->set_response( service->response_message() );
+	m_response_queue.push( msg.release() );
 }
 
 protocol_c * dispatcher_c::find_protocol( int port )
