@@ -53,7 +53,7 @@ public:
 	/**
 	 * Push an object onto the back of the queue.
 	 */
-	virtual void push_inbound( T * ) = 0;
+	virtual void push( T * ) = 0;
 };
 
 
