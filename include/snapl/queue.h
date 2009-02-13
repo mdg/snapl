@@ -1,5 +1,5 @@
-#ifndef QUEUE_H
-#define QUEUE_H
+#ifndef SNAPL_QUEUE_H
+#define SNAPL_QUEUE_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,6 +33,11 @@ public:
 	 * Pop an object off the front of the queue.
 	 */
 	virtual T * pop() = 0;
+
+	/**
+	 * Check if this queue is empty.
+	 */
+	virtual bool empty() const = 0;
 };
 
 
@@ -81,6 +86,10 @@ public:
 	, m_mutex( mutex )
 	{}
 
+	/**
+	 * Destroy the queue.  Deallocate all the values that are
+	 * in the queue.
+	 */
 	virtual ~queue_c()
 	{
 		lock_c lock( m_mutex.get() );
