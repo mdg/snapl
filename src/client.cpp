@@ -19,7 +19,7 @@
 #include "snapl/request.h"
 #include "snapl/response.h"
 
-#include "connection.h"
+#include "snapl/net/connection.h"
 
 
 client_c::client_c()
