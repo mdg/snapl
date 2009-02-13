@@ -161,42 +161,5 @@ private:
 };
 
 
-class message_arg_loader_c
-{
-public:
-	/**
-	 * Transform an arg list to a message_arg list
-	 */
-	message_arg_loader_c( std::list< message_arg_c > &
-			, const std::list< arg_i > & );
-
-	void load();
-
-private:
-	const std::list< arg_i > &m_arg_list;
-	std::list< message_arg_c > &m_message_arg_list;
-};
-
-
-/**
- * Load a set of arguments into
- */
-class arg_loader_c
-{
-public:
-	/**
-	 * Transform a message arg list to an arg list.
-	 */
-	arg_loader_c( std::list< arg_i > &
-			, const std::list< message_arg_c > & );
-
-	void load();
-
-private:
-	std::list< arg_i > &m_arg_list;
-	const std::list< message_arg_c > &m_message_arg_list;
-};
-
-
 #endif
 
