@@ -32,9 +32,9 @@ public:
 	/**
 	 * Rename this to str()
 	 */
-	void get( std::string &arg ) const
+	const std::string & get() const
 	{
-		arg = m_arg;
+		return m_arg;
 	}
 
 	/**
