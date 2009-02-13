@@ -72,8 +72,9 @@ public:
 	 */
 	std::string content() const { return m_content.str(); }
 
-private:
+protected:
 	arg_list_c m_arg;
+private:
 	std::string m_code;
 	std::string m_msg;
 	std::ostringstream m_content;

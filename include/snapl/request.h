@@ -55,8 +55,9 @@ public:
 	 */
 	int port() const { return m_port; }
 
-private:
+protected:
 	arg_list_c m_arg;
+private:
 	std::string m_type;
 	std::string m_protocol;
 	int m_port;
