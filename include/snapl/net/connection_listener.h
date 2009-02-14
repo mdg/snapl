@@ -32,7 +32,7 @@ public:
 	/**
 	 * Set this listener to listen on a given port.
 	 */
-	virtual void listen( short port ) = 0;
+	virtual bool listen( short port ) = 0;
 
 	/**
 	 * Get an open connection from the listener that is ready
