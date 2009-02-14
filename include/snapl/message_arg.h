@@ -69,9 +69,19 @@ public:
 	int argc() const { return m_arg.size(); }
 
 	/**
+	 * Get the ith argument.
+	 */
+	const std::string & argv( int i ) const;
+
+	/**
 	 * Serialize this list of args in a string.
 	 */
 	std::string arg_string() const;
+
+	/**
+	 * Parse a given string into the arg list of separated strings.
+	 */
+	void parse( const std::string &arg_string );
 
 private:
 	std::list< message_arg_c > m_arg;

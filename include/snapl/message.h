@@ -44,13 +44,12 @@ public:
 	 * Get the number of args for this message.
 	 */
 	int argc() const { return m_arg.argc(); }
-	std::string argv( int i ) const;
 	/**
 	 * Get an argument as a string.
 	 */
-	void argv( int i, std::string &argv ) const
+	const std::string & argv( int i ) const
 	{
-		// m_arg.argv( i, argv );
+		return m_arg.argv( i );
 	}
 	/**
 	 * Set an argument as a string.
