@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-#include "connection_listener.h"
+#include "snapl/net/connection_listener.h"
 #include <map>
 #include <list>
 
@@ -50,7 +50,7 @@ public:
 	 * Open a listening acceptor on the given port.
 	 * @return  true if the sockets were opened successfully.
 	 */
-	bool open_listener( short port, int backlog = DEFAULT_BACKLOG );
+	bool listen( short port );
 
 	/**
 	 * Closes both the normal and admin listeners.
@@ -74,6 +74,7 @@ private:
 	listener_map m_listener;
 	connection_map m_open;
 	std::list< connection_i * > m_ready;
+	int m_backlog;
 };
 
 
