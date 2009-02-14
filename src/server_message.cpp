@@ -14,17 +14,15 @@
  */
 
 #include "server_message.h"
-#include "connection.h"
+#include "snapl/net/connection.h"
 
 
 server_message_c::server_message_c( const std::string &request
 		, connection_i &conn )
-: m_request()
+: m_request(request)
 , m_response()
 , m_connection( conn )
-{
-	m_request.parse_args( request );
-}
+{}
 
 server_message_c::~server_message_c()
 {}
