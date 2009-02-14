@@ -23,6 +23,6 @@ request_c::request_c( const std::string &req_type )
 , m_port( 0 )
 {
 	// add m_type as the first message argument
-	m_arg << m_type;
+	m_args << m_type;
 }
 

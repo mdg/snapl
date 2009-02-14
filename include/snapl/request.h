@@ -39,11 +39,11 @@ public:
 	/**
 	 * Number of arguments to this request.
 	 */
-	int argc() const { return m_arg.size(); }
+	int argc() const { return m_args.size(); }
 	/**
 	 * Get a specific argument to this request.
 	 */
-	std::string argv( int i ) const { return m_arg.argv( i ); }
+	std::string argv( int i ) const { return m_args.argv( i ); }
 
 	/**
 	 * Get the name of the protocol where this request arrived.
@@ -56,7 +56,7 @@ public:
 	int port() const { return m_port; }
 
 protected:
-	arg_list_c m_arg;
+	arg_list_c m_args;
 private:
 	std::string m_type;
 	std::string m_protocol;
