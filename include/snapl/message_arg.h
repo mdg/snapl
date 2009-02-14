@@ -63,6 +63,15 @@ private:
 class message_arg_list_c
 {
 public:
+	/**
+	 * Return the number of args in this list.
+	 */
+	int argc() const { return m_arg.size(); }
+
+	/**
+	 * Serialize this list of args in a string.
+	 */
+	std::string arg_string() const;
 
 private:
 	std::list< message_arg_c > m_arg;
