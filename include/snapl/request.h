@@ -37,6 +37,11 @@ public:
 	const std::string & type() const { return m_type; }
 
 	/**
+	 * The arguments to this request.
+	 */
+	const arg_list_c & args() const { return m_args; }
+
+	/**
 	 * Number of arguments to this request.
 	 */
 	int argc() const { return m_args.size(); }
