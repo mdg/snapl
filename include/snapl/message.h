@@ -22,6 +22,8 @@
 #include <list>
 #include <sstream>
 
+class arg_list_c;
+
 
 /**
  * An object for turning a typed request or response object into
@@ -32,6 +34,7 @@ class message_c
 public:
 	message_c();
 	message_c( const std::string &args );
+	message_c( const arg_list_c &args );
 	~message_c();
 	void add_content( const std::string & );
 
@@ -40,14 +43,14 @@ public:
 	/**
 	 * Get the number of args for this message.
 	 */
-	int argc() const { return m_arg.size(); }
+	int argc() const { return m_arg.argc(); }
 	std::string argv( int i ) const;
 	/**
 	 * Get an argument as a string.
 	 */
 	void argv( int i, std::string &argv ) const
 	{
-		m_arg.argv( i, argv );
+		// m_arg.argv( i, argv );
 	}
 	/**
 	 * Set an argument as a string.
@@ -58,7 +61,7 @@ public:
 	std::list< std::string >::const_iterator begin_content() const;
 	std::list< std::string >::const_iterator end_content() const;
 
-	std::string arg_string() const { return m_arg.str(); }
+	std::string arg_string() const { return m_arg.arg_string(); }
 
 	void parse_args( const std::string & );
 

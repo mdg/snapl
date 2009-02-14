@@ -18,7 +18,6 @@
 #include "snapl/message.h"
 #include "snapl/request.h"
 #include "snapl/response.h"
-
 #include "snapl/net/connection.h"
 
 
@@ -39,15 +38,18 @@ void client_c::send_request( command_i &cmd )
 	if ( ! m_connection )
 		return;
 
-	std::ostringstream out;
 	const request_c &req( cmd.command_request() );
-	m_connection->write_line( req.arg_string() );
+	message_c msg( req.args() ); // , req.content() );
+	m_connection->write_line( msg.arg_string() );
+	// writing content in a request will come in a later iteration
 }
 
 void client_c::wait_for_response( command_i &cmd )
 {
 	std::string response_line;
 	m_connection->read_line( response_line );
-	cmd.command_response().parse_args( response_line );
+	message_c msg( response_line );
+	// reading body from a response will come in a later iteration
+	cmd.set_command_response(msg);
 }
 
