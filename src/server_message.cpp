@@ -18,7 +18,7 @@
 
 
 server_message_c::server_message_c( const std::string &request
-		, connection_i &conn )
+		, connection_i *conn )
 : m_request(request)
 , m_response()
 , m_connection( conn )
@@ -30,6 +30,13 @@ server_message_c::~server_message_c()
 
 short server_message_c::port() const
 {
-	return m_connection.port();
+	return m_connection->port();
+}
+
+connection_i * server_message_c::release_connection()
+{
+	connection_i *released = m_connection;
+	m_connection = NULL;
+	return released;
 }
 

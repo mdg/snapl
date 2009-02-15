@@ -32,7 +32,7 @@ public:
 	/**
 	 * Construct the server message from a line of text and a connection.
 	 */
-	server_message_c( const std::string &request, connection_i & );
+	server_message_c( const std::string &request, connection_i * );
 	/**
 	 * Destroy the server_message.
 	 */
@@ -68,12 +68,17 @@ public:
 	/**
 	 * Get the connection from which this message came.
 	 */
-	connection_i & connection() { return m_connection; }
+	connection_i & connection() { return *m_connection; }
+
+	/**
+	 * Release the connection from this message.
+	 */
+	connection_i * release_connection();
 
 private:
 	const message_c m_request;
 	message_c m_response;
-	connection_i &m_connection;
+	connection_i *m_connection;
 };
 
 
