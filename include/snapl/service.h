@@ -15,12 +15,7 @@
  * limitations under the License.
  */
 
-#include <iostream>
-
-
 class message_c;
-class request_c;
-class response_c;
 
 
 /**
@@ -35,9 +30,7 @@ public:
 	/**
 	 * Execute this untyped service.
 	 */
-	virtual void execute( const request_c & ) = 0;
-
-	virtual const message_c & response_message() const = 0;
+	virtual void execute( const message_c &, message_c & ) = 0;
 };
 
 
@@ -54,10 +47,7 @@ public:
 	/**
 	 * Construct a service w/ no parameters.
 	 */
-	service_c()
-	: m_request()
-	, m_response()
-	{}
+	service_c() {}
 
 	/**
 	 * Execute the service with an input message and output message.
@@ -73,33 +63,11 @@ public:
 	}
 
 	/**
-	 * Untyped execute method w/ untyped request param.
-	 * This copies the generic request into the untyped request
-	 * and then calls the typed execute method.
-	 */
-	virtual void execute( const request_c &req )
-	{
-		m_request.copy( req );
-		execute( m_request, m_response );
-	}
-
-	/**
 	 * Virtual execute method w/ typed request & response parameters.
 	 * This must be overridden by the implementing service class.
 	 */
 	virtual void execute( const ReqT &, RespT & ) = 0;
 
-	/**
-	 * Return the typed response as the message parent class.
-	 */
-	virtual const message_c & response_message() const
-	{
-		return m_response;
-	}
-
-protected:
-	ReqT m_request;
-	RespT m_response;
 };
 
 

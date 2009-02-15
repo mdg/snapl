@@ -50,6 +50,10 @@ public:
 	 * Get the const message for this server message response.
 	 */
 	const message_c & response() const { return m_response; }
+	/**
+	 * Get the non-const message for this server message response.
+	 */
+	message_c & response() { return m_response; }
 
 	/**
 	 * Set response for writing back to the client

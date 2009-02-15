@@ -20,8 +20,6 @@
 #include <memory>
 
 class protocol_c;
-class request_c;
-class response_c;
 class server_message_c;
 
 
@@ -65,7 +63,7 @@ public:
 	 * Dispatch a server message through to the correct protocol.
 	 * Dispatch will own the pointer that's passed in.
 	 */
-	void dispatch( server_message_c * );
+	void dispatch( server_message_c & );
 
 	protocol_c * find_protocol( int port );
 

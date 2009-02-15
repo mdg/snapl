@@ -56,38 +56,37 @@ void dispatcher_c::iterate()
 		return;
 	}
 
-	dispatch( msg );
+	dispatch( *msg );
+	m_response_queue.push( msg );
 }
 
-void dispatcher_c::dispatch( server_message_c *msg_ptr )
+void dispatcher_c::dispatch( server_message_c &msg )
 {
-	std::auto_ptr< server_message_c > msg( msg_ptr );
 	bool success( false );
+	response_c error_response;
 
-	response_c response;
-	protocol_c *protocol = find_protocol( msg->port() );
+	protocol_c *protocol = find_protocol( msg.port() );
 	if ( ! protocol ) {
 		// can't do anything.
 		// write to the response and return
 		std::ostringstream err;
-		err << "No protocol for port " << msg->port();
-		response.err( err.str() );
+		err << "No protocol for port " << msg.port();
+		error_response.err( err.str() );
+		// copy error_response to msg
 		return;
 	}
 
-	service_i *service = protocol->create_service( msg->request_type() );
+	service_i *service = protocol->create_service( msg.request_type() );
 	if ( ! service ) {
-		std::cerr << "no service for " << msg->request_type()
+		std::cerr << "no service for " << msg.request_type()
 			<< std::endl;
-		response.err( "unknown request type: '"
-				+ msg->request_type() +"'" );
+		error_response.err( "unknown request type: '"
+				+ msg.request_type() +"'" );
+		// copy error_response to msg
 		return;
 	}
 
-	service->execute( msg->request() );
-
-	msg->set_response( service->response_message() );
-	m_response_queue.push( msg.release() );
+	service->execute( msg.request(), msg.response() );
 }
 
 protocol_c * dispatcher_c::find_protocol( int port )
