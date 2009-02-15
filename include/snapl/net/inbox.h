@@ -20,6 +20,7 @@
 #include <memory>
 
 class connection_listener_i;
+class message_reader_c;
 class request_c;
 class response_c;
 class server_message_c;
@@ -55,17 +56,24 @@ public:
 	/**
 	 * Replace complete connections back in the listener.
 	 */
-	void replace_complete();
+	void replace_connections();
 
 	/**
-	 * Look for a request and push it to the request queue for processing.
+	 * Resume reading partial messages and push them onto the queue
+	 * for processing.
 	 */
-	void push_request();
+	void read_partial_messages();
+
+	/**
+	 * Read new messages and push it to the request queue for processing.
+	 */
+	void read_new_messages();
 
 private:
 	connection_listener_i &m_listener;
 	queue_back_i< server_message_c > &m_request;
 	queue_front_i< server_message_c > &m_complete;
+	std::queue< message_reader_c * > m_partial;
 };
 
 

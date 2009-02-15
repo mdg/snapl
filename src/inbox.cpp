@@ -18,6 +18,9 @@
 #include "snapl/response.h"
 #include "snapl/net/connection_listener.h"
 #include "server_message.h"
+#include "message_reader.h"
+
+#include <iostream>
 
 
 inbox_c::inbox_c( connection_listener_i &listener
@@ -41,12 +44,13 @@ void inbox_c::loop()
 {
 	bool success( false );
 	for (;;) {
-		replace_complete();
-		push_request();
+		replace_connections();
+		read_partial_messages();
+		read_new_messages();
 	}
 }
 
-void inbox_c::replace_complete()
+void inbox_c::replace_connections()
 {
 	while ( ! m_complete.empty() ) {
 		std::auto_ptr< server_message_c > msg( m_complete.pop() );
@@ -55,7 +59,11 @@ void inbox_c::replace_complete()
 	}
 }
 
-void inbox_c::push_request()
+void inbox_c::read_partial_messages()
+{
+}
+
+void inbox_c::read_new_messages()
 {
 	connection_i *conn = m_listener.connection();
 	if ( ! conn ) {
@@ -63,7 +71,13 @@ void inbox_c::push_request()
 		return;
 	}
 
-	server_message_c *msg = new server_message_c( conn );
-	m_request.push( msg );
+	std::auto_ptr< message_reader_c > reader(
+			new message_reader_c( conn ) );
+	if ( reader->read() ) {
+		m_request.push( reader->message() );
+	} else {
+		m_partial.push( reader.release() );
+		std::cerr << "incomplete message\n";
+	}
 }
 
