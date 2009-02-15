@@ -16,6 +16,7 @@
 #include "snapl/net/inbox.h"
 #include "snapl/request.h"
 #include "snapl/response.h"
+#include "snapl/net/connection_listener.h"
 #include "server_message.h"
 
 
@@ -23,8 +24,8 @@ inbox_c::inbox_c( connection_listener_i &listener
 		, queue_back_i< server_message_c > &request_queue
 		, queue_front_i< server_message_c > &complete_queue )
 : m_listener( listener )
-, m_request_queue( request_queue )
-, m_complete_queue( complete_queue )
+, m_request( request_queue )
+, m_complete( complete_queue )
 {}
 
 inbox_c::~inbox_c()
@@ -43,15 +44,13 @@ void inbox_c::loop()
 		replace_complete();
 		push_request();
 	}
-
-	return success;
 }
 
 void inbox_c::replace_complete()
 {
-	while ( ! m_complete_queue.empty() ) {
-		server_message_c *msg = m_complete.pop();
-		connection_i *conn = msg.connection();
+	while ( ! m_complete.empty() ) {
+		std::auto_ptr< server_message_c > msg( m_complete.pop() );
+		connection_i *conn = msg->release_connection();
 		m_listener.replace( conn );
 	}
 }
@@ -65,6 +64,6 @@ void inbox_c::push_request()
 	}
 
 	server_message_c *msg = new server_message_c( conn );
-	m_request_queue.push( msg );
+	m_request.push( msg );
 }
 

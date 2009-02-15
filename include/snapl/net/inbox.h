@@ -64,8 +64,8 @@ public:
 
 private:
 	connection_listener_i &m_listener;
-	queue_back_i< server_message_c > &m_request_queue;
-	queue_front_i< server_message_c > &m_complete_queue;
+	queue_back_i< server_message_c > &m_request;
+	queue_front_i< server_message_c > &m_complete;
 };
 
 
