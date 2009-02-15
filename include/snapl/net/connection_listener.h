@@ -41,6 +41,12 @@ public:
 	 * @return an instance of a connection_i.
 	 */
 	virtual connection_i * connection() = 0;
+
+	/**
+	 * Replace an open connection to be listened to again now that it's
+	 * no longer in use.
+	 */
+	virtual void replace( connection_i * ) = 0;
 };
 
 
