@@ -14,6 +14,7 @@
  */
 
 #include "snapl/arg.h"
+#include "snapl/message_arg.h"
 #include <sstream>
 
 #include <iostream>
@@ -30,5 +31,15 @@ arg_list_c::~arg_list_c()
 		delete *it;
 	}
 	m_arg.clear();
+}
+
+void arg_list_c::operator = ( const message_arg_list_c &args )
+{
+	std::list< arg_i * >::iterator it( m_arg.begin() );
+	message_arg_list_c::iterator msg_it( args.begin() );
+	for ( ; it!=m_arg.end(); ++it ) {
+		(*it)->set_string( msg_it->get() );
+		++msg_it;
+	}
 }
 

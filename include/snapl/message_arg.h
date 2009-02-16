@@ -19,6 +19,8 @@
 #include <iostream>
 #include <vector>
 
+class arg_list_c;
+
 
 /**
  * Untyped interface for a typed message argument that needs to be
@@ -70,8 +72,13 @@ private:
 class message_arg_list_c
 {
 public:
+	typedef std::vector< message_arg_c >::const_iterator iterator;
+
+public:
 	message_arg_list_c();
 	~message_arg_list_c();
+
+	void operator = ( const arg_list_c & );
 
 	/**
 	 * Return the number of args in this list.
@@ -97,6 +104,9 @@ public:
 	 * Parse a token string out of the input stream.
 	 */
 	bool parse_token( std::istream &input, std::string &token );
+
+	iterator begin() const { return m_arg.begin(); }
+	iterator end() const { return m_arg.end(); }
 
 private:
 	std::vector< message_arg_c > m_arg;

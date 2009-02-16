@@ -39,7 +39,8 @@ void client_c::send_request( command_i &cmd )
 		return;
 
 	const request_c &req( cmd.command_request() );
-	message_c msg( req.args() ); // , req.content() );
+	message_c msg;
+	req.copy_to( msg );
 	m_connection->write_line( msg.arg_string() );
 	// writing content in a request will come in a later iteration
 }

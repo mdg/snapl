@@ -34,9 +34,17 @@ class message_c
 public:
 	message_c();
 	message_c( const std::string &args );
-	message_c( const arg_list_c &args );
+	// message_c( const arg_list_c &args );
 	~message_c();
 	void add_content( const std::string & );
+
+	/**
+	 * Set the arguments in this message when given an arg_list
+	 */
+	void set_args( const arg_list_c &args )
+	{
+		m_arg = args;
+	}
 
 	/**
 	 * Get the arguments in this message.

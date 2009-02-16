@@ -39,6 +39,11 @@ public:
 	void copy_from( const message_c & );
 
 	/**
+	 * Copy request data into a message.
+	 */
+	void copy_to( message_c & ) const;
+
+	/**
 	 * Get the type of this request
 	 */
 	const std::string & type() const { return m_type; }

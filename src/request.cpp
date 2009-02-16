@@ -14,6 +14,7 @@
  */
 
 #include "snapl/request.h"
+#include "snapl/message.h"
 #include <sstream>
 
 
@@ -24,5 +25,15 @@ request_c::request_c( const std::string &req_type )
 {
 	// add m_type as the first message argument
 	m_args << m_type;
+}
+
+void request_c::copy_from( const message_c &msg )
+{
+	m_args = msg.args();
+}
+
+void request_c::copy_to( message_c &msg ) const
+{
+	msg.set_args( m_args );
 }
 
