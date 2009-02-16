@@ -14,6 +14,7 @@
  */
 
 #include "snapl/message.h"
+#include "snapl/arg.h"
 #include <sstream>
 
 #include <iostream>
@@ -29,7 +30,14 @@ message_arg_list_c::~message_arg_list_c()
 
 void message_arg_list_c::operator = ( const arg_list_c &src )
 {
-	// currently unimplemented
+	m_arg.clear();
+
+	std::string value;
+	arg_list_c::iterator it( src.begin() );
+	for ( ; it!=src.end(); ++it ) {
+		*it >> value;
+		m_arg.push_back( message_arg_c( value ) );
+	}
 }
 
 const std::string & message_arg_list_c::argv( int i ) const
