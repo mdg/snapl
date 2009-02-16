@@ -38,8 +38,10 @@ public:
 	~message_c();
 	void add_content( const std::string & );
 
-	void copy( const message_c & );
-
+	/**
+	 * Get the arguments in this message.
+	 */
+	const message_arg_list_c & args() const { return m_arg; }
 	/**
 	 * Get the number of args for this message.
 	 */
