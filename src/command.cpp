@@ -21,6 +21,6 @@
 
 void command_i::set_command_response( const message_c &msg )
 {
-	m_response.set( msg.args() ); // , msg.body() );
+	m_command_response = msg;
 }
 

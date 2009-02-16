@@ -19,6 +19,8 @@
 #include <string>
 #include <sstream>
 
+class message_c;
+
 
 /**
  * The response object for request processors to send output
@@ -32,6 +34,12 @@ public:
 	 * in by the request processors.
 	 */
 	response_c();
+
+	/**
+	 * Set the response's arguments to the new values
+	 * in the given message_arg_list.
+	 */
+	void operator = ( const message_c & );
 
 	/**
 	 * Flag this response as successful.
