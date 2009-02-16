@@ -17,7 +17,7 @@
 
 #include <string>
 #include <iostream>
-#include <list>
+#include <vector>
 
 
 /**
@@ -27,7 +27,14 @@
 class message_arg_c
 {
 public:
-	~message_arg_c();
+	message_arg_c()
+	: m_arg()
+	{}
+	message_arg_c( const std::string &arg )
+	: m_arg( arg )
+	{}
+	~message_arg_c()
+	{}
 
 	/**
 	 * Rename this to str()
@@ -63,6 +70,9 @@ private:
 class message_arg_list_c
 {
 public:
+	message_arg_list_c();
+	~message_arg_list_c();
+
 	/**
 	 * Return the number of args in this list.
 	 */
@@ -83,8 +93,13 @@ public:
 	 */
 	void parse( const std::string &arg_string );
 
+	/**
+	 * Parse a token string out of the input stream.
+	 */
+	bool parse_token( std::istream &input, std::string &token );
+
 private:
-	std::list< message_arg_c > m_arg;
+	std::vector< message_arg_c > m_arg;
 };
 
 

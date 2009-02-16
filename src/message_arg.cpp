@@ -21,64 +21,29 @@
 
 message_arg_list_c::message_arg_list_c()
 {
+	m_arg.reserve( 8 );
 }
 
 message_arg_list_c::~message_arg_list_c()
+{}
+
+
+const std::string & message_arg_list_c::argv( int i ) const
 {
-	std::vector< message_arg_i * >::iterator it;
-	for ( it=m_arg.begin(); it!=m_arg.end(); ++it ) {
-		delete *it;
-	}
-	m_arg.clear();
+	return m_arg[i].get();
 }
 
-void message_arg_list_c::operator = ( const message_arg_list_c &src )
-{
-	if ( size() != src.size() ) {
-		return;
-	}
-	std::string value;
-	for ( int i( 0 ); i<size(); ++i ) {
-		value.clear();
-		src.m_arg[i]->get_string( value );
-		m_arg[i]->set_string( value );
-	}
-}
-
-
-std::string message_arg_list_c::argv( int i ) const
-{
-	std::string value;
-	m_arg[i]->get_string( value );
-	return value;
-}
-
-void message_arg_list_c::argv( int i, std::string &argv ) const
-{
-	if ( i >= m_arg.size() ) {
-		std::cerr << "i( " << i << " ) > m_arg.size()\n";
-	}
-
-	message_arg_i *arg( m_arg[i] );
-	if ( arg == NULL ) {
-		std::cerr << "arg is null\n";
-	}
-
-	arg->get_string( argv );
-}
-
-std::string message_arg_list_c::str() const
+std::string message_arg_list_c::arg_string() const
 {
 	std::ostringstream out;
-	std::string value;
-	int argc( size() );
-	for ( int i(0); i<argc; ++i ) {
-		argv( i, value );
-
-		if ( i > 0 ) {
+	std::vector< message_arg_c >::const_iterator it( m_arg.begin() );
+	bool insert_space( false );
+	for ( ; it!=m_arg.end(); ++it ) {
+		if ( insert_space ) {
 			out << " ";
 		}
-		out << value;
+		out << it->get();
+		insert_space = true;
 	}
 
 	return out.str();
@@ -88,23 +53,9 @@ void message_arg_list_c::parse( const std::string &line )
 {
 	std::istringstream in( line );
 	std::string token;
-	message_arg_i *arg( NULL );
 
-	int i( 0 );
 	while ( parse_token( in, token ) ) {
-		if ( i >= m_arg.size() ) {
-			m_extra.push_back( token );
-			m_extra_ptr.push_back( &m_extra.back() );
-			*this << m_extra.back();
-		}
-
-		arg = m_arg[i];
-		if ( ! arg->set_string( token ) ) {
-			std::cerr << "parse error\n";
-			break;
-		}
-
-		++i;
+		m_arg.push_back( message_arg_c( token ) );
 	}
 }
 
