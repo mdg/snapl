@@ -27,6 +27,10 @@ message_arg_list_c::message_arg_list_c()
 message_arg_list_c::~message_arg_list_c()
 {}
 
+void message_arg_list_c::operator = ( const arg_list_c &src )
+{
+	// currently unimplemented
+}
 
 const std::string & message_arg_list_c::argv( int i ) const
 {
