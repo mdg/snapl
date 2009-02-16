@@ -22,6 +22,7 @@
 #include <sstream>
 
 class message_arg_c;
+class message_arg_list_c;
 
 
 /**
@@ -128,7 +129,7 @@ public:
 	/**
 	 * Copy the values from the src arg list to this arg list.
 	 */
-	void operator = ( const std::list< message_arg_c > & );
+	void operator = ( const message_arg_list_c & );
 
 	/**
 	 * Get the number of arguments in this list.
