@@ -14,9 +14,9 @@
  */
 
 #include "client.h"
-#include "polling_server_queue.h"
 #include "snapl/dispatcher.h"
 #include "snapl/protocol.h"
+#include "server_message.h"
 #include "connection_test.h"
 #include "connection_listener_test.h"
 #include "command_test.h"
@@ -61,9 +61,10 @@ TESTPP( test_client_server )
 	mock_client_server_connection_c cs( 3 );
 
 	client_c client( cs.client() );
+	queue_c< server_message_c > request;
+	queue_c< server_message_c > response;
 	mock_connection_listener_c listener( cs.server() );
-	polling_server_queue_c server( listener );
-	dispatcher_c dispatch( server );
+	dispatcher_c dispatch( request, response );
 
 	protocol_c protocol( 3 );
 	protocol.add< mock_service_c >( "mock" );
