@@ -83,20 +83,3 @@ TESTPP( test_arg_list_append )
 	assertpp( it == arg.end() ).t();
 }
 
-/**
- * Test that the assignment operator works for the message arg list
- */
-TESTPP( test_arg_list_assign )
-{
-	arg_list_c arg1, arg2;
-	int val1( 0 ), val2( 7 );
-	std::string str1, str2( "txt2" );
-
-	arg1 << val1 << str1;
-	arg2 << val2 << str2;
-
-	arg1 = arg2;
-	assertpp( val1 ) == 7;
-	assertpp( str1 ) == "txt2";
-}
-

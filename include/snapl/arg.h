@@ -151,6 +151,7 @@ public:
 private:
 	// declared private and not implemented to avoid usage.
 	arg_list_c( const arg_list_c & );
+	void operator = ( const arg_list_c & );
 
 	std::list< arg_i * > m_arg;
 };
