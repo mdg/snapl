@@ -44,10 +44,15 @@ void inbox_c::loop()
 {
 	bool success( false );
 	for (;;) {
-		replace_connections();
-		read_partial_messages();
-		read_new_messages();
+		iterate();
 	}
+}
+
+void inbox_c::iterate()
+{
+	replace_connections();
+	read_partial_messages();
+	read_new_messages();
 }
 
 void inbox_c::replace_connections()

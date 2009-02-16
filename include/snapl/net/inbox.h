@@ -54,6 +54,11 @@ public:
 	void loop();
 
 	/**
+	 * Run one iteration of the inbox loop.
+	 */
+	void iterate();
+
+	/**
 	 * Replace complete connections back in the listener.
 	 */
 	void replace_connections();
