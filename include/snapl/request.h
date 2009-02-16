@@ -17,6 +17,8 @@
 
 #include "arg.h"
 
+class message_c;
+
 
 /**
  * An object to describe a request to the server to manage
@@ -30,6 +32,11 @@ public:
 	 * and a string parameter.
 	 */
 	request_c( const std::string &req_type = std::string() );
+
+	/**
+	 * Copy a message into this request.
+	 */
+	void copy_from( const message_c & );
 
 	/**
 	 * Get the type of this request

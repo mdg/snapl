@@ -42,6 +42,11 @@ public:
 	void operator = ( const message_c & );
 
 	/**
+	 * Copy the data in this response to a message.
+	 */
+	void copy_to( message_c & ) const;
+
+	/**
 	 * Flag this response as successful.
 	 * Include an optional message.
 	 */

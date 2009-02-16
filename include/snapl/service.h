@@ -56,10 +56,11 @@ public:
 	 */
 	virtual void execute( const message_c &req_msg, message_c &resp_msg )
 	{
-		ReqT request( req_msg );
+		ReqT request;
 		RespT response;
+		request.copy_from( req_msg );
 		execute( request, response );
-		// response.copy( resp_msg );
+		response.copy_to( resp_msg );
 	}
 
 	/**
