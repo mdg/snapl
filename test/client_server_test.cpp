@@ -16,6 +16,8 @@
 #include "client.h"
 #include "snapl/dispatcher.h"
 #include "snapl/protocol.h"
+#include "snapl/net/inbox.h"
+#include "snapl/net/outbox.h"
 #include "server_message.h"
 #include "connection_test.h"
 #include "connection_listener_test.h"
@@ -61,10 +63,14 @@ TESTPP( test_client_server )
 	mock_client_server_connection_c cs( 3 );
 
 	client_c client( cs.client() );
+	mock_connection_listener_c listener( cs.server() );
+
 	queue_c< server_message_c > request;
 	queue_c< server_message_c > response;
-	mock_connection_listener_c listener( cs.server() );
+	queue_c< server_message_c > complete;
+	inbox_c inbox( listener, request, complete );
 	dispatcher_c dispatch( request, response );
+	outbox_c outbox( response, complete );
 
 	protocol_c protocol( 3 );
 	protocol.add< mock_service_c >( "mock" );
@@ -80,8 +86,10 @@ TESTPP( test_client_server )
 	// assert that the server connection has a line ready
 	assertpp( cs.server().line_ready() ).t();
 
+	inbox.iterate();
 	// execute dispatcher
 	dispatch.iterate();
+	outbox.iterate();
 	// assert that the client connection now has a line ready
 	assertpp( cs.client().line_ready() ).t();
 
