@@ -146,11 +146,6 @@ public:
 	 */
 	void argv( int i, std::string &argv ) const;
 
-	/**
-	 * Convert this arg list into a string.
-	 */
-	std::string str() const;
-
 private:
 	// declared private and not implemented to avoid usage.
 	arg_list_c( const arg_list_c & );

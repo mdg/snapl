@@ -103,17 +103,3 @@ TESTPP( test_arg_list_assign )
 	assertpp( str1 ) == "txt2";
 }
 
-/**
- * Test that the arg_list's str() function works as expected.
- */
-TESTPP( test_arg_list_str )
-{
-	arg_list_c arg;
-	int val1( 5 );
-	std::string val2( "txt2" );
-
-	arg << val1 << val2;
-
-	assertpp( arg.str() ) == "5 txt2";
-}
-
