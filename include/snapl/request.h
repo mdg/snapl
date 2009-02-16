@@ -57,10 +57,6 @@ public:
 	 * Number of arguments to this request.
 	 */
 	int argc() const { return m_args.size(); }
-	/**
-	 * Get a specific argument to this request.
-	 */
-	std::string argv( int i ) const { return m_args.argv( i ); }
 
 	/**
 	 * Get the name of the protocol where this request arrived.
