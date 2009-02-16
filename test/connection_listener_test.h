@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-#include "connection_listener.h"
+#include "snapl/net/connection_listener.h"
 
 
 class mock_connection_listener_c
