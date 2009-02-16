@@ -15,6 +15,7 @@
 
 #include "message_reader.h"
 #include "snapl/net/connection.h"
+#include "server_message.h"
 
 
 message_reader_c::message_reader_c( connection_i *conn )

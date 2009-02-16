@@ -18,7 +18,7 @@
 #include <memory>
 
 class connection_i;
-class message_c;
+class server_message_c;
 
 
 /**
