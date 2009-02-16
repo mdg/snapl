@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-#include "connection.h"
+#include "snapl/net/connection.h"
 #include <string>
 #include <queue>
 
