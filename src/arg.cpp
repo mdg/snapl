@@ -21,7 +21,6 @@
 
 arg_list_c::arg_list_c()
 {
-	m_arg.reserve( 8 );
 }
 
 arg_list_c::~arg_list_c()
