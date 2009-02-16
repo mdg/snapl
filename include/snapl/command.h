@@ -1,5 +1,5 @@
-#ifndef COMMAND_H
-#define COMMAND_H
+#ifndef SNAPL_COMMAND_H
+#define SNAPL_COMMAND_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");

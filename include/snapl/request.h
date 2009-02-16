@@ -1,5 +1,5 @@
-#ifndef REQUEST_H
-#define REQUEST_H
+#ifndef SNAPL_REQUEST_H
+#define SNAPL_REQUEST_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
