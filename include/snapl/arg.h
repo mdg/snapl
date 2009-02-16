@@ -33,17 +33,16 @@ class arg_i
 {
 public:
 	virtual ~arg_i() {}
-	/**
-	 * Rename this to str()
-	 */
-	virtual void get_string( std::string & ) const = 0;
-	/**
-	 * Rename this to parse_value()
-	 */
-	virtual bool set_string( const std::string & ) = 0;
 
-	virtual std::istream & operator >> ( std::istream & ) = 0;
-	virtual std::ostream & operator << ( std::ostream & ) const = 0;
+	/**
+	 * Write the value into a string.
+	 */
+	virtual const std::string & operator >> ( std::string & ) const = 0;
+
+	/**
+	 * Parse a string into the value.
+	 */
+	virtual bool operator << ( const std::string & ) = 0;
 };
 
 
@@ -66,33 +65,16 @@ public:
 	 */
 	const T & value() const { return m_value; }
 
-	virtual std::istream & operator >> ( std::istream &in )
-	{
-		in >> m_value;
-		return in;
-	}
-
-	virtual std::ostream & operator << ( std::ostream &out ) const
-	{
-		out << m_value;
-		return out;
-	}
-
-	/**
-	 * Get the string version of this argument.
-	 */
-	virtual void get_string( std::string &str ) const
+	virtual const std::string & operator >> ( std::string &str ) const
 	{
 		str.clear();
 		std::ostringstream out;
 		out << m_value;
 		str = out.str();
+		return str;
 	}
 
-	/**
-	 * Set the value of this argument as a string.
-	 */
-	virtual bool set_string( const std::string &str )
+	virtual bool operator << ( const std::string &str )
 	{
 		std::istringstream in( str );
 		in >> m_value;
@@ -129,7 +111,7 @@ public:
 	/**
 	 * Copy the values from the src arg list to this arg list.
 	 */
-	void operator = ( const message_arg_list_c & );
+	bool operator = ( const message_arg_list_c & );
 
 	/**
 	 * Get the number of arguments in this list.
@@ -137,14 +119,34 @@ public:
 	int size() const { return m_arg.size(); }
 
 	/**
-	 * Return a string version of a given argument.
+	 * Iterator class for looking into the arg_list
 	 */
-	std::string argv( int i ) const;
+	class iterator
+	{
+	public:
+		iterator( std::list< arg_i * >::const_iterator i )
+		: m_it( i )
+		{}
+		const arg_i & operator * () const { return **m_it; }
+		const arg_i * operator -> () const { return *m_it; }
+		iterator & operator ++ () { ++m_it; return *this; }
+		iterator operator ++ (int) { return iterator( m_it++ ); }
+		/** Check if this iterator is equal to another */
+		bool operator == ( const iterator &o ) const
+		{
+			return m_it == o.m_it;
+		}
+		/** Check if this iterator is _not_ equal to another */
+		bool operator != ( const iterator &o ) const
+		{
+			return m_it != o.m_it;
+		}
+	private:
+		std::list< arg_i * >::const_iterator m_it;
+	};
 
-	/**
-	 * Get a string version of a given argument.
-	 */
-	void argv( int i, std::string &argv ) const;
+	iterator begin() const { return iterator( m_arg.begin() ); }
+	iterator end() const { return iterator( m_arg.end() ); }
 
 private:
 	// declared private and not implemented to avoid usage.

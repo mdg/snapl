@@ -33,13 +33,20 @@ arg_list_c::~arg_list_c()
 	m_arg.clear();
 }
 
-void arg_list_c::operator = ( const message_arg_list_c &args )
+bool arg_list_c::operator = ( const message_arg_list_c &args )
 {
+	if ( m_arg.size() != args.argc() ) {
+		return false;
+	}
+
 	std::list< arg_i * >::iterator it( m_arg.begin() );
 	message_arg_list_c::iterator msg_it( args.begin() );
 	for ( ; it!=m_arg.end(); ++it ) {
-		(*it)->set_string( msg_it->get() );
+		if ( ! ( **it << msg_it->get() ) ) {
+			return false;
+		}
 		++msg_it;
 	}
+	return true;
 }
 
