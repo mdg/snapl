@@ -133,26 +133,3 @@ TESTPP( test_arg_list_parse )
 	assertpp( val2 ) == "spatula";
 }
 
-/**
- * Test that the arg_list parses correctly when there aren't
- * enough values.
- */
-TESTPP( test_arg_list_parse_extra_values )
-{
-	arg_list_c arg;
-	int val1( 5 );
-	std::string val2( "txt2" );
-
-	arg << val1 << val2;
-	arg.parse( "8 spatula 55 dog cat" );
-
-	assertpp( arg.size() ) == 5;
-	assertpp( val1 ) == 8;
-	assertpp( val2 ) == "spatula";
-
-	assertpp( arg.extra_argc() ) == 3;
-	assertpp( arg.extra_argv( 0 ) ) == "55";
-	assertpp( arg.extra_argv( 1 ) ) == "dog";
-	assertpp( arg.extra_argv( 2 ) ) == "cat";
-}
-
