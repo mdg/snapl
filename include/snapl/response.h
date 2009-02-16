@@ -39,7 +39,7 @@ public:
 	 * Set the response's arguments to the new values
 	 * in the given message_arg_list.
 	 */
-	void operator = ( const message_c & );
+	void copy_from( const message_c & );
 
 	/**
 	 * Copy the data in this response to a message.

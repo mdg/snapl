@@ -21,6 +21,6 @@
 
 void command_i::set_command_response( const message_c &msg )
 {
-	m_command_response = msg;
+	m_command_response.copy_from( msg );
 }
 
