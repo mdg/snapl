@@ -59,10 +59,18 @@ TESTPP( test_dispatcher_success )
 	protocol.add< mock_service_c >( "mock" );
 	dispatch.add( protocol );
 
+	mock_client_server_connection_c cs( 3 );
+	std::auto_ptr< server_message_c > msg( new server_message_c(
+				"mock dog 15", &cs.server() ) );
+	request_queue.push( msg.release() );
+
 	dispatch.iterate();
 
 	assertpp( response_queue.empty() ).f();
-	std::string line;
-	assertpp( line ) == "ok dog_12";
+	msg.reset( response_queue.pop() );
+
+	// assert on response values
+	const message_c &response( msg->response() );
+	assertpp( response.arg_string() ) == "ok dog_15";
 }
 
