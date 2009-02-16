@@ -151,11 +151,6 @@ public:
 	 */
 	std::string str() const;
 
-	/**
-	 * Parse a line of text into the values for this arg list.
-	 */
-	void parse( const std::string &line );
-
 private:
 	// declared private and not implemented to avoid usage.
 	arg_list_c( const arg_list_c & );

@@ -117,19 +117,3 @@ TESTPP( test_arg_list_str )
 	assertpp( arg.str() ) == "5 txt2";
 }
 
-/**
- * Test that the arg_list's parse() function works for a normal case.
- */
-TESTPP( test_arg_list_parse )
-{
-	arg_list_c arg;
-	int val1( 5 );
-	std::string val2( "txt2" );
-
-	arg << val1 << val2;
-	arg.parse( "8 spatula" );
-
-	assertpp( val1 ) == 8;
-	assertpp( val2 ) == "spatula";
-}
-
