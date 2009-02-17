@@ -6,6 +6,7 @@ task :clean => [] do
 end
 
 LINKS = "-lpthread"
+INCS = "-I../include -I../src"
 
 directory( "../obj/src" )
 
@@ -38,7 +39,7 @@ end
 
 
 rule '.o' => [ proc { |o| obj_dep( o ) } ] do |t|
-    sh %{g++ -c -g -Isrc -o #{t.name} #{t.source}}
+    sh %{g++ -c -g #{INCS} -o #{t.name} #{t.source}}
 end
 
 
