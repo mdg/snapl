@@ -1,42 +1,42 @@
 #ifndef SAMPLE_PROTOCOL_H
 #define SAMPLE_PROTOCOL_H
 
-#include "../../src/action.h"
-#include "../../src/protocol.h"
+#include "snapl/service.h"
+#include "snapl/protocol.h"
 
 
-class get_action_c
-: public action_i
+class get_service_c
+: public service_i
 {
 public:
-	get_action_c();
+	get_service_c();
 
 	virtual void execute( const request_c &, response_c & );
 };
 
-class put_action_c
-: public action_i
+class put_service_c
+: public service_i
 {
 public:
-	put_action_c();
+	put_service_c();
 
 	virtual void execute( const request_c &, response_c & );
 };
 
-class add_action_c
-: public action_i
+class add_service_c
+: public service_i
 {
 public:
-	add_action_c();
+	add_service_c();
 
 	virtual void execute( const request_c &, response_c & );
 };
 
-class delete_action_c
-: public action_i
+class delete_service_c
+: public service_i
 {
 public:
-	delete_action_c();
+	delete_service_c();
 
 	virtual void execute( const request_c &, response_c & );
 };
@@ -56,10 +56,10 @@ public:
 	}
 
 private:
-	get_action_c m_get;
-	put_action_c m_put;
-	add_action_c m_add;
-	delete_action_c m_delete;
+	get_service_c m_get;
+	put_service_c m_put;
+	add_service_c m_add;
+	delete_service_c m_delete;
 };
 
 

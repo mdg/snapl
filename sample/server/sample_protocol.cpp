@@ -1,5 +1,5 @@
 #include "sample_protocol.h"
-#include "../../src/response.h"
+#include "snapl/response.h"
 
 
 get_action_c::get_action_c()

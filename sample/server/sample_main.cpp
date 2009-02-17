@@ -1,7 +1,6 @@
 #include "sample_protocol.h"
-#include "../../src/dispatcher.h"
-#include "../../src/connection_acceptor.h"
-#include "../../src/polling_server_queue.h"
+#include "snapl/dispatcher.h"
+#include "snapl/net/connection_acceptor.h"
 
 
 int main( int argc, char **argv )
