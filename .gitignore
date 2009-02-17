@@ -1,4 +1,5 @@
 obj
 run_snapl_tests
 libsnapl.a
+*.o
 
