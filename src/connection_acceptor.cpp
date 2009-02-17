@@ -207,6 +207,12 @@ connection_i * connection_acceptor_c::connection()
 	return ready_conn;
 }
 
+void connection_acceptor_c::replace( connection_i *conn )
+{
+	// doesn't do anything yet.
+}
+
+
 void connection_acceptor_c::accept( int listener, int port )
 {
 	int sock( ::accept( listener, NULL, 0 ) );

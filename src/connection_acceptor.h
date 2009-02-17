@@ -64,6 +64,11 @@ public:
 	 */
 	virtual connection_i * connection();
 
+	/**
+	 * Replace this connection to be read again.
+	 */
+	virtual void replace( connection_i * );
+
 private:
 	static int create_listener_socket( int port, int backlog );
 	void accept( int listener, int port );
