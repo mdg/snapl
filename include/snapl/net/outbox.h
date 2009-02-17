@@ -1,5 +1,5 @@
-#ifndef POLLING_SERVER_QUEUE_H
-#define POLLING_SERVER_QUEUE_H
+#ifndef SNAPL_OUTBOX_H
+#define SNAPL_OUTBOX_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,39 +15,43 @@
  * limitations under the License.
  */
 
-#include "server_queue.h"
-#include <queue>
+#include "snapl/queue.h"
+#include <map>
+#include <memory>
 
-
-class connection_listener_i;
+class server_message_c;
 
 
 /**
- * A connection polling server message queue.
+ * An outbox for sending requests from a snapl application.
  */
-class polling_server_queue_c
-: public server_queue_i
+class outbox_c
 {
 public:
-	polling_server_queue_c( connection_listener_i &listener );
-
-	virtual ~polling_server_queue_c();
+	/**
+	 * Construct the outbox class.
+	 */
+	outbox_c( queue_front_i< server_message_c > &response_queue
+			, queue_back_i< server_message_c > &complete_queue );
 
 	/**
-	 * Pop a request message off of the queue.
+	 * Destroy the outbox
 	 */
-	virtual server_message_c * pop();
+	~outbox_c();
 
 	/**
-	 * Push a response message onto the queue.
-	 * The polling message queue writes it directly back to the
-	 * connection.
+	 * Run one iteration of the outbox loop.
 	 */
-	virtual void push( server_message_c * );
+	void iterate();
+
+	/**
+	 * Write messages and push them out as complete.
+	 */
+	void write_messages();
 
 private:
-	connection_listener_i &m_listener;
-	std::queue< server_message_c * > m_queue;
+	queue_front_i< server_message_c > &m_response;
+	queue_back_i< server_message_c > &m_complete;
 };
 
 

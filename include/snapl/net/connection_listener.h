@@ -1,5 +1,5 @@
-#ifndef CONNECTION_LISTENER_H
-#define CONNECTION_LISTENER_H
+#ifndef SNAPL_CONNECTION_LISTENER_H
+#define SNAPL_CONNECTION_LISTENER_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,12 +30,23 @@ public:
 	virtual ~connection_listener_i() {}
 
 	/**
+	 * Set this listener to listen on a given port.
+	 */
+	virtual bool listen( short port ) = 0;
+
+	/**
 	 * Get an open connection from the listener that is ready
 	 * to be read.  Callers should expect that this may block
 	 * while waiting for a connection to become ready.
 	 * @return an instance of a connection_i.
 	 */
 	virtual connection_i * connection() = 0;
+
+	/**
+	 * Replace an open connection to be listened to again now that it's
+	 * no longer in use.
+	 */
+	virtual void replace( connection_i * ) = 0;
 };
 
 

@@ -1,5 +1,5 @@
-#ifndef RESPONSE_H
-#define RESPONSE_H
+#ifndef SNAPL_RESPONSE_H
+#define SNAPL_RESPONSE_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,9 +15,11 @@
  * limitations under the License.
  */
 
-#include "message.h"
+#include "arg.h"
 #include <string>
 #include <sstream>
+
+class message_c;
 
 
 /**
@@ -25,7 +27,6 @@
  * back to a client.
  */
 class response_c
-: public message_c
 {
 public:
 	/**
@@ -33,6 +34,17 @@ public:
 	 * in by the request processors.
 	 */
 	response_c();
+
+	/**
+	 * Set the response's arguments to the new values
+	 * in the given message_arg_list.
+	 */
+	void copy_from( const message_c & );
+
+	/**
+	 * Copy the data in this response to a message.
+	 */
+	void copy_to( message_c & ) const;
 
 	/**
 	 * Flag this response as successful.
@@ -73,6 +85,8 @@ public:
 	 */
 	std::string content() const { return m_content.str(); }
 
+protected:
+	arg_list_c m_arg;
 private:
 	std::string m_code;
 	std::string m_msg;

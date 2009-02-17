@@ -13,37 +13,38 @@
  * limitations under the License.
  */
 
-#include "server_queue_test.h"
+#include "snapl/net/outbox.h"
+#include "snapl/net/connection.h"
 #include "server_message.h"
 
 
-mock_server_queue_c::mock_server_queue_c()
-: m_queue()
-, m_connection( NULL )
+#include <iostream>
+
+
+outbox_c::outbox_c( queue_front_i< server_message_c > &response_queue
+		, queue_back_i< server_message_c > &complete_queue )
+: m_response( response_queue )
+, m_complete( complete_queue )
 {}
 
-mock_server_queue_c::~mock_server_queue_c()
+outbox_c::~outbox_c()
+{}
+
+
+void outbox_c::iterate()
 {
-	while ( ! m_queue.empty() ) {
-		server_message_c *msg = m_queue.front();
-		delete msg;
-		m_queue.pop();
+	write_messages();
+}
+
+void outbox_c::write_messages()
+{
+	while ( ! m_response.empty() ) {
+		std::auto_ptr< server_message_c > msg( m_response.pop() );
+
+		connection_i &conn( msg->connection() );
+		conn.write_line( msg->response().args().arg_string() );
+
+		m_complete.push( msg.release() );
 	}
-}
-
-void mock_server_queue_c::queue_mock_message( const std::string &req )
-{
-	m_queue.push( new server_message_c( req, *m_connection ) );
-}
-
-server_message_c * mock_server_queue_c::pop()
-{
-	server_message_c *msg = m_queue.front();
-	m_queue.pop();
-	return msg;
-}
-
-void mock_server_queue_c::push( server_message_c * )
-{
 }
 

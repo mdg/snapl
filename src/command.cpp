@@ -13,39 +13,14 @@
  * limitations under the License.
  */
 
-#include "request_queue.h"
-#include "lock.h"
+#include "snapl/command.h"
+#include "snapl/message.h"
+#include "snapl/response.h"
+#include <sstream>
 
 
-request_queue_c::request_queue_c()
-: m_requests()
-, m_mutex()
-{}
-
-request_queue_c::request_queue_c( mutex_i *mutex )
-: m_requests()
-, m_mutex( mutex )
-{}
-
-request_queue_c::~request_queue_c() {}
-
-
-void request_queue_c::push( server_message_c *msg )
+void command_i::set_command_response( const message_c &msg )
 {
-	lock_c lock( m_mutex.get() );
-	m_requests.push( msg );
-	// lock is freed by destructor
-}
-
-server_message_c * request_queue_c::pop()
-{
-	server_message_c *msg = 0;
-	lock_c lock( m_mutex.get() );
-	if ( ! m_requests.empty() ) {
-		msg = m_requests.front();
-		m_requests.pop();
-	}
-	lock.unlock();
-	return msg;
+	m_command_response.copy_from( msg );
 }
 

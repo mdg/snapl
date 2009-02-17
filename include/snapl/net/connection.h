@@ -1,5 +1,5 @@
-#ifndef SERVER_QUEUE_H
-#define SERVER_QUEUE_H
+#ifndef SNAPL_CONNECTION_H
+#define SNAPL_CONNECTION_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,26 +15,40 @@
  * limitations under the License.
  */
 
-class server_message_c;
+#include <string>
 
 
 /**
- * A server message queue.
+ * An interface to handle connections and parsing their input.
  */
-class server_queue_i
+class connection_i
 {
 public:
-	virtual ~server_queue_i() {}
+	/**
+	 * Virtual destroyer of the connection
+	 */
+	virtual ~connection_i() {}
 
 	/**
-	 * Pop a message with a request off of the queue.
+	 * Return the server port that this connection is on
 	 */
-	virtual server_message_c * pop() = 0;
+	virtual short port() const = 0;
 
 	/**
-	 * Push a message back onto the queue with a response
+	 * Read a line of input from this connection.
 	 */
-	virtual void push( server_message_c * ) = 0;
+	virtual void read_line( std::string& ) = 0;
+
+	/**
+	 * Write a string back to the connection.
+	 */
+	virtual void write_line( const std::string & ) = 0;
+
+	/**
+	 * Check if this connection has more lines of input
+	 * ready.
+	 */
+	virtual bool line_ready() const = 0;
 };
 
 

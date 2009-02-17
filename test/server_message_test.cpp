@@ -25,7 +25,7 @@
 TESTPP( test_server_message_constructor )
 {
 	mock_client_server_connection_c cs( 3 );
-	server_message_c msg( "create dog cat", cs.server() );
+	server_message_c msg( "create dog cat", &cs.server() );
 
 	assertpp( msg.request_type() ) == "create";
 	// assertpp( msg.request().extra_argc() ) == 3;

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-#include "connection_listener.h"
+#include "snapl/net/connection_listener.h"
 
 
 class mock_connection_listener_c
@@ -27,10 +27,14 @@ public:
 	{}
 	virtual ~mock_connection_listener_c() {}
 
+	virtual bool listen( short port ) { return true; }
+
 	virtual connection_i * connection()
 	{
 		return m_connection.line_ready() ? &m_connection : NULL;
 	}
+
+	virtual void replace( connection_i * ) {}
 
 private:
 	connection_i &m_connection;

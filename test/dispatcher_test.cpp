@@ -13,11 +13,9 @@
  * limitations under the License.
  */
 
-
 #include "snapl/dispatcher.h"
 #include "snapl/protocol.h"
-#include "polling_server_queue.h"
-#include "server_queue_test.h"
+#include "server_message.h"
 #include "connection_test.h"
 #include "connection_listener_test.h"
 #include "service_test.h"
@@ -29,8 +27,9 @@
  */
 TESTPP( test_dispatch_find_protocol )
 {
-	mock_server_queue_c queue;
-	dispatcher_c d( queue );
+	queue_c< server_message_c > request_queue;
+	queue_c< server_message_c > response_queue;
+	dispatcher_c d( request_queue, response_queue );
 
 	protocol_c p1( 1 );
 	protocol_c p2( 2 );
@@ -52,24 +51,26 @@ TESTPP( test_dispatch_find_protocol )
  */
 TESTPP( test_dispatcher_success )
 {
-	mock_client_server_connection_c cs( 3 );
-
-	mock_connection_listener_c listener( cs.server() );
-	polling_server_queue_c server( listener );
-	dispatcher_c dispatch( server );
+	queue_c< server_message_c > request_queue;
+	queue_c< server_message_c > response_queue;
+	dispatcher_c dispatch( request_queue, response_queue );
 
 	protocol_c protocol( 3 );
 	protocol.add< mock_service_c >( "mock" );
 	dispatch.add( protocol );
 
-	cs.client().write_line( "mock dog 12" );
+	mock_client_server_connection_c cs( 3 );
+	std::auto_ptr< server_message_c > msg( new server_message_c(
+				"mock dog 15", &cs.server() ) );
+	request_queue.push( msg.release() );
 
 	dispatch.iterate();
 
-	assertpp( cs.client().line_ready() );
+	assertpp( response_queue.empty() ).f();
+	msg.reset( response_queue.pop() );
 
-	std::string line;
-	cs.client().read_line( line );
-	assertpp( line ) == "ok dog_12";
+	// assert on response values
+	const message_c &response( msg->response() );
+	assertpp( response.arg_string() ) == "ok dog_15";
 }
 

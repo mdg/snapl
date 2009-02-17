@@ -1,5 +1,5 @@
-#ifndef MESSAGE_H
-#define MESSAGE_H
+#ifndef SNAPL_MESSAGE_H
+#define SNAPL_MESSAGE_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,167 +16,13 @@
  */
 
 
+#include "message_arg.h"
 #include <vector>
 #include <string>
 #include <list>
 #include <sstream>
 
-
-/**
- * Untyped interface for a typed message argument that needs to be
- * converted to a string.
- */
-class message_arg_i
-{
-public:
-	virtual ~message_arg_i() {}
-	/**
-	 * Rename this to str()
-	 */
-	virtual void get_string( std::string & ) const = 0;
-	/**
-	 * Rename this to parse_value()
-	 */
-	virtual bool set_string( const std::string & ) = 0;
-
-	virtual std::istream & operator >> ( std::istream & ) = 0;
-	virtual std::ostream & operator << ( std::ostream & ) const = 0;
-};
-
-
-/**
- * Template-typed implementation of the message arg that will hold
- * information about arguments to messages
- */
-template < typename T >
-class message_arg_c
-: public message_arg_i
-{
-public:
-	message_arg_c( T &val )
-	: m_value( val )
-	{}
-	virtual ~message_arg_c() {}
-
-	/**
-	 * Get the value of this argument.
-	 */
-	const T & value() const { return m_value; }
-
-	virtual std::istream & operator >> ( std::istream &in )
-	{
-		in >> m_value;
-		return in;
-	}
-
-	virtual std::ostream & operator << ( std::ostream &out ) const
-	{
-		out << m_value;
-		return out;
-	}
-
-	/**
-	 * Get the string version of this argument.
-	 */
-	virtual void get_string( std::string &str ) const
-	{
-		str.clear();
-		std::ostringstream out;
-		out << m_value;
-		str = out.str();
-	}
-
-	/**
-	 * Set the value of this argument as a string.
-	 */
-	virtual bool set_string( const std::string &str )
-	{
-		std::istringstream in( str );
-		in >> m_value;
-		return in;
-	}
-
-private:
-	T &m_value;
-};
-
-
-/**
- * A list of arguments in a message.
- */
-class message_arg_list_c
-{
-public:
-	message_arg_list_c();
-	~message_arg_list_c();
-
-	/**
-	 * Add an argument to the argument list.
-	 * This is the way that requests & responses will add typed
-	 * values to the message.
-	 */
-	template < typename T >
-	message_arg_list_c & operator << ( T &arg )
-	{
-		message_arg_c< T > *msg_arg = new message_arg_c< T >( arg );
-		m_arg.push_back( msg_arg );
-	}
-
-	/**
-	 * Copy the values from the src arg list to this arg list.
-	 */
-	void operator = ( const message_arg_list_c & );
-
-	/**
-	 * Get the number of arguments in this list.
-	 */
-	int size() const { return m_arg.size(); }
-
-	/**
-	 * Return a string version of a given argument.
-	 */
-	std::string argv( int i ) const;
-
-	/**
-	 * Get a string version of a given argument.
-	 */
-	void argv( int i, std::string &argv ) const;
-
-	/**
-	 * Get the number of extra arguments parsed into this message arg list
-	 * If more arguments are parsed than have been added, then they will
-	 * be allocated as an extra argc.
-	 */
-	int extra_argc() const { return m_extra.size(); }
-
-	/**
-	 * Get a given extra argument.
-	 */
-	const std::string & extra_argv( int i ) const
-	{
-		return *m_extra_ptr[ i ];
-	}
-
-	/**
-	 * Convert this arg list into a string.
-	 */
-	std::string str() const;
-
-	/**
-	 * Parse a line of text into the values for this arg list.
-	 */
-	void parse( const std::string &line );
-
-	static bool parse_token( std::istream &, std::string & );
-
-private:
-	// declared private and not implemented to avoid usage.
-	message_arg_list_c( const message_arg_list_c & );
-
-	std::vector< message_arg_i * > m_arg;
-	std::list< std::string > m_extra;
-	std::vector< std::string * > m_extra_ptr;
-};
+class arg_list_c;
 
 
 /**
@@ -188,22 +34,32 @@ class message_c
 public:
 	message_c();
 	message_c( const std::string &args );
+	// message_c( const arg_list_c &args );
 	~message_c();
 	void add_content( const std::string & );
 
-	void copy( const message_c & );
+	/**
+	 * Set the arguments in this message when given an arg_list
+	 */
+	void set_args( const arg_list_c &args )
+	{
+		m_arg = args;
+	}
 
+	/**
+	 * Get the arguments in this message.
+	 */
+	const message_arg_list_c & args() const { return m_arg; }
 	/**
 	 * Get the number of args for this message.
 	 */
-	int argc() const { return m_arg.size(); }
-	std::string argv( int i ) const;
+	int argc() const { return m_arg.argc(); }
 	/**
 	 * Get an argument as a string.
 	 */
-	void argv( int i, std::string &argv ) const
+	const std::string & argv( int i ) const
 	{
-		m_arg.argv( i, argv );
+		return m_arg.argv( i );
 	}
 	/**
 	 * Set an argument as a string.
@@ -214,7 +70,7 @@ public:
 	std::list< std::string >::const_iterator begin_content() const;
 	std::list< std::string >::const_iterator end_content() const;
 
-	std::string arg_string() const { return m_arg.str(); }
+	std::string arg_string() const { return m_arg.arg_string(); }
 
 	void parse_args( const std::string & );
 

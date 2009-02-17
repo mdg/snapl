@@ -1,5 +1,5 @@
-#ifndef COMMAND_H
-#define COMMAND_H
+#ifndef SNAPL_COMMAND_H
+#define SNAPL_COMMAND_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,24 +26,23 @@ class response_c;
 class command_i
 {
 public:
-	const message_c & request_message() const { return m_request_message; }
-	// message_c & response_message() { return m_response_message; }
-
+	/**
+	 * Get a request for this command.
+	 */
 	const request_c & command_request() const { return m_command_request; }
-	response_c & command_response() { return m_command_response; }
+
+	/**
+	 * Set the response for this command from a given message.
+	 */
+	void set_command_response( const message_c & );
 
 protected:
-	command_i( const message_c &req_msg, response_c &resp_msg
-			, const request_c &req, response_c &resp )
-	: m_request_message( req_msg )
-	// , m_response_message( resp_msg )
-	, m_command_request( req )
+	command_i( const request_c &req, response_c &resp )
+	: m_command_request( req )
 	, m_command_response( resp )
 	{}
 
 private:
-	const message_c &m_request_message;
-	// message_c &m_response_message;
 	const request_c &m_command_request;
 	response_c &m_command_response;
 
@@ -73,14 +72,10 @@ public:
 	 * Get the template-typed const response object.
 	 */
 	const RespT & response() const { return m_response; }
-	/**
-	 * Get the template-typed response object.
-	 */
-	RespT & response() { return m_response; }
 
 protected:
 	command_c()
-	: command_i( m_request, m_response, m_request, m_response )
+	: command_i( m_request, m_response )
 	, m_request()
 	, m_response()
 	{}

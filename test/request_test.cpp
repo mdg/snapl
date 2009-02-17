@@ -28,7 +28,6 @@ TESTPP( test_request_default_constructor )
 
 	assertpp( req.type() ) == "renew";
 	assertpp( req.argc() ) == 1;
-	assertpp( req.argv( 0 ) ) == "renew";
 }
 
 

@@ -9,8 +9,8 @@ directory "obj/src"
 directory "obj/test"
 
 LINKS = "-lpthread -ltestpp"
+INC_OPTS = '-Iinclude'
 
-INC_OPTS = '-Iinclude -Itestpp'
 INC = FileList[ 'include/snapl/*.h', 'src/*.h' ]
 SRC = FileList[ 'src/*.cpp' ]
 OBJ = SRC.sub( /\.cpp$/, '.o' ).sub( /^src\//, 'obj/src/' )

@@ -1,5 +1,5 @@
-#ifndef DISPATCHER_H
-#define DISPATCHER_H
+#ifndef SNAPL_DISPATCHER_H
+#define SNAPL_DISPATCHER_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,13 +15,11 @@
  * limitations under the License.
  */
 
+#include "snapl/queue.h"
 #include <map>
 #include <memory>
 
 class protocol_c;
-class request_c;
-class response_c;
-class server_queue_i;
 class server_message_c;
 
 
@@ -39,7 +37,8 @@ public:
 	 * Construct the shession control
 	 * object.
 	 */
-	dispatcher_c( server_queue_i & );
+	dispatcher_c( queue_front_i< server_message_c > &request_queue
+			, queue_back_i< server_message_c > &response_queue );
 
 	/**
 	 * Destroy the dispatcher_c
@@ -64,12 +63,13 @@ public:
 	 * Dispatch a server message through to the correct protocol.
 	 * Dispatch will own the pointer that's passed in.
 	 */
-	void dispatch( server_message_c * );
+	void dispatch( server_message_c & );
 
 	protocol_c * find_protocol( int port );
 
 private:
-	server_queue_i &m_queue;
+	queue_front_i< server_message_c > &m_request_queue;
+	queue_back_i< server_message_c > &m_response_queue;
 	protocol_map m_protocol;
 };
 

@@ -1,5 +1,5 @@
-#ifndef SERVICE_H
-#define SERVICE_H
+#ifndef SNAPL_SERVICE_H
+#define SNAPL_SERVICE_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,12 +15,7 @@
  * limitations under the License.
  */
 
-#include <iostream>
-
-
 class message_c;
-class request_c;
-class response_c;
 
 
 /**
@@ -35,9 +30,7 @@ public:
 	/**
 	 * Execute this untyped service.
 	 */
-	virtual void execute( const request_c & ) = 0;
-
-	virtual const message_c & response_message() const = 0;
+	virtual void execute( const message_c &, message_c & ) = 0;
 };
 
 
@@ -54,20 +47,20 @@ public:
 	/**
 	 * Construct a service w/ no parameters.
 	 */
-	service_c()
-	: m_request()
-	, m_response()
-	{}
+	service_c() {}
 
 	/**
-	 * Untyped execute method w/ untyped request param.
-	 * This copies the generic request into the untyped request
-	 * and then calls the typed execute method.
+	 * Execute the service with an input message and output message.
+	 * This creates typed request & response objects and passes
+	 * to the typed execute function.
 	 */
-	virtual void execute( const request_c &req )
+	virtual void execute( const message_c &req_msg, message_c &resp_msg )
 	{
-		m_request.copy( req );
-		execute( m_request, m_response );
+		ReqT request;
+		RespT response;
+		request.copy_from( req_msg );
+		execute( request, response );
+		response.copy_to( resp_msg );
 	}
 
 	/**
@@ -76,17 +69,6 @@ public:
 	 */
 	virtual void execute( const ReqT &, RespT & ) = 0;
 
-	/**
-	 * Return the typed response as the message parent class.
-	 */
-	virtual const message_c & response_message() const
-	{
-		return m_response;
-	}
-
-protected:
-	ReqT m_request;
-	RespT m_response;
 };
 
 

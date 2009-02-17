@@ -19,12 +19,13 @@
 #include "snapl/response.h"
 #include "snapl/service.h"
 #include "server_message.h"
-#include "server_queue.h"
 #include <iostream>
 
 
-dispatcher_c::dispatcher_c( server_queue_i &queue )
-: m_queue( queue )
+dispatcher_c::dispatcher_c( queue_front_i< server_message_c > &request_queue
+			, queue_back_i< server_message_c > &response_queue )
+: m_request_queue( request_queue )
+, m_response_queue( response_queue )
 , m_protocol()
 {}
 
@@ -49,46 +50,43 @@ bool dispatcher_c::main_loop()
 
 void dispatcher_c::iterate()
 {
-	server_message_c *msg = m_queue.pop();
+	server_message_c *msg = m_request_queue.pop();
 	if ( ! msg ) {
 		// sleep or yield or something, then reiterate
 		return;
 	}
 
-	dispatch( msg );
+	dispatch( *msg );
+	m_response_queue.push( msg );
 }
 
-void dispatcher_c::dispatch( server_message_c *msg_ptr )
+void dispatcher_c::dispatch( server_message_c &msg )
 {
-	std::auto_ptr< server_message_c > msg( msg_ptr );
 	bool success( false );
+	response_c error_response;
 
-	response_c response;
-	protocol_c *protocol = find_protocol( msg->port() );
+	protocol_c *protocol = find_protocol( msg.port() );
 	if ( ! protocol ) {
 		// can't do anything.
 		// write to the response and return
 		std::ostringstream err;
-		err << "No protocol for port " << msg->port();
-		response.err( err.str() );
+		err << "No protocol for port " << msg.port();
+		error_response.err( err.str() );
+		// copy error_response to msg
 		return;
 	}
 
-	service_i *service = protocol->create_service( msg->request_type() );
+	service_i *service = protocol->create_service( msg.request_type() );
 	if ( ! service ) {
-		std::cerr << "no service for " << msg->request_type()
+		std::cerr << "no service for " << msg.request_type()
 			<< std::endl;
-		response.err( "unknown request type: '"
-				+ msg->request_type() +"'" );
+		error_response.err( "unknown request type: '"
+				+ msg.request_type() +"'" );
+		// copy error_response to msg
 		return;
 	}
 
-	service->execute( msg->request() );
-
-	if ( ! protocol->silent() ) {
-		msg->set_response( service->response_message() );
-		m_queue.push( msg.release() );
-	}
+	service->execute( msg.request(), msg.response() );
 }
 
 protocol_c * dispatcher_c::find_protocol( int port )

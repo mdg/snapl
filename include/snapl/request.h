@@ -1,5 +1,5 @@
-#ifndef REQUEST_H
-#define REQUEST_H
+#ifndef SNAPL_REQUEST_H
+#define SNAPL_REQUEST_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 
-#include "message.h"
+#include "arg.h"
+
+class message_c;
 
 
 /**
@@ -23,7 +25,6 @@
  * the sessions.
  */
 class request_c
-: public message_c
 {
 public:
 	/**
@@ -33,18 +34,29 @@ public:
 	request_c( const std::string &req_type = std::string() );
 
 	/**
+	 * Copy a message into this request.
+	 */
+	void copy_from( const message_c & );
+
+	/**
+	 * Copy request data into a message.
+	 */
+	void copy_to( message_c & ) const;
+
+	/**
 	 * Get the type of this request
 	 */
 	const std::string & type() const { return m_type; }
 
 	/**
+	 * The arguments to this request.
+	 */
+	const arg_list_c & args() const { return m_args; }
+
+	/**
 	 * Number of arguments to this request.
 	 */
-	int argc() const { return m_arg.size(); }
-	/**
-	 * Get a specific argument to this request.
-	 */
-	std::string argv( int i ) const { return m_arg.argv( i ); }
+	int argc() const { return m_args.size(); }
 
 	/**
 	 * Get the name of the protocol where this request arrived.
@@ -56,6 +68,8 @@ public:
 	 */
 	int port() const { return m_port; }
 
+protected:
+	arg_list_c m_args;
 private:
 	std::string m_type;
 	std::string m_protocol;

@@ -14,15 +14,27 @@
  */
 
 #include "snapl/response.h"
+#include "snapl/message.h"
 
 
 response_c::response_c()
-: m_code()
+: m_arg()
+, m_code()
 , m_msg()
 , m_content()
 , m_has_content( false )
 {
 	m_arg << m_code << m_msg;
+}
+
+void response_c::copy_from( const message_c &msg )
+{
+	m_arg = msg.args();
+}
+
+void response_c::copy_to( message_c &msg ) const
+{
+	msg.set_args( m_arg );
 }
 
 void response_c::ok( const std::string &msg )

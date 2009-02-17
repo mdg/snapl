@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-#include "snapl/request.h"
-#include "snapl/response.h"
+#include "snapl/message.h"
 #include <memory>
 
 class connection_i;
+class response_c;
 
 
 /**
@@ -32,7 +32,7 @@ public:
 	/**
 	 * Construct the server message from a line of text and a connection.
 	 */
-	server_message_c( const std::string &request, connection_i & );
+	server_message_c( const std::string &request, connection_i * );
 	/**
 	 * Destroy the server_message.
 	 */
@@ -41,39 +41,44 @@ public:
 	/**
 	 * Get the request type from this message.
 	 */
-	const std::string & request_type() const { return m_request.type(); }
+	const std::string & request_type() const { return m_request.argv(0); }
 	/**
 	 * Get the request object from this message.
 	 */
-	const request_c & request() const { return m_request; }
+	const message_c & request() const { return m_request; }
 	/**
 	 * Get the const message for this server message response.
 	 */
-	const message_c & response() const { return *m_response; }
+	const message_c & response() const { return m_response; }
+	/**
+	 * Get the non-const message for this server message response.
+	 */
+	message_c & response() { return m_response; }
+
+	/**
+	 * Set response for writing back to the client
+	 */
+	void set_response( const response_c & );
 
 	/**
 	 * Get the port of this server_message
 	 */
 	short port() const;
-	/**
-	 * Get the protocol for this server_message
-	 */
-	const std::string & protocol() const { return m_request.protocol(); }
-
-	/**
-	 * Set response for writing back to the client
-	 */
-	void set_response( const message_c &resp ) { m_response = &resp; }
 
 	/**
 	 * Get the connection from which this message came.
 	 */
-	connection_i & connection() { return m_connection; }
+	connection_i & connection() { return *m_connection; }
+
+	/**
+	 * Release the connection from this message.
+	 */
+	connection_i * release_connection();
 
 private:
-	request_c m_request;
-	const message_c *m_response;
-	connection_i &m_connection;
+	const message_c m_request;
+	message_c m_response;
+	connection_i *m_connection;
 };
 
 

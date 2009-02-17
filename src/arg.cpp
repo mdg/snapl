@@ -13,26 +13,40 @@
  * limitations under the License.
  */
 
-#include "snapl/message.h"
+#include "snapl/arg.h"
+#include "snapl/message_arg.h"
 #include <sstream>
 
+#include <iostream>
 
-message_c::message_c()
-: m_arg()
-{}
 
-message_c::message_c( const std::string &args )
-: m_arg()
+arg_list_c::arg_list_c()
 {
-	parse_args( args );
 }
 
-message_c::~message_c()
-{}
-
-
-void message_c::parse_args( const std::string &args )
+arg_list_c::~arg_list_c()
 {
-	m_arg.parse( args );
+	std::list< arg_i * >::iterator it( m_arg.begin() );
+	for ( ; it!=m_arg.end(); ++it ) {
+		delete *it;
+	}
+	m_arg.clear();
+}
+
+bool arg_list_c::operator = ( const message_arg_list_c &args )
+{
+	if ( m_arg.size() != args.argc() ) {
+		return false;
+	}
+
+	std::list< arg_i * >::iterator it( m_arg.begin() );
+	message_arg_list_c::iterator msg_it( args.begin() );
+	for ( ; it!=m_arg.end(); ++it ) {
+		if ( ! ( **it << msg_it->get() ) ) {
+			return false;
+		}
+		++msg_it;
+	}
+	return true;
 }
 

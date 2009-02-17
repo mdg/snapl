@@ -20,6 +20,13 @@ client <-> command                               service
                     <-response ------ response <-
 
 # Server
+# Tri-queue processing structure
+---> request --> inbox ->  message_queue ->
+                   ^                        \
+            message_queue                 dispatcher
+                   ^                        /
+<-- response <-- outbox <- message_queue <-
+
 dispatcher
 	an interface for routing requests from the queue, to an action
 	and delivering the response.
@@ -60,6 +67,8 @@ response
 # get turned into text and transfered through the network
 # A visual picture would be better
 request -> message -> text -> server_message -> dispatcher -> service -> request
+
+(request -> arg_list, msg_content -> message_arg_list, msg_content -> message)
 
 response <- message <- text <- message <- dispatcher <- response
 

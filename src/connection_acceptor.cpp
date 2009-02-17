@@ -31,6 +31,7 @@ connection_acceptor_c::connection_acceptor_c()
 : m_listener()
 , m_open()
 , m_ready()
+, m_backlog( connection_acceptor_c::DEFAULT_BACKLOG )
 {}
 
 
@@ -39,9 +40,9 @@ connection_acceptor_c::~connection_acceptor_c()
 	close();
 }
 
-bool connection_acceptor_c::open_listener( short port, int backlog )
+bool connection_acceptor_c::listen( short port )
 {
-	int listener( create_listener_socket( port, backlog ) );
+	int listener( create_listener_socket( port, m_backlog ) );
 	if ( ! listener ) {
 		return false;
 	}
@@ -82,7 +83,7 @@ int connection_acceptor_c::create_listener_socket( int port, int backlog )
 	// std::cout << "Socket is bound.\n";
 
 	// make the socket listen
-	int listen_error = listen( listener, backlog );
+	int listen_error = ::listen( listener, backlog );
 	if ( listen_error < 0 ) {
 		// error.  do something.
 		perror( "Socket won't listen." );
