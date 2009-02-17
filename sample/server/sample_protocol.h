@@ -3,10 +3,12 @@
 
 #include "snapl/service.h"
 #include "snapl/protocol.h"
+#include "snapl/request.h"
+#include "snapl/response.h"
 
 
 class get_service_c
-: public service_i
+: public service_c< request_c, response_c >
 {
 public:
 	get_service_c();
@@ -15,7 +17,7 @@ public:
 };
 
 class put_service_c
-: public service_i
+: public service_c< request_c, response_c >
 {
 public:
 	put_service_c();
@@ -24,7 +26,7 @@ public:
 };
 
 class add_service_c
-: public service_i
+: public service_c< request_c, response_c >
 {
 public:
 	add_service_c();
@@ -32,11 +34,11 @@ public:
 	virtual void execute( const request_c &, response_c & );
 };
 
-class delete_service_c
-: public service_i
+class del_service_c
+: public service_c< request_c, response_c >
 {
 public:
-	delete_service_c();
+	del_service_c();
 
 	virtual void execute( const request_c &, response_c & );
 };
@@ -49,17 +51,11 @@ public:
 	sample_protocol_c( short port )
 	: protocol_c( port )
 	{
-		add( m_get );
-		add( m_put );
-		add( m_add );
-		add( m_delete );
+		add< get_service_c >( "get" );
+		add< put_service_c >( "put" );
+		add< add_service_c >( "add" );
+		add< del_service_c >( "del" );
 	}
-
-private:
-	get_service_c m_get;
-	put_service_c m_put;
-	add_service_c m_add;
-	delete_service_c m_delete;
 };
 
 

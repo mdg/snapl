@@ -1,6 +1,8 @@
 #include "sample_protocol.h"
 #include "snapl/dispatcher.h"
-#include "snapl/net/connection_acceptor.h"
+#include "snapl/net/inbox.h"
+#include "snapl/net/outbox.h"
+#include "connection_acceptor.h"
 
 
 int main( int argc, char **argv )
@@ -8,13 +10,24 @@ int main( int argc, char **argv )
 	short port( 9000 );
 
 	sample_protocol_c sample_protocol( port );
+
+	queue_c< server_message_c > request_queue;
+	queue_c< server_message_c > response_queue;
+	queue_c< server_message_c > complete_queue;
+
 	connection_acceptor_c acceptor;
-	acceptor.open_listener( port );
-	polling_server_queue_c queue( acceptor );
-	dispatcher_c dispatch( queue );
+	inbox_c inbox( acceptor, request_queue, complete_queue );
+	dispatcher_c dispatch( request_queue, response_queue );
+	outbox_c outbox( response_queue, complete_queue );
 
 	dispatch.add( sample_protocol );
-	dispatch.main_loop();
+
+	for (;;) {
+		inbox.iterate();
+		dispatch.iterate();
+		outbox.iterate();
+	}
+
 	return 0;
 }
 

@@ -2,41 +2,41 @@
 #include "snapl/response.h"
 
 
-get_action_c::get_action_c()
-: action_i( "get" )
+get_service_c::get_service_c()
+: service_c< request_c, response_c >()
 {}
 
-void get_action_c::execute( const request_c &req, response_c &resp )
+void get_service_c::execute( const request_c &req, response_c &resp )
 {
 	resp.ok( "get successful" );
 }
 
 
-put_action_c::put_action_c()
-: action_i( "put" )
+put_service_c::put_service_c()
+: service_c< request_c, response_c >()
 {}
 
-void put_action_c::execute( const request_c &req, response_c &resp )
+void put_service_c::execute( const request_c &req, response_c &resp )
 {
 	resp.ok( "put successful" );
 }
 
 
-add_action_c::add_action_c()
-: action_i( "add" )
+add_service_c::add_service_c()
+: service_c< request_c, response_c >()
 {}
 
-void add_action_c::execute( const request_c &req, response_c &resp )
+void add_service_c::execute( const request_c &req, response_c &resp )
 {
 	resp.ok( "add successful" );
 }
 
 
-delete_action_c::delete_action_c()
-: action_i( "delete" )
+del_service_c::del_service_c()
+: service_c< request_c, response_c >()
 {}
 
-void delete_action_c::execute( const request_c &req, response_c &resp )
+void del_service_c::execute( const request_c &req, response_c &resp )
 {
 	resp.ok( "delete successful" );
 }
