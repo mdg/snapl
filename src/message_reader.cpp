@@ -34,6 +34,9 @@ bool message_reader_c::read()
 
 	std::string line;
 	m_connection.read_line( line );
+	if ( line.empty() ) {
+		return false;
+	}
 
 	m_message.reset( new server_message_c( line, &m_connection ) );
 	m_complete = true;
