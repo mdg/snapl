@@ -37,10 +37,16 @@ public:
 	virtual void write_line( const std::string & );
 	virtual bool line_ready() const;
 
+	void set_line_ready( bool line_ready = true )
+	{
+		m_line_ready = line_ready;
+	}
+
 private:
 	std::queue< std::string > &m_read_queue;
 	std::queue< std::string > &m_write_queue;
 	short m_port;
+	bool m_line_ready;
 };
 
 /**
@@ -53,6 +59,16 @@ public:
 
 	connection_i & client() { return m_client; }
 	connection_i & server() { return m_server; }
+
+	void set_client_line_ready( bool line_ready = true )
+	{
+		m_client.set_line_ready( line_ready );
+	}
+
+	void set_server_line_ready( bool line_ready = true )
+	{
+		m_server.set_line_ready( line_ready );
+	}
 
 private:
 	std::queue< std::string > m_client_read_queue;

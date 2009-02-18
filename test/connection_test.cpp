@@ -23,6 +23,7 @@ mock_connection_c::mock_connection_c( std::queue< std::string > &read_queue
 : m_read_queue( read_queue )
 , m_write_queue( write_queue )
 , m_port( port )
+, m_line_ready( false )
 {}
 
 void mock_connection_c::read_line( std::string &line )
@@ -42,7 +43,7 @@ void mock_connection_c::write_line( const std::string &line )
 
 bool mock_connection_c::line_ready() const
 {
-	return ! m_read_queue.empty();
+	return m_line_ready && ! m_read_queue.empty();
 }
 
 
