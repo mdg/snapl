@@ -47,6 +47,9 @@ TESTPP( test_message_reader_one_line )
 
 	assertpp( reader.complete() );
 	std::auto_ptr< server_message_c > msg( reader.message() );
-	assertpp( msg->request().argc() ) == 2;
+	assertpp( msg.get() ).t();
+	if ( msg.get() ) {
+		assertpp( msg->request().argc() ) == 2;
+	}
 }
 
