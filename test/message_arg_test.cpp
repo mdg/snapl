@@ -44,7 +44,7 @@ TESTPP( test_message_arg_list_constructor )
  */
 TESTPP( test_message_arg_list_parse_quoted_args )
 {
-	not_implemented( 2009, 2, 1 );
+	not_implemented( 2009, 3, 1 );
 	return;
 
 	message_arg_list_c args;
