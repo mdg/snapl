@@ -20,17 +20,11 @@
 
 message_reader_c::message_reader_c( connection_i *conn )
 : m_connection( conn )
+, m_complete( false )
 {}
 
 message_reader_c::~message_reader_c()
 {}
-
-bool message_reader_c::complete() const
-{
-	// if there's a message and the connection is null,
-	// then this reader is considered complete.
-	return m_message.get() && ! m_connection.get();
-}
 
 bool message_reader_c::read()
 {
@@ -44,6 +38,7 @@ bool message_reader_c::read()
 	m_connection->read_line( line );
 
 	m_message.reset( new server_message_c( line, m_connection.release() ) );
+	m_complete = true;
 	return true;
 }
 

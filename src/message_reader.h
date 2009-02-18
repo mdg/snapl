@@ -39,7 +39,7 @@ public:
 	/**
 	 * Check if this message_reader has completely read a message.
 	 */
-	bool complete() const;
+	bool complete() const { return m_complete; }
 
 	/**
 	 * Read a message from the given connection.
@@ -55,6 +55,7 @@ public:
 private:
 	std::auto_ptr< connection_i > m_connection;
 	std::auto_ptr< server_message_c > m_message;
+	bool m_complete;
 };
 
 
