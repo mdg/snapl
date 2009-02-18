@@ -20,6 +20,8 @@ int main( int argc, char **argv )
 	dispatcher_c dispatch( request_queue, response_queue );
 	outbox_c outbox( response_queue, complete_queue );
 
+	inbox.listen( port );
+
 	dispatch.add( sample_protocol );
 
 	for (;;) {
