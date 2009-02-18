@@ -20,6 +20,7 @@
 
 message_reader_c::message_reader_c( connection_i *conn )
 : m_connection( conn )
+, m_message()
 , m_complete( false )
 {}
 
