@@ -36,7 +36,7 @@ public:
 	/**
 	 * Destroy the server_message.
 	 */
-	~server_message_c();
+	virtual ~server_message_c();
 
 	/**
 	 * Get the request type from this message.
