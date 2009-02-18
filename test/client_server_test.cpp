@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-#include "client.h"
+#include "snapl/client.h"
 #include "snapl/dispatcher.h"
 #include "snapl/protocol.h"
 #include "snapl/net/inbox.h"

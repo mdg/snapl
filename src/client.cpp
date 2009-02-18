@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-#include "client.h"
+#include "snapl/client.h"
 #include "snapl/command.h"
 #include "snapl/message.h"
 #include "snapl/request.h"

@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-#include "client.h"
+#include "snapl/client.h"
 #include "connection_test.h"
 #include "command_test.h"
 #include <testpp/test.h>
