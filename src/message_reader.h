@@ -53,7 +53,7 @@ public:
 	server_message_c * message();
 
 private:
-	std::auto_ptr< connection_i > m_connection;
+	connection_i &m_connection;
 	std::auto_ptr< server_message_c > m_message;
 	bool m_complete;
 };

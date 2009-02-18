@@ -14,39 +14,20 @@
  */
 
 #include "message_reader.h"
-#include "snapl/net/connection.h"
-#include "server_message.h"
+#include "connection_test.h"
+#include <testpp/test.h>
 
 
-message_reader_c::message_reader_c( connection_i *conn )
-: m_connection( *conn )
-, m_message()
-, m_complete( false )
-{}
-
-message_reader_c::~message_reader_c()
-{}
-
-bool message_reader_c::read()
+/**
+ * Test that the message constructor works as expected.
+ */
+TESTPP( test_message_reader_constructor )
 {
-	if ( complete() )
-		return true;
+	mock_client_server_connection_c conn;
+	message_reader_c reader( &conn.server() );
 
-	std::string line;
-	if ( ! m_connection.line_ready() ) {
-		return false;
-	}
-	m_connection.read_line( line );
-
-	m_message.reset( new server_message_c( line, &m_connection ) );
-	m_complete = true;
-	return true;
-}
-
-server_message_c * message_reader_c::message()
-{
-	if ( ! complete() )
-		return NULL;
-	return m_message.release();
+	assertpp( reader.complete() ).f();
+	// std::auto_ptr< server_message_c > msg( reader.message() );
+	// assertpp( msg.get() ).f();
 }
 
