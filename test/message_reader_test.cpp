@@ -14,6 +14,7 @@
  */
 
 #include "message_reader.h"
+#include "server_message.h"
 #include "connection_test.h"
 #include <testpp/test.h>
 
@@ -27,7 +28,25 @@ TESTPP( test_message_reader_constructor )
 	message_reader_c reader( &conn.server() );
 
 	assertpp( reader.complete() ).f();
-	// std::auto_ptr< server_message_c > msg( reader.message() );
-	// assertpp( msg.get() ).f();
+	std::auto_ptr< server_message_c > msg( reader.message() );
+	assertpp( msg.get() ).f();
+}
+
+/**
+ * Test that the message constructor correctly reads a one line message.
+ */
+TESTPP( test_message_reader_one_line )
+{
+	mock_client_server_connection_c conn;
+	message_reader_c reader( &conn.server() );
+
+	conn.client().write_line( "get this" );
+
+	bool success( reader.read() );
+	assertpp( success ).t();
+
+	assertpp( reader.complete() );
+	std::auto_ptr< server_message_c > msg( reader.message() );
+	assertpp( msg->request().argc() ) == 2;
 }
 
