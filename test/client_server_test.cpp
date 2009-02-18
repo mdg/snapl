@@ -64,6 +64,8 @@ TESTPP( test_client_server )
 
 	client_c client( cs.client() );
 	mock_connection_listener_c listener( cs.server() );
+	cs.set_client_line_ready();
+	cs.set_server_line_ready();
 
 	queue_c< server_message_c > request;
 	queue_c< server_message_c > response;

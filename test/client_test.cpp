@@ -26,6 +26,7 @@
 TESTPP( test_client_send_request )
 {
 	mock_client_server_connection_c cs;
+	cs.set_server_line_ready();
 	client_c client( cs.client() );
 	connection_i &server( cs.server() );
 
