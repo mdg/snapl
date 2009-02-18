@@ -33,9 +33,6 @@ bool message_reader_c::read()
 		return true;
 
 	std::string line;
-	if ( ! m_connection.line_ready() ) {
-		return false;
-	}
 	m_connection.read_line( line );
 
 	m_message.reset( new server_message_c( line, &m_connection ) );
