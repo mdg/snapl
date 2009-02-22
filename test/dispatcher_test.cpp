@@ -56,7 +56,8 @@ TESTPP( test_dispatcher_success )
 	dispatcher_c dispatch( request_queue, response_queue );
 
 	protocol_c protocol( 3 );
-	protocol.add< mock_service_c >( "mock" );
+	mock_service_c service;
+	protocol.add( "mock", service );
 	dispatch.add( protocol );
 
 	mock_client_server_connection_c cs( 3 );

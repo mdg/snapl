@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-#include "factory.h"
 #include <map>
 #include <string>
 
@@ -25,25 +24,19 @@ class service_i;
 
 class protocol_c
 {
-	typedef factory_i< service_i > service_factory_i;
-	typedef std::map< std::string, service_factory_i * > service_map;
+	typedef std::map< std::string, service_i * > service_map;
 	typedef service_map::iterator service_iterator;
 
 public:
 	protocol_c( short port );
 	virtual ~protocol_c();
 
-	template < typename T >
-	void add( const std::string &name )
+	void add( const std::string &name, service_i &service )
 	{
-		service_factory_i *factory = m_service[ name ];
-		if ( factory != NULL ) {
-			delete factory;
-		}
-		m_service[ name ] = new factory_c< T, service_i >();
+		m_service[ name ] = &service;
 	}
 
-	service_i * create_service( const std::string & );
+	service_i * service( const std::string &service_name );
 
 	const std::string & name() const { return m_name; }
 	short port() const { return m_port; }

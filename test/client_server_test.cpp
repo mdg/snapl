@@ -75,7 +75,8 @@ TESTPP( test_client_server )
 	outbox_c outbox( response, complete );
 
 	protocol_c protocol( 3 );
-	protocol.add< mock_service_c >( "mock" );
+	mock_service_c service;
+	protocol.add( "mock", service );
 	dispatch.add( protocol );
 
 

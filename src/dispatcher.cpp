@@ -76,7 +76,7 @@ void dispatcher_c::dispatch( server_message_c &msg )
 		return;
 	}
 
-	service_i *service = protocol->create_service( msg.request_type() );
+	service_i *service = protocol->service( msg.request_type() );
 	if ( ! service ) {
 		std::cerr << "no service for " << msg.request_type()
 			<< std::endl;
