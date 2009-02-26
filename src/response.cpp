@@ -49,6 +49,14 @@ void response_c::err( const std::string &msg )
 	m_msg = msg;
 }
 
+void response_c::err( const std::string &file, int line )
+{
+	m_code = "err";
+	std::ostringstream format;
+	format << file << ':' << line;
+	m_msg = format.str();
+}
+
 void response_c::write_line( const std::string &line )
 {
 	m_content << '\t' << line << std::endl;

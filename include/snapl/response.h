@@ -54,9 +54,15 @@ public:
 
 	/**
 	 * Flag this response as having failed.
-	 * Include an optional error message.
+	 * Must include an error message to explain the error.
 	 */
-	void err( const std::string &msg = std::string() );
+	void err( const std::string &msg );
+
+	/**
+	 * Flag this response as having failed.
+	 * Report the file and line of the error.
+	 */
+	void err( const std::string &file, int line );
 
 	/**
 	 * Add a line of text as output for this response.
