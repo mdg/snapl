@@ -6,6 +6,8 @@
 package snapl as a library
 	separate src code into server code and client code
 
+put snapl into a namespace
+
 combine server queue and the connection_listener class
 	consider also combining blocking_client_queue and a connection class
 
