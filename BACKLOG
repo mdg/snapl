@@ -16,6 +16,8 @@ consider making rake build to use crake?
 add integration test framework for easily running client/server tests
 	on customized protocols
 
+add a request ID, sent from client to allow IDing remote requests on the server
+
 add load testing
 
 add support for handling the content portion of messages
