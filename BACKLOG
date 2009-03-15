@@ -11,6 +11,8 @@ put snapl into a namespace
 combine server queue and the connection_listener class
 	consider also combining blocking_client_queue and a connection class
 
+work with libevent
+
 consider making rake build to use crake?
 
 add integration test framework for easily running client/server tests
@@ -27,6 +29,8 @@ add a version handshake upon connections being made to allow
 
 add logging that allows turning debug messages on and off
 	this should be log4c maybe?
+
+consider merging request & response into a single command class
 
 see if it's possible to speed up the requests after polling
 
