@@ -13,8 +13,9 @@
  * limitations under the License.
  */
 
-#include "client.h"
-#include "core_command.h"
+#include "snapl/client.h"
+#include "sample_protocol.h"
+#include "snapl/net/client_connection.h"
 #include <iostream>
 #include <list>
 #include <map>
@@ -24,28 +25,28 @@
 
 void functional_test()
 {
-	client_c client;
-	if ( ! client.open( "127.0.0.1", 9000 ) ) {
-		std::cerr << "Error connecting socket.\n";
-		return;
-	}
+	client_connection_c conn;
+	conn.connect( "127.0.0.1", 9000 );
+	client_c client( conn );
 
-	create_command_c create( "dog" );
-	client.send_request( create );
-	client.wait_for_response( create );
+	get_command_c get( "dog" );
+	client.send_request( get );
+	client.wait_for_response( get );
 
-	std::cerr << "response session_id = " << create.session_id()
+	std::cerr << "response output = " << get.response().output()
 		<< std::endl;
 }
 
 
 void run_load_2( int n, int seconds )
 {
-	shession_client_c client;
+	client_c client;
+	/*
 	if ( ! client.open( "127.0.0.1", 9000 ) ) {
 		std::cerr << "Error connecting socket.\n";
 		return;
 	}
+	*/
 
 	// create session ids in memory
 	std::map< std::string, std::string > sessions;
@@ -59,10 +60,12 @@ void run_load_2( int n, int seconds )
 	std::map< std::string, std::string >::const_iterator it;
 	// create all them
 	for ( it=sessions.begin(); it!=sessions.end(); ++it ) {
+		/*
 		create_command_c create_cmd( it->first );
 		client.send_request( create_cmd );
 		client.wait_for_response( create_cmd );
 		sessions[ it->first ] = create_cmd.session_id();
+		*/
 	}
 
 	std::cerr << "begin load test\n";

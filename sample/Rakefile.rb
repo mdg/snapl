@@ -6,7 +6,7 @@ task :clean => [] do
 end
 
 LINKS = "-lpthread"
-INCS = "-I../include -I../src"
+INCS = "-I../include -I../src -Iserver"
 
 directory( "../obj/src" )
 
@@ -51,7 +51,7 @@ end
 file "load_sample" => [ :compile, "load/load.cpp" ] do |t|
     no_main_obj = SAMPLE_OBJ.clone
     no_main_obj.exclude( 'sample_main.o' )
-    sh "g++ -Isrc -o load_sample #{OBJ} #{no_main_obj} load/load.cpp"
+    sh "g++ #{INCS} #{LINKS} -o load_sample #{OBJ} #{no_main_obj} load/load.cpp"
 end
 
 
