@@ -39,6 +39,16 @@ public:
 	 */
 	bool line_ready() const;
 
+	/**
+	 * Check if there is no current input in this line parser.
+	 */
+	bool empty() const { return m_input.empty(); }
+
+	/**
+	 * Get the raw input into this line parser.
+	 */
+	const std::string & input() const { return m_input; }
+
 private:
 	std::string m_input;
 };
