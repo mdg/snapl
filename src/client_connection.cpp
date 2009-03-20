@@ -59,6 +59,11 @@ bool client_connection_c::connect( const std::string &url, short port )
 	return true;
 }
 
+bool client_connection_c::open() const
+{
+	return m_connection.get() && m_connection->open();
+}
+
 void client_connection_c::close()
 {
 	m_connection.reset();

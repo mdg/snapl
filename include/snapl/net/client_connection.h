@@ -39,6 +39,11 @@ public:
 	bool connect( const std::string &address, short port );
 
 	/**
+	 * Check if this connection is open.
+	 */
+	bool open() const;
+
+	/**
 	 * Close the connection.
 	 */
 	void close();
