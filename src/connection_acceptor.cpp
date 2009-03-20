@@ -14,6 +14,8 @@
  */
 
 #include "connection_acceptor.h"
+#include <set>
+#include <memory>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -144,22 +146,40 @@ connection_i * connection_acceptor_c::connection()
 	listener_iterator lit( m_listener.begin() );
 	for ( ; lit != m_listener.end(); ++lit ) {
 		polls[i].fd = lit->first;
-		polls[i].events = POLLIN;
+		polls[i].events = POLLIN | POLLRDHUP;
 		polls[i++].revents = 0;
 	}
 
 	// build polls for open connections
 	connection_iterator conn( m_open.begin() );
+	std::set< int > closed_connections;
 	for ( ; conn!=m_open.end(); ++conn ) {
-		polls[i].fd = conn->first;
-		polls[i].events = POLLIN;
-		polls[i++].revents = 0;
+		if ( conn->second->open() ) {
+			polls[i].fd = conn->first;
+			polls[i].events = POLLIN;
+			polls[i++].revents = 0;
+		} else {
+			// flag the connection as closed
+			closed_connections.insert( conn->first );
+		}
+	}
+
+	// delete any closed connections
+	std::set< int >::const_iterator closed_it( closed_connections.begin() );
+	for ( ; closed_it!=closed_connections.end(); ++closed_it ) {
+		conn = m_open.find( *closed_it );
+		if ( conn != m_open.end() ) {
+			std::auto_ptr< connection_i > closed_conn(
+					m_open[ *closed_it ] );
+			m_open.erase( *closed_it );
+		}
 	}
 
 	std::cerr << "poll( " << listener_count << ", " << connection_count
 	       << " )...\n";
 	int ready_count( poll( polls, poll_count, 1000 ) );
 	if ( ready_count == 0 ) {
+		delete[] polls;
 		return NULL;
 	}
 
@@ -182,7 +202,7 @@ connection_i * connection_acceptor_c::connection()
 
 	// check for input on open connections
 	for ( i=listener_count; i<poll_count; ++i ) {
-		if ( polls[i].revents & POLLHUP ) {
+		if ( polls[i].revents & POLLRDHUP ) {
 			// this connection is closed.
 			// delete it.
 			std::cerr << "deleting a closed connection\n";
@@ -197,6 +217,8 @@ connection_i * connection_acceptor_c::connection()
 				<< polls[i].revents << std::endl;
 		}
 	}
+
+	delete[] polls;
 
 	// return the ready connection if there is one
 	if ( m_ready.empty() ) {
