@@ -5,6 +5,7 @@
 #include "snapl/protocol.h"
 #include "snapl/request.h"
 #include "snapl/response.h"
+#include "snapl/command.h"
 
 
 class get_request_c

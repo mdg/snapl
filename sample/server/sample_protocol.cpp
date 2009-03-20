@@ -3,10 +3,10 @@
 
 
 get_service_c::get_service_c()
-: service_c< request_c, response_c >()
+: service_c< get_request_c, get_response_c >()
 {}
 
-void get_service_c::execute( const request_c &req, response_c &resp )
+void get_service_c::execute( const get_request_c &req, get_response_c &resp )
 {
 	resp.ok( "get successful" );
 }
