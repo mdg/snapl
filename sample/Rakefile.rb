@@ -1,10 +1,6 @@
 
 require "../rakepp.rb"
 
-task :clean => [] do
-    sh "rm -rf obj"
-end
-
 LINKS = "-lpthread"
 INCS = "-I../include -I../src -Iserver"
 
@@ -68,5 +64,10 @@ task :build => [ "sample" ]
 
 desc "Build the load testing executable"
 task :build_load => [ "load_sample" ]
+
+task :clean do |t|
+	sh "rm ../src/*.o"
+	sh "rm -rf ../obj"
+end
 
 
