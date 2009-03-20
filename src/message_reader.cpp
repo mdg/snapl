@@ -22,6 +22,7 @@ message_reader_c::message_reader_c( connection_i *conn )
 : m_connection( *conn )
 , m_message()
 , m_complete( false )
+, m_empty( true )
 {}
 
 message_reader_c::~message_reader_c()
@@ -29,12 +30,16 @@ message_reader_c::~message_reader_c()
 
 bool message_reader_c::read()
 {
-	if ( complete() )
+	if ( complete() ) {
+		std::cerr << "already complete\n";
 		return true;
+	}
 
 	std::string line;
 	m_connection.read_line( line );
 	if ( line.empty() ) {
+		std::cerr << "read empty line\n";
+		m_empty = true;
 		return false;
 	}
 

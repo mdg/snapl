@@ -42,6 +42,11 @@ public:
 	bool complete() const { return m_complete; }
 
 	/**
+	 * Check if this message_reader has nothing to read.
+	 */
+	bool empty() const { return m_empty; }
+
+	/**
 	 * Read a message from the given connection.
 	 * @return true if the message is read completely.
 	 */
@@ -56,6 +61,7 @@ private:
 	connection_i &m_connection;
 	std::auto_ptr< server_message_c > m_message;
 	bool m_complete;
+	bool m_empty;
 };
 
 

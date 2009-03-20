@@ -80,9 +80,10 @@ void inbox_c::read_new_messages()
 			new message_reader_c( conn ) );
 	if ( reader->read() ) {
 		m_request.push( reader->message() );
-	} else {
+	} else if ( ! reader->empty() ) {
 		m_partial.push( reader.release() );
 		std::cerr << "incomplete message\n";
-	}
+	} // else leave the reader to be destroyed, need to replace
+		// the connection though
 }
 
