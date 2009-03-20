@@ -35,6 +35,15 @@ public:
 	virtual ~connected_socket_c();
 
 	/**
+	 * Close the connection.
+	 */
+	virtual void close();
+	/**
+	 * Check if the connection is open.
+	 */
+	virtual bool open() const { return m_socket; }
+
+	/**
 	 * Get the port that this socket was connected to.
 	 */
 	virtual short port() const { return m_port; }

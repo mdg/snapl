@@ -17,6 +17,8 @@
 #include <sys/socket.h>
 #include <errno.h>
 
+#include <iostream>
+
 
 connected_socket_c::connected_socket_c( int socket, short port )
 : m_socket( socket )
@@ -26,9 +28,16 @@ connected_socket_c::connected_socket_c( int socket, short port )
 
 connected_socket_c::~connected_socket_c()
 {
-	shutdown( m_socket, SHUT_RDWR );
-	m_socket = 0;
-	m_port = 0;
+	close();
+}
+
+void connected_socket_c::close()
+{
+	if ( m_socket ) {
+		shutdown( m_socket, SHUT_RDWR );
+		m_socket = 0;
+		m_port = 0;
+	}
 }
 
 
@@ -41,15 +50,29 @@ void connected_socket_c::read_line( std::string &line )
 	if ( bytes == -1 ) {
 		if ( errno == EWOULDBLOCK ) {
 			// do nothing
+			// debug message only this error should be removed
+			perror( "EWOULDBLOCK" );
 		} else {
 			perror( "request read failure" );
 			return;
 		}
+	} else if ( bytes == 0 ) {
+		// socket is closed?
+		std::cerr << "no data read.  socket is closed?\n";
+		close();
 	} else {
 		m_line_parser.add_input( buffer );
 	}
 
+	if ( ! ( m_line_parser.empty() || m_line_parser.line_ready() ) ) {
+		std::cerr << "line_parser input = '" << m_line_parser.input()
+			<< "'\n";
+	}
 	m_line_parser.readline( line );
+	if ( line.empty() && ! m_line_parser.empty() ) {
+		std::cerr << "line_parser not empty = '"
+			<< m_line_parser.input() << "'\n";
+	}
 }
 
 void connected_socket_c::write_line( const std::string &line )

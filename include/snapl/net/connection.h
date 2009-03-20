@@ -30,6 +30,11 @@ public:
 	virtual ~connection_i() {}
 
 	/**
+	 * Check if a connection is still open.
+	 */
+	virtual bool open() const = 0;
+
+	/**
 	 * Return the server port that this connection is on
 	 */
 	virtual short port() const = 0;
