@@ -31,6 +31,10 @@ public:
 			, std::queue< std::string > &write_queue
 			, short port = 0 );
 
+	/**
+	 * Return true for now.  Add a way to set it later if necessary.
+	 */
+	virtual bool open() const { return true; }
 	virtual short port() const { return m_port; }
 
 	virtual void read_line( std::string & );
