@@ -175,15 +175,15 @@ connection_i * connection_acceptor_c::connection()
 		}
 	}
 
-	std::cerr << "poll( " << listener_count << ", " << connection_count
-	       << " )...\n";
+	// std::cerr << "poll( " << listener_count << ", " << connection_count
+	       // << " )...\n";
 	int ready_count( poll( polls, poll_count, 1000 ) );
 	if ( ready_count == 0 ) {
 		delete[] polls;
 		return NULL;
 	}
 
-	std::cerr << "ready_count == " << ready_count << std::endl;
+	// std::cerr << "ready_count == " << ready_count << std::endl;
 	if ( ready_count < 0 ) {
 		perror( "Poll error" );
 	}
@@ -208,9 +208,9 @@ connection_i * connection_acceptor_c::connection()
 			std::cerr << "deleting a closed connection\n";
 			close_socket( polls[i].fd );
 		} else if ( polls[i].revents & POLLIN ) {
-			std::cerr << "i=" << i << "; ";
-			std::cerr << "m_ready.push_back( m_open["
-				<< polls[i].fd << "] )\n";
+			// std::cerr << "i=" << i << "; ";
+			// std::cerr << "m_ready.push_back( m_open["
+				// << polls[i].fd << "] )\n";
 			m_ready.push_back( m_open[ polls[i].fd ] );
 		} else {
 			std::cerr << "polls[" << i << "].revents = "
