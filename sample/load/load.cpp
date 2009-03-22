@@ -40,55 +40,33 @@ void functional_test()
 
 void run_load_2( int n, int seconds )
 {
-	client_c client;
-	/*
-	if ( ! client.open( "127.0.0.1", 9000 ) ) {
-		std::cerr << "Error connecting socket.\n";
-		return;
-	}
-	*/
+	client_connection_c conn;
+	conn.connect( "127.0.0.1", 9000 );
+	client_c client( conn );
 
-	// create session ids in memory
-	std::map< std::string, std::string > sessions;
-	for ( int i( 0 ); i<n; ++i ) {
-		std::ostringstream s;
-		s << "load2_user_" << i;
-		sessions[ s.str() ];
-	}
-
-	std::cerr << "setup load test\n";
-	std::map< std::string, std::string >::const_iterator it;
-	// create all them
-	for ( it=sessions.begin(); it!=sessions.end(); ++it ) {
-		/*
-		create_command_c create_cmd( it->first );
-		client.send_request( create_cmd );
-		client.wait_for_response( create_cmd );
-		sessions[ it->first ] = create_cmd.session_id();
-		*/
+	// set to second boundary
+	time_t boundary_time( time( NULL ) + 1 );
+	while ( time( NULL ) < boundary_time ) {
+		// spin
 	}
 
 	std::cerr << "begin load test\n";
 
 	// check sessions now that they're there
-	it = sessions.begin();
 	int count( 0 );
 	// see how many queries can be made in a certain time
 	time_t stop_time( time( NULL ) + seconds );
 	while ( time( NULL ) < stop_time ) {
-		/*
-		renew_command_c renew_cmd( *it );
-		client.send_request( renew_cmd );
-		client.wait_for_response( renew_cmd );
-		*/
+		std::ostringstream msg;
+		msg << "value_" << ++count;
 
-		std::cerr << "executed live_session\n";
-		++count;
-		if ( ++it == sessions.end() ) {
-			std::cerr << "start over again\n";
-			// start over again
-			it = sessions.begin();
-		}
+		get_command_c get_cmd( msg.str() );
+		client.send_request( get_cmd );
+		client.wait_for_response( get_cmd );
+		/*
+		std::cout << "response = '" << get_cmd.response().output()
+			<< "'\n";
+			*/
 	}
 
 	std::cerr << count << " requests in " << seconds << " seconds\n";
@@ -99,8 +77,8 @@ void run_load_2( int n, int seconds )
 
 int main( int argc, char **argv )
 {
-	// run_load_2( 1, 12 );
 	functional_test();
+	run_load_2( 1, 12 );
 
 	return 0;
 }
