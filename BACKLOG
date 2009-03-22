@@ -3,8 +3,6 @@
 ### BACKLOG ###
 ###############
 
-put snapl into a namespace
-
 package snapl as a library
 	separate src code into server code and client code
 
