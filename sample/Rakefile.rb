@@ -66,8 +66,10 @@ desc "Build the load testing executable"
 task :build_load => [ "load_sample" ]
 
 task :clean do |t|
-	sh "rm ../src/*.o"
+	sh "rm -f ../src/*.o"
 	sh "rm -rf ../obj"
+	sh "rm -f server/*.o"
+	sh "rm -f load/*.o"
 end
 
 
