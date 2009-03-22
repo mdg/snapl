@@ -16,6 +16,7 @@
 
 #include "request_test.h"
 #include <testpp/test.h>
+#include "snapl/message.h"
 
 
 /**
@@ -41,5 +42,25 @@ TESTPP( test_mock_request_constructor )
 
 	assertpp( req.id() ) == "id_34";
 	assertpp( req.number() ) == 23;
+}
+
+
+/**
+ * Test if the derived request class correctly converts to a message and
+ * a message args string.
+ */
+TESTPP( test_mock_request_to_message )
+{
+	mock_request_c req;
+	req.set( "id_34", 23 );
+
+	message_c msg;
+	req.copy_to( msg );
+
+	assertpp( msg.argc() ) == 3;
+	assertpp( msg.argv( 0 ) ) == "mock";
+	assertpp( msg.argv( 1 ) ) == "id_34";
+	assertpp( msg.argv( 2 ) ) == "23";
+	assertpp( msg.arg_string() ) == "mock id_34 23";
 }
 
