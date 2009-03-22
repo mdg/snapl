@@ -13,11 +13,12 @@
  * limitations under the License.
  */
 
-
 #include "line_parser.h"
 #include <sstream>
 #include <iostream>
 #include <list>
+
+using namespace snapl;
 
 
 void line_parser_c::add_input( const std::string &input )

@@ -19,6 +19,8 @@
 #include <map>
 #include <memory>
 
+namespace snapl {
+
 class server_message_c;
 
 
@@ -54,6 +56,8 @@ private:
 	queue_back_i< server_message_c > &m_complete;
 };
 
+
+} // namespace
 
 #endif
 

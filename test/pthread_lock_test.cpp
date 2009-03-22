@@ -16,6 +16,8 @@
 #include "pthread_lock.h"
 #include <testpp/test.h>
 
+using namespace snapl;
+
 
 /**
  * Test basic functionality of the lock.

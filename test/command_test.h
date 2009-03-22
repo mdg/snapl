@@ -1,5 +1,5 @@
-#ifndef COMMAND_TEST_H
-#define COMMAND_TEST_H
+#ifndef SNAPL_COMMAND_TEST_H
+#define SNAPL_COMMAND_TEST_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,8 @@
 #include "request_test.h"
 #include "response_test.h"
 
+namespace snapl {
+
 
 /**
  * A mock command implementation for verifying that the derived
@@ -35,6 +37,8 @@ public:
 	}
 };
 
+
+} // namespace
 
 #endif
 

@@ -20,6 +20,8 @@
 
 #include <iostream>
 
+using namespace snapl;
+
 
 outbox_c::outbox_c( queue_front_i< server_message_c > &response_queue
 		, queue_back_i< server_message_c > &complete_queue )

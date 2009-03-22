@@ -16,6 +16,8 @@
 #include "connection_test.h"
 #include <testpp/test.h>
 
+using namespace snapl;
+
 
 mock_connection_c::mock_connection_c( std::queue< std::string > &read_queue
 			, std::queue< std::string > &write_queue

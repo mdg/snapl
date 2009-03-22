@@ -3,6 +3,8 @@
 
 #include "snapl/response.h"
 
+namespace snapl {
+
 
 class mock_response_c
 : public response_c
@@ -13,6 +15,8 @@ public:
 	{}
 };
 
+
+} // namespace
 
 #endif
 

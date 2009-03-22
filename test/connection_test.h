@@ -19,6 +19,8 @@
 #include <string>
 #include <queue>
 
+namespace snapl {
+
 
 /**
  * A mocked connection for simulating a connection between 2 remote machines.
@@ -81,6 +83,8 @@ private:
 	mock_connection_c m_server;
 };
 
+
+} // namespace
 
 #endif
 

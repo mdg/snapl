@@ -18,6 +18,8 @@
 #include "snapl/net/connection.h"
 #include "line_parser.h"
 
+namespace snapl {
+
 
 /**
  * A network socket connection object to handle
@@ -70,6 +72,8 @@ private:
 	line_parser_c m_line_parser;
 };
 
+
+} // namespace
 
 #endif
 

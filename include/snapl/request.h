@@ -17,6 +17,8 @@
 
 #include "arg.h"
 
+namespace snapl {
+
 class message_c;
 
 
@@ -76,6 +78,8 @@ private:
 	int m_port;
 };
 
+
+} // namespace
 
 #endif
 

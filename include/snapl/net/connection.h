@@ -17,6 +17,8 @@
 
 #include <string>
 
+namespace snapl {
+
 
 /**
  * An interface to handle connections and parsing their input.
@@ -56,6 +58,8 @@ public:
 	virtual bool line_ready() const = 0;
 };
 
+
+} // namespace
 
 #endif
 

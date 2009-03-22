@@ -15,6 +15,8 @@
 
 #include "pthread_lock.h"
 
+using namespace snapl;
+
 
 pthread_once_t pthread_mutex_once = PTHREAD_ONCE_INIT;
 

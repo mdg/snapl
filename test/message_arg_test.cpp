@@ -17,6 +17,8 @@
 #include "snapl/arg.h"
 #include <testpp/test.h>
 
+using namespace snapl;
+
 
 /**
  * Test that a message argument is constructed properly.

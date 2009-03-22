@@ -22,6 +22,8 @@
 
 #include <iostream>
 
+using namespace snapl;
+
 
 inbox_c::inbox_c( connection_listener_i &listener
 		, queue_back_i< server_message_c > &request_queue

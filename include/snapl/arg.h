@@ -21,6 +21,8 @@
 #include <list>
 #include <sstream>
 
+namespace snapl {
+
 class message_arg_c;
 class message_arg_list_c;
 
@@ -156,6 +158,8 @@ private:
 	std::list< arg_i * > m_arg;
 };
 
+
+} // namespace
 
 #endif
 

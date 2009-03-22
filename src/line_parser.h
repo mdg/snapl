@@ -17,6 +17,8 @@
 
 #include <string>
 
+namespace snapl {
+
 
 /**
  * A class to parse strings for requests.
@@ -53,6 +55,8 @@ private:
 	std::string m_input;
 };
 
+
+} // namespace
 
 #endif
 

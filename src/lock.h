@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+namespace snapl {
+
 
 /**
  * A mutex lock interface.
@@ -157,6 +159,8 @@ private:
 	const bool m_successful_try;
 };
 
+
+} // namespace
 
 #endif
 

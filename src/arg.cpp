@@ -19,6 +19,8 @@
 
 #include <iostream>
 
+using namespace snapl;
+
 
 arg_list_c::arg_list_c()
 {

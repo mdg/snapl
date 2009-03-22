@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+namespace snapl {
+
 class connection_i;
 
 
@@ -49,6 +51,8 @@ public:
 	virtual void replace( connection_i * ) = 0;
 };
 
+
+} // namespace
 
 #endif
 

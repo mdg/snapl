@@ -18,6 +18,8 @@
 #include <testpp/test.h>
 #include <string.h>
 
+using namespace snapl;
+
 
 /**
  * Test that the line parser correctly parses a single line.

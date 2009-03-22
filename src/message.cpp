@@ -16,6 +16,8 @@
 #include "snapl/message.h"
 #include <sstream>
 
+using namespace snapl;
+
 
 message_c::message_c()
 : m_arg()

@@ -28,6 +28,8 @@
 #include <iostream>
 #include "connected_socket.h"
 
+using namespace snapl;
+
 
 connection_acceptor_c::connection_acceptor_c()
 : m_listener()

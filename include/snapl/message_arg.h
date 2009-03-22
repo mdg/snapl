@@ -19,6 +19,8 @@
 #include <iostream>
 #include <vector>
 
+namespace snapl {
+
 class arg_list_c;
 
 
@@ -112,6 +114,8 @@ private:
 	std::vector< message_arg_c > m_arg;
 };
 
+
+} // namespace
 
 #endif
 

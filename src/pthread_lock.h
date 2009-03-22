@@ -19,6 +19,8 @@
 #include <pthread.h>
 #include <memory>
 
+namespace snapl {
+
 
 /**
  * pthread based lock.
@@ -50,6 +52,8 @@ private:
 	pthread_mutexattr_t m_attr;
 };
 
+
+} // namespace
 
 #endif
 

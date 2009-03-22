@@ -19,6 +19,8 @@
 #include <string>
 #include <sstream>
 
+namespace snapl {
+
 class message_c;
 
 
@@ -100,6 +102,8 @@ private:
 	bool m_has_content;
 };
 
+
+} // namespace
 
 #endif
 

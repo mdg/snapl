@@ -16,6 +16,8 @@
 #include "lock_test.h"
 #include <testpp/test.h>
 
+using namespace snapl;
+
 
 mock_mutex_c::mock_mutex_c()
 : m_locked( false )

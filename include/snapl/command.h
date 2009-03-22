@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+namespace snapl {
+
 class message_c;
 class request_c;
 class response_c;
@@ -90,6 +92,8 @@ private:
 	command_c( const command_c< ReqT, RespT > & );
 };
 
+
+} // namespace
 
 #endif
 

@@ -19,6 +19,8 @@
 
 #include <iostream>
 
+using namespace snapl;
+
 
 connected_socket_c::connected_socket_c( int socket, short port )
 : m_socket( socket )

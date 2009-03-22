@@ -19,6 +19,8 @@
 #include <map>
 #include <memory>
 
+namespace snapl {
+
 class protocol_c;
 class server_message_c;
 
@@ -73,6 +75,8 @@ private:
 	protocol_map m_protocol;
 };
 
+
+} // snapl
 
 #endif
 

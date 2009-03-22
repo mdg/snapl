@@ -18,6 +18,8 @@
 #include "snapl/net/connection.h"
 #include <memory>
 
+namespace snapl {
+
 
 /**
  * An interface to handle connections and parsing their input.
@@ -73,6 +75,8 @@ private:
 	std::auto_ptr< connection_i > m_connection;
 };
 
+
+} // namespace
 
 #endif
 

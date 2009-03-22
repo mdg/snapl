@@ -18,6 +18,8 @@
 #include <map>
 #include <string>
 
+namespace snapl {
+
 class request_c;
 class service_i;
 
@@ -49,6 +51,8 @@ private:
 	bool m_silent;
 };
 
+
+} // namespace
 
 #endif
 

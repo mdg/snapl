@@ -20,6 +20,8 @@
 #include <iostream>
 #include "connected_socket.h"
 
+using namespace snapl;
+
 
 client_connection_c::client_connection_c()
 : m_connection()

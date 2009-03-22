@@ -19,6 +19,8 @@
 #include <map>
 #include <list>
 
+namespace snapl {
+
 
 /**
  * A class that accepts socket connections
@@ -82,6 +84,8 @@ private:
 	int m_backlog;
 };
 
+
+} // namespace
 
 #endif
 

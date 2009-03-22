@@ -18,6 +18,8 @@
 #include "command_test.h"
 #include <testpp/test.h>
 
+using namespace snapl;
+
 
 /**
  * Verify that the client is actually sending the request through to the

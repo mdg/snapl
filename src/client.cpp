@@ -20,6 +20,8 @@
 #include "snapl/response.h"
 #include "snapl/net/connection.h"
 
+using namespace snapl;
+
 
 client_c::client_c()
 : m_connection( NULL )

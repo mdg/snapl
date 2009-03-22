@@ -25,6 +25,8 @@
 #include "service_test.h"
 #include <testpp/test.h>
 
+using namespace snapl;
+
 
 /**
  * Test that the mock_client_server_connection class works.

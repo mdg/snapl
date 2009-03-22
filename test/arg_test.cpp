@@ -16,6 +16,8 @@
 #include "snapl/arg.h"
 #include <testpp/test.h>
 
+using namespace snapl;
+
 
 /**
  * Test that an argument is constructed properly.

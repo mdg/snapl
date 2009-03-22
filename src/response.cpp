@@ -16,6 +16,8 @@
 #include "snapl/response.h"
 #include "snapl/message.h"
 
+using namespace snapl;
+
 
 response_c::response_c()
 : m_arg()

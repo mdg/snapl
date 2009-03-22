@@ -16,6 +16,8 @@
 #include "snapl/response.h"
 #include <testpp/test.h>
 
+using namespace snapl;
+
 
 /**
  * Test constructor for correctly set empty values.

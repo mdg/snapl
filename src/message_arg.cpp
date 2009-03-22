@@ -19,6 +19,8 @@
 
 #include <iostream>
 
+using namespace snapl;
+
 
 message_arg_list_c::message_arg_list_c()
 {

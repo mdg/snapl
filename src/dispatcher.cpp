@@ -21,6 +21,8 @@
 #include "server_message.h"
 #include <iostream>
 
+using namespace snapl;
+
 
 dispatcher_c::dispatcher_c( queue_front_i< server_message_c > &request_queue
 			, queue_back_i< server_message_c > &response_queue )

@@ -21,6 +21,8 @@
 #include "service_test.h"
 #include <testpp/test.h>
 
+using namespace snapl;
+
 
 /**
  * Test that protocols are correctly found after being added.

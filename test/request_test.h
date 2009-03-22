@@ -17,6 +17,8 @@
 
 #include "snapl/request.h"
 
+namespace snapl {
+
 
 /**
  * Mock request implementation for testing code that needs an implemented
@@ -56,6 +58,8 @@ private:
 	int m_number;
 };
 
+
+} // namespace
 
 #endif
 

@@ -17,6 +17,8 @@
 
 #include "snapl/net/connection_listener.h"
 
+namespace snapl {
+
 
 class mock_connection_listener_c
 : public connection_listener_i
@@ -40,6 +42,8 @@ private:
 	connection_i &m_connection;
 };
 
+
+} // namespace
 
 #endif
 

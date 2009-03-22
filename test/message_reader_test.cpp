@@ -18,6 +18,8 @@
 #include "connection_test.h"
 #include <testpp/test.h>
 
+using namespace snapl;
+
 
 /**
  * Test that the message constructor works as expected.

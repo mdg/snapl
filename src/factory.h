@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+namespace snapl {
+
 
 template < typename I >
 class factory_i
@@ -45,6 +47,8 @@ public:
 	}
 };
 
+
+} // namespace
 
 #endif
 

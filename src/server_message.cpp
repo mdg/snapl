@@ -16,6 +16,8 @@
 #include "server_message.h"
 #include "snapl/net/connection.h"
 
+using namespace snapl;
+
 
 server_message_c::server_message_c( const std::string &request
 		, connection_i *conn )

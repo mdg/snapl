@@ -17,6 +17,8 @@
 #include "snapl/net/connection.h"
 #include "server_message.h"
 
+using namespace snapl;
+
 
 message_reader_c::message_reader_c( connection_i *conn )
 : m_connection( *conn )

@@ -19,6 +19,8 @@
 #include "request_test.h"
 #include "response_test.h"
 
+namespace snapl {
+
 
 class mock_service_c
 : public service_c< mock_request_c, mock_response_c >
@@ -27,6 +29,8 @@ public:
 	void execute( const mock_request_c &req, mock_response_c &resp );
 };
 
+
+} // namespace
 
 #endif
 

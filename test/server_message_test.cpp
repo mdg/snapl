@@ -17,6 +17,8 @@
 #include "connection_test.h"
 #include <testpp/test.h>
 
+using namespace snapl;
+
 
 /**
  * Test that the constructor for the server message sets fields

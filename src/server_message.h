@@ -1,5 +1,5 @@
-#ifndef SERVER_MESSAGE_H
-#define SERVER_MESSAGE_H
+#ifndef SNAPL_SERVER_MESSAGE_H
+#define SNAPL_SERVER_MESSAGE_H
 /**
  * Copyright 2008 Matthew Graham
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +17,8 @@
 
 #include "snapl/message.h"
 #include <memory>
+
+namespace snapl {
 
 class connection_i;
 class response_c;
@@ -81,6 +83,8 @@ private:
 	connection_i *m_connection;
 };
 
+
+} // namespace
 
 #endif
 

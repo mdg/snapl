@@ -19,6 +19,8 @@
 #include <queue>
 #include <memory>
 
+namespace snapl {
+
 
 /**
  * A server message queue.
@@ -140,6 +142,8 @@ private:
 	std::auto_ptr< mutex_i > m_mutex;
 };
 
+
+} // namespace
 
 #endif
 

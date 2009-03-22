@@ -16,6 +16,8 @@
 #include "service_test.h"
 #include <testpp/test.h>
 
+using namespace snapl;
+
 
 void mock_service_c::execute( const mock_request_c &req, mock_response_c &resp )
 {

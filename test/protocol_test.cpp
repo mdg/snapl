@@ -13,9 +13,10 @@
  * limitations under the License.
  */
 
-
 #include "snapl/protocol.h"
 #include <testpp/test.h>
+
+using namespace snapl;
 
 
 /**

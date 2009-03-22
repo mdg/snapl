@@ -17,6 +17,8 @@
 #include "snapl/message.h"
 #include <sstream>
 
+using namespace snapl;
+
 
 request_c::request_c( const std::string &req_type )
 : m_type( req_type )

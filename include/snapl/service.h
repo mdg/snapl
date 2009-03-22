@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+namespace snapl {
+
 class message_c;
 
 
@@ -71,6 +73,8 @@ public:
 
 };
 
+
+} // namespace
 
 #endif
 

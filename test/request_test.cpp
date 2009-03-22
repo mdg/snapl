@@ -13,10 +13,11 @@
  * limitations under the License.
  */
 
-
 #include "request_test.h"
 #include <testpp/test.h>
 #include "snapl/message.h"
+
+using namespace snapl;
 
 
 /**

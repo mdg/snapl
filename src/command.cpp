@@ -18,6 +18,8 @@
 #include "snapl/response.h"
 #include <sstream>
 
+using namespace snapl;
+
 
 void command_i::set_command_response( const message_c &msg )
 {

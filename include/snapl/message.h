@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 
-
 #include "message_arg.h"
 #include <vector>
 #include <string>
 #include <list>
 #include <sstream>
+
+namespace snapl {
 
 class arg_list_c;
 
@@ -78,6 +79,8 @@ protected:
 	message_arg_list_c m_arg;
 };
 
+
+} // namespace
 
 #endif
 

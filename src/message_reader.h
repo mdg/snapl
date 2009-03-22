@@ -17,6 +17,8 @@
 
 #include <memory>
 
+namespace snapl {
+
 class connection_i;
 class server_message_c;
 
@@ -64,6 +66,8 @@ private:
 	bool m_empty;
 };
 
+
+} // namespace
 
 #endif
 

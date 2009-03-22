@@ -18,8 +18,9 @@
 #include "snapl/command.h"
 #include "snapl/message.h"
 
+namespace snapl {
+
 class connection_i;
-// class message_queue_factory_i;
 
 
 /**
@@ -44,6 +45,8 @@ private:
 	connection_i *m_connection;
 };
 
+
+} // namespace
 
 #endif
 

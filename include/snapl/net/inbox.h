@@ -19,6 +19,8 @@
 #include <map>
 #include <memory>
 
+namespace snapl {
+
 class connection_listener_i;
 class message_reader_c;
 class request_c;
@@ -81,6 +83,8 @@ private:
 	std::queue< message_reader_c * > m_partial;
 };
 
+
+} // namespace
 
 #endif
 

@@ -17,6 +17,8 @@
 
 #include "lock.h"
 
+namespace snapl {
+
 
 /**
  * A single threaded lock class for testing locking code.
@@ -37,6 +39,8 @@ private:
 	bool m_locked;
 };
 
+
+} // namespace
 
 #endif
 

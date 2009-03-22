@@ -18,6 +18,8 @@
 #include "snapl/request.h"
 #include <iostream>
 
+using namespace snapl;
+
 
 protocol_c::protocol_c( short port )
 : m_name()
