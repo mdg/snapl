@@ -3,15 +3,13 @@
 ### BACKLOG ###
 ###############
 
+put snapl into a namespace
+
 package snapl as a library
 	separate src code into server code and client code
 
-put snapl into a namespace
-
 combine server queue and the connection_listener class
 	consider also combining blocking_client_queue and a connection class
-
-work with libevent
 
 consider making rake build to use crake?
 
@@ -31,6 +29,9 @@ add logging that allows turning debug messages on and off
 	this should be log4c maybe?
 
 consider merging request & response into a single command class
+
+work with libevent?
+	have to figure out licensing issues
 
 see if it's possible to speed up the requests after polling
 
