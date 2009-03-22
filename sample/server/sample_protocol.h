@@ -13,6 +13,7 @@ class get_request_c
 {
 public:
 	get_request_c()
+	: request_c( "get" )
 	{
 		m_args << m_value;
 	}
