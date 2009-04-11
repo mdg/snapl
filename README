@@ -1,6 +1,6 @@
 A library for creating simple, line-based network applications.
 
 Dependencies to build this project are:
-* ruby/rake for the Rakefile
 * g++
+* ruby/rake for the Rakefile
 
