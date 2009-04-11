@@ -31,58 +31,11 @@ class message_c;
 class response_c
 {
 public:
-	/**
-	 * Construct an empty response object.  It will be filled
-	 * in by the request processors.
-	 */
-	response_c();
-
-	/**
-	 * Set the response's arguments to the new values
-	 * in the given message_arg_list.
-	 */
-	void copy_from( const message_c & );
-
-	/**
-	 * Copy the data in this response to a message.
-	 */
-	void copy_to( message_c & ) const;
-
-	/**
-	 * Flag this response as successful.
-	 * Include an optional message.
-	 */
-	void ok( const std::string &msg = std::string() );
-
-	/**
-	 * Flag this response as having failed.
-	 * Must include an error message to explain the error.
-	 */
-	void err( const std::string &msg );
-
-	/**
-	 * Flag this response as having failed.
-	 * Report the file and line of the error.
-	 */
-	void err( const std::string &file, int line );
 
 	/**
 	 * Add a line of text as output for this response.
 	 */
 	void write_line( const std::string &line );
-
-	/**
-	 * Get the code & message in a single line.
-	 */
-	std::string coded_msg() const;
-	/**
-	 * Get the code for this response. ok or err
-	 */
-	const std::string & code() const { return m_code; }
-	/**
-	 * Get the msg that is part of this response.
-	 */
-	const std::string & msg() const { return m_msg; }
 
 	/**
 	 * Check if this response has content.
@@ -94,10 +47,7 @@ public:
 	std::string content() const { return m_content.str(); }
 
 protected:
-	arg_list_c m_arg;
 private:
-	std::string m_code;
-	std::string m_msg;
 	std::ostringstream m_content;
 	bool m_has_content;
 };

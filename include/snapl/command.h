@@ -18,78 +18,78 @@
 namespace snapl {
 
 class message_c;
-class request_c;
-class response_c;
 
 
 /**
- * Untyped interface for client commands.
+ * Base class for snapl commands.
  */
-class command_i
+class command_c
 {
 public:
+	const std::string & service() const { return m_service; }
+
+	const arg_list_c & input() const { return m_input; }
+	void get_input( message_c & ) const;
+	void set_input( const message_c & );
+
+	const arg_list_c & output() const { return m_output; }
 	/**
-	 * Get a request for this command.
+	 * Copy the output data to a message.
 	 */
-	const request_c & command_request() const { return m_command_request; }
+	void get_output( message_c & ) const;
+	/**
+	 * Set the output arguments to the values
+	 * in the given message_arg_list.
+	 */
+	void set_output( const message_c & );
 
 	/**
-	 * Set the response for this command from a given message.
+	 * Flag this response as successful.
 	 */
-	void set_command_response( const message_c & );
+	void ok();
+	/**
+	 * Flag this response as having failed.
+	 * Must include an error message to explain the error.
+	 */
+	void err( const std::string &msg );
+	/**
+	 * Flag this response as having failed.
+	 * Report the file and line of the error.
+	 */
+	void err( const std::string &file, int line );
+
+	/**
+	 * Get the response code for this command. ok or err
+	 */
+	const std::string & response_code() const { return m_code; }
+	/**
+	 * Get the response msg for this command.
+	 */
+	const std::string & response_msg() const { return m_msg; }
+
 
 protected:
-	command_i( const request_c &req, response_c &resp )
-	: m_command_request( req )
-	, m_command_response( resp )
+	/**
+	 * Protected constructor.
+	 */
+	command_c( const std::string &service )
+	: m_service( service )
 	{}
 
+	arg_list_c m_input;
+	arg_list_c m_output;
+
 private:
-	const request_c &m_command_request;
-	response_c &m_command_response;
+	std::string m_service;
+
+	std::string m_response_code;
+	std::string m_response_msg;
 
 private:
 	/**
 	 * privatised, unimplemented copy constructor to restrict usage.
 	 */
 	command_i( const command_i & );
-};
-
-
-/**
- * Typed class for client commands to the server.
- * Uses templated request & response that are shared w/ the
- * server-side service.
- */
-template < typename ReqT, typename RespT >
-class command_c
-: public command_i
-{
-public:
-	/**
-	 * Get the template-typed request object.
-	 */
-	const ReqT & request() const { return m_request; }
-	/**
-	 * Get the template-typed const response object.
-	 */
-	const RespT & response() const { return m_response; }
-
-protected:
-	command_c()
-	: command_i( m_request, m_response )
-	, m_request()
-	, m_response()
-	{}
-
-	ReqT m_request;
-	RespT m_response;
-
-private:
-	/**
-	 * privatised, unimplemented copy constructor to restrict usage.
-	 */
-	command_c( const command_c< ReqT, RespT > & );
 };
 
 
