@@ -3,13 +3,9 @@
 ### BACKLOG ###
 ###############
 
-package snapl as a library
-	separate src code into server code and client code
+consider merging request & response into a single command class
 
-combine server queue and the connection_listener class
-	consider also combining blocking_client_queue and a connection class
-
-consider making rake build to use crake?
+consider using crake to build snapl
 
 add integration test framework for easily running client/server tests
 	on customized protocols
@@ -18,20 +14,21 @@ add a request ID, sent from client to allow IDing remote requests on the server
 
 add load testing
 
-add support for handling the content portion of messages
-
 add a version handshake upon connections being made to allow
 	shessiond to change while clients don't.
+
+package snapl as a library
+	separate src code into server code and client code
+
+add support for handling the content portion of messages
 
 add logging that allows turning debug messages on and off
 	this should be log4c maybe?
 
-consider merging request & response into a single command class
+see if it's possible to speed up the requests after polling
 
 work with libevent?
 	have to figure out licensing issues
-
-see if it's possible to speed up the requests after polling
 
 add a localhost-lockdown configuration to restrict all connections to those
 	that are tunneled in through SSH
