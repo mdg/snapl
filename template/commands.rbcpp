@@ -1,0 +1,21 @@
+#ifndef COMMANDS_H
+#define COMMANDS_H
+
+
+<?rb for act in @actions ?>
+
+/**
+ * The #{act} command.
+ */
+class #{act}_command_c
+: public snapl::command_c
+{
+public:
+	#{act}_command_c();
+};
+
+<?rb end ?>
+
+
+#endif
+

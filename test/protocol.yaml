@@ -1,0 +1,14 @@
+commands:
+  - get:
+        id:     int
+        name:   string
+  - add:
+        int:    id
+        bool:   complete
+        string: first_name
+        string: last_name
+
+actions:
+  - get
+  - add
+  - add2: add
