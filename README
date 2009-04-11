@@ -3,4 +3,6 @@ A library for creating simple, line-based network applications.
 Dependencies to build this project are:
 * g++
 * ruby/rake for the Rakefile
+* rbtenjin to autogenerate command and action files
+* liquid templating, plus the hoe dependency
 
