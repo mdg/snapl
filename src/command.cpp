@@ -21,8 +21,43 @@
 using namespace snapl;
 
 
-void command_i::set_command_response( const message_c &msg )
+void command_c::get_input( message_c &msg ) const
 {
-	m_command_response.copy_from( msg );
+	msg.set_args( m_input );
+}
+
+void command_c::set_input( const message_c &msg )
+{
+	m_input = msg.args();
+}
+
+void command_c::get_output( message_c &msg ) const
+{
+	msg.set_args( m_output );
+}
+
+void command_c::set_output( const message_c &msg )
+{
+	m_output = msg.args();
+}
+
+void command_c::ok( const std::string &msg )
+{
+	m_response_code = "ok";
+	m_response_msg = msg;
+}
+
+void command_c::err( const std::string &msg )
+{
+	m_response_code = "err";
+	m_response_msg = msg;
+}
+
+void command_c::err( const std::string &file, int line )
+{
+	m_response_code = "err";
+	std::ostringstream format;
+	format << file << ':' << line;
+	m_response_msg = format.str();
 }
 
