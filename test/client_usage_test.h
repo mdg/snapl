@@ -128,24 +128,26 @@ public:
 };
 
 
+template < typename T >
+void core_protocol( T &protocol )
+{
+	protocol.bind< get_command_c, get_action_c >( "get" );
+	protocol.bind< add_command_c, add_action_c >( "add" );
+	protocol.bind< up_command_c, up_action_c >( "up" );
+	protocol.bind< del_command_c, del_action_c >( "del" );
+}
+
+
 class core_protocol_c
 : public protocol_i
 {
 public:
 	core_protocol_c()
 	{
-		bind< get_command_c, get_action_c >( "get" );
-		bind< add_command_c, add_action_c >( "add" );
-		bind< up_command_c, up_action_c >( "up" );
-		bind< del_command_c, del_action_c >( "del" );
-	}
-
-	core_protocol_c()
-	{
-		bind< get_command_c >( "get", m_get );
-		bind< add_command_c >( "add", m_add );
-		bind< up_command_c >( "up", m_up );
-		bind< del_command_c >( "del", m_del );
+		bind< git_command_c, get_action_c >();
+		bind< add_command_c, add_action_c >();
+		bind< up_command_c, up_action_c >();
+		bind< del_command_c, del_action_c >();
 	}
 
 	core_protocol_c( T &binder )
