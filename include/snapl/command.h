@@ -74,7 +74,10 @@ protected:
 	 */
 	command_c( const std::string &service )
 	: m_service( service )
-	{}
+	{
+		m_input << m_service;
+		m_output << m_response_code << m_response_msg;
+	}
 
 	arg_list_c m_input;
 	arg_list_c m_output;
