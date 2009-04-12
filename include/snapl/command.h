@@ -15,6 +15,9 @@
  * limitations under the License.
  */
 
+#include <string>
+#include "snapl/arg.h"
+
 namespace snapl {
 
 class message_c;
@@ -61,11 +64,11 @@ public:
 	/**
 	 * Get the response code for this command. ok or err
 	 */
-	const std::string & response_code() const { return m_code; }
+	const std::string & response_code() const { return m_response_code; }
 	/**
 	 * Get the response msg for this command.
 	 */
-	const std::string & response_msg() const { return m_msg; }
+	const std::string & response_msg() const { return m_response_msg; }
 
 
 protected:
