@@ -95,7 +95,7 @@ private:
 	/**
 	 * privatised, unimplemented copy constructor to restrict usage.
 	 */
-	command_i( const command_i & );
+	command_c( const command_c & );
 };
 
 

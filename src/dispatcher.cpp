@@ -15,8 +15,6 @@
 
 #include "snapl/dispatcher.h"
 #include "snapl/protocol.h"
-#include "snapl/request.h"
-#include "snapl/response.h"
 #include "snapl/service.h"
 #include "server_message.h"
 #include <iostream>
@@ -65,7 +63,6 @@ void dispatcher_c::iterate()
 void dispatcher_c::dispatch( server_message_c &msg )
 {
 	bool success( false );
-	response_c error_response;
 
 	protocol_c *protocol = find_protocol( msg.port() );
 	if ( ! protocol ) {
@@ -73,7 +70,7 @@ void dispatcher_c::dispatch( server_message_c &msg )
 		// write to the response and return
 		std::ostringstream err;
 		err << "No protocol for port " << msg.port();
-		error_response.err( err.str() );
+		// error_response.err( err.str() );
 		// copy error_response to msg
 		return;
 	}
@@ -82,8 +79,8 @@ void dispatcher_c::dispatch( server_message_c &msg )
 	if ( ! service ) {
 		std::cerr << "no service for " << msg.request_type()
 			<< std::endl;
-		error_response.err( "unknown request type: '"
-				+ msg.request_type() +"'" );
+		// error_response.err( "unknown request type: '"
+				// + msg.request_type() +"'" );
 		// copy error_response to msg
 		return;
 	}

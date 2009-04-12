@@ -16,8 +16,6 @@
 #include "snapl/client.h"
 #include "snapl/command.h"
 #include "snapl/message.h"
-#include "snapl/request.h"
-#include "snapl/response.h"
 #include "snapl/net/connection.h"
 
 using namespace snapl;
@@ -32,7 +30,7 @@ client_c::client_c( connection_i &conn )
 {}
 
 
-void client_c::send_request( command_i &cmd )
+void client_c::send_request( command_c &cmd )
 {
 	// send_message( cmd.command_request() );
 	// message_queue_i &queue( m_factory.message() );
@@ -40,19 +38,18 @@ void client_c::send_request( command_i &cmd )
 	if ( ! m_connection )
 		return;
 
-	const request_c &req( cmd.command_request() );
 	message_c msg;
-	req.copy_to( msg );
+	cmd.get_input( msg );
 	m_connection->write_line( msg.arg_string() );
 	// writing content in a request will come in a later iteration
 }
 
-void client_c::wait_for_response( command_i &cmd )
+void client_c::wait_for_response( command_c &cmd )
 {
 	std::string response_line;
 	m_connection->read_line( response_line );
 	message_c msg( response_line );
 	// reading body from a response will come in a later iteration
-	cmd.set_command_response(msg);
+	cmd.set_output(msg);
 }
 

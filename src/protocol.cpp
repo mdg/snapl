@@ -15,7 +15,6 @@
 
 #include "snapl/protocol.h"
 #include "snapl/service.h"
-#include "snapl/request.h"
 #include <iostream>
 
 using namespace snapl;

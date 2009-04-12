@@ -14,8 +14,6 @@
  */
 
 #include "snapl/net/inbox.h"
-#include "snapl/request.h"
-#include "snapl/response.h"
 #include "snapl/net/connection_listener.h"
 #include "server_message.h"
 #include "message_reader.h"

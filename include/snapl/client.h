@@ -36,9 +36,9 @@ public:
 	 */
 	client_c( connection_i & );
 
-	void send_request( command_i & );
+	void send_request( command_c & );
 
-	void wait_for_response( command_i & );
+	void wait_for_response( command_c & );
 
 private:
 	// client_factory_i &m_factory;
