@@ -41,10 +41,10 @@ void command_c::set_output( const message_c &msg )
 	m_output = msg.args();
 }
 
-void command_c::ok( const std::string &msg )
+void command_c::ok()
 {
 	m_response_code = "ok";
-	m_response_msg = msg;
+	m_response_msg = std::string();
 }
 
 void command_c::err( const std::string &msg )
