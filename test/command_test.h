@@ -15,10 +15,7 @@
  * limitations under the License.
  */
 
-
 #include "snapl/command.h"
-#include "request_test.h"
-#include "response_test.h"
 
 namespace snapl {
 
@@ -28,12 +25,18 @@ namespace snapl {
  * class works.
  */
 class mock_command_c
-: public command_c< mock_request_c, mock_response_c >
+: public command_c
 {
 public:
-	mock_command_c( const std::string &id, int number )
+	std::string id;
+	int number;
+
+	mock_command_c( const std::string &cmd_id, int num )
+	: command_c( "mock" )
+	, id( cmd_id )
+	, number( num )
 	{
-		m_request.set( id, number );
+		m_input << id << number;
 	}
 };
 

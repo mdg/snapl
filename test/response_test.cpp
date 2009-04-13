@@ -26,34 +26,6 @@ TESTPP( test_response_constructor )
 {
 	response_c r;
 
-	assertpp( r.code() ) == "";
-	assertpp( r.msg() ) == "";
-}
-
-/**
- * Test that the ok code is set properly.
- */
-TESTPP( test_response_ok )
-{
-	response_c r;
-	r.ok( "Sweet!  This works!" );
-
-	assertpp( r.code() ) == "ok";
-	assertpp( r.msg() ) == "Sweet!  This works!";
-	assertpp( r.coded_msg() ) == "ok Sweet!  This works!";
-}
-
-/**
- * Test that the err code is set properly.
- */
-TESTPP( test_response_err )
-{
-	response_c r;
-	r.err( "too bad... didn't work." );
-
-	assertpp( r.code() ) == "err";
-	assertpp( r.msg() ) == "too bad... didn't work.";
-	assertpp( r.coded_msg() ) == "err too bad... didn't work.";
 }
 
 /**
