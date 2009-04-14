@@ -24,7 +24,7 @@ void mock_service_c::execute( mock_command_c &cmd )
 	std::ostringstream msg;
 	msg << cmd.id << '_' << cmd.number;
 
-	cmd.response = msg.str();
+	cmd.answer = msg.str();
 	cmd.ok();
 }
 

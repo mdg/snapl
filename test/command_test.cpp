@@ -29,7 +29,7 @@ TESTPP( test_mock_command_constructor )
 
 	assertpp( cmd.id ) == "id_34";
 	assertpp( cmd.number ) == 23;
-	assertpp( cmd.response ) == "";
+	assertpp( cmd.answer ) == "";
 }
 
 

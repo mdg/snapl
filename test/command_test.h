@@ -31,7 +31,7 @@ public:
 	std::string id;
 	int number;
 
-	std::string response;
+	std::string answer;
 
 
 	mock_command_c()
