@@ -31,20 +31,20 @@ class command_c
 public:
 	const std::string & service() const { return m_service; }
 
-	const arg_list_c & input() const { return m_input; }
-	void get_input( message_c & ) const;
-	void set_input( const message_c & );
+	const arg_list_c & request() const { return m_request; }
+	void get_request( message_c & ) const;
+	void set_request( const message_c & );
 
-	const arg_list_c & output() const { return m_output; }
+	const arg_list_c & response() const { return m_response; }
 	/**
 	 * Copy the output data to a message.
 	 */
-	void get_output( message_c & ) const;
+	void get_response( message_c & ) const;
 	/**
 	 * Set the output arguments to the values
 	 * in the given message_arg_list.
 	 */
-	void set_output( const message_c & );
+	void set_response( const message_c & );
 
 	/**
 	 * Flag this response as successful.
@@ -78,12 +78,12 @@ protected:
 	command_c( const std::string &service )
 	: m_service( service )
 	{
-		m_input << m_service;
-		m_output << m_response_code << m_response_msg;
+		m_request << m_service;
+		m_response << m_response_code << m_response_msg;
 	}
 
-	arg_list_c m_input;
-	arg_list_c m_output;
+	arg_list_c m_request;
+	arg_list_c m_response;
 
 private:
 	std::string m_service;

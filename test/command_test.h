@@ -39,8 +39,8 @@ public:
 	, id()
 	, number()
 	{
-		m_input << id << number;
-		m_output << response;
+		m_request << id << number;
+		m_response << answer;
 	}
 
 	mock_command_c( const std::string &cmd_id, int num )
@@ -48,8 +48,8 @@ public:
 	, id( cmd_id )
 	, number( num )
 	{
-		m_input << id << number;
-		m_output << response;
+		m_request << id << number;
+		m_response << answer;
 	}
 
 };

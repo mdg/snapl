@@ -21,24 +21,24 @@
 using namespace snapl;
 
 
-void command_c::get_input( message_c &msg ) const
+void command_c::get_request( message_c &msg ) const
 {
-	msg.set_args( m_input );
+	msg.set_args( m_request );
 }
 
-void command_c::set_input( const message_c &msg )
+void command_c::set_request( const message_c &msg )
 {
-	m_input = msg.args();
+	m_request = msg.args();
 }
 
-void command_c::get_output( message_c &msg ) const
+void command_c::get_response( message_c &msg ) const
 {
-	msg.set_args( m_output );
+	msg.set_args( m_response );
 }
 
-void command_c::set_output( const message_c &msg )
+void command_c::set_response( const message_c &msg )
 {
-	m_output = msg.args();
+	m_response = msg.args();
 }
 
 void command_c::ok()

@@ -74,9 +74,9 @@ public:
 	virtual void execute( const message_c &req_msg, message_c &resp_msg )
 	{
 		CmdT command;
-		command.set_input( req_msg );
+		command.set_request( req_msg );
 		execute( command );
-		command.get_output( resp_msg );
+		command.get_response( resp_msg );
 	}
 
 	/**

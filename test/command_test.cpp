@@ -44,7 +44,7 @@ TESTPP( test_mock_command_to_message )
 	cmd.number = 23;
 
 	message_c msg;
-	cmd.get_input( msg );
+	cmd.get_request( msg );
 
 	assertpp( msg.argc() ) == 3;
 	assertpp( msg.argv( 0 ) ) == "mock";
