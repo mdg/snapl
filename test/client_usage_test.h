@@ -30,74 +30,9 @@ transfer
 request
 
 
-class get_request_c
-: public request_c
-{
-public:
-	get_request_c()
-	: request_c( "get" )
-	, m_user_id()
-	, m_session_id()
-	{
-		m_args << m_user_id << m_session_id;
-	}
-
-	void set( const std::string &user_id
-			, const std::string &session_id );
-
-
-	/**
-	 * Command constructor.
-	 */
-	get_request_c( const std::string &user_id
-			, const std::string &session_id );
-	: request_c( "get" )
-	, m_user_id( user_id )
-	, m_session_id( session_id )
-	{
-		m_args << m_user_id << m_session_id;
-	}
-
-	/**
-	 * Service constructor.
-	 */
-	get_request_c( const message_c &msg )
-	: request_c( "get" )
-	, m_user_id( req.argv< int >( 0 ) )
-	, m_session_id( req.argv< std::string >( 1 ) )
-	{
-		m_args << m_user_id << m_session_id;
-	}
-
-	/**
-	 * Copy values of the request.
-	 */
-	template < typename T >
-	void copy( T &stream )
-	{
-		stream + m_user_id + m_session_id;
-		// alternative usage.  are | better?
-		// stream | m_user_id | m_session_id;
-	}
-
-private:
-	std::string m_user_id;
-	std::string m_session_id;
-};
-
-class get_response_c
-: public response_c
-{
-public:
-	template < typename T >
-	void copy( T &stream )
-	{
-		stream + m_code + m_response;
-	}
-};
 
 class get_service_c
-: public service_c< get_request_c, get_response_c >
+: public service_c< get_command_c >
 {
 public:
 	void execute( const get_request_c &req, get_rsponse_c &resp )
@@ -108,12 +43,12 @@ public:
 
 
 class get_command_c
-: public command_c< get_request_c, get_response_c >
+: public command_c
 {
 public:
 	get_command_c( const std::string &user_id
 			, const std::string &session_id )
-	: command_c( get_request_c( user_id, session_id ) )
+	: command_c( "get" )
 	{}
 };
 
@@ -144,10 +79,18 @@ class core_protocol_c
 public:
 	core_protocol_c()
 	{
-		bind< git_command_c, get_action_c >();
-		bind< add_command_c, add_action_c >();
-		bind< up_command_c, up_action_c >();
-		bind< del_command_c, del_action_c >();
+		add( m_get );
+		add( m_add );
+		add( m_up );
+		add( m_del );
+	}
+
+	core_protocol_c()
+	{
+		bind< git_command_c >( m_get );
+		bind< add_command_c >( m_add );
+		bind< up_command_c >( m_up );
+		bind< del_command_c >( m_del );
 	}
 
 	core_protocol_c( T &binder )
@@ -187,11 +130,6 @@ public:
 		pmap("test").bind< get_command_c, get_action_c >();
 		bind("test").to< get_command_c, get_action_c >();
 		binding.bind< get_command_c, get_action_c >( "get" );
-	}
-
-	void map2( protocol_map_i &pmap )
-	{
-		pmap.set< get_command_c >( "test", m_get_action );
 	}
 
 	template < typename CommandT >
