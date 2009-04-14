@@ -33,6 +33,14 @@ public:
 	protocol_c( short port );
 	virtual ~protocol_c();
 
+	/**
+	 * Add a service that knows its own name.
+	 */
+	void add( service_i &service );
+
+	/**
+	 * Add a service with an explicitly assigned name.
+	 */
 	void add( const std::string &name, service_i &service )
 	{
 		m_service[ name ] = &service;

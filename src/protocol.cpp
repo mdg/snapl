@@ -30,6 +30,11 @@ protocol_c::protocol_c( short port )
 protocol_c::~protocol_c()
 {}
 
+void protocol_c::add( service_i &service )
+{
+	m_service[ service.name() ] = &service;
+}
+
 service_i * protocol_c::service( const std::string &req_type )
 {
 	service_iterator it( m_service.find( req_type ) );

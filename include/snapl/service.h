@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+#include <string>
+
 namespace snapl {
 
 class message_c;
@@ -28,6 +30,11 @@ class service_i
 {
 public:
 	virtual ~service_i() {}
+
+	/**
+	 * Get the name for this service.
+	 */
+	virtual std::string name() const = 0;
 
 	/**
 	 * Execute this untyped service.
