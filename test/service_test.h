@@ -16,17 +16,16 @@
  */
 
 #include "snapl/service.h"
-#include "request_test.h"
-#include "response_test.h"
+#include "command_test.h"
 
 namespace snapl {
 
 
 class mock_service_c
-: public service_c< mock_request_c, mock_response_c >
+: public service_c< mock_command_c >
 {
 public:
-	void execute( const mock_request_c &req, mock_response_c &resp );
+	void execute( mock_command_c & );
 };
 
 

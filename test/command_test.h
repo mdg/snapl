@@ -31,13 +31,27 @@ public:
 	std::string id;
 	int number;
 
+	std::string response;
+
+
+	mock_command_c()
+	: command_c( "mock" )
+	, id()
+	, number()
+	{
+		m_input << id << number;
+		m_output << response;
+	}
+
 	mock_command_c( const std::string &cmd_id, int num )
 	: command_c( "mock" )
 	, id( cmd_id )
 	, number( num )
 	{
 		m_input << id << number;
+		m_output << response;
 	}
+
 };
 
 

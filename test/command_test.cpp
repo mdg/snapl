@@ -21,29 +21,15 @@ using namespace snapl;
 
 
 /**
- * Test that the default constructor with a basic service param works
- * and the type is set correctly and can be requested again.
- */
-TESTPP( test_command_default_constructor )
-{
-	command_c cmd( "renew" );
-
-	assertpp( cmd.service() ) == "renew";
-	assertpp( cmd.input().argc() ) == 1;
-	assertpp( cmd.response_code() ) == "";
-	assertpp( cmd.response_msg() ) == "";
-}
-
-
-/**
  * Test mock command constructor.
  */
 TESTPP( test_mock_command_constructor )
 {
-	mock_command_c cmd( "id_34", 23 );
+	mock_command_c cmd;
 
 	assertpp( cmd.id ) == "id_34";
 	assertpp( cmd.number ) == 23;
+	assertpp( cmd.response ) == "";
 }
 
 
@@ -53,7 +39,9 @@ TESTPP( test_mock_command_constructor )
  */
 TESTPP( test_mock_command_to_message )
 {
-	mock_command_c cmd( "id_34", 23 );
+	mock_command_c cmd;
+	cmd.id = "id_34";
+	cmd.number = 23;
 
 	message_c msg;
 	cmd.get_input( msg );
@@ -70,11 +58,11 @@ TESTPP( test_mock_command_to_message )
  */
 TESTPP( test_command_ok )
 {
-	command_c cmd;
+	mock_command_c cmd;
 	cmd.ok();
 
-	assertpp( r.response_code() ) == "ok";
-	assertpp( r.msg() ) == "";
+	assertpp( cmd.response_code() ) == "ok";
+	assertpp( cmd.response_msg() ) == "";
 }
 
 /**
@@ -82,10 +70,10 @@ TESTPP( test_command_ok )
  */
 TESTPP( test_command_err )
 {
-	command_c cmd;
+	mock_command_c cmd;
 	cmd.err( "too bad... didn't work." );
 
-	assertpp( r.response_code() ) == "err";
-	assertpp( r.response_msg() ) == "too bad... didn't work.";
+	assertpp( cmd.response_code() ) == "err";
+	assertpp( cmd.response_msg() ) == "too bad... didn't work.";
 }
 

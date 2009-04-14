@@ -19,10 +19,12 @@
 using namespace snapl;
 
 
-void mock_service_c::execute( const mock_request_c &req, mock_response_c &resp )
+void mock_service_c::execute( mock_command_c &cmd )
 {
 	std::ostringstream msg;
-	msg << req.id() << '_' << req.number();
-	resp.ok( msg.str() );
+	msg << cmd.id << '_' << cmd.number;
+
+	cmd.response = msg.str();
+	cmd.ok();
 }
 

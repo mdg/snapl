@@ -48,7 +48,7 @@ public:
  * This transfers untyped data into typed objects, calls the service
  * execution and transfers the typed response into untyped data.
  */
-template < typename ReqT, typename RespT >
+template < typename CmdT >
 class service_c
 : public service_i
 {
@@ -59,24 +59,31 @@ public:
 	service_c() {}
 
 	/**
+	 * Get the name for this service.
+	 */
+	virtual std::string name() const
+	{
+		return CmdT().service();
+	}
+
+	/**
 	 * Execute the service with an input message and output message.
 	 * This creates typed request & response objects and passes
 	 * to the typed execute function.
 	 */
 	virtual void execute( const message_c &req_msg, message_c &resp_msg )
 	{
-		ReqT request;
-		RespT response;
-		request.copy_from( req_msg );
-		execute( request, response );
-		response.copy_to( resp_msg );
+		CmdT command;
+		command.set_input( req_msg );
+		execute( command );
+		command.get_output( resp_msg );
 	}
 
 	/**
-	 * Virtual execute method w/ typed request & response parameters.
+	 * Virtual execute method w/ typed command parameter.
 	 * This must be overridden by the implementing service class.
 	 */
-	virtual void execute( const ReqT &, RespT & ) = 0;
+	virtual void execute( CmdT & ) = 0;
 
 };
 
