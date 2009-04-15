@@ -74,6 +74,6 @@ TESTPP( test_dispatcher_success )
 
 	// assert on response values
 	const message_c &response( msg->response() );
-	assertpp( response.arg_string() ) == "ok dog_15";
+	assertpp( response.arg_string() ) == "ok \"\" dog_15";
 }
 

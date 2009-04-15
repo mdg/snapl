@@ -25,7 +25,7 @@ using namespace snapl;
  */
 TESTPP( test_mock_command_constructor )
 {
-	mock_command_c cmd;
+	mock_command_c cmd( "id_34", 23 );
 
 	assertpp( cmd.id ) == "id_34";
 	assertpp( cmd.number ) == 23;

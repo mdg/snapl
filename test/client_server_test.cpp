@@ -103,6 +103,7 @@ TESTPP( test_client_server )
 
 	// read client response
 	assertpp( cmd.response_code() ) == "ok";
-	assertpp( cmd.response_msg() ) == "id5_17";
+	assertpp( cmd.response_msg() ) == "";
+	assertpp( cmd.answer ) == "id5_17";
 }
 
