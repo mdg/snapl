@@ -33,7 +33,7 @@ public:
 
 	const arg_list_c & request() const { return m_request; }
 	void get_request( message_c & ) const;
-	void set_request( const message_c & );
+	bool set_request( const message_c & );
 
 	const arg_list_c & response() const { return m_response; }
 	/**
@@ -44,7 +44,7 @@ public:
 	 * Set the output arguments to the values
 	 * in the given message_arg_list.
 	 */
-	void set_response( const message_c & );
+	bool set_response( const message_c & );
 
 	/**
 	 * Flag this response as successful.

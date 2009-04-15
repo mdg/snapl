@@ -16,7 +16,6 @@
 #include "snapl/arg.h"
 #include "snapl/message_arg.h"
 #include <sstream>
-
 #include <iostream>
 
 using namespace snapl;
@@ -38,6 +37,7 @@ arg_list_c::~arg_list_c()
 bool arg_list_c::operator = ( const message_arg_list_c &args )
 {
 	if ( m_arg.size() != args.argc() ) {
+		std::cerr << "arg_list size != message_arg_list size\n";
 		return false;
 	}
 

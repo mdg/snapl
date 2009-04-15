@@ -50,6 +50,8 @@ void client_c::wait_for_response( command_c &cmd )
 	m_connection->read_line( response_line );
 	message_c msg( response_line );
 	// reading body from a response will come in a later iteration
-	cmd.set_response(msg);
+	if ( ! cmd.set_response(msg) ) {
+		std::cerr << "error parsing response\n";
+	}
 }
 

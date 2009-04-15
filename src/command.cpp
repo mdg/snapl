@@ -26,9 +26,9 @@ void command_c::get_request( message_c &msg ) const
 	msg.set_args( m_request );
 }
 
-void command_c::set_request( const message_c &msg )
+bool command_c::set_request( const message_c &msg )
 {
-	m_request = msg.args();
+	return m_request = msg.args();
 }
 
 void command_c::get_response( message_c &msg ) const
@@ -36,9 +36,9 @@ void command_c::get_response( message_c &msg ) const
 	msg.set_args( m_response );
 }
 
-void command_c::set_response( const message_c &msg )
+bool command_c::set_response( const message_c &msg )
 {
-	m_response = msg.args();
+	return m_response = msg.args();
 }
 
 void command_c::ok()
