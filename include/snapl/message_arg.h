@@ -59,12 +59,13 @@ public:
 	/**
 	 * Parse a string out of an ostream.
 	 */
-	std::ostream & operator << ( std::ostream & );
+	friend std::ostream & operator << ( std::ostream &
+			, const message_arg_c & );
 
 	/**
 	 * Write the string back to the istream.
 	 */
-	std::istream & operator >> ( std::istream & );
+	friend std::istream & operator >> ( std::istream &, message_arg_c & );
 
 private:
 	std::string m_arg;

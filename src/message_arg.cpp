@@ -19,7 +19,22 @@
 
 #include <iostream>
 
-using namespace snapl;
+namespace snapl {
+
+
+std::ostream & operator << ( std::ostream &out, const message_arg_c &arg )
+{
+	if ( arg.get().empty() ) {
+		out << "\"\"";
+	} else {
+		out << arg.get();
+	}
+}
+
+std::istream & operator >> ( std::istream &in, message_arg_c &arg )
+{
+	in >> arg.m_arg;
+}
 
 
 message_arg_list_c::message_arg_list_c()
@@ -56,7 +71,7 @@ std::string message_arg_list_c::arg_string() const
 		if ( insert_space ) {
 			out << " ";
 		}
-		out << it->get();
+		out << *it;
 		insert_space = true;
 	}
 
@@ -77,4 +92,7 @@ bool message_arg_list_c::parse_token( std::istream &in, std::string &token )
 {
 	return in >> token;
 }
+
+
+} // namespace
 
