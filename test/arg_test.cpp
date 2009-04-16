@@ -55,6 +55,18 @@ TESTPP( test_arg_set_string )
 	assertpp( arg.value() ) == 8;
 }
 
+/**
+ * Test that an empty string is parsed correctly.
+ */
+TESTPP( test_arg_parse_empty )
+{
+	int value( 8 );
+	arg_c< int > arg( value );
+
+	arg << "";
+	assertpp( value ) == 8;
+}
+
 
 /**
  * Test that the message arg list constructor works.

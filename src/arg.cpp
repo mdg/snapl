@@ -45,6 +45,8 @@ bool arg_list_c::operator = ( const message_arg_list_c &args )
 	message_arg_list_c::iterator msg_it( args.begin() );
 	for ( ; it!=m_arg.end(); ++it ) {
 		if ( ! ( **it << msg_it->get() ) ) {
+			std::cerr << "msg_arg(" << msg_it->get() << ")" \
+				" cannot be parsed.\n";
 			return false;
 		}
 		++msg_it;

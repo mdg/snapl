@@ -78,6 +78,10 @@ public:
 
 	virtual bool operator << ( const std::string &str )
 	{
+		if ( str.empty() ) {
+			// no value.  leave as default
+			return true;
+		}
 		std::istringstream in( str );
 		in >> m_value;
 		return in;
