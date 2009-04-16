@@ -51,7 +51,7 @@ TESTPP( test_arg_set_string )
 	int value( 5 );
 	arg_c< int > arg( value );
 
-	arg << "8";
+	arg.parse( "8" );
 	assertpp( arg.value() ) == 8;
 	assertpp( value ) == 8;
 }
@@ -64,8 +64,20 @@ TESTPP( test_arg_parse_empty )
 	int value( 8 );
 	arg_c< int > arg( value );
 
-	arg << "";
+	arg.parse( "" );
 	assertpp( value ) == 8;
+}
+
+/**
+ * Test that multiple words are correctly parsed into one arg.
+ */
+TESTPP( test_arg_parse_multiple_words )
+{
+	std::string value;
+	arg_c< std::string > arg( value );
+
+	arg.parse( "two words" );
+	assertpp( value ) == "two words";
 }
 
 

@@ -18,7 +18,8 @@
 #include <sstream>
 #include <iostream>
 
-using namespace snapl;
+namespace snapl {
+
 
 
 arg_list_c::arg_list_c()
@@ -44,7 +45,8 @@ bool arg_list_c::operator = ( const message_arg_list_c &args )
 	std::list< arg_i * >::iterator it( m_arg.begin() );
 	message_arg_list_c::iterator msg_it( args.begin() );
 	for ( ; it!=m_arg.end(); ++it ) {
-		if ( ! ( **it << msg_it->get() ) ) {
+		arg_i &arg( **it );
+		if ( ! arg.parse( msg_it->get() ) ) {
 			std::cerr << "msg_arg(" << msg_it->get() << ")" \
 				" cannot be parsed.\n";
 			return false;
@@ -52,5 +54,41 @@ bool arg_list_c::operator = ( const message_arg_list_c &args )
 		++msg_it;
 	}
 	return true;
+}
+
+
+template <>
+bool string_to_arg( std::string &value, const std::string &arg )
+{
+	value = arg;
+	return true;
+}
+
+template <>
+bool arg_to_string( std::string &arg, const std::string &value )
+{
+	arg = value;
+	return true;
+}
+
+template <>
+bool string_to_arg( int &value, const std::string &arg )
+{
+	std::istringstream in( arg );
+	return in >> value;
+}
+
+template <>
+bool arg_to_string( std::string &arg, const int &value )
+{
+	std::ostringstream out;
+	if ( out << value ) {
+		arg = out.str();
+		return true;
+	}
+	return false;
+}
+
+
 }
 

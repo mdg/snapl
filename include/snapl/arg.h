@@ -37,15 +37,34 @@ public:
 	virtual ~arg_i() {}
 
 	/**
-	 * Write the value into a string.
-	 */
-	virtual const std::string & operator >> ( std::string & ) const = 0;
-
-	/**
 	 * Parse a string into the value.
 	 */
-	virtual bool operator << ( const std::string & ) = 0;
+	virtual bool parse( const std::string & ) = 0;
+
+	/**
+	 * Write the value into a string.
+	 */
+	virtual void write( std::string & ) const = 0;
 };
+
+
+template < typename T >
+bool string_to_arg( T &, const std::string & );
+
+template < typename T >
+bool arg_to_string( std::string &, const T & );
+
+template <>
+bool string_to_arg( std::string &, const std::string & );
+
+template <>
+bool arg_to_string( std::string &, const std::string & );
+
+template <>
+bool string_to_arg( int &, const std::string & );
+
+template <>
+bool arg_to_string( std::string &, const int & );
 
 
 /**
@@ -67,24 +86,20 @@ public:
 	 */
 	const T & value() const { return m_value; }
 
-	virtual const std::string & operator >> ( std::string &str ) const
+	/**
+	 * Parse a string into the argument's value.
+	 */
+	virtual bool parse( const std::string &arg )
 	{
-		str.clear();
-		std::ostringstream out;
-		out << m_value;
-		str = out.str();
-		return str;
+		return string_to_arg< T >( m_value, arg );
 	}
 
-	virtual bool operator << ( const std::string &str )
+	/**
+	 * Write the value of the argument into a string.
+	 */
+	virtual bool write( std::string &arg ) const
 	{
-		if ( str.empty() ) {
-			// no value.  leave as default
-			return true;
-		}
-		std::istringstream in( str );
-		in >> m_value;
-		return in;
+		return arg_to_string< T >( arg, m_value );
 	}
 
 private:
