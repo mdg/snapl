@@ -33,7 +33,21 @@ std::ostream & operator << ( std::ostream &out, const message_arg_c &arg )
 
 std::istream & operator >> ( std::istream &in, message_arg_c &arg )
 {
-	in >> arg.m_arg;
+	std::ostringstream out;
+	char c;
+	bool quoted( false );
+	bool backslash( false );
+	while ( in >> c ) {
+		if ( isspace( c ) && ! quoted ) {
+			break;
+		} else if ( c == '"' || c == '\'' ) {
+			quoted = ! quoted;
+		} else {
+			out << c;
+		}
+	}
+
+	arg.set( out.str() );
 }
 
 

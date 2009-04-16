@@ -21,6 +21,19 @@ using namespace snapl;
 
 
 /**
+ * Test that the message_arg correctly parses quoted strings
+ */
+TESTPP( test_message_arg_parse_empty_string )
+{
+	std::istringstream in( "\"\"" );
+	message_arg_c arg;
+
+	in >> arg;
+
+	assertpp( arg.get() ) == "";
+}
+
+/**
  * Test that a message argument is constructed properly.
  */
 TESTPP( test_message_arg_constructor )
