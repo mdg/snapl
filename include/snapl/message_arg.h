@@ -103,11 +103,6 @@ public:
 	 */
 	void parse( const std::string &arg_string );
 
-	/**
-	 * Parse a token string out of the input stream.
-	 */
-	bool parse_token( std::istream &input, std::string &token );
-
 	iterator begin() const { return m_arg.begin(); }
 	iterator end() const { return m_arg.end(); }
 

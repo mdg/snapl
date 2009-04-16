@@ -21,7 +21,17 @@ using namespace snapl;
 
 
 /**
- * Test that the message_arg correctly parses quoted strings
+ * Test that a message argument is constructed properly.
+ */
+TESTPP( test_message_arg_constructor )
+{
+	message_arg_c arg( "dog" );
+
+	assertpp( arg.get() ) == "dog";
+}
+
+/**
+ * Test that the message_arg correctly parses an empty quoted string
  */
 TESTPP( test_message_arg_parse_empty_string )
 {
@@ -34,13 +44,20 @@ TESTPP( test_message_arg_parse_empty_string )
 }
 
 /**
- * Test that a message argument is constructed properly.
+ * Test that the message_arg correctly parses quoted words separated by spaces.
  */
-TESTPP( test_message_arg_constructor )
+TESTPP( test_message_arg_parse_quoted_words )
 {
-	message_arg_c arg( "dog" );
+	std::istringstream in( "dog \"cat mouse\"" );
+	message_arg_c arg;
 
+	in >> arg;
 	assertpp( arg.get() ) == "dog";
+
+	in >> arg;
+	assertpp( arg.get() ) == "cat mouse";
+
+	in >> arg;
 }
 
 
@@ -59,9 +76,6 @@ TESTPP( test_message_arg_list_constructor )
  */
 TESTPP( test_message_arg_list_parse_quoted_args )
 {
-	not_implemented( 2009, 5, 1 );
-	return;
-
 	message_arg_list_c args;
 	args.parse( "dog \"cat mouse\"" );
 

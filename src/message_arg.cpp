@@ -29,25 +29,30 @@ std::ostream & operator << ( std::ostream &out, const message_arg_c &arg )
 	} else {
 		out << arg.get();
 	}
+
+	return out;
 }
 
 std::istream & operator >> ( std::istream &in, message_arg_c &arg )
 {
 	std::ostringstream out;
-	char c;
 	bool quoted( false );
 	bool backslash( false );
-	while ( in >> c ) {
-		if ( isspace( c ) && ! quoted ) {
-			break;
-		} else if ( c == '"' || c == '\'' ) {
+
+	while ( in.peek() > 0 ) {
+		char c( in.get() );
+		if ( c == '"' || c == '\'' ) {
 			quoted = ! quoted;
+		} else if ( isspace( c ) && ! quoted ) {
+			break;
 		} else {
 			out << c;
 		}
 	}
 
 	arg.set( out.str() );
+
+	return in;
 }
 
 
@@ -95,16 +100,13 @@ std::string message_arg_list_c::arg_string() const
 void message_arg_list_c::parse( const std::string &line )
 {
 	std::istringstream in( line );
-	std::string token;
+	message_arg_c arg;
 
-	while ( parse_token( in, token ) ) {
-		m_arg.push_back( message_arg_c( token ) );
+	in >> arg;
+	while ( in ) {
+		m_arg.push_back( arg );
+		in >> arg;
 	}
-}
-
-bool message_arg_list_c::parse_token( std::istream &in, std::string &token )
-{
-	return in >> token;
 }
 
 
