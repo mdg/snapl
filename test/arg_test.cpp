@@ -53,6 +53,7 @@ TESTPP( test_arg_set_string )
 
 	arg << "8";
 	assertpp( arg.value() ) == 8;
+	assertpp( value ) == 8;
 }
 
 /**
