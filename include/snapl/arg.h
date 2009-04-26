@@ -54,17 +54,26 @@ bool string_to_arg( T &, const std::string & );
 template < typename T >
 bool arg_to_string( std::string &, const T & );
 
+// string declaration
 template <>
 bool string_to_arg( std::string &, const std::string & );
 
 template <>
 bool arg_to_string( std::string &, const std::string & );
 
+// integer declaration
 template <>
 bool string_to_arg( int &, const std::string & );
 
 template <>
 bool arg_to_string( std::string &, const int & );
+
+// bool declaration
+template <>
+bool string_to_arg( bool &, const std::string & );
+
+template <>
+bool arg_to_string( std::string &, const bool & );
 
 
 /**

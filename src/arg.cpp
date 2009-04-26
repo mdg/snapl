@@ -89,6 +89,20 @@ bool arg_to_string( std::string &arg, const int &value )
 	return false;
 }
 
+template <>
+bool string_to_arg( bool &value, const std::string &arg )
+{
+	std::istringstream in( arg );
+	return in >> value;
+}
+
+template <>
+bool arg_to_string( std::string &arg, const bool &value )
+{
+	arg = value ? "1" : "0";
+	return true;
+}
+
 
 }
 
