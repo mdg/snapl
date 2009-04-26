@@ -24,8 +24,23 @@ namespace snapl {
 
 std::ostream & operator << ( std::ostream &out, const message_arg_c &arg )
 {
+	bool use_quotes( false );
+
 	if ( arg.get().empty() ) {
-		out << "\"\"";
+		use_quotes = true;
+	} else {
+		const std::string &txt( arg.get() );
+		std::string::const_iterator it;
+		for ( it=txt.begin(); it!=txt.end(); ++it ) {
+			if ( isspace( *it ) ) {
+				use_quotes = true;
+				break;
+			}
+		}
+	}
+
+	if ( use_quotes ) {
+		out << '"' << arg.get() << '"';
 	} else {
 		out << arg.get();
 	}

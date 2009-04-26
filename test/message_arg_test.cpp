@@ -60,6 +60,19 @@ TESTPP( test_message_arg_parse_quoted_words )
 	in >> arg;
 }
 
+/**
+ * Test that multiple words correctly write the string into a stream.
+ */
+TESTPP( test_message_arg_write_multiple_words )
+{
+	std::ostringstream out;
+	message_arg_c arg( "one value" );
+
+	out << arg;
+
+	assertpp( out.str() ) == "\"one value\"";
+}
+
 
 /**
  * Test that the message arg list constructor works.
