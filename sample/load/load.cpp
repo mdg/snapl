@@ -25,24 +25,24 @@
 
 void functional_test()
 {
-	client_connection_c conn;
+	snapl::client_connection_c conn;
 	conn.connect( "127.0.0.1", 9000 );
-	client_c client( conn );
+	snapl::client_c client( conn );
 
 	get_command_c get( "dog" );
 	client.send_request( get );
 	client.wait_for_response( get );
 
-	std::cerr << "response output = " << get.response().output()
+	std::cerr << "response output = " << get.output
 		<< std::endl;
 }
 
 
 void run_load_2( int n, int seconds )
 {
-	client_connection_c conn;
+	snapl::client_connection_c conn;
 	conn.connect( "127.0.0.1", 9000 );
-	client_c client( conn );
+	snapl::client_c client( conn );
 
 	// set to second boundary
 	time_t boundary_time( time( NULL ) + 1 );

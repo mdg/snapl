@@ -11,14 +11,14 @@ int main( int argc, char **argv )
 
 	sample_protocol_c sample_protocol( port );
 
-	queue_c< server_message_c > request_queue;
-	queue_c< server_message_c > response_queue;
-	queue_c< server_message_c > complete_queue;
+	snapl::queue_c< snapl::server_message_c > request_queue;
+	snapl::queue_c< snapl::server_message_c > response_queue;
+	snapl::queue_c< snapl::server_message_c > complete_queue;
 
-	connection_acceptor_c acceptor;
-	inbox_c inbox( acceptor, request_queue, complete_queue );
-	dispatcher_c dispatch( request_queue, response_queue );
-	outbox_c outbox( response_queue, complete_queue );
+	snapl::connection_acceptor_c acceptor;
+	snapl::inbox_c inbox( acceptor, request_queue, complete_queue );
+	snapl::dispatcher_c dispatch( request_queue, response_queue );
+	snapl::outbox_c outbox( response_queue, complete_queue );
 
 	inbox.listen( port );
 
