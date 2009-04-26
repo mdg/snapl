@@ -52,7 +52,8 @@ end
 
 
 
-task :default => [ :build ]
+task :default => [ :all ]
+task :all => [ :build, :build_load ]
 
 
 desc "Compile all source files into objects"
