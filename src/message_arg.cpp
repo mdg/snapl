@@ -41,7 +41,7 @@ std::istream & operator >> ( std::istream &in, message_arg_c &arg )
 
 	while ( in.peek() > 0 ) {
 		char c( in.get() );
-		if ( c == '"' || c == '\'' ) {
+		if ( c == '"' ) {
 			quoted = ! quoted;
 		} else if ( isspace( c ) && ! quoted ) {
 			break;
