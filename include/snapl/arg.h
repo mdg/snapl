@@ -44,7 +44,7 @@ public:
 	/**
 	 * Write the value into a string.
 	 */
-	virtual void write( std::string & ) const = 0;
+	virtual bool write( std::string & ) const = 0;
 };
 
 

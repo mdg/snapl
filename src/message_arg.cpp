@@ -71,7 +71,7 @@ void message_arg_list_c::operator = ( const arg_list_c &src )
 	std::string value;
 	arg_list_c::iterator it( src.begin() );
 	for ( ; it!=src.end(); ++it ) {
-		*it >> value;
+		it->write( value );
 		m_arg.push_back( message_arg_c( value ) );
 	}
 }

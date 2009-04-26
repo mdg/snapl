@@ -39,7 +39,7 @@ TESTPP( test_arg_get_string_int )
 	arg_c< int > arg( value );
 
 	std::string text;
-	arg >> text;
+	arg.write( text );
 	assertpp( text ) == "5";
 }
 
@@ -105,8 +105,11 @@ TESTPP( test_arg_list_append )
 	std::string value[2];
 	assertpp( arg.size() ) == 2;
 	arg_list_c::iterator it( arg.begin() );
-	assertpp( *(it++) >> value[0] ) == "5";
-	assertpp( *(it++) >> value[1] ) == "txt2";
+	assertpp( (it++)->write( value[0] ) );
+	assertpp( (it++)->write( value[1] ) );
 	assertpp( it == arg.end() ).t();
+
+	assertpp( value[0] ) == "5";
+	assertpp( value[1] ) == "txt2";
 }
 
