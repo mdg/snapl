@@ -17,6 +17,7 @@
 #include "snapl/protocol.h"
 #include "snapl/service.h"
 #include "server_message.h"
+#include "error_command.h"
 #include <iostream>
 
 using namespace snapl;
@@ -64,24 +65,31 @@ void dispatcher_c::dispatch( server_message_c &msg )
 {
 	bool success( false );
 
+	error_command_c err_cmd;
+	std::ostringstream err;
 	protocol_c *protocol = find_protocol( msg.port() );
 	if ( ! protocol ) {
 		// can't do anything.
 		// write to the response and return
-		std::ostringstream err;
 		err << "No protocol for port " << msg.port();
+		std::cerr << err.str() << std::endl;
 		// error_response.err( err.str() );
 		// copy error_response to msg
+		err_cmd.err( err.str() );
+		err_cmd.get_response( msg.response() );
 		return;
 	}
 
 	service_i *service = protocol->service( msg.request_type() );
 	if ( ! service ) {
-		std::cerr << "no service for " << msg.request_type()
-			<< std::endl;
+		err << "No service for " << msg.request_type();
+		std::cerr << err.str() << std::endl;
+
 		// error_response.err( "unknown request type: '"
 				// + msg.request_type() +"'" );
 		// copy error_response to msg
+		err_cmd.err( err.str() );
+		err_cmd.get_response( msg.response() );
 		return;
 	}
 
